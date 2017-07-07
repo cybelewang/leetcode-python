@@ -20,5 +20,5 @@ class Solution(object):
                         maxLen = y - x + 1
                         i, j = x, y
         
-        return s[i, j+1]
+        return s[i: j+1]
                 
