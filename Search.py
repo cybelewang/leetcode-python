@@ -1,4 +1,4 @@
-A = [0]
+A = list(range(5))
 print(A, sep=' ')
 
 def BinarySearch(A, value):
@@ -14,4 +14,4 @@ def BinarySearch(A, value):
             r = mid - 1
     return -1
 
-print("The index of 0 is {}",BinarySearch(A, 0))
+print("The index of 1 is {}",BinarySearch(A, 1))
