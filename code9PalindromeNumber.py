@@ -6,7 +6,7 @@ def isPalindrome(x):
     """
     nDigits = 0
     if x < 0:
-        x = -x
+        return False    # Make sure you asked the interviewer about negative integers
     y = x
     while y != 0:
         nDigits += 1
