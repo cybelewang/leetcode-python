@@ -5,14 +5,6 @@ def isMatch(s, p):
     :rtype: bool
     """
     m, n = len(s), len(p)
-    if m == 0:        
-        match = [False for y in range(n+1)]
-        match[0] = True
-        for j in range(1, n+1):
-            if p[j-1] == "*":
-                match[j] = match[j-2]
-        return match[n]
-
     match = [[False for y in range(n+1)] for x in range(m+1)] # match[i][j] means if s[0:i] matches p[0:j]
     
     match[0][0] = True; # empty always matches empty
@@ -31,7 +23,7 @@ def isMatch(s, p):
                     matchZeroOccurance = match[i][j-2]                  
                     if p[j-2] == ".":
                         matchOnceOccurance = match[i][j-1]
-                        matchMultiOccurance = match[i-1][j]# and (s[i-1] == s[i-2])
+                        matchMultiOccurance = match[i-1][j] # "ab" matches ".*"
                     else:
                         matchOnceOccurance = match[i][j-1] and (s[i-1] == p[j-2])
                         matchMultiOccurance = match[i-1][j] and (s[i-1] == p[j-2])
@@ -39,6 +31,6 @@ def isMatch(s, p):
 
     return match[m][n]  
             
-test_case = [("",""),("","a*"),("",".*"),("",".*.*"),("abcd","abc*d"),("abcc","abc*"),("ab","abc*"),("abc",".*cd"),("aa","a"),("aaa","aa"),("aa",".*"),("ab",".*"),("aab","c*a*b")]
+test_case = [("",""),("","a*"),("",".*"),("",".*.*"),("a",""),("abcd","abc*d"),("abcc","abc*"),("ab","abc*"),("abc",".*cd"),("aa","a"),("aaa","aa"),("aa",".*"),("ab",".*"),("aab","c*a*b")]
 for (s, p) in test_case:
     print(s + " matches "+ p + ": ", isMatch(s,p))                
