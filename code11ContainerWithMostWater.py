@@ -4,7 +4,7 @@ Find two lines, which together with x-axis forms a container, such that the cont
 Note: You may not slant the container and n is at least 2.
 """
 
-def maxArea(self, height):
+def maxArea(height):
     """
     :type height: List[int]
     :rtype: int
@@ -21,3 +21,8 @@ def maxArea(self, height):
         maxArea = max(maxArea, area)
     
     return maxArea
+
+test_cases = [[1, 1], [1, 2,  3, 4], [4, 3, 2, 1], [1, 2, 3, 3, 2, 1]]
+
+for arrays in test_cases:
+    print(maxArea(arrays))
