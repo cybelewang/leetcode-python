@@ -18,9 +18,6 @@ def threeSum(nums):
     :rtype: List[List[int]]
     """
     result = []
-    if len(nums) < 3:          
-        return result
-
     nums.sort()
 
     for i in range(len(nums)-2):
