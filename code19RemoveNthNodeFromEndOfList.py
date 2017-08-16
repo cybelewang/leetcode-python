@@ -35,7 +35,7 @@ def removeNthFromEnd(head, n):
 
     head = pre
     while tail.next != None:
-        i += 1
+        i += 1  # ith node from the head
         tail = tail.next
         if i >= n:  # bug fixed here. old statement "i > n"
             pre = pre.next
