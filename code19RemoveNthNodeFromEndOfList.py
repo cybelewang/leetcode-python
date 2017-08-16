@@ -1,3 +1,5 @@
+from ListNode import ListNode
+
 """
 Given a linked list, remove the nth node from the end of list and return its head.
 
@@ -23,3 +25,14 @@ def removeNthFromEnd(self, head, n):
     :type n: int
     :rtype: ListNode
     """
+    i, left, right = 0, head, head
+    while (right.next != None) and (i < n):
+        right = right.next
+        i += 1
+    while (right.next != None):
+        right = right.next
+        left = left.next
+    if left == head:
+        return head.next
+    else:
+        
