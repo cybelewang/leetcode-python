@@ -19,20 +19,53 @@ Try to do this in one pass.
 #         self.val = x
 #         self.next = None
 
-def removeNthFromEnd(self, head, n):
+def removeNthFromEnd(head, n):
     """
     :type head: ListNode
     :type n: int
     :rtype: ListNode
     """
-    i, left, right = 0, head, head
-    while (right.next != None) and (i < n):
-        right = right.next
+    if n == 0: # should we consider remove 0th node?
+        return head
+
+    pre = ListNode(0) # aux head to take care of removing head, tail of a linked list
+    pre.next = head
+
+    i, tail = 0, head
+
+    head = pre
+    while tail.next != None:
         i += 1
-    while (right.next != None):
-        right = right.next
-        left = left.next
-    if left == head:
-        return head.next
-    else:
-        
+        tail = tail.next
+        if i >= n:  # bug fixed here. old statement "i > n"
+            pre = pre.next
+    
+    # link pre to the node after the removed node
+    node = pre.next
+    pre.next = node.next
+
+    return head.next
+
+test_cases = [[1, 2, 3, 4, 5]]
+for test_case in test_cases:
+    head = ListNode(0)
+    head.fromList(test_case)
+    head.printAll()
+    print()
+    result = removeNthFromEnd(head, 2)
+    result.printAll()
+    print()
+    head = ListNode(0)
+    head.fromList(test_case)
+    result = removeNthFromEnd(head, 5)
+    result.printAll()
+    print()
+    head = ListNode(0)
+    head.fromList(test_case)
+    result = removeNthFromEnd(head, 1)
+    result.printAll()
+    print()
+    head = ListNode(0)
+    head.fromList(test_case)
+    result = removeNthFromEnd(head, 0)
+    result.printAll()
