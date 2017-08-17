@@ -25,9 +25,6 @@ def removeNthFromEnd(head, n):
     :type n: int
     :rtype: ListNode
     """
-    if n == 0: # should we consider remove 0th node?
-        return head
-
     pre = ListNode(0) # aux head to take care of removing head, tail of a linked list
     pre.next = head
 
