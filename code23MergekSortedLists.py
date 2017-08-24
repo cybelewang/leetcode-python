@@ -11,6 +11,8 @@ def mergeKLists(lists):
     :rtype: ListNode
     """
     r = len(lists) - 1
+    if r < 0:       # bug fixed, for empty list
+        return None
     while r > 0:
         # for odd number subarray, r//2 doesn't have a paired element, so decrease m by 1
         if r % 2 == 0:
