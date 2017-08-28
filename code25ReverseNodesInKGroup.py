@@ -1,3 +1,4 @@
+from ListNode import ListNode
 """
 Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
 
@@ -14,10 +15,20 @@ For k = 2, you should return: 2->1->4->3->5
 
 For k = 3, you should return: 3->2->1->4->5
 """
+def reverseKGroup(pre, tail, k):
+    """
+    reverse a group of k nodes with pre and tail
+    :type pre: ListNode
+    :type tail: ListNode
+    :type k: int
+    """
+    post = tail.next
 
-def reverseKGroup(self, head, k):
+
+def reverseKGroup(head, k):
     """
     :type head: ListNode
     :type k: int
     :rtype: ListNode
     """
+    tail = head
