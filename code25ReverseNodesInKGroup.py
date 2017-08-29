@@ -52,8 +52,8 @@ def reverseKGroup2(head, tail, k):
         (rightHead, rightTail) = reverseKGroup2(midRight, tail, k//2)
         # swap left half and right half
         rightTail.next = leftHead
-        head = midRight
-        tail = midLeft
+        head = rightHead
+        tail = leftTail
 
     return (head, tail)
 
@@ -84,7 +84,7 @@ def reverseKGroup(head, k):
     return helper.next
 
 l1 = ListNode(0)
-l1.fromList([1, 2, 3, 4, 5, 6])
+l1.fromList([1, 2, 3, 4, 5])
 l1.printAll()
 print()
 l2 = reverseKGroup(l1, 3)
