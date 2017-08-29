@@ -8,8 +8,21 @@ Given input array nums = [1,1,2],
 Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
 """
 
-def removeDuplicates(self, nums):
+def removeDuplicates(nums):
     """
     :type nums: List[int]
     :rtype: int
     """
+    if len(nums) < 1 : return 0
+    i = 1
+    for j in range(1, len(nums)):
+        if nums[j] != nums[j-1]:
+            nums[i] = nums[j]
+            i += 1
+    
+    return i
+
+test_cases = [[],[1],[1,2,3],[1,1,2],[1,1,1,1,1,1]]
+
+for case in test_cases:
+    print(removeDuplicates(case), end='\n')
