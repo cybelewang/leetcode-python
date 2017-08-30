@@ -1,4 +1,4 @@
-from ListNode import ListNode
+from ListNode import *
 
 """
 Given a linked list, swap every two adjacent nodes and return its head.
@@ -48,4 +48,4 @@ def swapPairs(head):
 l1 = ListNode(0)
 l1.fromList([1, 2, 3, 4, 5])
 l2 = swapPairs(l1)
-l2.printAll()
+PrintLinkedList(l2)

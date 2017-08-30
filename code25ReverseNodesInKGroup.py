@@ -1,4 +1,4 @@
-from ListNode import ListNode
+from ListNode import *
 """
 Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
 
@@ -85,7 +85,7 @@ def reverseKGroup(head, k):
 
 l1 = ListNode(0)
 l1.fromList([1, 2, 3, 4, 5])
-l1.printAll()
+PrintLinkedList(l1)
 print()
 l2 = reverseKGroup(l1, 3)
-l2.printAll()
+PrintLinkedList(l2)

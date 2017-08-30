@@ -27,20 +27,27 @@ class ListNode(object):
             print("{0}->".format(current.val), end='')
             current = current.next
 
-    def __lt__(self, other): # operator "<"
-        return self.val < other.val
+def CountLinkedList(head):
+    """
+    Count the whole Linked List starting with this Node
+    :type head: ListNode
+    :rtype: int
+    """
+    count = 0
+    while head:
+        count += 1
+        head = head.next
+    
+    return count
 
-    def __le__(self, other): # operator "<="
-        return self.val <= other.val
-
-    def __eq__(self, other):
-        return self.val == other.val
-
-    def __ne__(self, other):
-        return self.val != other.val
-
-    def __gt__(self, other):
-        return self.val > other.val
-
-    def __ge__(self, other):
-        return self.val >= other.val
+def PrintLinkedList(head):
+    """
+    Print the whole Linked List starting with this Node
+    :type head: ListNode
+    """
+    if not head:
+        print()
+    else:
+        while head:
+            print("{0}->".format(head.val), end='')
+            head = head.next 

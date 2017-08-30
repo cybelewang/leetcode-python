@@ -1,4 +1,4 @@
-from ListNode import ListNode
+from ListNode import *
 
 """
 Given a linked list, remove the nth node from the end of list and return its head.
@@ -47,22 +47,22 @@ test_cases = [[1, 2, 3, 4, 5]]
 for test_case in test_cases:
     head = ListNode(0)
     head.fromList(test_case)
-    head.printAll()
+    PrintLinkedList(head)
     print()
     result = removeNthFromEnd(head, 2)
-    result.printAll()
+    PrintLinkedList(result)
     print()
     head = ListNode(0)
     head.fromList(test_case)
     result = removeNthFromEnd(head, 5)
-    result.printAll()
+    PrintLinkedList(result)
     print()
     head = ListNode(0)
     head.fromList(test_case)
     result = removeNthFromEnd(head, 1)
-    result.printAll()
+    PrintLinkedList(result)
     print()
     head = ListNode(0)
     head.fromList(test_case)
     result = removeNthFromEnd(head, 0)
-    result.printAll()
+    PrintLinkedList(result)

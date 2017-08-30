@@ -1,4 +1,4 @@
-from ListNode import ListNode
+from ListNode import *
 from BinaryHeap import MinHeap
 
 """
@@ -84,4 +84,4 @@ l1.fromList([1, 3, 5, 7, 9])
 l2.fromList([2, 4, 6, 8])
 l3.fromList([0, 2, 3, 17])
 l4 = mergeKLists([l1, l2, l3])
-l4.printAll()
+PrintLinkedList(l4)

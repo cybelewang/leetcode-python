@@ -1,4 +1,4 @@
-from ListNode import ListNode
+from ListNode import *
 
 """
 Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
@@ -35,4 +35,4 @@ l1, l2 = ListNode(0), ListNode(0)
 l1.fromList([1, 3, 5, 7, 9])
 l2.fromList([2, 4, 6, 8])
 l3 = merge(l2,l1)
-l3.printAll()
+PrintLinkedList(l3)
