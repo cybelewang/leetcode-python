@@ -25,6 +25,29 @@ def removeNthFromEnd(head, n):
     :type n: int
     :rtype: ListNode
     """
+    pre = ListNode(0)
+    pre.next = head
+
+    node, tail = pre, pre
+    for i in range(n):
+        tail = tail.next
+    
+    while tail:
+        tail = tail.next
+        node = node.next
+    
+    rm = node.next
+    if rm:
+        node.next = rm.next
+
+    return pre.next
+
+def removeNthFromEnd2(head, n):
+    """
+    :type head: ListNode
+    :type n: int
+    :rtype: ListNode
+    """
     pre = ListNode(0) # aux head to take care of removing head, tail of a linked list
     pre.next = head
 
@@ -62,7 +85,3 @@ for test_case in test_cases:
     result = removeNthFromEnd(head, 1)
     PrintLinkedList(result)
     print()
-    head = ListNode(0)
-    head.fromList(test_case)
-    result = removeNthFromEnd(head, 0)
-    PrintLinkedList(result)
