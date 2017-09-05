@@ -8,10 +8,23 @@ Given input array nums = [3,2,2,3], val = 3
 
 Your function should return length = 2, with the first two elements of nums being 2.
 """
-def removeElement(self, nums, val):
+# Try to practice swapping elements val with the tail
+def removeElement(nums, val):
     """
     :type nums: List[int]
     :type val: int
     :rtype: int
     """
+    i = 0
+    for j in range(len(nums)):
+        if nums[j] != val:
+            nums[i] = nums[j]s
+            i += 1
     
+    return i
+
+nums = [3, 3]
+num = removeElement(nums, 5)
+print(nums)
+print()
+print(num)
