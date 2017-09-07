@@ -48,6 +48,48 @@ def findSubstring(s, words):
         _findSubstring(i, i, n, k, t, s, req, ans)
     return ans
 
+def findSubstring3(s, words):
+    if not s or not words or not words[0]:
+        return []
+    n = len(s)
+    k = len(words[0])
+    t = len(words) * k
+    req = {}
+    for w in words:
+        req[w] = req[w] + 1 if w in req else 1
+    ans = []
+    for i in range(min(k, n - t + 1)):
+        findSubstring4(i, n, k, t, s, req, ans)
+    return ans
+
+def findSubstring4(l, n , k, t, s, req, ans):
+    curr = {}
+
+    for i in range(l, l + t, k):
+        substr = s[l, l+k]
+        if substr in req:
+            curr[substr] = curr[substr] + 1 if substr in curr else 1
+    
+    if curr == req:
+        ans.append(l)
+
+    left = s[l, l+k]
+    l += k
+    r = l + t
+    while r <= n:        
+        right = s[r + 1-k, r]
+        if left in curr:
+            curr[left] = curr[left] - 1 if curr[left] > 0 else 0
+        if right in req:
+            curr[right] = curr[right] + 1 if right in curr else 1
+        if curr == req:
+            ans.append(l)
+        
+        l += k
+        r = l + t
+    
+
+            
 
 # TLE solution
 def findSubstring2(s, words):
