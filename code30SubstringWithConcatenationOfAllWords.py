@@ -66,30 +66,27 @@ def findSubstring4(l, n , k, t, s, req, ans):
     curr = {}
 
     for i in range(l, l + t, k):
-        substr = s[l, l+k]
+        substr = s[i : i+k]
         if substr in req:
             curr[substr] = curr[substr] + 1 if substr in curr else 1
     
     if curr == req:
         ans.append(l)
 
-    left = s[l, l+k]
+    left = s[l : l+k]
     l += k
     r = l + t
     while r <= n:        
-        right = s[r + 1-k, r]
+        right = s[r-k : r]
         if left in curr:
             curr[left] = curr[left] - 1 if curr[left] > 0 else 0
         if right in req:
             curr[right] = curr[right] + 1 if right in curr else 1
         if curr == req:
             ans.append(l)
-        
+        left = s[l : l+k]
         l += k
         r = l + t
-    
-
-            
 
 # TLE solution
 def findSubstring2(s, words):
@@ -128,4 +125,4 @@ def findSubstring2(s, words):
 
 s = "wordgoodgoodgoodbestword"
 words = ["word","good","best","good"]            
-print(findSubstring(s, words))
+print(findSubstring3(s, words))
