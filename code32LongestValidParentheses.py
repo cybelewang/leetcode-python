@@ -6,7 +6,7 @@ For "(()", the longest valid parentheses substring is "()", which has length = 2
 Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
 """
 # better solution, 59 ms
-def longestValidParentheses(self, s):
+def longestValidParentheses(s):
     """
     :type s: str
     :rtype: int
