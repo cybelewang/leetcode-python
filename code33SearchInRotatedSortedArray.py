@@ -29,20 +29,20 @@ def search(nums, target):
                 r = mid - 1
         elif nums[mid] < nums[l]:
             # rotated less than half length
-            if target > nums[mid] and target < nums[r]:
+            if target > nums[mid] and target <= nums[r]: # bug fixed, previously it was target < nums[r], which should be target <= nums[r]
                 l = mid + 1
             else:
                 r = mid - 1
         else:
             # rotated >= half length
-            if target > nums[l] and target < nums[mid]:
+            if target >= nums[l] and target < nums[mid]: # bug fixed, previously it was target > nums[l], which should be target >= nums[l], try nums = [3,5,1] and target = 3
                 r = mid - 1
             else:
                 l = mid + 1
     
     return -1
 
-test_cases = [([], 0), ([1], 2), ([1, 0], 1), ([4,5,6,7,0,1,2], 0)]
+test_cases = [([], 0), ([1], 2), ([1, 0], 1), ([3,5,1], 3),([4,5,6,7,0,1,2], 0)]
 
 for nums, target in test_cases:
     print(search(nums, target))
