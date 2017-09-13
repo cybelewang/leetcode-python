@@ -10,10 +10,29 @@ Here are few examples.
 [1,3,5,6], 0 → 0
 
 """
-class Solution(object):
-    def searchInsert(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: int
-        """
+def searchInsert(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: int
+    """
+    l, r = 0, len(nums) - 1
+
+    while l <= r:
+        mid = (l + r)//2
+
+        if target == nums[mid]:
+            return mid
+        elif target > nums[mid]:
+            l = mid + 1
+        else:
+            r = mid - 1
+    
+    return l
+            
+test_cases = [([], 0), ([2], 0), ([2], 3), ([1, 3, 5, 6], 5), ([1, 3, 5, 6], 2), ([1, 3, 5, 6], 7), ([1, 3, 5, 6], 0)]
+
+for nums, target in test_cases:
+    print(nums,end=', ')
+    print(target, end=' -> ')
+    print(searchInsert(nums, target))

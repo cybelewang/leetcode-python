@@ -52,7 +52,7 @@ def longestValidParentheses2(s):
 
     return length
 
-test_cases = ["", "(", ")", "()", "(()", ")()())", "()()))((", "())()()()" ]
+test_cases = ["", "(", ")", "()", "(((", ")()())", "()()))((", "())()()()" ]
 for s in test_cases:
     print(s, end='')
     print(' -> ', end='')
