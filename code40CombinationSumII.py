@@ -19,7 +19,7 @@ A solution set is:
 def _dfs(candidates, result, sub, remain, start):
     if remain == 0:
         result.append(sub[:])
-    elif remain < 0 or start >= len(candidates):
+    elif remain < 0 or start >= len(candidates): # the condition start >= len(candidates) is redundant because the else branch will check it
         return
     else:
         i = start
@@ -28,18 +28,19 @@ def _dfs(candidates, result, sub, remain, start):
             _dfs(candidates, result, sub, remain - candidates[i], i + 1)
             sub.pop()  
             i += 1                      
-            while i < len(candidates) and candidates[i] == candidates[i-1]:
+            while i < len(candidates) and candidates[i] == candidates[i-1]: # try not to use nested while loop
                 i += 1
 
 # [BEST] backtrack solution
 def _dfs2(candidates, result, sub, remain, start):
     if remain == 0:
         result.append(sub[:])
-    elif remain < 0 or start >= len(candidates):
+    elif remain < 0:
         return
     else:
         for i in range(start, len(candidates)):
-            if i > start and candidates[i] == candidates[i-1]: continue         
+            if i > start and candidates[i] == candidates[i-1]: 
+                continue         
             sub.append(candidates[i])
             _dfs(candidates, result, sub, remain - candidates[i], i + 1)
             sub.pop()  
