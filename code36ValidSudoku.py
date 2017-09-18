@@ -15,7 +15,7 @@ class Solution(object):
                         record[e] = True
                     else:
                         return False
-                    
+
         return True
     
     def isColumnValid(self, board):
@@ -31,7 +31,9 @@ class Solution(object):
                         return False
         
         return True
-            
+
+    def isSubBoxValid(self, board):
+                
 
     def isValidSudoku(self, board):
         """
