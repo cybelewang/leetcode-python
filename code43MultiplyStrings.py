@@ -8,12 +8,15 @@ Both num1 and num2 contains only digits 0-9.
 Both num1 and num2 does not contain any leading zero.
 You must not use any built-in BigInteger library or convert the inputs to integer directly.
 """
+# Should ask if num1 or num2 is empty
 def multiply(num1, num2):
     """
     :type num1: str
     :type num2: str
     :rtype: str
-    """     
+    """ 
+    if not num1 or not num2 or num1=='0' or num2 == '0': # bug fixed: forgot the case '0'
+        return '0'    
     zero = ord('0')
     m, n = len(num1), len(num2)
     result = [0]*(m + n) # key: must allocate the list to avoid check list length
@@ -38,7 +41,7 @@ def multiply(num1, num2):
 
     return ''.join(map(str, result))
 
-test_cases = [('',''), ('1','2'), ('12345','6789'), ('9999','999999')]
+test_cases = [('',''), ('1',''), ('0','0'), ('1','2'), ('12345','6789'), ('9999','999999')]
 for case in test_cases:
     print(case[0], end = ' * ')
     print(case[1], end = ' = ')
