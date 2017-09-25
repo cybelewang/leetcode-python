@@ -24,4 +24,16 @@ def isMatch(self, s, p):
     :type p: str
     :rtype: bool
     """
-    
+    m, n = len(s), len(p)
+    match = [[False for i in range(m+1)] for j in range(n+1)] # match[i][j] is the match state of s with length i and p with length j
+    match[0][0] = True # empty always matches empty
+
+
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            if p[j-1] == '?':
+                match[i][j] = match[i-1][j-1]
+            elif p[j-1] == '*':
+                                    
+            else:
+                match[i][j] = match[i-1][j-1] and (s[i-1] == p[j-1])
