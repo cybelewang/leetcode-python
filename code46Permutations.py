@@ -13,9 +13,31 @@ For example,
 ]
 
 """
-class Solution(object):
-    def permute(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
+def _permute(nums, res, build, used, remain):
+    if remain == 0:
+        res.append(build[:])
+    else:
+        for i in range(len(nums)):
+            if not used[i]:
+                build.append(nums[i])
+                used[i] = True
+                _permute(nums, res, build, used, remain - 1)
+                build.pop()                
+                used[i] = False
+
+def permute(nums):
+    """
+    :type nums: List[int]
+    :rtype: List[List[int]]
+    """
+    if not nums or len(nums) < 1:
+        return []
+
+    used = [False for i in range(len(nums))]
+    res = []
+    _permute(nums, res, [], used, len(nums))
+
+    return res
+
+test_case = [1, 3, 2]
+print(permute(test_case))
