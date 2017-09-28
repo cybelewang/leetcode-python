@@ -29,13 +29,13 @@ def jump(nums):
         newT = t
         for i in range(s, t + 1):
             newT = max(newT, i + nums[i])
-        t = newT
         s = t + 1
+        t = newT
         steps += 1
 
     return steps + 1 # bug fixed: use steps + 1 otherwise we missed the last step because t >= n - 1
 
-test_cases = [[],[1],[5, 1, 1, 3, 9, 11],[1,1,0],[2,3,1,1,4]]
+test_cases = [[],[1],[1,1,1,1],[5, 1, 1, 3, 9, 11],[1,1,0],[2,3,1,1,4]]
 
 for case in test_cases:
     print(case, end = ' -> ')
