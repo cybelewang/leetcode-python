@@ -29,7 +29,7 @@ def jump(nums):
         newT = t
         for i in range(s, t + 1):
             newT = max(newT, i + nums[i])
-        s = t + 1
+        s = t + 1 # bug fixed: put s = t + 1 before t = newT, otherwise will cause errors
         t = newT
         steps += 1
 
