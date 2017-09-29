@@ -9,19 +9,19 @@ For example,
   [2,1,1]
 ]
 """
-def _permuteUnique(nums, res, build, used, start, remain):
+def _permuteUnique(nums, res, build, used, remain):
     if (remain == 0):
         res.append(build[:])
     else:
         for i in range(len(nums)):
-            if i > start and nums[i] == nums[i-1]:
+            if used[i] or (i > 0 and nums[i] == nums[i-1] and not used[i-1]):
                 continue
-            elif not used[i]:
-                build.append(nums[i])
-                used[i] = True
-                _permuteUnique(nums, res, build, used, i+1, remain - 1)
-                build.pop()
-                used[i] = False
+
+            build.append(nums[i])
+            used[i] = True
+            _permuteUnique(nums, res, build, used, remain - 1)
+            build.pop()
+            used[i] = False
 
 def permuteUnique(nums):
     """
@@ -35,7 +35,7 @@ def permuteUnique(nums):
 
     used = [False]*len(nums)
     res = []
-    _permuteUnique(nums, res, [], used, 0, len(nums))
+    _permuteUnique(nums, res, [], used, len(nums))
 
     return res
 
