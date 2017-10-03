@@ -45,9 +45,9 @@ def rotate(matrix):
     :rtype: void Do not return anything, modify matrix in-place instead.
     """
     offset, N = 0, len(matrix)
-    while N > 1:
-        temp = matrix[offset][offset:offset+N-1]                
+    while N > 1:            
         for i in range(N-1):
+            temp = matrix[offset][offset + i]
             # left to top
             matrix[offset][offset+i] = matrix[offset + N - 1 - i][offset]
             # bottom to left
@@ -55,7 +55,7 @@ def rotate(matrix):
             # right to bottom
             matrix[offset + N - 1][offset + N - 1 - i] = matrix[offset + i][offset + N - 1]
             # top to right
-            matrix[offset + i][offset + N - 1] = temp[i]
+            matrix[offset + i][offset + N - 1] = temp
           
         offset += 1
         N -= 2
