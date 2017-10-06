@@ -26,3 +26,6 @@ def solveNQueens(n):
     :type n: int
     :rtype: List[List[str]]
     """
+    if n < 1:
+        return []
+    
