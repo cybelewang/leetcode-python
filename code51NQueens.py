@@ -21,9 +21,8 @@ There exist two distinct solutions to the 4-queens puzzle:
 ]
 
 """
-class Solution(object):
-    def solveNQueens(self, n):
-        """
-        :type n: int
-        :rtype: List[List[str]]
-        """
+def solveNQueens(n):
+    """
+    :type n: int
+    :rtype: List[List[str]]
+    """
