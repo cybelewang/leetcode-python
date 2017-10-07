@@ -28,8 +28,10 @@ def myPow(x, n):
                 c = a * b
                 my_dict[m] = c
                 return c
-    
-    return _pow(x, n, my_dict)
+    if n < 0:
+        return 1.0/_pow(x, -n, my_dict)
+    else:
+        return _pow(x, n, my_dict)
 
 test_cases = [(1.0, 10), (2.0, 10), (0.0, 200)]
 for case in test_cases:
