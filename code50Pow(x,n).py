@@ -2,7 +2,7 @@
 Implement pow(x, n).
 
 """
-
+# Divide and conquer
 # Ask if n can be negative
 def myPow(x, n):
     """
