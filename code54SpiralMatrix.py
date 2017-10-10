@@ -17,4 +17,8 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
+        if not matrix or len(matrix) < 1:
+            return []
+        if len(matrix) == 1:
+            return matrix[0]
         
