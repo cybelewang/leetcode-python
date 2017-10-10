@@ -63,7 +63,7 @@ class Solution(object):
                     used[i][j] = True
                     self._NQueens(n, i + 1, used, res)
                     used[i][j] = False
-            if not bFound:
+            if not bFound: # iterating all columns and cannot find a place for the Queen, just return
                 return
         
     def solveNQueens(self, n):
