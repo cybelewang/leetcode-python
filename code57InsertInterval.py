@@ -29,15 +29,35 @@ class Solution(object):
         :type newInterval: Interval
         :rtype: List[Interval]
         """
-        if not intervals:
-            return newInterval
+        if not intervals or len(intervals) < 1:
+            return [newInterval]
         elif not newInterval:
             return intervals
-        
-        # Binary search for the insertion position
-        s, e = 0, len(intervals) - 1
-        while s <= e:
-            mid = (s + e)//2
-            if newInterval.start == intervals[mid].start:
-                 
 
+        # Corner case 1: newInterval.end < intervals[0].start
+        if newInterval.end < intervals[0].start:
+            intervals.insert(0, newInterval)
+            return intervals
+
+        # Corner case 2: newInterval.start > intervals[-1].end
+        if newInterval.start > intervals[-1].end:
+            intervals.append(newInterval)
+            return intervals
+        
+        res = []
+        included = False
+        for e in intervals:
+            if e.end < newInterval.start or e.start > newInterval.end:
+                res.append(e)
+            else:
+                if not included:
+                    res.append(newInterval)
+                    included = True
+                
+                if newInterval.start > e.start:
+                    newInterval.start = e.start
+                
+                if newInterval.end < e.end:
+                    newInterval.end = e.end
+        
+        return res
