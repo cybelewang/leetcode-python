@@ -20,9 +20,6 @@ class Interval(object):
         return self.__str__()
 
 class Solution(object):
-    def takeStart(self, interval):
-        return interval.start
-
     def merge(self, intervals):
         """
         :type intervals: List[Interval]
@@ -31,7 +28,7 @@ class Solution(object):
         if not intervals or len(intervals) < 2:
             return intervals
         
-        intervals.sort(key = self.takeStart)
+        intervals.sort(key = lambda x: x.start)
         res = [intervals[0]]
 
         for i in range(1, len(intervals)):

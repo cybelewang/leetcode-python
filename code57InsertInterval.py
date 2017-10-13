@@ -58,8 +58,8 @@ class Solution(object):
                     res.append(e)
                 else:
                     newInterval.start = min(newInterval.start, e.start)
-                    newInterval.end = max(newInterval.end, e.end)                    
-        
+                    newInterval.end = max(newInterval.end, e.end)
+                    
         return res
 
 obj = Solution()

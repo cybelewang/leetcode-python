@@ -17,3 +17,7 @@ class Solution(object):
         :type n: int
         :rtype: List[List[int]]
         """
+        if n < 1:
+            return []
+
+        res = [[0 for j in range(n)] for i in range(n)]
