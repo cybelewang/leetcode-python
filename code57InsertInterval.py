@@ -47,17 +47,25 @@ class Solution(object):
         res = []
         included = False
         for e in intervals:
-            if e.end < newInterval.start or e.start > newInterval.end:
+            if e.end < newInterval.start: # e is smaller than newInterval
                 res.append(e)
             else:
                 if not included:
                     res.append(newInterval)
                     included = True
                 
-                if newInterval.start > e.start:
-                    newInterval.start = e.start
-                
-                if newInterval.end < e.end:
-                    newInterval.end = e.end
+                if e.start > newInterval.end:
+                    res.append(e)
+                else:
+                    newInterval.start = min(newInterval.start, e.start)
+                    newInterval.end = max(newInterval.end, e.end)                    
         
         return res
+
+obj = Solution()
+case = [[1,2],[5,6],[8,10]]
+intervals = []
+for element in case:
+    intervals.append(Interval(element[0],element[1]))
+
+print(obj.insert(intervals, Interval(2,6)))
