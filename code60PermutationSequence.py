@@ -27,7 +27,7 @@ class Solution(object):
 
         unused = list(range(1, n+1))
         res = ''
-        while k > 0 and n > 0:
+        while n > 0:
             digit = (k-1)//self.fact[n-1]
             res += str(unused[digit])
             
@@ -35,10 +35,9 @@ class Solution(object):
             unused.pop(digit)
             n -= 1
         
-        for d in unused:
-            res += str(d)
-
         return res
 
 obj = Solution()
-print(obj.getPermutation(3,4))
+n = 3
+for i in range(obj.fact[n]):
+    print(obj.getPermutation(n,i + 1))
