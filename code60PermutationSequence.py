@@ -15,9 +15,30 @@ Given n and k, return the kth permutation sequence.
 Note: Given n will be between 1 and 9 inclusive.
 """
 class Solution(object):
+    fact = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880] # factor of 0 to 9
     def getPermutation(self, n, k):
         """
         :type n: int
         :type k: int
         :rtype: str
         """
+        if k < 1 or k > self.fact[n]:
+            return ''
+
+        unused = list(range(1, n+1))
+        res = ''
+        while k > 0 and n > 0:
+            digit = (k-1)//self.fact[n-1]
+            res += str(unused[digit])
+            
+            k = (k - 1)%self.fact[n-1] + 1
+            unused.pop(digit)
+            n -= 1
+        
+        for d in unused:
+            res += str(d)
+
+        return res
+
+obj = Solution()
+print(obj.getPermutation(3,4))
