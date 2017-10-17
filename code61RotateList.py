@@ -19,32 +19,40 @@ class Solution(object):
         :type k: int
         :rtype: ListNode
         """
-        if k == 0 or not head or not head.next:
+        if k == 0 or not head or head.next is None:
             return head
-
+        
+        # helper node to handle the new head case
         pre = ListNode(0)
         pre.next = head
 
-        tail, l = head, 0
-        while not tail and l <= k:
+        tail, l = pre, 0
+        while tail.next is not None and l < k: # When while condition fails, tail is either on "tail" node, or l == k, which means tail is on the ready to move position
             l += 1
             tail = tail.next
         
-        if not tail:
+        if tail.next is None: # if tail is on "tail", this means k >= l, so we need to put the tail back on k%l position
             k = k % l
-            tail = head
+            tail = pre
             for i in range(k):
                 tail = tail.next
         
-        while not tail.next:
-            head = head.next
+        helper = pre
+        while tail.next is not None: # After this, helper's next will point to the start node of the section to be rotated to the beginning
+            helper = helper.next
             tail = tail.next
 
         tail.next = pre.next
-        pre.next = head.next
-        head.next = None
+        pre.next = helper.next
+        helper.next = None
 
         return pre.next
+
+obj = Solution()
+l1 = ListNode(0)
+l1.fromList([1, 2])
+l2 = obj.rotateRight(l1, 2001)
+PrintLinkedList(l2)
 
         
 
