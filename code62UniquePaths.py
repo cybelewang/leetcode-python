@@ -7,6 +7,7 @@ How many possible unique paths are there?
 
 Note: m and n will be at most 100.
 """
+# To Do: try to use 1-d array for dynamic programming
 class Solution(object):
     def uniquePaths(self, m, n):
         """

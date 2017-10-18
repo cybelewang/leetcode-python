@@ -37,13 +37,13 @@ class Solution(object):
         dp[0][0] = 1 if obstacleGrid[0][0] == 0 else 0
         
         for i in range(1, m):
-            if dp[i-1][0] == 1 and obstacleGrid[i][0] == 0: # bug here: because dp[0][0] is always 0, dp[:][0] will be always 0
+            if dp[i-1][0] == 1 and obstacleGrid[i][0] == 0:
                 dp[i][0] = 1
             else:
                 dp[i][0] = 0
         
         for j in range(1, n):
-            if dp[0][j-1] == 1 and obstacleGrid[0][j] == 0: # bug here: because dp[0][0] is always 0, dp[0][:] will be always 0
+            if dp[0][j-1] == 1 and obstacleGrid[0][j] == 0:
                 dp[0][j] = 1
             else:
                 dp[0][j] = 0
