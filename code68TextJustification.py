@@ -61,7 +61,7 @@ class Solution(object):
         """
         res = []
 
-        if not words or len(words) < 1:
+        if words is None or len(words) < 1:
             return res
 
         width, start, count = 0, 0, 0

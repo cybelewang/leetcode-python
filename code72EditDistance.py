@@ -15,7 +15,7 @@ class Solution(object):
         :type word2: str
         :rtype: int
         """
-        if not word1 and not word2:
+        if word1 is None or word2 is None:
             return 0
 
         m = len(word1)
