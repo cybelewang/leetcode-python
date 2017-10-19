@@ -11,4 +11,20 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
+        if n < 2:
+            return 1
+
+        below2, below1 = 1, 1
+        cur = 2
+
+        for i in range(2, n+1): # bug fixed: should use n+1, not n
+            cur = below2 + below1
+            below2 = below1
+            below1 = cur
         
+        return cur
+
+obj = Solution()
+for test_num in range(2, 11):
+    print(test_num, end = ' -> ')
+    print(obj.climbStairs(test_num))
