@@ -12,8 +12,11 @@ class Solution(object):
         :type digits: List[int]
         :rtype: List[int]
         """
-        if not digits or len(digits) < 1:
-            return []
+        if not digits:
+            raise ValueError
+        
+        if len(digits) < 1: # Ask the result for [] + 1
+            return [1]
 
         carry = 1
         for i in range(len(digits) - 1, -1, -1):
