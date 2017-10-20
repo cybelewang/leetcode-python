@@ -30,7 +30,7 @@ class Solution(object):
         line = ''
         if count == 1 or (start + count) == len(words):
             for i in range(count - 1):
-                line += words[start]
+                line += words[start + i]    # bug fixed: forget to add i
                 line += ' '
             line += words[start + count - 1]
 
@@ -64,13 +64,12 @@ class Solution(object):
         if words is None or len(words) < 1:
             return res
 
-        width, start, count = 0, 0, 0
-        for (i, word) in enumerate(words):
-            if (width + len(word) + count) <= maxWidth:
+        width, start, count = len(words[0]), 0, 1
+        for i in range(1, len(words)):
+            word = words[i]
+            if (width + len(word) + 1) <= maxWidth: # bug fixed: previously use width + len(word) + count
                 # able to append this word
-                width += len(word)
-                if count > 0:   # bug fixed: should not count the white space if only one word in the line
-                    width += 1  # count the standard 1 white space
+                width += len(word) + 1 # count the standard 1 white space
                 count += 1 # number of words in this line increases
             else:
                 # cannot append this word, must generate the line string and append to result
@@ -86,7 +85,7 @@ class Solution(object):
 
         return res
 
-test_case = ["This", "is", "an", "example", "of", "text", "justification."]
+test_case = ["My","momma","always","said,","\"Life","was","like","a","box","of","chocolates.","You","never","know","what","you're","gonna","get."]
 obj = Solution()
-print(obj.fullJustify(test_case, 21))
+print(obj.fullJustify(test_case, 20))
         

@@ -31,7 +31,7 @@ class Solution(object):
         
         res = '/' + '/'.join(build)
 
-        return res
+        return res  # bug fixed: forget to return res!!!
 
 test_cases = ['/', '/home/','/a/./b/../../c/', '/../', '/home/////etc/../']
 obj = Solution()
