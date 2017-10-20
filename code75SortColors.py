@@ -20,3 +20,26 @@ class Solution(object):
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
+        if not nums:
+            return
+
+        i, j, k = 0, len(nums) - 1, 0
+
+        while k <= j:
+            if nums[k] == 0:
+                nums[i], nums[k] = nums[k], nums[i]
+                while i<=j and nums[i] == 0: i += 1
+                k = max(i, k)
+            elif nums[k] == 2:
+                nums[k], nums[j] = nums[j], nums[k]
+                while i<=j and nums[j] == 2: j -= 1
+            else:
+                k += 1
+        
+test_cases = [[0, 0], [1, 1], [2, 2], [0, 1, 2], [2,1,2,1], [0, 0, 2, 0, 2, 0, 2, 2],[0, 0, 2, 2, 1, 0, 2, 2]]
+obj = Solution()
+for case in test_cases:
+    print(case, end = ' -> ')
+    obj.sortColors(case)
+    print(case)
+                
