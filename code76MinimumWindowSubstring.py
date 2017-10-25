@@ -12,6 +12,26 @@ If there is no such window in S that covers all characters in T, return the empt
 If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
 """
 class Solution(object):
+    required = {} # count of each unique required character
+    requires = 0 # count of all required characters
+    def add(self, s, i):
+        """
+        Add a character into the window
+        """
+        if s[i] in self.required:
+            self.required[s[i]] -= 1
+            if self.required[s[i]] >= 0:    # There may be more than required number of this characters
+                self.requires -= 1
+    
+    def remove(self, s, i):
+        """
+        Remove a character from the window
+        """
+        if s[i] in self.required:
+            self.required[s[i]] += 1
+            if self.required[s[i]] > 0:
+                self.requires += 1
+
     def minWindow(self, s, t):
         """
         :type s: str
@@ -21,47 +41,33 @@ class Solution(object):
         if not s or not t:
             return 0
 
+        self.required.clear()
+        self.requires = 0
         res = ''
 
         # Build the required count map
-        required, requires = {}, len(t)
+        self.requires = len(t)
         for c in t:
-            if c in required:
-                required[c] = required[c] + 1
+            if c in self.required:
+                self.required[c] += 1
             else:
-                required[c] = 1
+                self.required[c] = 1
         
-        # Find the left start index
         i = 0
-        for (i, c) in enumerate(s):
-            if c in required:
-                break
-
-        for j in range(i, len(s)):
-            c = s[j]
-            if c in required:
-                required[c] = required[c] - 1   # decrease the required count of c by 1
-                if required[c] >= 0:    # required[c] may < 0 because there are more than required "c" in s[i:j+1]
-                    requires -= 1
-                if requires == 0:
-                    # Update the res
-                    if not res or (j - i + 1) < len(res):
-                        res = s[i:j+1]
-                    # Now keep increasing left index until requires > 0
+        for (j, c) in enumerate(s):
+            self.add(s, j)  # append the character to the window from right side
+            if self.requires == 0: # the window contains all required characters, but we need to shrink the window by removing non-required characters from left
+                while i <= j and self.requires == 0:
+                    self.remove(s, i)
                     i += 1
-                    while requires == 0 and i < len(s):
-                        if s[i] in required:
-                            required[s[i]] = required[s[i]] + 1
-                            if required[s[i]] > 0:
-                                requires += 1
-                        i += 1
-                    # Now keep increasing left index until next required character is hit
-                    while i < len(s) and s[i] not in required:
-                        i += 1
+                # After exiting while loop, i-1 is the correct index of the min window
+                if self.requires == 1:
+                    if not res or (j - i + 2) < len(res):   # bug fixed here: the length is j - i + 2, not j - i
+                        res = s[i-1: j+1]
         
         return res
 
-test_cases = [("ADOBECODEBANC","ABC")]
+test_cases = [("cabwefgewcwaefgcf","cae")]
 obj = Solution()
 for case in test_cases:
     print(obj.minWindow(case[0],case[1]))

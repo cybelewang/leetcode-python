@@ -20,24 +20,44 @@ class Solution(object):
         if not matrix or not matrix[0]:
             return
         
+        # Check if first row and first column has zero
+        rowHasZero, colHasZero = False, False
         m, n = len(matrix), len(matrix[0])
+
+        for j in range(n):
+            if matrix[0][j] == 0:
+                rowHasZero = True
+                break
+        
         for i in range(m):
-            for j in range(n):
+            if matrix[i][0] == 0:
+                colHasZero = True
+                break
+        # Iterate the rest of the matrix (not the first row and first column), set the row and column head to zero if [i][j] is zero
+        for i in range(1, m):
+            for j in range(1, n):
                 if matrix[i][j] == 0:
                     matrix[i][0] = 0
                     matrix[0][j] = 0
         
-        for i in range(m):
+        for i in range(1, m):   # bug fixed here: we should not set the first row and first column because they are "marks". We should set them at last.  
             if matrix[i][0] == 0:
                 for j in range(n):
                     matrix[i][j] = 0
         
-        for j in range(n):
+        for j in range(1, n):
             if matrix[0][j] == 0:
                 for i in range(m):
                     matrix[i][j] = 0
+        # set the first row and first column in last step
+        if colHasZero:
+            for i in range(m):
+                matrix[i][0] = 0
+        if rowHasZero:
+            for j in range(n):
+                matrix[0][j] = 0
 
-test_case = [[0]]
+test_case = [[1,1,1],[0,1,2]]
 obj = Solution()
 obj.setZeroes(test_case)
 print(test_case)
