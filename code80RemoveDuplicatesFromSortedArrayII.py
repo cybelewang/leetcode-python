@@ -13,4 +13,25 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        if not nums:
+            return 0
+
+        i, count = 1, 1 # i: the index to be copied to.    count: the count of current repeated number
+        for j in range(1, len(nums)):
+            if nums[j] == nums[j-1]:
+                count += 1
+            else:
+                count = 1
+                
+            if count < 3:
+                nums[i] = nums[j]
+                i += 1
+
+        return i
+
+test_cases = [[],[1],[1,1],[1,1,1],[1,1,1,2,2,3],[1,1,1,2,2,2,2,2],[1,1,2,2,3,3,3,3]]
+obj = Solution()
+for case in test_cases:
+    print(case, end = ' -> ')
+    print(obj.removeDuplicates(case))
         

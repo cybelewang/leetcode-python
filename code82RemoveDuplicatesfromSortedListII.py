@@ -1,3 +1,4 @@
+from ListNode import *
 """
 Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
 
@@ -17,3 +18,12 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
+        if not head or head.next is None:
+            return head
+
+        pre = ListNode(0)
+        pre.next = head
+
+        num = head.val
+        left, right = pre, head.next
+        
