@@ -12,6 +12,9 @@ Given 1->1->1->2->3, return 2->3.
 #         self.val = x
 #         self.next = None
 
+# The basic idea is to use a temporary node to save the "candidate" ListNode on the first time seeing a different value. 
+# Then we set this temporary node to None if duplicated num is seen. The next time we see a different value node, we will check this temporary node, if it is not None, we will link it.
+
 class Solution(object):
     def deleteDuplicates(self, head):
         """
@@ -25,5 +28,30 @@ class Solution(object):
         pre.next = head
 
         num = head.val
-        left, right = pre, head.next
+        left, right, node = pre, head.next, head    # node is the candidate ListNode to be linked to left
+        while right:
+            if right.val == num:
+                node = None
+            else:
+                if node:
+                    left.next = node
+                    left = left.next
+
+                node = right
+                num = right.val
+            
+            right = right.next
         
+        if node:    # bug fixed here: forgot the remaining node when "while" loop ends
+            left.next = node
+            node.next = None
+        else:
+            left.next = None
+
+        return pre.next
+
+obj = Solution()
+l1 = ListNode(0)
+l1.fromList([1,1,2,2,3])
+l2 = obj.deleteDuplicates(l1)
+PrintLinkedList(l2)
