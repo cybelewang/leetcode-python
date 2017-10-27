@@ -41,8 +41,14 @@ class Solution(object):
         :rtype: bool
         """
         # what about None?
-        if not board or not board[0] or not word:
-            return False
+        if not board or not board[0]:
+            if not word:
+                return True
+            else:
+                return False
+        else:
+            if not word:
+                return False
 
         m, n = len(board), len(board[0])
         used = [[False for j in range(n)] for i in range(m)]
