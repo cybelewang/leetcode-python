@@ -17,4 +17,32 @@ class Solution(object):
         :type heights: List[int]
         :rtype: int
         """
+        maxArea = 0
+        hist = []
+
+        i = 0
+        while i < len(heights):
+            if not hist or heights[hist[-1]] <= heights[i]:
+                hist.append(i)
+                i += 1
+            else:
+                h = heights[hist.pop()]
+                if not hist:
+                    w = i
+                else:
+                    w = i - 1 - hist[-1]
+                maxArea = max(h*w, maxArea)
         
+        while hist:
+            h = heights[hist.pop()]
+            if not hist:
+                w = len(heights)
+            else:
+                w = len(heights) - 1 - hist[-1]
+            maxArea = max(h*w, maxArea)
+        
+        return maxArea
+
+test_case = [1,0, 1,0,1]
+obj = Solution()
+print(obj.largestRectangleArea(test_case))
