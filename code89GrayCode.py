@@ -23,3 +23,8 @@ class Solution:
         :type n: int
         :rtype: List[int]
         """
+        res = []
+        if n < 1:
+            return res
+
+        

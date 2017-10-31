@@ -27,6 +27,7 @@ class Solution(object):
         helper = ListNode(0)
         helper.next = head
 
+        # Find the first node whose value >= x. "right" will stop on this node
         left, right = helper, head
         while right and right.val < x:
             left = right

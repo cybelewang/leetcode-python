@@ -43,3 +43,28 @@ class Solution:
         :type s2: str
         :rtype: bool
         """
+        if len(s1) != len(s2):
+            return False
+
+        if len(s1) < 2:
+            return s1 == s2
+        else:
+            m, n = len(s1)//2, len(s1)
+            res = False
+
+            match1 = self.isScramble(s1[0:m], s2[0:m]) and self.isScramble(s1[m:], s2[m:])
+            match2 = self.isScramble(s1[0:m], s2[m:]) and self.isScramble(s1[m:], s2[0:m])
+            res = match1 or match2
+
+            if n%2 != 0:    # odd length string cannot be split evenly
+                match3 = self.isScramble(s1[0:n-m], s2[0:m]) and self.isScramble(s1[n-m:], s2[m:])
+                match4 = self.isScramble(s1[0:n-m],s2[m:]) and self.isScramble(s1[n-m:],s2[0:m])
+                res = res or match3 or match4
+
+            return res
+
+test_cases = [('',''), ('a','a'), ('ab','ba'), ('ac','ac'),('great','rgeat'),('great','rgtae'),('great','etagr')]
+obj = Solution()
+for case in test_cases:
+    print(case[0]+' -> '+case[1]+': ', end = '')
+    print(obj.isScramble(case[0],case[1]))
