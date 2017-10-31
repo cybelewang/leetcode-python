@@ -9,8 +9,40 @@ For example, given the following matrix:
 1 0 0 1 0
 Return 6.
 """
-# Use dynamic programming 
+# Use problem 84, largest rectangle in histogram to help solve this problem
+# First compress the 2d array above current row and current row into a 1d array, then use problem 84's solution
 class Solution(object):
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        maxArea = 0
+        hist = []
+
+        i = 0
+        while i < len(heights):
+            if not hist or heights[hist[-1]] <= heights[i]:
+                hist.append(i)
+                i += 1
+            else:
+                h = heights[hist.pop()]
+                if not hist:
+                    w = i
+                else:
+                    w = i - 1 - hist[-1]
+                maxArea = max(h*w, maxArea)
+        
+        while hist:
+            h = heights[hist.pop()]
+            if not hist:
+                w = len(heights)
+            else:
+                w = len(heights) - 1 - hist[-1]
+            maxArea = max(h*w, maxArea)
+        
+        return maxArea
+
     def maximalRectangle(self, matrix):
         """
         :type matrix: List[List[str]]
@@ -22,49 +54,25 @@ class Solution(object):
         m, n = len(matrix), len(matrix[0])
         maxArea = 0
 
-        # Use a tuple (width, height) to save the maximum width and maximum height with [i][j] as the right bottom point
-        if matrix[0][0] == '1':
-            matrix[0][0] = (1, 1)   # max width 1, max height 1
-            maxArea = 1 # bug fixed here: forgot to update maxArea when m and n are 1
-        else:
-            matrix[0][0] = (0, 0)   # max width 0, max height 0
-
-        # Process the top row
-        for j in range(1, n):
+        height = []
+        for j in range(n):
             if matrix[0][j] == '1':
-                matrix[0][j] = (matrix[0][j-1][0] + 1, 1)
-                maxArea = max(matrix[0][j][0], maxArea)
+                height.append(1)
             else:
-                matrix[0][j] = (0, 0)
-        
-        # Process the left column
-        for i in range(1, m):
-            if matrix[i][0] == '1':
-                matrix[i][0] = (1, matrix[i-1][0][1] + 1)
-                maxArea = max(matrix[i][0][1], maxArea)
-            else:
-                matrix[i][0] = (0, 0)
-        
-        # Now process the rest of the matrix
-        for i in range(1, m):
-            for j in range(1, n):
-                if matrix[i][j] == '1':                    
-                    recArea = (min(matrix[i-1][j-1][0], matrix[i][j-1][0]) + 1)*(min(matrix[i-1][j-1][1], matrix[i-1][j][1]) + 1)   # possible rectangle rectangle area
-                    rowArea = matrix[i][j-1][0] + 1 # possible row-like rectange area
-                    colArea = matrix[i-1][j][1] + 1 # possible column-like rectange area
+                height.append(0) 
+        maxArea = max(maxArea, self.largestRectangleArea(height))
 
-                    maxArea = max(maxArea, recArea, rowArea, colArea)
-                    matrix[i][j] = (rowArea, colArea)
+        for i in range(1, m):
+            for j in range(n):
+                if matrix[i][j] == '0':
+                    height[j] = 0
                 else:
-                    matrix[i][j] = (0, 0)
+                    height[j] += 1
+            
+            maxArea = max(maxArea, self.largestRectangleArea(height))
 
-        return maxArea 
+        return maxArea
 
 obj = Solution()
-test_matrix = [
-    ['1','0','1','0','0'],
-    ['1','0','1','1','1'],
-    ['1','1','1','1','1'],
-    ['1','0','0','1','0']
-]
+test_matrix = [["0","0","0"],["0","0","0"],["1","1","1"]]
 print(obj.maximalRectangle(test_matrix))

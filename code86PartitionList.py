@@ -1,3 +1,4 @@
+from ListNode import *
 """
 Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 
@@ -20,4 +21,42 @@ class Solution(object):
         :type x: int
         :rtype: ListNode
         """
+        if not head:
+            return head
+
+        helper = ListNode(0)
+        helper.next = head
+
+        left, right = helper, head
+        while right and right.val < x:
+            left = right
+            right = right.next
+
+        if not right:
+            return head
+
+        # Now right's value is x, and left is the node "pre" right.
+        # "left" will link to the next available node whose value is smaller than x. "right" will be the new head of the right part
+        # After traversing all nodes, we need to relink "left" and "right"
+        pre, node = right, right.next
+        while node:
+            if node.val < x:    # put node to left because it is less than x
+                # link node to left part
+                left.next = node
+                left = node
+                # process the right part
+                pre.next = node.next
+            else:
+                pre = node
+            node = node.next
         
+        # relink the left and right
+        left.next = right
+
+        return helper.next
+
+obj = Solution()
+l1 = ListNode(0)
+l1.fromList([6,4,3,2,5,2])
+l2 = obj.partition(l1,3)
+PrintLinkedList(l2)
