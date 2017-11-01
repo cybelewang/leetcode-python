@@ -43,27 +43,19 @@ class Solution:
         :type s2: str
         :rtype: bool
         """
-        if len(s1) != len(s2):
+        n, m = len(s1), len(s2)
+        if n != m or sorted(s1) != sorted(s2):
             return False
+        if n < 4 or s1 == s2:
+            return True
+        f = self.isScramble
+        for i in range(1, n):
+            if f(s1[:i], s2[:i]) and f(s1[i:], s2[i:]) or \
+            f(s1[:i], s2[-i:]) and f(s1[i:], s2[:-i]):
+                return True
+        return False
 
-        if len(s1) < 2:
-            return s1 == s2
-        else:
-            m, n = len(s1)//2, len(s1)
-            res = False
-
-            match1 = self.isScramble(s1[0:m], s2[0:m]) and self.isScramble(s1[m:], s2[m:])
-            match2 = self.isScramble(s1[0:m], s2[m:]) and self.isScramble(s1[m:], s2[0:m])
-            res = match1 or match2
-
-            if n%2 != 0:    # odd length string cannot be split evenly
-                match3 = self.isScramble(s1[0:n-m], s2[0:m]) and self.isScramble(s1[n-m:], s2[m:])
-                match4 = self.isScramble(s1[0:n-m],s2[m:]) and self.isScramble(s1[n-m:],s2[0:m])
-                res = res or match3 or match4
-
-            return res
-
-test_cases = [('',''), ('a','a'), ('ab','ba'), ('ac','ac'),('great','rgeat'),('great','rgtae'),('great','etagr')]
+test_cases = [('',''), ('a','a'), ('ab','ba'), ('abc','bac'), ('ac','ac'),('great','rgeat'),('great','rgtae'),('great','etagr')]
 obj = Solution()
 for case in test_cases:
     print(case[0]+' -> '+case[1]+': ', end = '')

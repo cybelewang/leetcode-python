@@ -13,12 +13,12 @@ class Solution:
         :type n: int
         :rtype: void Do not return anything, modify nums1 in-place instead.
         """
-        if m < 1 or n < 1:
+        if m < 0 or n < 1:  # bug fixed here: should not use m < 1, consider m = 0 and n = 1
             return
 
         i, j = m - 1, n - 1   # index for nums1, nums2, and the new array
         for k in range(m + n - 1, -1, -1):
-            if i > -1 and (j == -1 or (j > -1 and nums1[i] >= nums2[j])):
+            if i > -1 and (j < 0 or (j > -1 and nums1[i] >= nums2[j])):
                 nums1[k] = nums1[i]
                 i -= 1
             else:
