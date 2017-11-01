@@ -46,8 +46,9 @@ def PrintLinkedList(head):
     :type head: ListNode
     """
     if not head:
-        print()
+        print('NULL')
     else:
         while head:
             print("{0}->".format(head.val), end='')
             head = head.next 
+        print('NULL')
