@@ -19,7 +19,7 @@ The number of ways decoding "12" is 2.
 class Solution:
     def __init__(self):
         self.decode = {}
-        for i in range(1, 26):
+        for i in range(1, 27):  # bug fixed: change 26 to 27
             self.decode[str(i)] = True
         
     def numDecodings(self, s):

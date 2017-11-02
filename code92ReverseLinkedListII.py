@@ -38,3 +38,9 @@ class Solution:
         head.next = right
 
         return helper.next
+
+obj = Solution()
+l1 = ListNode(0)
+l1.fromList([1,2,3])
+l2 = obj.reverseBetween(l1,1,3)
+PrintLinkedList(l2)

@@ -16,3 +16,10 @@ If nums = [1,2,2], a solution is:
 ]
 
 """
+class Solution:
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        

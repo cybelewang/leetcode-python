@@ -24,7 +24,7 @@ class Solution:
         :rtype: List[int]
         """
         if n < 1:
-            return []
+            return [0]
         
         res = [0, 1]
         for i in range(2, n+1):
