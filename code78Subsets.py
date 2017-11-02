@@ -32,7 +32,7 @@ class Solution(object):
             res.append([num])
             my_dict[num] = i
         # In each length, we pick up the previously added elements and append an number
-        start, end = 1, len(nums)
+        start, end = 1, len(nums) -1
         for length in range(2, len(nums) + 1):
             for i in range(start, end+1):
                 sub = res[i]
