@@ -84,7 +84,7 @@ test_root.left = TreeNode(2)
 test_root.right = TreeNode(3)
 PrintTree(test_root) '''
 
-null = None
+''' null = None
 test_tree = [1,2, 3, 4,5,6,7]
 root = ListToTree(test_tree)
-PrintTree(root)
+PrintTree(root) '''

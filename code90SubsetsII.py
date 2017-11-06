@@ -59,6 +59,7 @@ class Solution:
                     e = sub[:]
                     e.append(sub[-1])
                     res.append(e)
+                # Add each of the remaining numbers 
                 for j in range(index[sub[-1]] + 1, len(unique)):
                     e = sub[:]
                     e.append(unique[j])
@@ -69,6 +70,6 @@ class Solution:
         
         return res
 
-nums = [1, 2, 2]
+nums = [2]
 obj = Solution()
 print(obj.subsetsWithDup(nums))
