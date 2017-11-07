@@ -19,7 +19,8 @@ class Solution:
         """
         #return self._numSubTrees(1, 1, n, n)
         #return self._numSubTrees2(1, n)
-        return self._numSubTrees3(1, n, {})
+        #return self._numSubTrees3(1, n, {})
+        return self._dp(n)
 
     # Solution 1, minVal and maxVal seem to be redundant
     def _numSubTrees(self, minVal, s, e, maxVal): 
@@ -59,7 +60,7 @@ class Solution:
             right = self._numSubTrees2(i+1, e)  # number of unique BSTs as right subtree
             res += left * right
         
-        return 
+        return res
     
     # Solution 3: use only two boundaries and dictionary to accelerate
     def _numSubTrees3(self, s, e, history):
@@ -85,5 +86,19 @@ class Solution:
             history[(s, e)] = res   # save to history
             return res
 
+    def _dp(self, n):
+        """
+        Dynamic programming method, see previous Java solution
+        """
+        G = [0 for i in range(n+1)]
+        G[0] = 1
+        G[1] = 1
+
+        for i in range(2, n+1):
+            for j in range(1, i + 1):
+                G[i] += G[j-1]*G[i-j]
+
+        return G[n]
+
 obj = Solution()
-print(obj.numTrees(3))
+print(obj.numTrees(4))
