@@ -1,3 +1,4 @@
+from TreeNode import *
 """
 Given a binary tree, determine if it is a valid binary search tree (BST).
 
@@ -24,10 +25,40 @@ Binary tree [1,2,3], return false.
 #         self.left = None
 #         self.right = None
 
+# What's the result if root is None?
 class Solution:
     def isValidBST(self, root):
         """
         :type root: TreeNode
         :rtype: bool
         """
-        
+        if root is None:
+            return True
+
+        sysMin = -2**31
+        sysMax = 2**31 - 1
+
+        return self._isValid(root, sysMin-1, sysMax + 1)
+
+    def _isValid(self, root, minLimit, maxLimit):
+        """
+        Compare the root with minLimit and maxLimit; Update these limits when traverse to lower level nodes
+        :type root: TreeNode
+        :type minLimit: int
+        :type maxLimit: int
+        """
+        res = root.val > minLimit and root.val < maxLimit
+        if not res:
+            return False
+        else:
+            if root.left is not None:
+                res = res and self._isValid(root.left, minLimit, min(root.val, maxLimit))
+            if root.right is not None:
+                res = res and self._isValid(root.right, max(minLimit, root.val), maxLimit)
+            return res
+
+obj = Solution()
+test_cases = [[], [1], [1, 2, 3], [2, 1, 3], [5, 2, 9, 1, 6, 7, 10]] 
+for case in test_cases:
+    test_tree = ListToTree(case)
+    print(obj.isValidBST(test_tree))
