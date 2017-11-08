@@ -24,7 +24,10 @@ class Solution:
         :type n: int
         :rtype: List[TreeNode]
         """
-        return self._generateSubTrees(1, n)
+        if n < 1:
+            return []
+        else:
+            return self._generateSubTrees(1, n)
 
     def _generateSubTrees(self, s, e):
         if s > e:
