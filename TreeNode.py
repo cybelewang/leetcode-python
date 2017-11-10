@@ -3,7 +3,6 @@ TreeNode class definition using binary tree module
 https://github.com/joowani/binarytree
 """
 from binarytree import Node, customize, tree, show
-from math import log
 
 # Definition for a binary tree node.
 class TreeNode(object):
