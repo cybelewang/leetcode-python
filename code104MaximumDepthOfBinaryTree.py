@@ -1,3 +1,4 @@
+from TreeNode import *
 """
 Given a binary tree, find its maximum depth.
 
@@ -16,3 +17,14 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
+        if not root:
+            return 0
+        else:
+            return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+         
+
+null = None
+test_case = [1,2,3]
+obj = Solution()
+test_tree = ListToTree(test_case)
+print(obj.maxDepth(test_tree))

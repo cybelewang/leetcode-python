@@ -1,3 +1,4 @@
+from TreeNode import *
 """
 Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
 
@@ -28,4 +29,29 @@ class Solution:
         :type root: TreeNode
         :rtype: List[List[int]]
         """
+        res = []
+        if root is None:
+            return res
+
+        level = [root]
+        while len(level) > 0:
+            size = len(level)
+            levelRes = []
+            for i in range(size):
+                node = level[i]
+                levelRes.append(node.val)
+                if node.left is not None:
+                    level.append(node.left)
+                if node.right is not None:
+                    level.append(node.right)
+            
+            res.append(levelRes)
+            level = level[size:]
         
+        return res
+
+null = None
+test_case = [3,9,20,null,null,15,7]
+obj = Solution()
+test_tree = ListToTree(test_case)
+print(obj.levelOrder(test_tree))
