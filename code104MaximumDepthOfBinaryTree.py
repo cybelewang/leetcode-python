@@ -12,6 +12,7 @@ The maximum depth is the number of nodes along the longest path from the root no
 #         self.right = None
 
 class Solution:
+    # recursive solution
     def maxDepth(self, root):
         """
         :type root: TreeNode
@@ -21,7 +22,14 @@ class Solution:
             return 0
         else:
             return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
-         
+    
+    # iterative solution, using level order traversal
+    def maxDepth2(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
 
 null = None
 test_case = [1,2,3]
