@@ -29,10 +29,26 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
+        if not root:
+            return 0
+
+        parents = [root]
+        level = 0
+
+        while len(parents) > 0:
+            children = []
+            for parent in parents:
+                if parent.left is not None:
+                    children.append(parent.left)
+                if parent.right is not None:
+                    children.append(parent.right)
+            parents = children
+            level += 1
         
+        return level
 
 null = None
-test_case = [1,2,3]
+test_case = [1,null, 2, null, 3]
 obj = Solution()
 test_tree = ListToTree(test_case)
-print(obj.maxDepth(test_tree))
+print(obj.maxDepth2(test_tree))
