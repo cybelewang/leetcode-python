@@ -13,10 +13,10 @@ You may assume that duplicates do not exist in the tree.
 #         self.right = None
 
 class Solution:
+    #    recursive solution, first look for the index of the first element of preorder in inorder, 
+    #    then dynamically split the preorder and inorder list to left branch and right branch.
     def buildTree(self, preorder, inorder):
         """
-        recursive solution, first look for the index of the first element of preorder in inorder, 
-        then dynamically split the preorder and inorder list to left branch and right branch.
         :type preorder: List[int]
         :type inorder: List[int]
         :rtype: TreeNode
