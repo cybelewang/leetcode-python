@@ -18,4 +18,13 @@ class Solution:
         :type postorder: List[int]
         :rtype: TreeNode
         """
-        
+        if not inorder or not postorder:
+            return None
+
+        mid = inorder.index(postorder[-1])
+
+        root = TreeNode(postorder[-1])
+        root.left = self.buildTree(inorder[:mid], postorder[:mid])
+        root.right = self.buildTree(inorder[mid+1:], postorder[mid:-1])
+
+        return root
