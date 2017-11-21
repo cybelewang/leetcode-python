@@ -56,7 +56,7 @@ class Solution:
         return root
 
 obj = Solution()
-preorder = [3, 9, 20, 15, 7]
-inorder = [9, 3, 15, 20, 7]
+preorder = [5, 3, 1, 8, 9, 2, 10, 11, 4, 6, 12, 13, 7, 14, 15]
+inorder = [8, 1, 9, 3, 10, 2, 11, 5, 12, 6, 13, 4, 14, 7, 15]
 res = obj.buildTree2(preorder, inorder)
 PrintTree(res)
