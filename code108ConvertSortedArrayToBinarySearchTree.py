@@ -35,6 +35,6 @@ class Solution:
 
             return root
 
-test_case = [1, 2, 3, 4, 5]
+test_case = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 obj = Solution()
 PrintTree(obj.sortedArrayToBST(test_case))
