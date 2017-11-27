@@ -56,9 +56,11 @@ class Solution:
                         pre = pre.right
                     else:
                         pre = pre.left
-
+                # link the leaf node's right child to the right branch
                 pre.right = node.right
+                # link the right branch to the left branch
                 node.right = node.left
+                # assign left branch to null
                 node.left = None
             
             node = node.right

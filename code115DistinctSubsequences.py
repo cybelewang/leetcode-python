@@ -15,4 +15,26 @@ class Solution:
         :type t: str
         :rtype: int
         """
+        if len(s) < len(t):
+            return 0
+
+        if t == '':
+            return 1
+
+        base = list(s)  # base list of all characters of s
+        build = []
+
+        res = self._dfs(base, build, si, t, ti):
+
+        return res
+
+    def _dfs(self, base, build, si, t, ti):
+        if len(t) - ti > len(base) - si:
+            return 0
         
+        if t == ''.join(build):
+            return 1
+
+        for j in range(ti, len(t)):
+            
+
