@@ -15,26 +15,23 @@ class Solution:
         :type t: str
         :rtype: int
         """
-        if len(s) < len(t):
-            return 0
-
-        if t == '':
-            return 1
-
-        base = list(s)  # base list of all characters of s
-        build = []
-
-        res = self._dfs(base, build, si, t, ti):
-
-        return res
-
-    def _dfs(self, base, build, si, t, ti):
-        if len(t) - ti > len(base) - si:
-            return 0
+        dp = [[0 for j in range(len(s)+1)] for i in range(len(t)+1)]
         
-        if t == ''.join(build):
-            return 1
-
-        for j in range(ti, len(t)):
+        for j in range(len(s)+1):   # because '' always subsequence of all strings
+            dp[0][j] = 1
+        
+        for i in range(1, len(t) + 1):
+            for j in range(1, len(s) + 1):
+                if t[i-1] == s[j-1]:
+                    dp[i][j] = dp[i-1][j-1] + dp[i][j-1]
+                else:
+                    dp[i][j] = dp[i][j-1]
             
+        return dp[len(t)][len(s)]
+
+test_cases = [('rabbbit', 'rabbit'), ('ABCDE', 'ACE')]
+
+obj = Solution()
+for case in test_cases:
+    print(obj.numDistinct(case[0], case[1]))
 
