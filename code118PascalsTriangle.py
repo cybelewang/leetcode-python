@@ -18,4 +18,19 @@ class Solution(object):
         :type numRows: int
         :rtype: List[List[int]]
         """
+        res = [[1], [1, 1]]
+
+        if numRows < 3:
+            return res[:numRows]
+
+        for n in range(3, numRows + 1):
+            row = [1]
+            for j in range(0, len(res[-1]) - 1):
+                row.append(res[-1][j] + res[-1][j+1])
+            row.append(1)
+            res.append(row)
         
+        return res
+
+obj = Solution()
+print(obj.generate(7))
