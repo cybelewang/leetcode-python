@@ -20,4 +20,19 @@ class Solution:
         :type prices: List[int]
         :rtype: int
         """
-        
+        if not prices:
+            return 0
+
+        low, res = prices[0], 0
+
+        for num in prices:
+            res = max(res, num - low)
+            if num < low:
+                low = num
+
+        return res
+
+obj = Solution()
+test_cases = [[], [100], [7, 1, 5, 3, 6, 4], [7, 6, 4, 3, 1]]
+for case in test_cases:
+    print(obj.maxProfit(case))

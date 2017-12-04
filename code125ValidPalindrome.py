@@ -16,4 +16,25 @@ class Solution:
         :type s: str
         :rtype: bool
         """
+        n = len(s)
+        i, j = 0, n - 1
+        while i < j:
+            left = s[i]
+            right = s[j]
+            if not left.isalnum():
+                i += 1
+            elif not right.isalnum():
+                j -= 1
+            else:
+                if left.lower() != right.lower():
+                    return False
+                else:
+                    i += 1
+                    j -= 1
         
+        return True
+
+obj = Solution()
+test_cases = ['', 'a', ':', "A man, a plan, a canal: Panama", 'race a car']
+for case in test_cases:
+    print(obj.isPalindrome(case))

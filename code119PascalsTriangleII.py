@@ -30,6 +30,19 @@ class Solution:
             build[row] = 1  # append "1" at the end
         
         return build
+    # best solution from leetcode: add from end
+    def getRow2(self, rowIndex):
+        """
+        :type rowIndex: int
+        :rtype: List[int]
+        """
+        res=[1]*(rowIndex+1)
+        for i in range(1,rowIndex):
+            for j in range(i,0,-1):
+                res[j]=res[j]+res[j-1]
+        return res
+
 
 obj = Solution()
-print(obj.getRow(2))
+print(obj.getRow2(2))
+print(obj.getRow2(3))
