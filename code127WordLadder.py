@@ -22,6 +22,7 @@ UPDATE (2017/1/20):
 The wordList parameter had been changed to a list of strings (instead of a set of strings). Please reload the code definition to get the latest changes.
 """
 class Solution(object):
+    alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     def ladderLength(self, beginWord, endWord, wordList):
         """
         :type beginWord: str
@@ -29,4 +30,30 @@ class Solution(object):
         :type wordList: List[str]
         :rtype: int
         """
+        wordSet = set(wordList)
+        if beginWord in wordSet:
+            wordSet.remove(beginWord)
         
+        queue = [beginWord]
+        level = 0
+
+        while not queue:
+            
+
+    def _findNeighbors(self, word, wordSet):
+        """
+        :type word: str
+        :type wordSet: set
+        :rtype: list
+        """
+        neighbors = []        
+        for i in range(len(word)):
+            array = list(word)
+            for letter in self.alphabet:
+                array[i] = letter
+                candidate = ''.join(array)
+                if candidate in wordSet:
+                    neighbors.append(candidate)
+                    wordSet.remove(candidate)
+        
+        return neighbors
