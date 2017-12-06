@@ -21,6 +21,9 @@ You may assume beginWord and endWord are non-empty and are not the same.
 UPDATE (2017/1/20):
 The wordList parameter had been changed to a list of strings (instead of a set of strings). Please reload the code definition to get the latest changes.
 """
+
+# Use BFS to find the shortest path. To avoid revisiting the same string, the string will be removed from wordList once visited
+# Use iterating a-z to get all neighbor strings and check if they are in wordList
 class Solution(object):
     alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     def ladderLength(self, beginWord, endWord, wordList):
@@ -35,18 +38,28 @@ class Solution(object):
             wordSet.remove(beginWord)
         
         queue = [beginWord]
-        level = 0
+        level = 1
 
-        while not queue:
+        while len(queue) > 0:
+            neighbors = []
+            for word in queue:
+                if word == endWord:
+                    return level
+                else:
+                    self._findNeighbors(word, neighbors, wordSet)
             
+            level += 1
+            queue = neighbors
 
-    def _findNeighbors(self, word, wordSet):
+        # transformation not found
+        return 0
+
+    def _findNeighbors(self, word, neighbors, wordSet):
         """
         :type word: str
+        :type neighbors: list
         :type wordSet: set
-        :rtype: list
-        """
-        neighbors = []        
+        """      
         for i in range(len(word)):
             array = list(word)
             for letter in self.alphabet:
@@ -55,5 +68,9 @@ class Solution(object):
                 if candidate in wordSet:
                     neighbors.append(candidate)
                     wordSet.remove(candidate)
-        
-        return neighbors
+
+obj = Solution()
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log","cog"]
+print(obj.ladderLength(beginWord,endWord, wordList))
