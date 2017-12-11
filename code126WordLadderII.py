@@ -23,10 +23,12 @@ You may assume beginWord and endWord are non-empty and are not the same.
 UPDATE (2017/1/20):
 The wordList parameter had been changed to a list of strings (instead of a set of strings). Please reload the code definition to get the latest changes.
 """
+# shortest parth problem of a graph
 class Solution(object):
-    link = {}   # link adjacent words
-    res = []
-    alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    def __init__(self):
+        self.link = {}   # current node: parent node
+        self.res = []
+        self.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     def findLadders(self, beginWord, endWord, wordList):
         """
         :type beginWord: str
@@ -34,51 +36,52 @@ class Solution(object):
         :type wordList: List[str]
         :rtype: List[List[str]]
         """
-        # convert the word list to a set
-        wordSet = set(wordList)
-        wordSet.add(beginWord)
-        wordSet.add(endWord)
-
         # initially set all graphic nodes' steps to MAX_INT
         MAX_INT = 2**31 - 1
         minSteps = MAX_INT
 
-        queue = [beginWord]
         ladder = {} # cache each node's steps
 
         # initialize all nodes' steps to MAX_INT except the begin word
-        for word in wordSet:
+        for word in wordList:
             ladder[word] = MAX_INT
         ladder[beginWord] = 0
 
+        queue = [beginWord]
         while len(queue) > 0:
-            word = queue.pop()
-            steps = ladder[word] + 1
+            new_queue = []      # queue for next level
+            for word in queue:  # iterate all words in current level queue           
+                steps = ladder[word] + 1    # steps of strings which are next level neighbors of word
 
-            if steps > minSteps:    # what's this?
-                break
-            
-            for i in range(len(word)):
-                array = list(word)
-                for letter in self.alphabet:
-                    array[i] = letter
-                    new_word = ''.join(array)   # generate the new word
-                    if new_word in ladder:
-                        if steps > ladder[new_word]:
-                            continue
-                        elif steps < ladder[new_word]:
-                            queue.append(new_word)
-                            ladder[new_word] = steps
-                        
-                        if new_word in self.link:
-                            self.link[new_word].append(word)
-                        else:
-                            new_list = [word]
-                            self.link[new_word] = new_list
-                        
-                        if new_word == endWord:
-                            minSteps = steps
+                if steps > minSteps:    # exit BFS if the endWord has already been found, in this case, do not loop to next level 
+                    break
+                
+                for i in range(len(word)):
+                    array = list(word)
+                    for letter in self.alphabet:
+                        array[i] = letter
+                        new_word = ''.join(array)   # generate the new word by replacing one letter of the word each time
+                        if new_word in ladder:
+                            if steps > ladder[new_word]:
+                                continue
+                            elif steps < ladder[new_word]:
+                                new_queue.append(new_word)  # always use the shortest path new_word
+                                ladder[new_word] = steps    # always use the least steps
+                            
+                            # link child node with parent node by using a map
+                            if new_word in self.link:
+                                self.link[new_word].append(word)
+                            else:
+                                new_list = [word]
+                                self.link[new_word] = new_list
+                            
+                            # this is the result in word ladder I
+                            if new_word == endWord:
+                                minSteps = steps
+            # update queue to next level queue
+            queue = new_queue
 
+        # build list by back tracking self.link
         build = []
         self.backTrace(endWord, beginWord, build)
 
@@ -98,7 +101,7 @@ class Solution(object):
         build.remove(word)
 
 obj = Solution()
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot","dot","dog","lot","log","cog"]
+beginWord = "rat"
+endWord = "pen"
+wordList = ["rat","pen","pan","pet","pat","ran"]
 print(obj.findLadders(beginWord,endWord, wordList))
