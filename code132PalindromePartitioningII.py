@@ -12,6 +12,13 @@ class Solution:
         :type s: str
         :rtype: int
         """
+        
+    # DP + BFS, got TLE
+    def minCut2(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
         n = len(s)
         if n < 2:
             return 0
@@ -43,4 +50,4 @@ class Solution:
 
 obj = Solution()
 test_case = 'aaaac'
-print(obj.minCut(test_case))
+print(obj.minCut2(test_case))
