@@ -5,7 +5,7 @@ Clone an undirected graph. Each node in the graph contains a label and a list of
 OJ's undirected graph serialization:
 Nodes are labeled uniquely.
 
-We use # as a separator for each node, and , as a separator for node label and each neighbor of the node.
+We use '#' as a separator for each node, and ',' as a separator for node label and each neighbor of the node.
 As an example, consider the serialized graph {0,1,2#1,2#2,2}.
 
 The graph has a total of three nodes, and therefore contains three parts as separated by #.
