@@ -9,6 +9,8 @@ Note:
 The solution is guaranteed to be unique.
 
 """
+# be sure to ask the case when len(gas) == 1
+# similar to problem 53, maximum subarray
 class Solution(object):
     def canCompleteCircuit(self, gas, cost):
         """
@@ -16,4 +18,48 @@ class Solution(object):
         :type cost: List[int]
         :rtype: int
         """
+        n = len(gas)
+        if n < 1:
+            return -1
+
+        start, leftGas, sum = 0, 0, 0
+        for i in range(n):
+            leftGas += gas[i] - cost[i]
+            sum += gas[i] - cost[i]
+            if sum < 0:
+                sum = 0
+                start = i + 1
         
+        return -1 if leftGas < 0 else start
+
+
+    # accepted, but seems not optimized
+    def canCompleteCircuit2(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        n = len(gas)
+        if n < 1:
+            return -1
+
+        i, remain = 0, 0
+
+        for j in range(1, 2*n):
+            remain += gas[(j - 1)%n] - cost[(j - 1)%n]
+            if remain < 0:
+                if j >= n:
+                    return -1
+                else:
+                    i = j
+                    remain = 0
+            elif j%n == i:
+                    return i
+        
+        return -1
+
+obj = Solution()
+gas = [4]
+cost = [5]
+print(obj.canCompleteCircuit(gas, cost))
