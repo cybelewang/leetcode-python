@@ -12,6 +12,10 @@ The solution is guaranteed to be unique.
 # be sure to ask the case when len(gas) == 1
 # similar to problem 53, maximum subarray
 class Solution(object):
+    # best solution
+    # delta = gas - cost
+    # if cannot circulate once for any start, the sum of the delta array must < 0, in this case, return -1
+    # otherwise, there must be a start to complete the circuit, the last start with subarray's sum >=0 will meet this requirement
     def canCompleteCircuit(self, gas, cost):
         """
         :type gas: List[int]
@@ -33,7 +37,7 @@ class Solution(object):
         return -1 if leftGas < 0 else start
 
 
-    # accepted, but seems not optimized
+    # accepted, but seems not optimized because j iterates 2*n
     def canCompleteCircuit2(self, gas, cost):
         """
         :type gas: List[int]
@@ -46,7 +50,7 @@ class Solution(object):
 
         i, remain = 0, 0
 
-        for j in range(1, 2*n):
+        for j in range(1, 2*n): # think about another array following the original array, so we can go through a loop for start in any value from 0 to n-1
             remain += gas[(j - 1)%n] - cost[(j - 1)%n]
             if remain < 0:
                 if j >= n:
