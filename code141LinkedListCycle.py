@@ -1,3 +1,4 @@
+from ListNode import *
 """
 Given a linked list, determine if it has a cycle in it.
 
@@ -16,4 +17,25 @@ class Solution(object):
         :type head: ListNode
         :rtype: bool
         """
-        
+        # a corner case is head->None, both slow and fast will stop after 1 travel
+        if head is None or head.next is None:
+            return False
+
+        slow, fast = head, head # fast iterator is 2x speed of slow iterator
+        while fast is not None:
+            # slow iterates 1 node
+            slow = slow.next
+            # fast iterates 2 nodes, or hit the end
+            fast = fast.next
+            if fast is not None:
+                fast = fast.next
+            # check if slow and fast points to the same node
+            if slow == fast:    # be careful of None == None, when "head -> None"
+                return True
+
+        return False
+
+obj = Solution()
+l1 = ListNode(0)
+l1.fromList([1])
+print(obj.hasCycle(l1))

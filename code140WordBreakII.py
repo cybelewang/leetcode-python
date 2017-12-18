@@ -20,4 +20,31 @@ class Solution:
         :type wordDict: List[str]
         :rtype: List[str]
         """
+        n = len(s)
+        if n < 1:
+            return []
+
+        wordSet = set(wordDict)
+                
+        res = []
+        self._dfs(s, wordSet, 0, [], res)
+
+        return res
+
+    def _dfs(self, s, wordSet, i, build, res):
+        n = len(s)
+        if i == n:
+            res.append(' '.join(build))
+            return
         
+        for j in range(i+1, n+1):# bug fixed: should be n + 1, not n
+            if s[i:j] in wordSet:
+                build.append(s[i:j])
+                self._dfs(s, wordSet, j, build, res)
+                build.pop()
+        
+    
+obj = Solution()
+s = "catsanddog"
+d = ["cat", "cats", "and", "sand", "dog"]
+print(obj.wordBreak(s, d))
