@@ -9,6 +9,10 @@ What is the minimum candies you must give?
 
 """
 # ask what about the rule of equal rating?
+# equal rating doesn't need to have the same candies
+# two pointers - left to right scan and increase candy by one if right > left
+# then right to left scan and increase candy by one if left > right
+# then take the max 
 class Solution:
     def candy(self, ratings):
         """
@@ -25,23 +29,22 @@ class Solution:
             # left to right
             if ratings[i] > ratings[i-1]:
                 candies[i] = max(candies[i], candies[i-1] + 1)
-            elif ratings[i] == ratings[i-1]:
-                candies[i] = max(candies[i], candies[i-1])
+            # elif ratings[i] == ratings[i-1]:
+            #     candies[i] = max(candies[i], candies[i-1])
             # right to left
             j = n - 1 -i
             if ratings[j] > ratings[j+1]:
                 candies[j] = max(candies[j], candies[j+1] + 1)
-            elif ratings[j] == ratings[j+1]:
-                candies[j] = max(candies[j], candies[j+1])
+            # elif ratings[j] == ratings[j+1]:
+            #     candies[j] = max(candies[j], candies[j+1])
         
         #return reduce((lambda x, y: x+y), candies)
         res = 0
         for num in candies:
             res += num
 
-        return candies
-        #return res
+        return res
 
 obj = Solution()
-test_case = [2, 2, 2, 1, 1, 1, 3, 3, 3]
+test_case = [1, 2, 2]
 print(obj.candy(test_case))
