@@ -1,3 +1,4 @@
+from ListNode import *
 """
 Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
 
@@ -18,4 +19,31 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
+        if not head:
+            return None
+
+        slow, fast = head, head
+        while fast is not None: # bug fixed: should not be "while fast is not None and fast != slow" because fast == slow initally
+            fast = fast.next
+            if fast is not None:
+                fast = fast.next
+
+            slow = slow.next
+
+            if fast == slow:
+                break
         
+        if fast is None:
+            return None
+        
+        fast = head
+        while slow != fast:
+            slow = slow.next
+            fast = fast.next
+
+        return slow
+
+obj = Solution()
+l1 = ListNode(0)
+l1.fromList([1])
+obj.detectCycle(l1)

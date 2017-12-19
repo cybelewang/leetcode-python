@@ -13,8 +13,27 @@ UPDATE (2017/1/4):
 The wordDict parameter had been changed to a list of strings (instead of a set of strings). Please reload the code definition to get the latest changes.
 
 """
+
 class Solution:
-    def wordBreak(self, s, wordDict):
+    # accepted
+    def wordBreak(self, s, wd):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: List[str]
+        """
+        memo = {len(s): ['']}
+        # sentences(i) returns a list of all sentences that can be built from the suffix s[i:].
+        def sentences(i):
+            if i not in memo:
+                memo[i] = [s[i:j] + (tail and ' ' + tail)
+                           for j in range(i+1, len(s)+1)
+                           if s[i:j] in wordDict
+                           for tail in sentences(j)]
+            return memo[i]
+        return sentences(0)
+    # use DFS directly will cause TLE
+    def wordBreak2(self, s, wordDict):
         """
         :type s: str
         :type wordDict: List[str]
