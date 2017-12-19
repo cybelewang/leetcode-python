@@ -33,7 +33,7 @@ class Solution(object):
             if fast == slow:
                 break
         
-        if fast is None:
+        if fast is None:    # No loop
             return None
         
         fast = head
