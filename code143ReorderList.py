@@ -16,6 +16,34 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
 #         self.next = None
 
 class Solution(object):
+
+# OJ best solution
+    def reorderList(self, head):
+        if not head: return
+        # ensure the first part has the same or one more node
+        fast, slow = head, head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        # reverse the second half
+        cur, pre = slow.next, None
+        slow.next = None
+        while cur:
+            next = cur.next
+            cur.next = pre
+            pre = cur
+            cur = next
+        # combine head part and node part
+        p = head
+        while pre:
+            tmp = pre.next
+            pre.next = p.next
+            p.next = pre
+            p = p.next.next
+            pre = tmp
+
+
+# second trial, use existing functions
     # reverse the right half part
     def reverse(self, head):
         if head is None:
@@ -50,7 +78,7 @@ class Solution(object):
         
         return pre.next
 
-    def reorderList(self, head):
+    def reorderList2(self, head):
         """
         :type head: ListNode
         :rtype: void Do not return anything, modify head in-place instead.
@@ -80,7 +108,8 @@ class Solution(object):
         # merge the left and right half
         self.merge(left, right)
 
-    def reorderList2(self, head):
+# fist trial, awkward
+    def reorderList3(self, head):
         """
         :type head: ListNode
         :rtype: void Do not return anything, modify head in-place instead.
@@ -130,7 +159,7 @@ class Solution(object):
 
 obj = Solution()
 l1 = ListNode(0)
-l1.fromList([0, 1, 2, 3, 4])
+l1.fromList([0, 1, 2, 3])
 PrintLinkedList(l1)
-print(obj.reorderList(l1))
+print(obj.reorderList2(l1))
 PrintLinkedList(l1)
