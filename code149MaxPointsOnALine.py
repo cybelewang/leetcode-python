@@ -7,6 +7,7 @@ Given n points on a 2D plane, find the maximum number of points that lie on the 
 #         self.x = a
 #         self.y = b
 
+# Ask what about many points having the same coordinates?
 class Solution:
     def maxPoints(self, points):
         """
