@@ -23,7 +23,25 @@ Note: Recursive solution is trivial, could you do it iteratively?
 
 # use similar stack method as inorder traversal, but print the left branch nodes before putting them into stack
 class Solution(object):
+    # Best OJ solution
     def preorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        result = []
+        if not root:
+            return result
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node is not None:
+                result.append(node.val)
+                stack.append(node.right)
+                stack.append(node.left)
+        return result
+    # Accepted, 31% 
+    def preorderTraversal2(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
