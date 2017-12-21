@@ -32,8 +32,8 @@ class Solution:
         #self._inorder(root, res)
         #build = [root]
         #self._nonrecursive1(build, res)
-        #res = self._nonrecursive2(root)
-        res = self._morris(root)
+        res = self._nonrecursive2(root)
+        #res = self._morris(root)
 
         return res
     
@@ -109,14 +109,12 @@ class Solution:
         if not node:
             return
         else:
-            if node.left is not None:
-                self._inorder(node.left, res)
+            self._inorder(node.left, res)
             res.append(node.val)
-            if node.right is not None:
-                self._inorder(node.right, res)
+            self._inorder(node.right, res)
 
 null = None
-test_case =  [1,2,3, 4, 5]
+test_case =  [1,2,3,4,5]
 root = ListToTree(test_case)
 obj = Solution()
 res = obj.inorderTraversal(root)

@@ -66,6 +66,15 @@ class Solution(object):
                     node = node.left
 
         return res
+    
+    # recursive solution
+    def _recursive(self, root, res):
+        if root is None:
+            return
+        else:
+            res.append(root.val)
+            self._recursive(root.left, res)
+            self._recursive(root.right, res)
 
 null = None
 test_case =  [1,null,2,3]
