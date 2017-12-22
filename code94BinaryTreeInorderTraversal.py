@@ -21,7 +21,28 @@ Note: Recursive solution is trivial, could you do it iteratively?
 #         self.right = None
 
 class Solution:
+    # OJ best non-recursive solution
     def inorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+
+        ret = []
+        stack = []
+        
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            
+            node = stack.pop()
+            ret.append(node.val)
+            root = node.right
+        
+        return ret
+
+    def inorderTraversal2(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
@@ -102,7 +123,6 @@ class Solution:
                     node = node.left
             
         return res
-
         
     # recursive solution
     def _inorder(self, node, res):

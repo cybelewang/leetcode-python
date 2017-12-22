@@ -153,7 +153,7 @@ class LRUCache(object):
             # create a new node and put into cache    
             node = ListNode((key, value))
             self.cache[key] = node
-            self.list.appendHead(node)    
+            self.list.appendHead(node)
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
@@ -174,3 +174,13 @@ print(cache.get(4))       # returns 4
 cache.put(3,5)            # update value
 print(cache.get(4))       # returns 4
 print(cache.get(3))       # returns 5
+
+"""
+Input:
+["LRUCache","put","put","put","put","get","get","get","get","put","get","get","get","get","get"]
+[[3],[1,1],[2,2],[3,3],[4,4],[4],[3],[2],[1],[5,5],[1],[2],[3],[4],[5]]
+Output:
+[null,null,null,null,null,4,3,2,-1,null,-1,2,-1,4,5]
+Expected:
+[null,null,null,null,null,4,3,2,-1,null,-1,2,3,-1,5]
+"""
