@@ -18,10 +18,17 @@ Yes. However, your reversed string should not contain leading or trailing spaces
 How about multiple spaces between two words?
 Reduce them to a single space in the reversed string.
 """
+
+# be sure to be familiar with str.split() method: without arguments, using whitespace as separator and remove any empty results
 class Solution(object):
     def reverseWords(self, s):
         """
         :type s: str
         :rtype: str
         """
-        
+        return ' '.join(reversed(s.split()))
+
+obj = Solution()
+test_cases = ['', "the sky is blue", " ", "   ", " I  am big   "]
+for case in test_cases:
+    print(obj.reverseWords(case))

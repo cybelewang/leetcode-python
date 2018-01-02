@@ -14,4 +14,21 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        if not nums:
+            return -1
+
+        i, j = 0, len(nums)-1
+        while i < j and nums[i] > nums[j]:
+            m = (i + j)//2
+            if nums[i] > nums[m]:
+                i += 1
+                j = m
+            else:
+                j -= 1
+                i = m
         
+        return nums[i]
+
+test_case = [ 7, 1 ]
+obj = Solution()
+print(obj.findMin(test_case))
