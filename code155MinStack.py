@@ -1,3 +1,4 @@
+from collections import deque
 """
 Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 
@@ -15,13 +16,15 @@ minStack.pop();
 minStack.top();      --> Returns 0.
 minStack.getMin();   --> Returns -2.
 """
+
+# Solution 1: use two stacks, the extra stack saves the corresponding min element. Time O(1), Space O(n)
+# Solution 2: use minEle to save the current minimum, if the new element x < minEle, push (2*x - minEle) and update minEle to x
 class MinStack:
     
     def __init__(self):
         """
         initialize your data structure here.
         """
-        
 
     def push(self, x):
         """
@@ -40,13 +43,11 @@ class MinStack:
         """
         :rtype: int
         """
-        
 
     def getMin(self):
         """
         :rtype: int
         """
-        
 
 
 # Your MinStack object will be instantiated and called as such:

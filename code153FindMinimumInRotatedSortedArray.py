@@ -14,28 +14,22 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        if len(nums) == 1:
-            return nums[0]
-
         i, j = 0, len(nums)-1
         while i <= j:
-            m = (i + j)//2
-            if m == 0:
-                if nums[m] < nums[m+1]:
-                    return nums[m]
-                else:
-                    i = m + 1
-            elif m == len(nums) - 1:
-                if nums[m] < nums[m-1]:
-                    return nums[m]
-                else:
-                    j = m - 1
+            m, n = (i + j)//2, j - i + 1
+            if n == 1:
+                return nums[i]
             else:
-                if nums[m] < nums[m+1] and nums[m] < nums[m-1]:
-                    return nums[m]
-                  
-                
+                if nums[i] <= nums[m] < nums[j]:
+                    return nums[i]
+                elif nums[i] > nums[j]:
+                    if nums[m] < nums[j]:
+                        j = m
+                    elif nums[m] >= nums[i]:
+                        i = m + 1
+        
+        return -1
 
-test_case = [ 7, 1 ]
+test_case = [ 3, 4, 0, 1, 2]
 obj = Solution()
 print(obj.findMin(test_case))
