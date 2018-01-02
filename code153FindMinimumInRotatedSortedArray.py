@@ -14,20 +14,27 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        if not nums:
-            return -1
+        if len(nums) == 1:
+            return nums[0]
 
         i, j = 0, len(nums)-1
-        while i < j and nums[i] > nums[j]:
+        while i <= j:
             m = (i + j)//2
-            if nums[i] > nums[m]:
-                i += 1
-                j = m
+            if m == 0:
+                if nums[m] < nums[m+1]:
+                    return nums[m]
+                else:
+                    i = m + 1
+            elif m == len(nums) - 1:
+                if nums[m] < nums[m-1]:
+                    return nums[m]
+                else:
+                    j = m - 1
             else:
-                j -= 1
-                i = m
-        
-        return nums[i]
+                if nums[m] < nums[m+1] and nums[m] < nums[m-1]:
+                    return nums[m]
+                  
+                
 
 test_case = [ 7, 1 ]
 obj = Solution()
