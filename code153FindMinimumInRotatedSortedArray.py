@@ -9,7 +9,22 @@ You may assume no duplicate exists in the array.
 
 """
 class Solution(object):
+    # OJ solution
     def findMin(self, nums):
+        l = 0
+        h = len(nums)-1
+        while l<h:
+            mid = int((l+h)//2)
+            if nums[mid] > nums[h]:
+                l = mid+1
+            elif nums[mid] < nums[h]:
+                h = mid
+            else:
+                h -= 1
+        return nums[l]
+    
+    # O(log(n)) solution
+    def findMin2(self, nums):
         """
         :type nums: List[int]
         :rtype: int
