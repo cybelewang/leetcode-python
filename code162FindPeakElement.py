@@ -17,4 +17,16 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        
+        nums.append(-2**31)
+        for (i, num) in enumerate(nums[:-1]):
+            if num > nums[i-1] and num > nums[i+1]:
+                return i
+        # nums.pop()    # restore nums
+
+        return -1
+
+obj = Solution()
+test_cases = [[], [1], [1, 2], [1, 2, 3, 1]]
+for case in test_cases:
+    print(case, end=' -> ')
+    print(obj.findPeakElement(case))

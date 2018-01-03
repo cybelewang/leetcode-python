@@ -24,11 +24,40 @@ Your code should preferably run in O(n) time and use only O(1) memory.
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution(object):
     def getIntersectionNode(self, headA, headB):
         """
         :type head1, head1: ListNode
         :rtype: ListNode
         """
+        if headA is None or headB is None:
+            return None
+
+        # get A, B length
+        a, b = headA, headB
+        cntA, cntB = 1, 1
+        while a.next:
+            cntA += 1
+            a = a.next
         
+        while b.next:
+            cntB += 1
+            b = b.next
+        
+        # make A's length < B's length
+        if cntA > cntB:
+            cntA, cntB = cntB, cntA
+            headA, headB = headB, headA
+        
+        # align the two pointers
+        a, b = headA, headB
+        for i in range(cntB - cntA):
+            b = b.next
+        
+        # now start moving both pointers
+        while a and b and a!=b:
+            a = a.next
+            b = b.next
+        
+        return a
