@@ -10,6 +10,8 @@ Here is an example of version numbers ordering:
 
 0.1 < 1.1 < 1.2 < 13.37
 """
+
+# What about '1.', '..'?
 class Solution:
     def compareVersion(self, version1, version2):
         """
@@ -17,4 +19,24 @@ class Solution:
         :type version2: str
         :rtype: int
         """
+        nums1 = version1.split('.')
+        nums2 = version2.split('.')
+
+        n1, n2 = len(nums1), len(nums2)
+        for i in range(min(n1, n2)):
+            if int(nums1[i]) > int(nums2[i]):
+                return 1
+            elif int(nums1[i]) < int(nums2[i]):
+                return -1
         
+        if n1 > n2:
+            return 1
+        elif n1 < n2:
+            return -1
+        else:
+            return 0
+
+test_cases = [('0','1'), ('0.0', '1.0'), ('0.1','0.1'), ('0.0.9', '0.1'), ('1.5.91', '1.4.100')]
+obj = Solution()
+for case in test_cases:
+    print(obj.compareVersion(case[0], case[1]))

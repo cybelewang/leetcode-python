@@ -16,4 +16,19 @@ class Solution:
         :type target: int
         :rtype: List[int]
         """
+        n = len(numbers)
+        i, j = 0, n-1
+        while i < j:
+            sum = numbers[i] + numbers[j]
+            if target == sum:
+                break
+            elif target > sum:
+                i += 1
+            else:
+                j -= 1
         
+        return [i+1, j+1]
+
+test_case = [2, 7, 11, 15]
+obj = Solution()
+print(obj.twoSum(test_case, 9))

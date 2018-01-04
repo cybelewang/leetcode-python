@@ -12,7 +12,7 @@ For example, in array [1, 2, 3, 1], 3 is a peak element and your function should
 click to show spoilers.
 """
 class Solution:
-    # OJ best solution, single side comparison
+    # OJ best solution, single side comparison, good for find the 1st peak
     def findPeakElement(self, nums):
         peak = nums[0]
 #        l = len(nums)
@@ -25,8 +25,22 @@ class Solution:
                 peak = nums[i]
         return i
     
+    # my improved solution, good for find all peaks
+    def findPeakElement2(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        ascend = True
+        for i in range(len(nums)-1):            
+            if ascend and nums[i] > nums[i+1]:
+                return i
+            ascend = nums[i] < nums[i+1]
+
+        return len(nums) - 1 if ascend else -1 
+
     # two sides comparison
-    def findPeakElement(self, nums):
+    def findPeakElement3(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -43,4 +57,4 @@ obj = Solution()
 test_cases = [[], [1], [1, 2], [1, 2, 3, 1]]
 for case in test_cases:
     print(case, end=' -> ')
-    print(obj.findPeakElement(case))
+    print(obj.findPeakElement2(case))

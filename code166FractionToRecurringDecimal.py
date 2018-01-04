@@ -16,4 +16,8 @@ class Solution:
         :type denominator: int
         :rtype: str
         """
+        # corner case : denominator is 0
+        if denominator == 0:
+            raise ValueError
         
+        # if signs are different
