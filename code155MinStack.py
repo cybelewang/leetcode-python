@@ -45,16 +45,18 @@ class MinStack:
         """
         :rtype: void
         """
-        if not self.stack:
+        if len(self.stack) > 0:
             x = self.stack.pop()
-            self.minEle = min(self.minEle, x)
+            if x < self.minEle:
+                self.minEle = 2*self.minEle - x # bug fixed
 
     def top(self):
         """
         :rtype: int
         """
-        if not self.stack:
-            return self.stack[-1]
+        if len(self.stack) > 0:
+            x = self.stack[-1]
+            return max(x, self.minEle)  # bug fixed
 
     def getMin(self):
         """
@@ -109,7 +111,7 @@ class MinStack2:
             return None
 
 
-minStack = MinStack2()
+minStack = MinStack()
 minStack.push(-2)
 minStack.push(0)
 minStack.push(-3)

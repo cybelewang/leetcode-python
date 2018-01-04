@@ -12,14 +12,28 @@ For example, in array [1, 2, 3, 1], 3 is a peak element and your function should
 click to show spoilers.
 """
 class Solution:
+    # OJ best solution, single side comparison
+    def findPeakElement(self, nums):
+        peak = nums[0]
+#        l = len(nums)
+#        if l <= 1:
+#            return 0
+        for i in range(len(nums)):
+            if nums[i] < peak:
+                return i - 1
+            elif nums[i] >= peak:
+                peak = nums[i]
+        return i
+    
+    # two sides comparison
     def findPeakElement(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        nums.append(-2**31)
-        for (i, num) in enumerate(nums[:-1]):
-            if num > nums[i-1] and num > nums[i+1]:
+        nums.append(-2**31-1)
+        for i in range(len(nums)-1):
+            if nums[i] > nums[i-1] and nums[i] > nums[i+1]:
                 return i
         # nums.pop()    # restore nums
 

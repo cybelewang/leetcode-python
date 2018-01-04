@@ -26,6 +26,21 @@ Your code should preferably run in O(n) time and use only O(1) memory.
 #         self.next = None
 from ListNode import *
 class Solution(object):
+
+    # OJ best solution
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        pointer_a, pointer_b = headA, headB
+        
+        while pointer_a is not pointer_b:
+            pointer_a = headB if pointer_a is None else pointer_a.next
+            pointer_b = headA if pointer_b is None else pointer_b.next
+        return pointer_a
+
+    # my solution: get length difference, then align pointers
     def getIntersectionNode(self, headA, headB):
         """
         :type head1, head1: ListNode
