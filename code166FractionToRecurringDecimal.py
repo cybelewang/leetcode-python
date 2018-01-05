@@ -20,4 +20,21 @@ class Solution:
         if denominator == 0:
             raise ValueError
         
-        # if signs are different
+        # Handle different signs
+        sign = 1
+        if numerator < 0:
+            sign *= -1
+            numerator *= -1
+        
+        if denominator < 0:
+            sign *= -1
+            denominator *= -1
+
+        # Get integer result
+        int_res = sign * (numerator//denominator)
+
+        remain = numerator % denominator
+        if remain == 0:
+            return str(int_res)
+
+        while remain > 0 

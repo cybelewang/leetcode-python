@@ -12,21 +12,31 @@ Here is an example of version numbers ordering:
 """
 
 # What about '1.', '..'?
+# pitfalls: '1' and '1.0', '01' and '1', '1.0.0.0' and '1.000.00'
 class Solution:
+    # 
     def compareVersion(self, version1, version2):
         """
         :type version1: str
         :type version2: str
         :rtype: int
         """
-        nums1 = version1.split('.')
-        nums2 = version2.split('.')
+        nums1 = list(map(int, version1.split('.')))
+        nums2 = list(map(int, version2.split('.')))
+
+        while nums1 and nums1[-1] == 0:
+            nums1.pop()
+        nums1.append(0)
+
+        while nums2 and nums2[-1] == 0:
+            nums2.pop()
+        nums2.append(0)
 
         n1, n2 = len(nums1), len(nums2)
         for i in range(min(n1, n2)):
-            if int(nums1[i]) > int(nums2[i]):
+            if nums1[i] > nums2[i]:
                 return 1
-            elif int(nums1[i]) < int(nums2[i]):
+            elif nums1[i] < nums2[i]:
                 return -1
         
         if n1 > n2:
@@ -36,7 +46,7 @@ class Solution:
         else:
             return 0
 
-test_cases = [('0','1'), ('0.0', '1.0'), ('0.1','0.1'), ('0.0.9', '0.1'), ('1.5.91', '1.4.100')]
+test_cases = [('0','1'), ('1.0', '1'), ('0.0', '1.0'), ('0.1','0.1'), ('0.0.9', '0.1'), ('1.5.91', '1.4.100')]
 obj = Solution()
 for case in test_cases:
     print(obj.compareVersion(case[0], case[1]))
