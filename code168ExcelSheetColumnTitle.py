@@ -28,6 +28,6 @@ class Solution:
         return ''.join(letters)
 
 obj = Solution()
-for n in [1, 26, 27, 52, 53, 676, 677, 702, 703]:
+for n in [1, 26, 27, 52, 53, 676, 677, 702, 703, 18278, 18279]:
     print(n, end=' -> ')
     print(obj.convertToTitle(n))

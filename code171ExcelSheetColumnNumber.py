@@ -19,4 +19,15 @@ class Solution:
         :type s: str
         :rtype: int
         """
+        res = 0
+        for c in s:
+            res = res * 26 + (ord(c) - ord('A') + 1)
         
+        return res
+
+obj = Solution()
+
+test_cases = ['', 'A', 'Z', 'AA', 'AZ', 'YZ', 'ZA', 'ZZ', 'AAA', 'ZZZ']
+for case in test_cases:
+    print(case, end=' -> ')
+    print(obj.titleToNumber(case))
