@@ -27,4 +27,37 @@ class Solution:
         :type dungeon: List[List[int]]
         :rtype: int
         """
+        def getRemainHP(prevRemain, prevMinHP, curHP):
+            if prevRemain + curHP > 0:
+                return (prevRemain + curHP, prevMinHP)
+            else:
+                return (1, 1 - prevRemain - curHP + prevMinHP)
+
+
+        M, N = len(dungeon), len(dungeon[0])
+        minHP = [[0 for j in range(N)] for i in range(M)]
+        dungeon[0][0], minHP[0][0] = getRemainHP(0, 0, dungeon[0][0])
+
+        for i in range(1, M):
+            dungeon[i][0], minHP[i][0] = getRemainHP(dungeon[i-1][0], minHP[i-1][0], dungeon[i][0])
         
+        for j in range(1, N):
+            dungeon[0][j], minHP[0][j] = getRemainHP(dungeon[0][j-1], minHP[0][j-1], dungeon[0][j])
+
+        for i in range(1, M):
+            for j in range(1, N):
+                topRemHP, topMinHP = getRemainHP(dungeon[i-1][j], minHP[i-1][j], dungeon[i][j])
+                leftRemHP, leftMinHP = getRemainHP(dungeon[i][j-1], minHP[i][j-1], dungeon[i][j])
+                if topMinHP < leftMinHP:
+                    dungeon[i][j], minHP[i][j] = topRemHP, topMinHP
+                elif topMinHP > leftMinHP:
+                    dungeon[i][j], minHP[i][j] = leftRemHP, leftMinHP
+                else:
+                    dungeon[i][j] = max(topRemHP, leftRemHP)
+                    minHP[i][j] = leftMinHP
+        
+        return minHP[M-1][N-1]
+
+obj = Solution()
+test_case = [[-1], [100]]
+print(obj.calculateMinimumHP(test_case))

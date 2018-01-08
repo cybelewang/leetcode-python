@@ -36,6 +36,6 @@ class Solution:
         return res
 
 obj = Solution()
-test_cases = [0, 5, 10, 100, 1000, 10000, 100000]
+test_cases = [0, 5, 10, 100, 1000, 10000, 100000, 2**31-1]
 for case in test_cases:
     print(obj.trailingZeroes(case))   
