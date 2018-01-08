@@ -17,7 +17,8 @@ class Solution:
         """
         if len(nums) < 2:
             return 0
-        
+        res = 0
+       
         # get min and max values
         minVal, maxVal = nums[0], nums[0]
         for num in nums:
@@ -43,13 +44,12 @@ class Solution:
             if num != minVal and num != maxVal:
                 i = (num - minVal)//binsize # calculate the index of corresponding bucket
                 if buckets[i] is None:
-                    buckets[i] = (num, num) # put new tuple into bucket
+                    buckets[i] = [num, num] # put new tuple into bucket
                 else:
                     buckets[i][0] = min(buckets[i][0], num) # update min in bucket
                     buckets[i][1] = max(buckets[i][1], num) # update max in bucket
         
-        res = 0
-        # scan buckets and get the max gap
+        # scan buckets to get the max gap
         for bucket in buckets:
             if bucket is not None:
                 res = max(res, bucket[0] - minVal)

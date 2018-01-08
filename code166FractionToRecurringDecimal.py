@@ -9,6 +9,8 @@ Given numerator = 1, denominator = 2, return "0.5".
 Given numerator = 2, denominator = 1, return "2".
 Given numerator = 2, denominator = 3, return "0.(6)".
 """
+
+# bug fixed: the repeating may not begin from the digit just after '.', for example, 1/6=0.1(6)
 class Solution:
     def fractionToDecimal(self, numerator, denominator):
         """
@@ -48,19 +50,20 @@ class Solution:
             res += '.'
 
         div_list = []
-        history = set()
+        history = {}    # We should use dict to map remain to the index of the div
         while remain > 0:
             if remain in history:
-                return res + '(' + ''.join(map(str, div_list)) + ')'
+                idx = history[remain]
+                return res + ''.join(map(str, div_list[:idx])) + '(' + ''.join(map(str, div_list[idx:])) + ')'
             else:
-                history.add(remain)
+                history[remain] = len(div_list)
                 remain *= 10
-                div_list.append(remain//denominator)
+                div_list.append(remain//denominator)                
                 remain %= denominator
 
         return res + ''.join(map(str, div_list))
 
-test_cases = [(0, 1), (50, 13), (1, 3), (1, 2), (2, -3), (-1, 2), (1, -3), (0, -2)]
+test_cases = [(0, 1), (50, 13), (1, 3), (1, 2), (1, 6), (2, -3), (-1, 2), (1, -3), (0, -2)]
 obj = Solution()
 for case in test_cases:
     print(obj.fractionToDecimal(case[0], case[1]))
