@@ -27,6 +27,28 @@ class Solution:
         :type dungeon: List[List[int]]
         :rtype: int
         """
+        M, N = len(dungeon), len(dungeon[0])
+        dungeon[M-1][N-1] = 1 - dungeon[M-1][N-1] if dungeon[M-1][N-1] < 1 else 1
+
+        for i in range(M-2, -1, -1):
+            dungeon[i][N-1] = dungeon[i+1][N-1] - dungeon[i][N-1] if dungeon[i+1][N-1] > dungeon[i][N-1] else 1
+        
+        for j in range(N-2, -1, -1):
+            dungeon[M-1][j] = dungeon[M-1][j+1] - dungeon[M-1][j] if dungeon[M-1][j+1] > dungeon[M-1][j] else 1
+        
+        for i in range(M-2, -1, -1):
+            for j in range(N-2, -1, -1):
+                minHP = min(dungeon[i+1][j], dungeon[i][j+1])
+                dungeon[i][j] = minHP - dungeon[i][j] if minHP > dungeon[i][j] else 1
+
+        return dungeon[0][0]
+    
+    # first try, from top left to right bottom, has bug
+    def calculateMinimumHP2(self, dungeon):
+        """
+        :type dungeon: List[List[int]]
+        :rtype: int
+        """
         def getRemainHP(prevRemain, prevMinHP, curHP):
             if prevRemain + curHP > 0:
                 return (prevRemain + curHP, prevMinHP)
@@ -35,8 +57,8 @@ class Solution:
 
 
         M, N = len(dungeon), len(dungeon[0])
-        minHP = [[0 for j in range(N)] for i in range(M)]
-        dungeon[0][0], minHP[0][0] = getRemainHP(0, 0, dungeon[0][0])
+        minHP = [[1 for j in range(N)] for i in range(M)]   # dp matrix for minimum HP
+        dungeon[0][0], minHP[0][0] = getRemainHP(1, 1, dungeon[0][0])
 
         for i in range(1, M):
             dungeon[i][0], minHP[i][0] = getRemainHP(dungeon[i-1][0], minHP[i-1][0], dungeon[i][0])
@@ -48,9 +70,9 @@ class Solution:
             for j in range(1, N):
                 topRemHP, topMinHP = getRemainHP(dungeon[i-1][j], minHP[i-1][j], dungeon[i][j])
                 leftRemHP, leftMinHP = getRemainHP(dungeon[i][j-1], minHP[i][j-1], dungeon[i][j])
-                if topMinHP < leftMinHP:
+                if topMinHP < leftMinHP:    # wrong here. What about topRemHP > leftRemHP when topMinHP < leftMinHP?
                     dungeon[i][j], minHP[i][j] = topRemHP, topMinHP
-                elif topMinHP > leftMinHP:
+                elif topMinHP > leftMinHP:  # wrong here, what about leftRemHp > topRemHP when topMinHP > leftMinHP?
                     dungeon[i][j], minHP[i][j] = leftRemHP, leftMinHP
                 else:
                     dungeon[i][j] = max(topRemHP, leftRemHP)
@@ -59,5 +81,5 @@ class Solution:
         return minHP[M-1][N-1]
 
 obj = Solution()
-test_case = [[-1], [100]]
+test_case = [[-3, 0, 3]]#[[1, -3, 3], [0, -2, 0], [-3, -3, -3]]
 print(obj.calculateMinimumHP(test_case))
