@@ -16,4 +16,18 @@ class Solution(object):
         :type s: str
         :rtype: List[str]
         """
+        count, res = {}, []
+        for i in range(0, len(s)-9):
+            sub = s[i:i+10]
+            if sub in count:
+                count[sub] += 1
+                if count[sub] == 2:
+                    res.append(sub)
+            else:
+                count[sub] = 1
         
+        return res
+
+test_str = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+obj = Solution()
+print(obj.findRepeatedDnaSequences(test_str))

@@ -22,6 +22,7 @@ The knight's health has no upper bound.
 Any room can contain threats or power-ups, even the first room the knight enters and the bottom-right room where the princess is imprisoned.
 """
 class Solution:
+    # See OneNote for explanation
     def calculateMinimumHP(self, dungeon):
         """
         :type dungeon: List[List[int]]
