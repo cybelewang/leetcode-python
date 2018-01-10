@@ -12,6 +12,8 @@ class Solution:
         :type nums: List[int]
         :rtype: str
         """
+        if not any(nums):   # bug fixed: forgot corner case [0, 0]
+            return '0'
         # convert x and y to list of digits, then compare new list [x:y] and [y:x]
         def compare(x, y):
             a, b =[x%10], [y%10]
@@ -39,6 +41,6 @@ class Solution:
         return ''.join(map(str, sorted(nums, key = cmp_to_key(lambda x, y: compare(x, y)))))
 
 obj = Solution()
-test_cases = [[0], [1], [0, 10, 100, 1000], [19, 199], [39, 3], [33, 3], [32, 3], [31, 311], [3, 30, 34, 5, 9]]
+test_cases = [[0],[0, 0], [1, 0], [1], [0, 10, 100, 1000], [19, 199], [39, 3], [33, 3], [32, 3], [31, 311], [3, 30, 34, 5, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]]
 for case in test_cases:
     print(obj.largestNumber(case))

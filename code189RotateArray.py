@@ -17,4 +17,20 @@ class Solution:
         :type k: int
         :rtype: void Do not return anything, modify nums in-place instead.
         """
+        if not nums or k <= 0:
+            return
+
+        n = len(nums)
+        k = k % n
+
+        remain = nums[n-k:]
+        for i in range(n-k):
+            nums[n-1-i] = nums[n-k-1-i]
         
+        for i in range(k):
+            nums[i] = remain[i]
+
+test_case = [1, 2, 3, 4, 5, 6, 7]
+obj = Solution()
+obj.rotate(test_case, 3)
+print(test_case)
