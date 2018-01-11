@@ -13,4 +13,32 @@ class Solution:
         :type prices: List[int]
         :rtype: int
         """
+        if not prices or k < 1:
+            return 0
+
+        n = len(prices)
+        if k >= n//2:
+            return self.quickSolve(prices)
+
+        t = [[0 for j in range(n)] for i in range(k+1)]
+        for i in range(1, k+1):
+            tempMin = prices[0]
+            for j in range(1, n):
+                t[i][j] = max(t[i][j-1], prices[j] - tempMin)
+                tempMin = min(tempMin, prices[j] - t[i-1][j-1])
+
+        print(t)
+        return t[k][n-1]
+
+    def quickSolve(self, prices):
+        profit = 0
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i-1]:
+                profit += prices[i] - prices[i-1]
         
+        return profit
+
+
+test_price = [7, 1, 5, 3, 6, 4, 9, 1]
+obj = Solution()
+print(obj.maxProfit(3,test_price))
