@@ -17,10 +17,19 @@ You should return [1, 3, 4].
 #         self.left = None
 #         self.right = None
 
+from TreeNode import *
 class Solution:
     def rightSideView(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
         """
+        res = []
+        while root:
+            res.append(root.val)
+            if root.right:
+                root = root.right
+            else:
+                root = root.left
         
+        return res

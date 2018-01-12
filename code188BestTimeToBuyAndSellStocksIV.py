@@ -20,7 +20,7 @@ class Solution:
         if k >= n//2:
             return self.quickSolve(prices)
 
-        t = [[0 for j in range(n)] for i in range(k+1)]
+        t = [[0 for j in range(n)] for i in range(k+1)] # t[i][j] means the max profit up to ith transactions and up to jth day 
         for i in range(1, k+1):
             tempMin = prices[0]
             for j in range(1, n):

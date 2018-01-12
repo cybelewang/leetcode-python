@@ -9,4 +9,15 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
+        res = 0
+        for i in range(32):
+            res += n%2
+            n //= 2
         
+        return res
+
+obj = Solution()
+test_cases = [0, 2**32-1, 11]
+for case in test_cases:
+    print(case, end=' -> ')
+    print(obj.hammingWeight(case))
