@@ -6,7 +6,14 @@ Given a list of non-negative integers representing the amount of money of each h
 # if robbing day i, we cannot rob day i-1, but can rob day i-2, i-3, ... 0 
 # Therefore if we use t[i] represents the max amount on day i, we have t[i] = max(t[i-1], t[i-2] + nums[i])
 class Solution:
+    # OJ best solution
     def rob(self, nums):
+        last = 0
+        now = 0
+        for i in nums:
+            last,now = now,max(now,last+i)
+        return now
+    def rob2(self, nums):
         """
         :type nums: List[int]
         :rtype: int

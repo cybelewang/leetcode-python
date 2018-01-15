@@ -18,8 +18,32 @@ You should return [1, 3, 4].
 #         self.right = None
 
 from TreeNode import *
+
+from collections import deque
 class Solution:
+    # use queue and do BFS
     def rightSideView(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if root is None:
+            return []
+        queue, res = deque(), []
+        queue.append(root)
+        while len(queue) > 0:
+            res.append(queue[-1].val)
+            n = len(queue)            
+            for i in range(n):
+                node = queue.pop()
+                if node.right is not None:
+                    queue.appendleft(node.right)
+                if node.left is not None:
+                    queue.appendleft(node.left)
+        
+        return res
+    # has a bug. Consider a tree with only one right leaf and many left subnodes.
+    def rightSideView2(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
@@ -33,3 +57,7 @@ class Solution:
                 root = root.left
         
         return res
+
+obj = Solution()
+test_case = [1, 2, None, 3, 4]
+print(obj.rightSideView(ListToTree(test_case)))
