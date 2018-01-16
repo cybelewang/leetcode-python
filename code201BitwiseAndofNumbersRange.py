@@ -10,4 +10,16 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
+        if m == n:
+            return m
+
+        d, order = n - m, 0 # order is the position of highest '1' of d
+        while d > 0:
+            d = d >> 1
+            order += 1
         
+        return m & ~((1<<order) - 1) & n
+
+m, n = 5, 7
+obj = Solution()
+print(obj.rangeBitwiseAnd(m, n))
