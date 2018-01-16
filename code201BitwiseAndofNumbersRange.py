@@ -3,6 +3,9 @@ Given a range [m, n] where 0 <= m <= n <= 2147483647, return the bitwise AND of 
 
 For example, given the range [5, 7], you should return 4.
 """
+# The difference (in binary form) between n and m will show how many bits flipped
+# For example, 7 - 5 = 2, in binary form it is 10, which means the right most two bits will flip
+# So we should create a number 1111111111111111111111111111111100 as a mask "AND" with m and n
 class Solution(object):
     def rangeBitwiseAnd(self, m, n):
         """

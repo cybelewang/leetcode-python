@@ -15,6 +15,7 @@ Given "paper", "title", return true.
 Note:
 You may assume both s and t have the same length.
 """
+# use two maps to track mapping because no two characters map to the same character
 class Solution:
     def isIsomorphic(self, s, t):
         """
@@ -22,4 +23,23 @@ class Solution:
         :type t: str
         :rtype: bool
         """
+        if s == '':
+            return True
         
+        s_t, t_s = {}, {}
+        for i in range(len(s)):
+            if t[i] != s[i]:                
+                if t[i] in t_s and s[i] != t_s[t[i]]:
+                    return False
+                elif s[i] in s_t and t[i] != s_t[s[i]]:
+                    return False
+                else:
+                    t_s[t[i]] = s[i]
+                    s_t[s[i]] = t[i]
+        
+        return True
+
+test_cases = [('egg', 'add'), ('foo', 'bar'), ('foo', 'bao'), ('paper', 'title'), ('pae', 'too')]
+obj = Solution()
+for case in test_cases:
+    print(obj.isIsomorphic(case[0], case[1]))
