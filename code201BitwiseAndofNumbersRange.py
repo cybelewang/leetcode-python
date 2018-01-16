@@ -18,6 +18,7 @@ class Solution(object):
             d = d >> 1
             order += 1
         
+        # (1<<order) - 1 making right side all 0s (length = order), and left side all 1s (length = 32-order)
         return m & ~((1<<order) - 1) & n
 
 m, n = 5, 7

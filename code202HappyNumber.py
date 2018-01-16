@@ -16,4 +16,19 @@ class Solution(object):
         :type n: int
         :rtype: bool
         """
+        history = set()
+        def sqrsum(n):
+            res = 0
+            while n > 0:
+                res += (n%10)**2
+                n //= 10
+            return res
         
+        while n not in history:
+            history.add(n)
+            n = sqrsum(n)
+
+        return n==1
+
+obj = Solution()
+print(obj.isHappy(10))
