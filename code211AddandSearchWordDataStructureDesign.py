@@ -17,21 +17,37 @@ search("b..") -> true
 Note:
 You may assume that all words are consist of lowercase letters a-z.
 """
+class TrieNode:
+    
+    def __init__(self, c):
+        self.c = c
+        self.children = {}
+        self.isLeaf = False
+
+
 class WordDictionary:
     
     def __init__(self):
         """
         Initialize your data structure here.
         """
+        self.root = TrieNode('')
         
 
+    # assumes word is not empty
     def addWord(self, word):
         """
         Adds a word into the data structure.
         :type word: str
         :rtype: void
         """
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                node.children[c] = TrieNode(c)
+            node = node.children[c]
         
+        node.isLeaf = True
 
     def search(self, word):
         """
