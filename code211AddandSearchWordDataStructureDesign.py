@@ -17,6 +17,8 @@ search("b..") -> true
 Note:
 You may assume that all words are consist of lowercase letters a-z.
 """
+from collections import deque
+
 class TrieNode:
     
     def __init__(self, c):
@@ -55,7 +57,11 @@ class WordDictionary:
         :type word: str
         :rtype: bool
         """
-        
+        nodes = deque()
+        nodes.append(self.root)
+        for c in word:
+            if c != '.':
+                
 
 
 # Your WordDictionary object will be instantiated and called as such:
