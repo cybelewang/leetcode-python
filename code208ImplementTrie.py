@@ -4,13 +4,21 @@ Implement a trie with insert, search, and startsWith methods.
 Note:
 You may assume that all inputs are consist of lowercase letters a-z.
 """
+class TrieNode:
+    
+    def __init__(self, c):
+        self.c = c
+        self.children = {}  # key= child character, value=child TrieNode's pointer
+        self.isLeaf = False # mark the end of word
+
 class Trie:
     
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.root = TrieNode('')
+   
 
     def insert(self, word):
         """
@@ -18,7 +26,15 @@ class Trie:
         :type word: str
         :rtype: void
         """
-        
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                new_node = TrieNode(c)
+                node.children[c] = new_node
+            node = node.children[c]
+
+        node.isLeaf = True  # mark the end of word
+
 
     def search(self, word):
         """
@@ -26,7 +42,15 @@ class Trie:
         :type word: str
         :rtype: bool
         """
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                return False
+            else:
+                node = node.children[c]
         
+        return node.isLeaf
+
 
     def startsWith(self, prefix):
         """
@@ -34,7 +58,14 @@ class Trie:
         :type prefix: str
         :rtype: bool
         """
+        node = self.root
+        for c in prefix:
+            if c not in node.children:
+                return False
+            else:
+                node = node.children[c]
         
+        return True
 
 
 # Your Trie object will be instantiated and called as such:
@@ -42,3 +73,9 @@ class Trie:
 # obj.insert(word)
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
+
+obj = Trie()
+obj.insert('abc')
+print(obj.search('abc'))
+print(obj.search('ab'))
+print(obj.startsWith('a'))

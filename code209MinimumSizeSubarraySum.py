@@ -16,4 +16,21 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        
+        i, j = 0, 0
+        res, sum = 0, 0
+        for j in range(len(nums)):
+            sum += nums[j]
+            if sum >= s:
+                while sum >= s:
+                    sum -= nums[i]
+                    i += 1
+                if res == 0:
+                    res = j - i + 2
+                else:
+                    res = min(res, j - i + 2)
+
+        return res
+
+test_case = [1, 1,1, 1,1, 1,1, 4]
+obj = Solution()
+print(obj.minSubArrayLen(7, test_case))

@@ -16,6 +16,7 @@ Note:
 You may assume both s and t have the same length.
 """
 # use two maps to track mapping because no two characters map to the same character
+# note 'bao' and 'foo' should be false because 'a':'o' and 'o':'o'. It's tricky to understand "a character may map to itself", so if s[i]==t[i], it's already mapping, we cannot ignore it. see failed submission in OJ.
 class Solution:
     def isIsomorphic(self, s, t):
         """
@@ -27,19 +28,18 @@ class Solution:
             return True
         
         s_t, t_s = {}, {}
-        for i in range(len(s)):
-            if t[i] != s[i]:                
-                if t[i] in t_s and s[i] != t_s[t[i]]:
-                    return False
-                elif s[i] in s_t and t[i] != s_t[s[i]]:
-                    return False
-                else:
-                    t_s[t[i]] = s[i]
-                    s_t[s[i]] = t[i]
+        for i in range(len(s)):            
+            if t[i] in t_s and s[i] != t_s[t[i]]:
+                return False
+            elif s[i] in s_t and t[i] != s_t[s[i]]:
+                return False
+            else:
+                t_s[t[i]] = s[i]
+                s_t[s[i]] = t[i]
         
         return True
 
-test_cases = [('egg', 'add'), ('foo', 'bar'), ('foo', 'bao'), ('paper', 'title'), ('pae', 'too')]
+test_cases = [('egg', 'add'), ('foo', 'bar'), ('foo', 'bao'), ('paper', 'title'), ('pae', 'too'), ('ab', 'aa')]
 obj = Solution()
 for case in test_cases:
     print(obj.isIsomorphic(case[0], case[1]))
