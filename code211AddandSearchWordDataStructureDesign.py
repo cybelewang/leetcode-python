@@ -17,6 +17,9 @@ search("b..") -> true
 Note:
 You may assume that all words are consist of lowercase letters a-z.
 """
+# The difference from Trie is that we use a queue to store potentially matching TrieNodes when searching because of '.'
+# Finally we check if there is a TrieNode in queue and its isLeaf is True
+
 from collections import deque
 
 class TrieNode:
@@ -57,14 +60,35 @@ class WordDictionary:
         :type word: str
         :rtype: bool
         """
-        nodes = deque()
-        nodes.append(self.root)
+        queue = deque()
+        queue.append(self.root)
         for c in word:
+            n = len(queue)
             if c != '.':
-                
+                for i in range(n):
+                    node = queue.popleft()
+                    if c in node.children:
+                        queue.append(node.children[c])
+            else:
+                for i in range(n):
+                    node = queue.popleft()
+                    queue.extend(node.children.values())
+        
+        for node in queue:
+            if node.isLeaf:
+                return True
+        
+        return False
 
 
 # Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
+obj = WordDictionary()
+obj.addWord("bad")
+obj.addWord("dad")
+obj.addWord("mad")
+print(obj.search("pad"))# -> false
+print(obj.search("bad"))# -> true
+print(obj.search("ba"))# -> false
+print(obj.search(".ad"))# -> true
+print(obj.search("b.."))# -> true
 # param_2 = obj.search(word)
