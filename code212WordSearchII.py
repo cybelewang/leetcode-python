@@ -69,7 +69,7 @@ class Solution:
                     build.append(c)
                     board[i][j] = ''    # change [i][j] to mark 'visited'
                     if node.children[c].isLeaf: # bug fixed: change from node.isLeaf to node.children[c].isLeaf because node is upper level TrieNode
-                        res.append(''.join(build))
+                        res.add(''.join(build))
                     
                     # dfs in neighboring characters
                     _dfs(board, m, n, i-1, j, node.children[c], build, res)
@@ -80,12 +80,12 @@ class Solution:
                     board[i][j] = c     # restore [i][j]
                     build.pop()
             
-        build, res = [], []
+        build, res = [], set()  # bug fixed: use set to hold result strings. consider board = [['a'],['a']] and words = ['a'], the result should be ['a']
         for i in range(m):
             for j in range(n):
                 _dfs(board, m, n, i, j, trie.root, build, res)
 
-        return res
+        return list(res)
 
 board = [['o','a','a','n'],  ['e','t','a','e'],  ['i','h','k','r'],  ['i','f','l','v']]
 
