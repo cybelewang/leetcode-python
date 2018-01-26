@@ -13,10 +13,12 @@ class Solution:
         """
         n = len(nums)
         # n < 3
-        if n == 0 or n == 2:
+        if n == 0:
             return 0
         if n == 1:
             return nums[0]
+        if n == 2:
+            return max(nums[0], nums[1])
 
         # n >= 3
         dp = [0 for i in range(n)]
