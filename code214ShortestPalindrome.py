@@ -13,6 +13,14 @@ class Solution:
         :type s: str
         :rtype: str
         """
+
+
+    # TLE
+    def shortestPalindrome3(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
         n = len(s)
         end = 0 # end index of the palindrome string
         for i in range(n//2):
@@ -37,4 +45,4 @@ obj = Solution()
 test_cases = ['','a','aa','ab','aba', 'aaa','aaab', 'abcd']
 for case in test_cases:
     print(case, end=' -> ')
-    print(obj.shortestPalindrome(case))
+    print(obj.shortestPalindrome3(case))
