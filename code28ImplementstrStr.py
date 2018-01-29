@@ -10,7 +10,36 @@ def strStr(self, haystack, needle):
     :type needle: str
     :rtype: int
     """
+    def computeLPS(pat):
+        """
+        Compute the longest prefix which is also suffix for each substring pat[0:i-1] with length i
+        """
+        length = 0 # length of previous longest prefix suffix
+        i, M = 1, len(pat)
+        lps = [0]*M
 
+        while i < M:
+            if pat[i] == pat[length]:
+                length += 1
+                lps[i] = length
+                i += 1
+            else:
+                # This is tricky. Consider the example.
+                # AAACAAAA and i = 7. The idea is similar 
+                # to search step.
+                if length != 0:
+                    len = lps[length-1]
+    
+                    # Also, note that we do not increment i here
+                else:
+                    lps[i] = 0
+                    i += 1
+
+        return lps
+    
+    b = computeLPS(needle)
+    
+    
 
 # Brutal force solution
 def strStr2(self, haystack, needle):
