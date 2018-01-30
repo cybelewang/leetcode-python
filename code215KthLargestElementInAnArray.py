@@ -7,9 +7,46 @@ Note:
 You may assume k is always valid, 1 ≤ k ≤ array's length.
 """
 class Solution:
+    # QuickSort partition method, average time complexity O(n)
     def findKthLargest(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
         :rtype: int
         """
+        n = len(nums)
+        
+        def partition(nums, s, e):
+            """
+            partition the array with last element nums[e] as the pivot
+            s: start index
+            e: end index
+            """
+            i = s   # i is the candidate's index to be replaced by a number which is smaller than pivot
+            for j in range(s, e):   # should not include the pivot, nums[e]
+                if nums[j] < nums[e]:
+                    nums[i], nums[j] = nums[j], nums[i]
+                    i += 1
+            
+            # switch pivot (nums[e]) with nums[i]
+            nums[i], nums[e] = nums[e], nums[i]
+            # i is the position of pivot
+            return i
+        
+        s, e = 0, n-1
+        while s <= e:
+            i = partition(nums, s, e)
+            if n-i == k:
+                # we found it
+                return nums[i]
+            elif n-i < k:
+                # kth element must be in left partition, drop the right patrtion part after pivot
+                k -= e - i
+                e = i - 1
+            else:
+                # n-i > k, kth element must be in right partition, drop the left partition part before pivot
+                s = i + 1
+        
+test_case = [3, 1, 1,1, 1,1,1, 2]
+obj = Solution()
+print(obj.findKthLargest(test_case, 2))

@@ -8,15 +8,36 @@ Given "aacecaaa", return "aaacecaaa".
 Given "abcd", return "dcbabcd".
 """
 class Solution:
+    # reverse s and get t, then use KMP's partial match table algorithm to find the longest prefix == suffix in (s + t)
     def shortestPalindrome(self, s):
         """
         :type s: str
         :rtype: str
         """
+        if len(s) < 2:
+            return s
+        
+        ss = s + s[::-1]
 
+        # KMP algorithm to generate the partial match table
+        length, M = 0, len(ss)
+        i, lps = 1, [0]*M
+        while i < M:
+            if ss[i] == ss[length]:
+                length += 1
+                lps[i] = length
+                i += 1
+            else:
+                if length == 0:
+                    lps[i] = 0
+                    i += 1
+                else:
+                    length = lps[length - 1]
+        
+        return s[lps[M-1]:][::-1] + s
 
     # TLE
-    def shortestPalindrome3(self, s):
+    def shortestPalindrome2(self, s):
         """
         :type s: str
         :rtype: str
@@ -45,4 +66,4 @@ obj = Solution()
 test_cases = ['','a','aa','ab','aba', 'aaa','aaab', 'abcd']
 for case in test_cases:
     print(case, end=' -> ')
-    print(obj.shortestPalindrome3(case))
+    print(obj.shortestPalindrome(case))
