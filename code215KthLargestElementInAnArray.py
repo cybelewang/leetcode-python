@@ -14,11 +14,10 @@ class Solution:
         :type k: int
         :rtype: int
         """
-        n = len(nums)
-        
         def partition(nums, s, e):
             """
-            partition the array with last element nums[e] as the pivot
+            Part of the Quicksort algorithm
+            Partition the array with last element nums[e] as the pivot
             s: start index
             e: end index
             """
@@ -32,7 +31,8 @@ class Solution:
             nums[i], nums[e] = nums[e], nums[i]
             # i is the position of pivot
             return i
-        
+
+        n = len(nums)
         s, e = 0, n-1
         while s <= e:
             i = partition(nums, s, e)
@@ -41,11 +41,13 @@ class Solution:
                 return nums[i]
             elif n-i < k:
                 # kth element must be in left partition, drop the right patrtion part after pivot
-                k -= e - i
+                k -= e - i + 1  # bug fixed: calculated k wrong (forgot the 1)
                 e = i - 1
+                n = e - s + 1   # bug fixed: forgot to update n
             else:
                 # n-i > k, kth element must be in right partition, drop the left partition part before pivot
                 s = i + 1
+                n = e - s + 1   # bug fixed: forgot to update n
         
 test_case = [-1, 2, 0]
 obj = Solution()

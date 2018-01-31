@@ -15,8 +15,8 @@ class Solution:
         if len(needle) > len(haystack):
             return -1
 
-        # corner case 2: needle or haystack is ''
-        if haystack == '' or needle == '':
+        # corner case 2: needle is ''
+        if needle == '':
             return 0
         
         def computeLPS(pat):
@@ -84,7 +84,7 @@ class Solution:
 # x = l1 - l2
 # Note that x is index. To get the full range from 0 to x, we use range(x + 1), which is range(l1 - l2 + 1)
 
-txt = 'a'
-pat = ''
+txt = 'aa'
+pat = 'a'
 obj = Solution()
 print(obj.strStr(txt, pat))

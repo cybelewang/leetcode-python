@@ -33,8 +33,9 @@ class Solution:
                     i += 1
                 else:
                     length = lps[length - 1]
-        
-        return s[lps[M-1]:][::-1] + s
+
+        return s[max(lps[:M//2+1]):][::-1] + s  # bug fixed: previous code s[length:][::-1] + s, we should limit the range to be within length of M//2 + 1
+        # The reason we use M//2 + 1, not M//2, is because lps means longest proper prefix suffix, note the "proper", so to cover the whole string s, we should add one more length there
 
     # TLE
     def shortestPalindrome2(self, s):
@@ -63,7 +64,7 @@ class Solution:
         return s[end+1:][::-1] + s
 
 obj = Solution()
-test_cases = ['','a','aa','ab','aba', 'aaa','aaab', 'abcd','aabba']
+test_cases = ['aabba']#['','a','aa','ab','aba', 'aaa','aaab', 'abcd','aabba']
 for case in test_cases:
     print(case, end=' -> ')
     print(obj.shortestPalindrome(case))
