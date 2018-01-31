@@ -3,10 +3,35 @@ Given an array of integers and an integer k, find out whether there are two dist
 
 """
 class Solution:
+    # use a sliding window with size (k+1) and then keep poping left element from a hashset while adding right element into the hashset
+    # note k can be MAX_INT
     def containsNearbyDuplicate(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
         :rtype: bool
         """
+        if len(nums) < 2 or k < 1:  # bug fixed: previously used condition k >= len(nums) to return False, which was wrong. k could be a very large number.
+            return False
+
+        n, records = len(nums), set()
+        for j in range(min(k+1, n)):
+            if nums[j] in records:
+                return True
+            else:
+                records.add(nums[j])
         
+        i = 0
+        for j in range(k+1, n):
+            records.discard(nums[i])
+            i += 1
+            if nums[j] in records:
+                return True
+            else:
+                records.add(nums[j])
+
+        return False
+
+test_case = [1, 2, 1]
+obj = Solution()
+print(obj.containsNearbyDuplicate(test_case, 2**31-1))    

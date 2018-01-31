@@ -25,4 +25,32 @@ class Solution:
         :type n: int
         :rtype: List[List[int]]
         """
-        
+        # quickly resolve corner cases
+        if k > n or k > 9 or n > 45:
+            return []
+
+        def combination(res, build, s, k, n):
+            """
+            s: start number
+            k: remaining numbers
+            n: remaing sum
+            """
+            if k == 0:
+                if n == 0:
+                    res.append(build[:])
+                return
+            elif n <= 0:
+                return
+            else:                
+                for i in range(s, min(10, n+1)):
+                    build.append(i)
+                    combination(res, build, i+1, k-1, n-i)
+                    build.pop()
+
+        res, build = [], []
+        combination(res, build, 1, k, n)
+
+        return res
+
+obj = Solution()
+print(obj.combinationSum3(9, 45))    
