@@ -47,6 +47,6 @@ class Solution:
                 # n-i > k, kth element must be in right partition, drop the left partition part before pivot
                 s = i + 1
         
-test_case = [3, 1, 1,1, 1,1,1, 2]
+test_case = [-1, 2, 0]
 obj = Solution()
-print(obj.findKthLargest(test_case, 2))
+print(obj.findKthLargest(test_case, 3))

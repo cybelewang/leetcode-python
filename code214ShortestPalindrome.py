@@ -63,7 +63,7 @@ class Solution:
         return s[end+1:][::-1] + s
 
 obj = Solution()
-test_cases = ['','a','aa','ab','aba', 'aaa','aaab', 'abcd']
+test_cases = ['','a','aa','ab','aba', 'aaa','aaab', 'abcd','aabba']
 for case in test_cases:
     print(case, end=' -> ')
     print(obj.shortestPalindrome(case))

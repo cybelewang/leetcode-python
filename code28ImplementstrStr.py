@@ -11,6 +11,14 @@ class Solution:
         :type needle: str
         :rtype: int
         """
+        # corner case 1: len(needle) > len(haystack)
+        if len(needle) > len(haystack):
+            return -1
+
+        # corner case 2: needle or haystack is ''
+        if haystack == '' or needle == '':
+            return 0
+        
         def computeLPS(pat):
             """
             Compute the longest prefix which is also suffix for each substring pat[0:i-1] with length i
@@ -76,7 +84,7 @@ class Solution:
 # x = l1 - l2
 # Note that x is index. To get the full range from 0 to x, we use range(x + 1), which is range(l1 - l2 + 1)
 
-txt = 'ABABCABABABA'
-pat = 'ABABA'
+txt = 'a'
+pat = ''
 obj = Solution()
 print(obj.strStr(txt, pat))

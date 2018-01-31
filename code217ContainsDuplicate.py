@@ -7,4 +7,11 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
+        record = set()
+        for num in nums:
+            if num in record:
+                return True
+            else:
+                record.add(num)
         
+        return False
