@@ -49,6 +49,6 @@ class Solution:
                 s = i + 1
                 n = e - s + 1   # bug fixed: forgot to update n
         
-test_case = [-1, 2, 0]
+test_case = [2, 1]
 obj = Solution()
-print(obj.findKthLargest(test_case, 3))
+print(obj.findKthLargest(test_case, 1))
