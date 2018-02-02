@@ -66,5 +66,7 @@ class Solution:
 obj = Solution()
 test_cases = ['aaceaaa']#['','a','aa','ab','aba', 'aaa','aaab', 'abcd','aabba']
 for case in test_cases:
-    print(case, end=' -> ')
+    print(case, end=' -> ')    
     print(obj.shortestPalindrome(case))
+    print(case, end=' -> ')    
+    print(obj.shortestPalindrome2(case))

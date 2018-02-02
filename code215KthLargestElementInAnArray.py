@@ -41,14 +41,14 @@ class Solution:
                 return nums[i]
             elif n-i < k:
                 # kth element must be in left partition, drop the right patrtion part after pivot
-                k -= e - i + 1  # bug fixed: calculated k wrong (forgot the 1)
+                #k -= e - i + 1  # bug fixed: do not need this
                 e = i - 1
-                n = e - s + 1   # bug fixed: forgot to update n
+                #n = e - s + 1   # bug fixed: do not need this
             else:
                 # n-i > k, kth element must be in right partition, drop the left partition part before pivot
                 s = i + 1
-                n = e - s + 1   # bug fixed: forgot to update n
+                #n = e - s + 1   # bug fixed: do not need this
         
-test_case = [2, 1]
+test_case = [2]
 obj = Solution()
 print(obj.findKthLargest(test_case, 1))
