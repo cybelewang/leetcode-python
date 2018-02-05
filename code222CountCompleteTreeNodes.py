@@ -20,6 +20,9 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
+        if not root:
+            return 0
+            
         H, node = 0, root   # H is height of tree
         while node is not None:
             node = node.left

@@ -28,4 +28,11 @@ class Solution:
         :type root: TreeNode
         :rtype: TreeNode
         """
-        
+        if not root:
+            return None
+
+        temp = root.left    # must temporarily save root.left because it will be updated first
+        root.left = self.invertTree(root.right)
+        root.right = self.invertTree(temp)
+
+        return root

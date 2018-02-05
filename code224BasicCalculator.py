@@ -63,7 +63,7 @@ class Solution:
                 if s[i] == '(':
                     num, i = eval(s, i+1)
                     res += sign*num
-                    num, sign = 0, 1    # bug fixed: subValue is like a number, must reset num and sign
+                    num, sign = 0, 1    # bug fixed: num is like a number, must reset num and sign
                     continue
 
                 if s[i] == ')':
