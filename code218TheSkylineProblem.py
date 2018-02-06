@@ -23,4 +23,28 @@ class Solution:
         :type buildings: List[List[int]]
         :rtype: List[List[int]]
         """
+        encode = []   # l_h: map from Li to Hi, r_h: map from Ri to Hi
+        for b in buildings:
+            encode.append([b[0], b[1], 1])  # raising edge
+            encode.append([b[1], b[2], 0])  # falling edge
         
+        # sort the l_h by keys
+        encode = list(sorted(encode, key = lambda t: t[0]))
+
+        res, heap = [], []
+        prev_h = 0
+        for b in encode:
+            if b[2] == 1:
+                # raising edge
+                x, h = b[0], b[1]
+                heap.append(h)
+                heap.sort()
+                if len(res) > 0:
+                    if res[-1][0] == x:
+                                
+        return res
+
+obj = Solution()
+test_case = [[1, 2, 10], [2, 3, 10]]
+#test_case = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
+print(obj.getSkyline(test_case))
