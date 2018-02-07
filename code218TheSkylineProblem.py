@@ -62,7 +62,7 @@ class Solution:
                     res.append([b[0], h])
                     prev_h = h
 
-        # post-process res to remove the same height
+        # post-process res to remove the same x
         merge = []
         for item in res:
             if len(merge) > 0 and merge[-1][0] == item[0]:
