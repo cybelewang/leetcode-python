@@ -12,7 +12,8 @@ Some examples:
 Note: Do not use the eval built-in library function.
 """
 class Solution:
-    # OJ best solution, use previous operator instead of checking previous operator from stack
+    # OJ best solution, temporarily save previous operator (default is '+') instead of checking previous operator from stack
+    # two rounds, first round calculate all operations with '*' and '/', and put the result into a list. In second round just add all the results
     def calculate(self, s):
         """
         :type s: str
@@ -28,7 +29,7 @@ class Solution:
             elif n == ' ':
                 continue
             else:
-                # "3+2*2"
+                # we see an operator, so we need to finish parsing the number and start calculation
                 if prev_op == '+':
                     stack.append(num)
                 elif prev_op == '-':
@@ -52,7 +53,7 @@ class Solution:
         for (i, c) in enumerate(s):
             if c.isdigit():
                 num = num*10 + ord(c) - ord('0')
-            if i == len(s) - 1 or c in ('+', '-', '*', '/'):  # when parsing the end character or encounters a calculation symbol, we need to finish parsing the number. Fixed a bug, previously used 'elif', which will ignore the last letter processing
+            if i == len(s) - 1 or c in ('+', '-', '*', '/'):  # when parsing the end character or encounters an operator, we need to finish parsing the number. Fixed a bug, previously used 'elif', which will ignore the last letter processing
                 if len(stack) > 0 and (stack[-1] == '*' or stack[-1] == '/'):
                     symbol = stack.pop()
                     param = stack.pop()

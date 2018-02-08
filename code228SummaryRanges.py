@@ -20,7 +20,7 @@ class Solution:
         s, e = nums[0], nums[0]
         res = []
         for i in range(1, len(nums)):
-            if nums[i] == nums[i-1] + 1:
+            if nums[i] == e + 1:
                 e = nums[i]
             else:
                 if s == e:
