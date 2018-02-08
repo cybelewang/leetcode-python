@@ -14,4 +14,29 @@ class Solution:
         :type nums: List[int]
         :rtype: List[str]
         """
+        if not nums:
+            return []
         
+        s, e = nums[0], nums[0]
+        res = []
+        for i in range(1, len(nums)):
+            if nums[i] == nums[i-1] + 1:
+                e = nums[i]
+            else:
+                if s == e:
+                    res.append(str(s))
+                else:
+                    res.append('{0}->{1}'.format(s,e))
+                s, e = nums[i], nums[i]
+
+        # don't forget the last entry
+        if s == e:
+            res.append(str(s))
+        else:
+            res.append('{0}->{1}'.format(s,e))
+
+        return res
+
+test_case = [0,1,2,3,4,5,7]
+obj = Solution()
+print(obj.summaryRanges(test_case))

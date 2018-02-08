@@ -12,9 +12,72 @@ Some examples:
 Note: Do not use the eval built-in library function.
 """
 class Solution:
+    # OJ best solution, use previous operator instead of checking previous operator from stack
     def calculate(self, s):
         """
         :type s: str
         :rtype: int
         """
+        stack = []
+        num = 0
+        prev_op = '+'
+        s = s + '+'
+        for n in s:
+            if n.isdigit():
+                num = num * 10 + ord(n) - ord('0')
+            elif n == ' ':
+                continue
+            else:
+                # "3+2*2"
+                if prev_op == '+':
+                    stack.append(num)
+                elif prev_op == '-':
+                    stack.append(-num)
+                elif prev_op == '*':
+                    stack[-1] = stack[-1] * num
+                else:
+                    # in python -3 / 2 == -2, since when dividing Python uses Floor division.
+                    stack[-1] = int(stack[-1] * 1.0 / num)
+                num = 0
+                prev_op = n
+        return sum(stack)
+
+    def calculate2(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        stack = []
+        num = 0
+        for (i, c) in enumerate(s):
+            if c.isdigit():
+                num = num*10 + ord(c) - ord('0')
+            if i == len(s) - 1 or c in ('+', '-', '*', '/'):  # when parsing the end character or encounters a calculation symbol, we need to finish parsing the number. Fixed a bug, previously used 'elif', which will ignore the last letter processing
+                if len(stack) > 0 and (stack[-1] == '*' or stack[-1] == '/'):
+                    symbol = stack.pop()
+                    param = stack.pop()
+                    if symbol == '*':
+                        num *= param
+                    else:
+                        num = param//num                    
+                stack.append(num)
+                if i < len(s) - 1:
+                    stack.append(c)
+                num = 0
+
+        res, sign = 0, 1
+        for e in stack:
+            if e == '+':
+                sign = 1
+            elif e == '-':
+                sign = -1
+            else:
+                res += sign*e
         
+        return res
+
+obj = Solution()
+test_cases = ['3 + 2*2', '31 +2*2/3 - 1 ', '3+5 / 2']
+for case in test_cases:
+    print(case, end = ' = ')
+    print(obj.calculate(case))
