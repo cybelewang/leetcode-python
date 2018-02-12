@@ -13,16 +13,11 @@ What if the BST is modified (insert/delete operations) often and you need to fin
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
+# For follow-up question, we should use a modified BST node with self.leftcount to save the count of left subtree
 from TreeNode import *
 class Solution:
-    # Morris in order traversal, O(1) space
-    def kthSmallest(self, root, k):
-        """
-        :type root: TreeNode
-        :type k: int
-        :rtype: int
-        """
-        
+
     # In order traversal, using a stack
     def kthSmallest2(self, root, k):
         """
