@@ -15,6 +15,9 @@ class Solution:
         :type n: int
         :rtype: int
         """
+        if n < 1:
+            return 0
+
         full_range_ones = [0]  # index is the length of full numbers like 999, and value is the number of digit one in the range of 0 to full number like 999
         for i in range(1, 11):
             num = 10 * full_range_ones[-1] + 10**(i-1) # how to get value of 0-999 from 0-99? We add one digit 0-9, which means 10 times of previous value, add 0-99 times of starting "1"
@@ -45,4 +48,4 @@ class Solution:
         return _dfs(n, full_range_ones)
 
 obj = Solution()
-print(obj.countDigitOne(13))
+print(obj.countDigitOne(34567))
