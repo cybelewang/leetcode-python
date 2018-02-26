@@ -9,10 +9,25 @@ Supposed the linked list is 1 -> 2 -> 3 -> 4 and you are given the third node wi
 #         self.val = x
 #         self.next = None
 
+# Copy the rest of the nodes
+from ListNode import *
 class Solution(object):
     def deleteNode(self, node):
         """
         :type node: ListNode
         :rtype: void Do not return anything, modify node in-place instead.
         """
-        
+        pre = None
+        while node.next is not None:
+            pre = node
+            node.val = node.next.val
+            node = node.next
+        pre.next = None
+
+head = ListNode(0)
+head.next = ListNode(1)
+PrintLinkedList(head)
+
+obj = Solution()
+obj.deleteNode(head)
+PrintLinkedList(head)
