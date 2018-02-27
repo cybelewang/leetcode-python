@@ -15,4 +15,18 @@ class Solution:
         :type nums: List[int]
         :rtype: List[int]
         """
+        res, p, n = [], 1, len(nums)
+        for num in nums:
+            res.append(p)
+            p *= num
+
+        p = 1
+        for j in range(n-1, -1, -1):
+            res[j] *= p
+            p *= nums[j]
         
+        return res
+
+obj = Solution()
+test_case = [6, 8]
+print(obj.productExceptSelf(test_case))

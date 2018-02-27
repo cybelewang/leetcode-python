@@ -21,6 +21,7 @@ For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another exa
 #         self.right = None
 
 class Solution(object):
+    # recursive solution
     def lowestCommonAncestor(self, root, p, q):
         """
         :type root: TreeNode
@@ -28,4 +29,15 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        
+        if root == None or root == p or root == q:
+            return root
+
+        left_result = self.lowestCommonAncestor(root.left, p, q)
+        right_result = self.lowestCommonAncestor(root.right, p, q)
+
+        if left_result is None:
+            return right_result
+        elif right_result is None:
+            return left_result
+        else:
+            return root
