@@ -27,4 +27,13 @@ class Solution:
         :type k: int
         :rtype: List[int]
         """
-        
+        # construct segment tree
+        def constructSegmentTree(segTree, nums, ss, se, si):
+            """
+            ss: start index in segment tree
+            se: end index in segment tree
+            si: index of segment tree's leaf in nums
+            return: the max value in the segment
+            """
+            if ss == se:
+                
