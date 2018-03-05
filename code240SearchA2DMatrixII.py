@@ -26,4 +26,17 @@ class Solution:
         :type target: int
         :rtype: bool
         """
+        # corner cases
+        m = len(matrix)
+        if m < 1:
+            return False
+
+        n = len(matrix[0])
+        if n < 1:
+            return False
+        
+        if target < matrix[0][0] or target > matrix[-1][-1]:
+            return False
+
+        # search diagnoal
         
