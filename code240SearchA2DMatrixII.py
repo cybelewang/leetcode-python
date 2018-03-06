@@ -19,6 +19,11 @@ Given target = 5, return true.
 Given target = 20, return false.
 
 """
+# From Java solution: treat the bottom left element as root or binary search tree
+# if current < target, we search right
+# if current > target, we search up
+# if current == target, we find it
+
 class Solution:
     def searchMatrix(self, matrix, target):
         """
@@ -26,17 +31,24 @@ class Solution:
         :type target: int
         :rtype: bool
         """
-        # corner cases
         m = len(matrix)
         if m < 1:
             return False
 
         n = len(matrix[0])
-        if n < 1:
-            return False
-        
-        if target < matrix[0][0] or target > matrix[-1][-1]:
-            return False
+        i, j = m-1, 0
 
-        # search diagnoal
-        
+        while i > -1 and j < n:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] < target:
+                j += 1
+            else:
+                i -= 1
+
+        return False
+
+obj = Solution()
+matrix = [[-5]]
+
+print(obj.searchMatrix(matrix, -5))
