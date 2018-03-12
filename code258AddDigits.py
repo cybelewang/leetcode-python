@@ -14,4 +14,5 @@ class Solution:
         :type num: int
         :rtype: int
         """
-        
+        # https://en.wikipedia.org/wiki/Digital_root#Congruence_formula
+        return 0 if num == 0 else 1 + (num-1)%9

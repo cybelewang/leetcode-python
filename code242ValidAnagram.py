@@ -18,4 +18,8 @@ class Solution:
         :type t: str
         :rtype: bool
         """
-        
+        return ''.join(sorted(s)) == ''.join(sorted(t))
+
+s, t = 'anagram', 'nagaram'
+obj = Solution()
+print(obj.isAnagram(s, t))

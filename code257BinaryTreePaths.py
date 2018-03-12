@@ -25,4 +25,18 @@ class Solution:
         :type root: TreeNode
         :rtype: List[str]
         """
-        
+        def _path(root, build, res):
+            build.append(root.val)
+            if root.left is None and root.right is None:
+                res.append('->'.join(map(str, build)))
+            if root.left is not None:                
+                _path(root.left, build, res)
+            if root.right is not None:
+                _path(root.right, build, res)
+            build.pop()
+
+        res, build = [], []
+        if root is not None:
+            _path(root, build, res)
+
+        return res
