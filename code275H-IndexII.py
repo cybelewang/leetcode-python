@@ -7,4 +7,10 @@ class Solution:
         :type citations: List[int]
         :rtype: int
         """
-        
+        if not citations:
+            return 0
+
+        i, j = 0, len(citations) - 1
+        while i <= j:
+            mid = (i + j)//2
+            if citations[mid] < mid + 1:

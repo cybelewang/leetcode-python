@@ -13,4 +13,15 @@ class Solution:
         :type citations: List[int]
         :rtype: int
         """
-        
+        citations.sort()
+        n = len(citations)
+        for i in range(n):
+            if citations[n-1-i] < i+1:
+                return i
+
+        return n
+
+test_cases = [[], [0], [0,0,0,0], [1, 0], [1, 0, 0, 0], [3, 0, 6, 1, 5]]
+obj = Solution()
+for case in test_cases:
+    print(obj.hIndex(case))

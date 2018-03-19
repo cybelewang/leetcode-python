@@ -13,11 +13,15 @@ Output: 8
 Note:
 Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
 """
+from functools import reduce
 class Solution:
     def missingNumber(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
+        return ((n * (n+1))//2) - sum(nums)
 
-        
+obj = Solution()
+test_case = [0, 2]
+print(obj.missingNumber(test_case))
