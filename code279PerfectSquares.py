@@ -13,13 +13,15 @@ class Solution:
         if n < 1:
             return 0
 
-        s = floor(sqrt(n))
-        N = s**2
-        num = n//N
+        m = floor(sqrt(n))
+        res = 2**31-1
+        for i in range(1, m + 1):
+            res = min(res, 1 + self.numSquares(n - i**2))
+        
+        return res
 
-        return num + self.numSquares(n - num*N)
 
-test_cases = [1, 2, 12, 13]
+test_cases = [1, 2, 4, 7, 12, 13, 15, 16]
 obj = Solution()
 for case in test_cases:
     print(case, end = '->')
