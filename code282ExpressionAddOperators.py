@@ -15,48 +15,76 @@ class Solution:
         :type target: int
         :rtype: List[str]
         """
-        if len(num) < 1:
-            return []
-
-        # add operators for numbers in the list
-        # a [+/-] b [+/-/*] c, initally a = 0
-        def _add(nums, s, a, b, sign, target, build, res):
-            """
-            nums: the list of digits
-            s: start index of nums
-            a, b: numbers in operation
-            sign: 1 for '+' and -1 for '-'
-            target: the target value
-            build: the growing list
-            res: the result to be returned
-            """
-            if s == len(nums):
-                if (a + sign*b) == target:
-                    res.append(''.join(build))
+        def helper(res, path, num, pos, target, value, multi):
+            if pos == len(num):
+                if eval == target:
+                    res.append(path)
+                    return            
             else:
-                c = nums[s]
-                # try operator '+'
-                build.append('+')
-                build.append(str(c))
-                _add(nums, s + 1, a + sign*b, c, 1, target, build, res)
+                if num[pos] == '0':
+                    s = num[pos]
+                    cur = 0
+                    helper(res, path + '+' + s, num, pos+1, target, value + cur, cur)
+                    helper(res, path + '-' + s, num, pos+1, target, value - cur, -cur)
+                    helper(res, path + '*' + s, num, pos+1, target, value - multi + multi*cur, multi*cur)
+                else:
+                    for i in range(pos, len(num)):
+                        s = num[pos:i+1]
+                        cur = int(s)
+                        helper(res, path + '+' + s, num, i+1, target, value + cur, cur)
+                        helper(res, path + '-' + s, num, i+1, target, value - cur, -cur)
+                        helper(res, path + '*' + s, num, i+1, target, value - multi + multi*cur, multi*cur)
 
-                # try operator '-'
-                build[-2] = '-'
-                _add(nums, s + 1, a + sign*b, c, -1, target, build, res)
-
-                # try operator '*'
-                build[-2] = '*'
-                _add(nums, s + 1, a, b*c, sign, target, build, res)
-
-                # remove the appended strings
-                build.pop()
-                build.pop()
-
-        nums = [int(c) for c in num]
         res = []
-        _add(nums, 1, 0, nums[0], 1, target, [num[0]], res)
+        if len(num) < 1:
+            return res
+        
+        helper(res, '', num, 0, target, 0, 0)
 
         return res
 
 obj = Solution()
 print(obj.addOperators('232', 8))
+
+"""
+
+czonzhu
+czonzhu
+ 888
+Last Edit: Feb 24, 2018, 7:00 PM
+
+This problem has a lot of edge cases to be considered:
+
+overflow: we use a long type once it is larger than Integer.MAX_VALUE or minimum, we get over it.
+0 sequence: because we can’t have numbers with multiple digits started with zero, we have to deal with it too.
+a little trick is that we should save the value that is to be multiplied in the next recursion.
+public class Solution {
+    public List<String> addOperators(String num, int target) {
+        List<String> rst = new ArrayList<String>();
+        if(num == null || num.length() == 0) return rst;
+        helper(rst, "", num, target, 0, 0, 0);
+        return rst;
+    }
+    public void helper(List<String> rst, String path, String num, int target, int pos, long eval, long multed){
+        if(pos == num.length()){
+            if(target == eval)
+                rst.add(path);
+            return;
+        }
+        for(int i = pos; i < num.length(); i++){
+            if(i != pos && num.charAt(pos) == '0') break;
+            long cur = Long.parseLong(num.substring(pos, i + 1));
+            if(pos == 0){
+                helper(rst, path + cur, num, target, i + 1, cur, cur);
+            }
+            else{
+                helper(rst, path + "+" + cur, num, target, i + 1, eval + cur , cur);
+                
+                helper(rst, path + "-" + cur, num, target, i + 1, eval -cur, -cur);
+                
+                helper(rst, path + "*" + cur, num, target, i + 1, eval - multed + multed * cur, multed * cur );
+            }
+        }
+    }
+}
+"""
