@@ -17,23 +17,21 @@ class Solution:
         """
         def helper(res, path, num, pos, target, value, multi):
             if pos == len(num):
-                if eval == target:
+                if value == target:
                     res.append(path)
                     return            
-            else:
-                if num[pos] == '0':
-                    s = num[pos]
-                    cur = 0
-                    helper(res, path + '+' + s, num, pos+1, target, value + cur, cur)
-                    helper(res, path + '-' + s, num, pos+1, target, value - cur, -cur)
-                    helper(res, path + '*' + s, num, pos+1, target, value - multi + multi*cur, multi*cur)
+               
+            for i in range(pos, len(num)):
+                if i > pos and num[pos] == '0': # only accept single digit '0'
+                    break
+                s = num[pos:i+1]
+                cur = int(s)
+                if pos == 0:    # initialize path
+                    helper(res, path + s, num, i+1, target, cur, cur)
                 else:
-                    for i in range(pos, len(num)):
-                        s = num[pos:i+1]
-                        cur = int(s)
-                        helper(res, path + '+' + s, num, i+1, target, value + cur, cur)
-                        helper(res, path + '-' + s, num, i+1, target, value - cur, -cur)
-                        helper(res, path + '*' + s, num, i+1, target, value - multi + multi*cur, multi*cur)
+                    helper(res, path + '+' + s, num, i+1, target, value + cur, cur)
+                    helper(res, path + '-' + s, num, i+1, target, value - cur, -cur)
+                    helper(res, path + '*' + s, num, i+1, target, value - multi + multi*cur, multi*cur)
 
         res = []
         if len(num) < 1:
@@ -44,15 +42,9 @@ class Solution:
         return res
 
 obj = Solution()
-print(obj.addOperators('232', 8))
+print(obj.addOperators('105', 5))
 
 """
-
-czonzhu
-czonzhu
- 888
-Last Edit: Feb 24, 2018, 7:00 PM
-
 This problem has a lot of edge cases to be considered:
 
 overflow: we use a long type once it is larger than Integer.MAX_VALUE or minimum, we get over it.
