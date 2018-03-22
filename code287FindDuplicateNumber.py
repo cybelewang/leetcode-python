@@ -8,9 +8,26 @@ Your runtime complexity should be less than O(n2).
 There is only one duplicate number in the array, but it could be repeated more than once.
 """
 class Solution:
+    # loop detection
+    # see https://segmentfault.com/a/1190000003817671
     def findDuplicate(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
+        slow = 0
+        fast = nums[nums[0]]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
         
+        find = 0
+        while find != slow:
+            slow = nums[slow]
+            find = nums[find]
+        
+        return find
+
+test_case = [2, 1, 3, 1, 5, 1]
+obj = Solution()
+print(obj.findDuplicate(test_case))

@@ -11,4 +11,18 @@ class Solution:
         :type n: int
         :rtype: bool
         """
-        
+        return (n == 0) or (n%4 != 0)
+
+
+'''         if n < 4:#check this corner case
+            return True
+
+        win = [True]*(n+1)
+        for i in range(4, n+1):
+            win[i] = not(win[i-3] and win[i-2] and win[i-1])
+
+        return win[n] '''
+
+obj = Solution()
+for i in range(10):
+    print(i, obj.canWinNim(i), sep = '->')
