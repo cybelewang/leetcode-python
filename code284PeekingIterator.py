@@ -33,31 +33,42 @@ Follow up: How would you extend your design to be generic and work with all type
 #         """
 
 class PeekingIterator(object):
+    # use self.data to cache the next value
     def __init__(self, iterator):
         """
         Initialize your data structure here.
         :type iterator: Iterator
         """
-        
+        self.iterator = iterator
+        self.data = None
+        if iterator.hasNext():
+            self.data = iterator.next()            
 
     def peek(self):
         """
         Returns the next element in the iteration without advancing the iterator.
         :rtype: int
         """
-        
+        return self.data
 
     def next(self):
         """
         :rtype: int
         """
-        
+        temp = self.data
+
+        if self.iterator.hasNext():
+            self.data = self.iterator.next()
+        else:
+            self.data = None
+
+        return temp
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        
+        return self.data is not None
 
 # Your PeekingIterator object will be instantiated and called as such:
 # iter = PeekingIterator(Iterator(nums))
