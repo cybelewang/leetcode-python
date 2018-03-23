@@ -11,7 +11,7 @@ pattern = "abba", str = "dog dog dog dog" should return false.
 Notes:
 You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.
 """
-# corner cases: does '' match ''? ' ' match ' '? 
+# use bimap, not a single direction map
 class Solution:
     def wordPattern(self, pattern, str):
         """
@@ -20,16 +20,23 @@ class Solution:
         :rtype: bool
         """
         i, j = 0, 0
-        my_dict = {}
+        map1, map2 = {}, {}
         for p in pattern:
+            if j >= len(str):# bug fixed: need to consider the length mismatch case
+                return False
+
             while j < len(str) and str[j] != ' ':
                 j += 1
             s = str[i:j]
-            if p in my_dict:
-                if my_dict[p] != s:
+            # check the bimap singularity
+            if p in map1 and s in map2:
+                if map1[p] != s or map2[s] != p:
                     return False
+            elif p not in map1 and s not in map2:
+                map1[p] = s
+                map2[s] = p
             else:
-                my_dict[p] = s
+                return False
             
             i = j + 1
             j = i
@@ -37,5 +44,5 @@ class Solution:
         return i >= len(str)
 
 obj = Solution()
-p, s = 'abba', 'dog cat cat dog '
+p, s = 'he', 'unit'
 print(obj.wordPattern(p, s))

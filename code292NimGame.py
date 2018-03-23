@@ -11,7 +11,7 @@ class Solution:
         :type n: int
         :rtype: bool
         """
-        return (n == 0) or (n%4 != 0)
+        return (n%4 != 0)
 
 
 '''         if n < 4:#check this corner case

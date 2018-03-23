@@ -65,7 +65,7 @@ class Solution:
             for j in range(n):
                 board[i][j] >>= 1
         
-test_matrix = [[1,1,1],[1,1,1],[1,1,1]]
+test_matrix = [[1,1,1]]
 obj = Solution()
 obj.gameOfLife(test_matrix)
 print(test_matrix)

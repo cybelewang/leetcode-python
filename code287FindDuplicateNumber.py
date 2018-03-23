@@ -15,7 +15,7 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        slow = 0
+        slow = nums[0]
         fast = nums[nums[0]]
         while slow != fast:
             slow = nums[slow]
@@ -28,6 +28,6 @@ class Solution:
         
         return find
 
-test_case = [2, 1, 3, 1, 5, 1]
+test_case = [1, 3, 4, 2, 1]
 obj = Solution()
 print(obj.findDuplicate(test_case))
