@@ -10,8 +10,44 @@ Examples:
 
 """
 class Solution:
-    # DFS
+    # Best OJ solution, see explanations at the end
     def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        def remove(s, res, last_i, last_j, par):
+            diff = 0    # difference between par[0] and par[1]
+            for i in range(last_i, len(s)):
+                if s[i] == par[0]:
+                    diff += 1
+                if s[i] == par[1]:
+                    diff -= 1
+
+                # any time we see extra par[1] in i, we remove all possible par[1] in position (<=i)
+                if diff < 0:                
+                    for j in range(last_j, i + 1):
+                        if s[j] == par[1] and (j == last_j or s[j-1] != par[1]):
+                            remove(s[:j]+s[j+1:], res, i, j, par)
+                    # must return now because this s have extra par[1]
+                    return
+
+            # the below code will be run if diff >= 0 for the whole range of i
+            # reverse s and remove extra '(', the above code removed extra ')'
+            reversed = s[::-1]
+            if par[0] == '(':
+                remove(reversed, res, 0, 0, [')','('])
+            else:
+                res.append(reversed)
+
+        res = []
+        remove(s, res, 0, 0, ['(', ')'])
+
+        return res
+
+
+    # DFS, remove all possible extras, easier to understand
+    def removeInvalidParentheses2(self, s):
         """
         :type s: str
         :rtype: List[str]
@@ -70,7 +106,7 @@ class Solution:
 
 test_case = '()())()'
 obj = Solution()
-print(obj.removeInvalidParentheses(test_case))
+print(obj.removeInvalidParentheses2(test_case))
 
 
 """
