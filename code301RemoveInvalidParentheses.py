@@ -29,7 +29,7 @@ class Solution:
                     for j in range(last_j, i + 1):
                         if s[j] == par[1] and (j == last_j or s[j-1] != par[1]):
                             remove(s[:j]+s[j+1:], res, i, j, par)
-                    # must return now because this s have extra par[1]
+                    # must return now because s has extra par[1] so we need to bypass the below code
                     return
 
             # the below code will be run if diff >= 0 for the whole range of i
