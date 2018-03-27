@@ -17,6 +17,16 @@ class Solution:
         :rtype: List[str]
         """
         def remove(s, res, last_i, last_j, par):
+            if last_i >= len(s):
+                # the below code will be run if diff >= 0 for the whole range of i
+                # reverse s and remove extra '(', the above code removed extra ')'
+                reversed = s[::-1]
+                if par[0] == '(':
+                    remove(reversed, res, 0, 0, [')','('])
+                else:
+                    res.append(reversed)
+                return
+
             diff = 0    # difference between par[0] and par[1]
             for i in range(last_i, len(s)):
                 if s[i] == par[0]:
@@ -30,7 +40,7 @@ class Solution:
                         if s[j] == par[1] and (j == last_j or s[j-1] != par[1]):
                             remove(s[:j]+s[j+1:], res, i, j, par)
                     # must return now because s has extra par[1] so we need to bypass the below code
-                    return
+                    #return
 
             # the below code will be run if diff >= 0 for the whole range of i
             # reverse s and remove extra '(', the above code removed extra ')'

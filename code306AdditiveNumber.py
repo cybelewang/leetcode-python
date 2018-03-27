@@ -22,4 +22,62 @@ class Solution:
         :type num: str
         :rtype: bool
         """
+        def addStr(num1, num2):
+            """
+            Add two strings (contain digits) and return the result as a string
+            :type num1: str
+            :type num2: str
+            :rtype: str
+            """
+            res, carry = [], 0
+            for i in range(max(len(num1), len(num2))):
+                n1 = 0 if i >= len(num1) else ord(num1[i]) - ord('0')
+                n2 = 0 if i >= len(num2) else ord(num2[i]) - ord('0')
+                value = n1 + n2 + carry
+                res.append(str(value%10))
+                carry = value//10
+
+            if carry != 0:
+                res.append(str(carry))
+
+            return ''.join(res[::-1])
+
+        def check(num, num1, num2, k):
+            """
+            Check if num1 plus num2 is in num[k:]
+            :type num1: str
+            :type num2: str
+            :rtype: bool
+            """
+            if k == len(num):
+                return True
+
+            num3 = addStr(num1, num2)            
+            l = k + len(num3)
+            if l <= len(num) and num[k:l] == num3:
+                return check(num, num2, num3, l)
+            else:
+                return False
+
+        if len(num) < 3:
+            return False
+
+        for j in range(1, len(num)-1):  # pitfall here: be careful of the range limit
+            if num[0] == '0' and j > 1:
+                break
+            num1 = num[0:j]
+            for k in range(j+1, len(num)):
+                if num[j] == '0' and k > j+1:
+                    break
+                num2 = num[j:k]
+                if check(num, num1, num2, k):
+                    return True
         
+        return False
+
+test_cases = ['','123','1023','112358','00000']
+obj = Solution()
+for case in test_cases:
+    print(case, end='->')
+    print(obj.isAdditiveNumber(case))
+
