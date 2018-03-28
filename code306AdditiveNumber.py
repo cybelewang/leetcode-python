@@ -31,8 +31,8 @@ class Solution:
             """
             res, carry = [], 0
             for i in range(max(len(num1), len(num2))):
-                n1 = 0 if i >= len(num1) else ord(num1[i]) - ord('0')
-                n2 = 0 if i >= len(num2) else ord(num2[i]) - ord('0')
+                n1 = 0 if i >= len(num1) else ord(num1[-i-1]) - ord('0')
+                n2 = 0 if i >= len(num2) else ord(num2[-i-1]) - ord('0')
                 value = n1 + n2 + carry
                 res.append(str(value%10))
                 carry = value//10
@@ -59,6 +59,7 @@ class Solution:
             else:
                 return False
 
+        # main function body
         if len(num) < 3:
             return False
 
@@ -75,7 +76,7 @@ class Solution:
         
         return False
 
-test_cases = ['','123','1023','112358','00000']
+test_cases = ['','123','1023','112358','00000', '199100199']
 obj = Solution()
 for case in test_cases:
     print(case, end='->')

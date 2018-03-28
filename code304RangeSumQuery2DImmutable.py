@@ -31,9 +31,10 @@ class NumMatrix:
         self.matrix = matrix
 
         if len(matrix) < 1 or len(matrix[0]) < 1:
-            raise ValueError
-
-        m, n = len(matrix), len(matrix[0])
+            m, n = 0, 0
+        else:
+            m, n = len(matrix), len(matrix[0])
+            
         for i in range(1, m):
             self.matrix[i][0] += self.matrix[i-1][0]
 
