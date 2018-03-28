@@ -14,14 +14,20 @@ You may assume the number of calls to update and sumRange function is distribute
 """
 # problem 303's solution: update O(n), query O(1)
 # segment tree: update O(logn), query O(logn)
-# so we use segment tree
+# so we use segment tree. For implementation details, see http://codeforces.com/blog/entry/18051
 class NumArray:
     
     def __init__(self, nums):
         """
         :type nums: List[int]
         """
-        
+        # construct segment tree with size 2*len(nums)
+        self.length = len(nums)
+        self.st = [0]*self.length
+        self.st.extend(nums)
+
+        for i in range(self.length-1, 0, -1): # omit st[0] for easy index calculation
+            self.st[i] = self.st[2*i] + self.st[2*i+1]
 
     def update(self, i, val):
         """
@@ -29,7 +35,12 @@ class NumArray:
         :type val: int
         :rtype: void
         """
-        
+        if -1 < i < self.length:
+            p = i + self.length
+            self.st[p] = val
+            while p > 1:
+                self.st[p//2] = self.st[p] + self.st[p^1]
+                p //= 2
 
     def sumRange(self, i, j):
         """
@@ -37,10 +48,26 @@ class NumArray:
         :type j: int
         :rtype: int
         """
+        res = 0
+        if -1 < i <= j < self.length:
+            i += self.length
+            j += self.length + 1    # make j exclusive
+            while i < j:
+                if i & 1:
+                    res += self.st[i]
+                    i += 1
+                if j & 1:
+                    j -= 1
+                    res += self.st[j]
+                i //= 2
+                j //= 2
         
+        return res
 
 
 # Your NumArray object will be instantiated and called as such:
-# obj = NumArray(nums)
-# obj.update(i,val)
-# param_2 = obj.sumRange(i,j)
+nums = list(range(13))
+obj = NumArray(nums)
+print(obj.sumRange(0, 6))
+obj.update(0,1)
+print(obj.sumRange(0,6))

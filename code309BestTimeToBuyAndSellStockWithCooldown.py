@@ -17,4 +17,29 @@ class Solution:
         :type prices: List[int]
         :rtype: int
         """
-        
+        if len(prices) < 2:
+            return 0
+
+        n, diff = len(prices), []
+        for i in range(1, n):
+            diff.append(prices[i] - prices[i-1])
+
+        gain = [0]*(n-1)
+        gain[0] = max(gain[0], diff[0])
+        for i in range(1, min(3, n-1)):
+            gain[i] = max(gain[i-1], diff[i])
+
+        for i in range(3, n-1):
+            if diff[i] < 0:
+                gain[i] = gain[i-1]
+            else:
+                if diff[i-1] < 0:
+                    gain[i] = max(gain[i-1], gain[i-3] + diff[i])
+                else:
+                    gain[i] = max(gain[i-1], gain[i-3]) + diff[i]
+
+        return gain[-1]
+
+test_case = [1, 101, 99, 102]
+obj = Solution()
+print(obj.maxProfit(test_case))
