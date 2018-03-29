@@ -11,34 +11,29 @@ prices = [1, 2, 3, 0, 2]
 maxProfit = 3
 transactions = [buy, sell, cooldown, buy, sell]
 """
+# https://soulmachine.gitbooks.io/algorithm-essentials/java/dp/best-time-to-buy-and-sell-stock-with-cooldown.html
+# two dp arrays
+# sell[i] is the max profit when there is no stock on the ith day
+# buy[i] is the max profit when there is stock on the ith day
 class Solution:
     def maxProfit(self, prices):
         """
         :type prices: List[int]
         :rtype: int
-        """
-        if len(prices) < 2:
+        """        
+        n = len(prices)
+        if n < 2:
             return 0
 
-        n, diff = len(prices), []
-        for i in range(1, n):
-            diff.append(prices[i] - prices[i-1])
+        buy, sell = [0]*n, [0]*n
+        buy[0], buy[1] = -prices[0], -min(prices[0:2])
+        sell[1] = max(0, buy[0] + prices[1])
+        for i in range(2, n):
+            sell[i] = max(sell[i-1], buy[i-1] + prices[i])
+            buy[i] = max(buy[i-1], sell[i-2] - prices[i])
 
-        gain = [0]*(n-1)
-        gain[0] = max(gain[0], diff[0])
-        for i in range(1, min(3, n-1)):
-            gain[i] = max(gain[i-1], diff[i])
+        return sell[-1]
 
-        for i in range(3, n-1):
-            if diff[i] < 0:
-                gain[i] = gain[i-1]
-            else:
-                if diff[i-1] < 0:
-                    gain[i] = max(gain[i-1], gain[i-3] + diff[i])
-                else:
-                    gain[i] = max(gain[i-1], gain[i-3]) + diff[i]
-
-        return gain[-1]
 
 test_case = [1, 101, 99, 102]
 obj = Solution()

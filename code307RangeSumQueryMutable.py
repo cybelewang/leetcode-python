@@ -15,6 +15,7 @@ You may assume the number of calls to update and sumRange function is distribute
 # problem 303's solution: update O(n), query O(1)
 # segment tree: update O(logn), query O(logn)
 # so we use segment tree. For implementation details, see http://codeforces.com/blog/entry/18051
+# Binary Indexed Tree?
 class NumArray:
     
     def __init__(self, nums):
