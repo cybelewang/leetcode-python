@@ -19,9 +19,25 @@ Return 167
    coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
 """
 class Solution:
+    # https://kennyzhuang.gitbooks.io/algorithms-collection/content/burst_balloons.html
     def maxCoins(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        
+        nums = [1] + [i for i in nums if i > 0] + [1]
+        n = len(nums)
+
+        dp = [[0]*n for _ in range(n)]
+
+        for k in range(2, n):   # all possible length
+            for left in range(n-k):
+                right = left + k
+                for i in range(left+1, right):
+                    dp[left][right] = max(dp[left][right], nums[left]*nums[i]*nums[right] + dp[left][i] + dp[i][right])
+
+        return dp[0][n-1]
+
+test_case = [3, 1, 5, 8]
+obj = Solution()
+print(obj.maxCoins(test_case))
