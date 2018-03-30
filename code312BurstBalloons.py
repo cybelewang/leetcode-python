@@ -30,10 +30,11 @@ class Solution:
 
         dp = [[0]*n for _ in range(n)]
 
-        for k in range(2, n):   # all possible length
-            for left in range(n-k):
+        for k in range(2, n):   # all possible length, note right = left + k, for left = 0, the max right will be n-1, so max of k is n-1
+            for left in range(n-k): # note right = left + k, max of right is n - 1, so max of left is n - 1 - k
                 right = left + k
-                for i in range(left+1, right):
+                for i in range(left+1, right):  # all possible positions between left (exclusive) and right (exclusive)
+                    # i is the last balloon to burst, so its left and right will be "left" and "right"
                     dp[left][right] = max(dp[left][right], nums[left]*nums[i]*nums[right] + dp[left][i] + dp[i][right])
 
         return dp[0][n-1]
