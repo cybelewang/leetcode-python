@@ -10,6 +10,7 @@ Note:
 (3) 0 < k ≤ 100, 0 < n ≤ 10^6, 0 < primes[i] < 1000.
 (4) The nth super ugly number is guaranteed to fit in a 32-bit signed integer.
 """
+# similar to 264
 class Solution:
     def nthSuperUglyNumber(self, n, primes):
         """
@@ -17,13 +18,13 @@ class Solution:
         :type primes: List[int]
         :rtype: int
         """
-        if primes[0] == 1:
-            primes = primes[1:]
-
         k = len(primes)
         # test this corner case
         if k == 0 or n < 1:
             return 1
+
+        if primes[0] == 1:
+            primes = primes[1:]
 
         index = [0]*k
         

@@ -12,10 +12,12 @@ After third round, the three bulbs are [on, off, off].
 
 So you should return 1, because there is only one bulb is on.
 """
+#http://www.cnblogs.com/grandyang/p/5100098.html
+from math import sqrt, floor
 class Solution:
     def bulbSwitch(self, n):
         """
         :type n: int
         :rtype: int
         """
-        
+        return floor(sqrt(n)) if n > 0 else 0
