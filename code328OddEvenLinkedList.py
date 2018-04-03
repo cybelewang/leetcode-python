@@ -16,11 +16,33 @@ The first node is considered odd, the second node even and so on ...
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution:
+    # see onenote
     def oddEvenList(self, head):
         """
         :type head: ListNode
         :rtype: ListNode
         """
-        
+        if not head:
+            return None
+
+        dummy = ListNode(0)
+        dummy.next = head
+        odd, even = head, dummy
+
+        while even and even.next:
+            even.next = odd.next
+            even = even.next
+            if even and even.next:
+                odd.next = even.next
+                odd = odd.next
+
+        odd.next = dummy.next
+
+        return head
+
+obj = Solution()
+head = ListNode(0)
+head.fromList([1, 2, 3, 4, 5])
+PrintLinkedList(obj.oddEvenList(head))

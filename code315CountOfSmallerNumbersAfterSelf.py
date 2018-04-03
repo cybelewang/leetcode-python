@@ -24,7 +24,7 @@ class TreeNodeCount:
         self.count = 1
 
 class Solution:
-    # O(nlogn), construct modified BST with count represents number of nodes smaller than current node
+    # O(nlogn), construct modified BST with count represents number of nodes <= current node (including current node)
     def countSmaller(self, nums):
         """
         :type nums: List[int]
@@ -38,7 +38,7 @@ class Solution:
 
         def insertNode(root, val):
             thisCount = 0
-            while 1:
+            while True:
                 if val <= root.val:
                     root.count += 1
                     if root.left is None:
@@ -63,7 +63,7 @@ class Solution:
         return count
 
     # use an extra list to save each number in order. The insertion position tells how many numbers are smaller than the inserted number.
-    # O(n^2), a little better than brutal force solution 
+    # worst case O(n^2), a little better than brutal force solution 
     def countSmaller2(self, nums):
         """
         :type nums: List[int]
