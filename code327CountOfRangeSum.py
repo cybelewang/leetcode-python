@@ -11,8 +11,45 @@ Return 3.
 The three ranges are : [0, 0], [2, 2], [0, 2] and their respective sums are: -2, -1, 2.
 """
 class Solution:
-    # https://leetcode.com/problems/count-of-range-sum/discuss/77990/Share-my-solution
+    # OJ Best solution
     def countRangeSum(self, nums, lower, upper):
+        """
+        :type nums: List[int]
+        :type lower: int
+        :type upper: int
+        :rtype: int
+        """
+        first = [0]
+        for c in nums:
+            first.append(first[-1] + c)
+            
+        def search(lo, hi):
+            
+            mid = (lo + hi) // 2
+            if mid == lo:
+                return 0
+            
+            count = search(lo, mid) + search(mid, hi)
+            
+            i, j = mid, mid
+            for left in first[lo: mid]:
+                
+                while i < hi and first[i] - left < lower:
+                    i += 1
+                
+                while j < hi and first[j] - left <= upper:
+                    j += 1
+                    
+                count += j - i
+                
+            first[lo:hi] = sorted(first[lo:hi])
+            
+            return count
+        
+        return search(0, len(first))
+
+    # https://leetcode.com/problems/count-of-range-sum/discuss/77990/Share-my-solution
+    def countRangeSum2(self, nums, lower, upper):
         """
         :type nums: List[int]
         :type lower: int
