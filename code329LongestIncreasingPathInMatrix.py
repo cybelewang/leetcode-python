@@ -25,8 +25,49 @@ The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
 """
 from collections import deque
 class Solution:
-    # directed graph + BFS, TLE
+    # DFS + Cache
     def longestIncreasingPath(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: int
+        """
+        def _getLongestPath(matrix, m, n, i, j, mem):
+            if mem[i][j] > 0:
+                return mem[i][j]
+            else:
+                curVal = matrix[i][j]
+                path = 0
+                if j > 0 and matrix[i][j-1] > curVal:
+                    path = max(path, 1+_getLongestPath(matrix, m, n, i, j-1, mem))
+                # right
+                if j < n-1 and matrix[i][j+1] > curVal:
+                    path = max(path, 1+_getLongestPath(matrix, m, n, i, j+1, mem))
+                # top
+                if i > 0 and matrix[i-1][j] > curVal:
+                    path = max(path, 1+_getLongestPath(matrix, m, n, i-1, j, mem))
+                # below
+                if i < m-1 and matrix[i+1][j] > curVal:
+                    path = max(path, 1+_getLongestPath(matrix, m, n, i+1, j, mem))
+
+                mem[i][j] = path
+
+                return path
+
+        if not matrix:
+            return 0
+
+        m, n = len(matrix), len(matrix[0])
+        mem = [[0]*n for _ in range(m)]
+        res = 0
+
+        for i in range(m):
+            for j in range(n):
+                res = max(res, _getLongestPath(matrix, m, n, i, j, mem))
+        
+        return res
+
+    # directed graph + BFS, TLE
+    def longestIncreasingPath2(self, matrix):
         """
         :type matrix: List[List[int]]
         :rtype: int
