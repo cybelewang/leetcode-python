@@ -13,9 +13,24 @@ tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]
 Return ["JFK","ATL","JFK","SFO","ATL","SFO"].
 Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it is larger in lexical order.
 """
+# is there any duplicated travel?
 class Solution:
     def findItinerary(self, tickets):
         """
         :type tickets: List[List[str]]
         :rtype: List[str]
         """
+        dep_dst = {}    # departure -> destination
+        for t in tickets:
+            if t[0] in dep_dst:
+                dep_dst[t[0]].add(t[1])
+            else:
+                dst = set()
+                dst.add(t[1])
+                dep_dst[t[0]] = dst
+
+        res = ["JFK"]
+        while res[-1] in dep_dst and dep_dst[res[-1]]:
+            dst = sorted(dep_dst[res[-1]])
+
+            

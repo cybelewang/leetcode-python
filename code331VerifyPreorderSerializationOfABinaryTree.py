@@ -28,10 +28,33 @@ Example 3:
 "9,#,#,1"
 Return false
 """
+# stack solution
+# push all values as False into stack, when the value is '#', we check if the last second is True, 
+# if so, we will pop last three to remove both left and right children, then append True
 class Solution:
     def isValidSerialization(self, preorder):
         """
         :type preorder: str
         :rtype: bool
         """
-        
+        # '' valid or not?
+        if len(preorder) < 1:
+            return False
+
+        stack = []
+        for s in preorder.split(','):
+            stack.append(False)
+            if s == '#':
+                # remove pairing left branch
+                while len(stack) > 2 and stack[-2]:
+                    stack.pop()
+                    stack.pop()
+                    stack.pop()
+                else:
+                    stack.append(True)
+
+        return stack == [False, True]
+
+preorder = "9,#,#,1"
+obj = Solution()
+print(obj.isValidSerialization(preorder))

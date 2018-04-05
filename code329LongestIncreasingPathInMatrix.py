@@ -36,7 +36,7 @@ class Solution:
                 return mem[i][j]
             else:
                 curVal = matrix[i][j]
-                count = 1
+                count = 1   # include this number itself
                 # left
                 if j > 0 and matrix[i][j-1] > curVal:
                     count = max(count, 1 + _getLongestPath(matrix, m, n, i, j-1, mem))
