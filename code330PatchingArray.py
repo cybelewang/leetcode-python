@@ -20,7 +20,7 @@ nums = [1, 2, 2], n = 5
 Return 0.
 """
 class Solution:
-    # http://www.cnblogs.com/grandyang/p/5165821.html
+    #https://leetcode.com/problems/patching-array/discuss/78488/Solution-+-explanation
     def minPatches(self, nums, n):
         """
         :type nums: List[int]
