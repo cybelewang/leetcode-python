@@ -14,6 +14,8 @@ Return ["JFK","ATL","JFK","SFO","ATL","SFO"].
 Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it is larger in lexical order.
 """
 # is there any duplicated travel?
+# this problem requires to use all the tickets' iteinerary
+from heapq import heapify, heappush, heappop
 class Solution:
     def findItinerary(self, tickets):
         """
@@ -23,14 +25,19 @@ class Solution:
         dep_dst = {}    # departure -> destination
         for t in tickets:
             if t[0] in dep_dst:
-                dep_dst[t[0]].add(t[1])
+                heappush(dep_dst[t[0]], t[1])
             else:
-                dst = set()
-                dst.add(t[1])
+                dst = [t[1]]
+                #heapify(dst)
                 dep_dst[t[0]] = dst
 
         res = ["JFK"]
-        while res[-1] in dep_dst and dep_dst[res[-1]]:
-            dst = sorted(dep_dst[res[-1]])
+        while res[-1] in dep_dst and len(dep_dst[res[-1]]) > 0:
+            dst = heappop(dep_dst[res[-1]])
+            res.append(dst)
 
-            
+        return res
+
+tickets = [["JFK","KUL"],["JFK","NRT"],["NRT","JFK"]]
+obj = Solution()
+print(obj.findItinerary(tickets))           
