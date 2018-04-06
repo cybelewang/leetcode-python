@@ -15,26 +15,39 @@ Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it
 """
 # is there any duplicated travel?
 # this problem requires to use all the tickets' iteinerary
-from heapq import heapify, heappush, heappop
+# use DFS to find the itinerary and then return early
+from bisect import insort
 class Solution:
     def findItinerary(self, tickets):
         """
         :type tickets: List[List[str]]
         :rtype: List[str]
         """
+        def _dfs(dep_dst, need, res):
+            if need == 0:
+                return True
+
+            start = res[-1]
+            if start in dep_dst and len(dep_dst[start]) > 0:
+                for dst in dep_dst[start]:
+                    res.append(dst)
+                    if _dfs(dep_dst, need-1, res):
+                        return True
+                    else:
+                        res.pop()
+            else:
+                return False                       
+
+
         dep_dst = {}    # departure -> destination
         for t in tickets:
             if t[0] in dep_dst:
-                heappush(dep_dst[t[0]], t[1])
+                insort(dep_dst[t[0]], t[1])
             else:
-                dst = [t[1]]
-                #heapify(dst)
-                dep_dst[t[0]] = dst
+                dep_dst[t[0]] = [t[1]]
 
         res = ["JFK"]
-        while res[-1] in dep_dst and len(dep_dst[res[-1]]) > 0:
-            dst = heappop(dep_dst[res[-1]])
-            res.append(dst)
+        _dfs(dep_dst, len(tickets), res)
 
         return res
 

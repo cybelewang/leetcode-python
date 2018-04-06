@@ -28,10 +28,10 @@ Example 3:
 "9,#,#,1"
 Return false
 """
-# stack solution
-# push all values as False into stack, when the value is '#', we check if the last second is True, 
-# if so, we will pop last three to remove both left and right children, then append True
 class Solution:
+    # stack solution
+    # push all values as False into stack, when the value is '#', we check if the last second is True, 
+    # if so, we will pop last three to remove both left and right children, then append True
     def isValidSerialization(self, preorder):
         """
         :type preorder: str
