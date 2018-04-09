@@ -13,7 +13,10 @@ tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]
 Return ["JFK","ATL","JFK","SFO","ATL","SFO"].
 Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it is larger in lexical order.
 """
-# is there any duplicated travel?
+# TO DO: a better algorithm in https://leetcode.com/problems/reconstruct-itinerary/discuss/78768/Short-Ruby-Python-Java-C++
+
+
+# is there any duplicated travel. yes
 # this problem requires to use all the tickets' iteinerary
 # use DFS to find the itinerary and then return early
 from bisect import insort
@@ -31,20 +34,20 @@ class Solution:
             if start in dep_dst and len(dep_dst[start]) > 0:
                 for dst in dep_dst[start]:
                     res.append(dst)
+                    dep_dst[start].remove(dst)
                     if _dfs(dep_dst, need-1, res):
                         return True
-                    else:
-                        res.pop()
-            else:
-                return False                       
+                    else:                        
+                        insort(dep_dst[start], res.pop())
 
+            return False                       
 
         dep_dst = {}    # departure -> destination
-        for t in tickets:
-            if t[0] in dep_dst:
-                insort(dep_dst[t[0]], t[1])
+        for _from, _to in tickets:
+            if _from in dep_dst:
+                insort(dep_dst[_from], _to)
             else:
-                dep_dst[t[0]] = [t[1]]
+                dep_dst[_from] = [_to]
 
         res = ["JFK"]
         _dfs(dep_dst, len(tickets), res)
