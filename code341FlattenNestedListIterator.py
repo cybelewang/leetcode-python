@@ -67,7 +67,7 @@ class NestedIterator(object):
                 return True
             else:
                 nis = self.queue.popleft()
-                self.queue.extendleft(nis.getList[::-1])
+                self.queue.extendleft(nis.getList()[::-1])
         
         return False
 
