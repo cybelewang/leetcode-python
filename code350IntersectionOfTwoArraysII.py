@@ -19,4 +19,24 @@ class Solution:
         :type nums2: List[int]
         :rtype: List[int]
         """
+        hist1, hist2 = {}, {}
+        for num in nums1:
+            if num not in hist1:
+                hist1[num] = 0
+            hist1[num] += 1
         
+        for num in nums2:
+            if num not in hist2:
+                hist2[num] = 0
+            hist2[num] += 1
+
+        res = []
+        for num in set(hist1.keys()) & set(hist2.keys()):
+            res.extend([num]*min(hist1[num], hist2[num]))
+        
+        return res
+
+nums1 = [1, 2, 2, 1]
+nums2 = [2, 2]
+obj = Solution()
+print(obj.intersect(nums1, nums2))
