@@ -23,7 +23,7 @@ class Solution:
                 hist[num] = 0
             hist[num] += 1
 
-        freq_num = [(-v, key) for (key, v) in hist.iteritems()]
+        freq_num = [(-v, key) for (key, v) in hist.items()]
         heapify(freq_num)
 
         res = []
