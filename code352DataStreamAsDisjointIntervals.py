@@ -53,30 +53,21 @@ class SummaryRanges:
         # now start is the next insertion index
         index = start
 
-        # a special case to insert val at the beginning
+        # get left interval
         if index == 0:
-            if val == self.intervals[0].start - 1:
-                self.intervals[0].start = val
-            else:
-                self.intervals.insert(0, Interval(val, val))
-            return
+            left_interval = Interval(val, val)
+            self.intervals.insert(0, left_interval)
+            index += 1
+        else:
+            left_interval = self.intervals[index-1]
 
         # a special case to insert val at the end
         if index == len(self.intervals):
-            if val == self.intervals[index-1].end + 1:
-                self.intervals[index-1].end = val
-            elif val > self.intervals[index-1].end + 1:
-                self.intervals.append(Interval(val, val))
-            return
+            right_interval = Interval(val, val)
+            self.intervals.append(right_interval)
+        else:
+            right_interval = self.intervals[index]
             
-        # insertion within the list
-        left_interval = self.intervals[index-1]
-        right_interval = self.intervals[index]
-
-        # within the left interval, early return
-        if val <= left_interval.end:
-            return
-
         # update the left interval's end
         if val == left_interval.end+1:
             left_interval.end = val
