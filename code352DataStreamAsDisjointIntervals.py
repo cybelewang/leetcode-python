@@ -12,10 +12,13 @@ Follow up:
 What if there are lots of merges and the number of disjoint intervals are small compared to the data stream's size?
 """
 # Definition for an interval.
-# class Interval:
-#     def __init__(self, s=0, e=0):
-#         self.start = s
-#         self.end = e
+class Interval:
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
+
+    def __repr__(self):
+        return '['+str(self.start)+', '+str(self.end)+']'
 
 class SummaryRanges:
 
@@ -23,20 +26,88 @@ class SummaryRanges:
         """
         Initialize your data structure here.
         """
-        
+        self.intervals = []
 
     def addNum(self, val):
         """
         :type val: int
         :rtype: void
         """
+        # if intervals is empty, just add [val, val]
+        if len(self.intervals) == 0:
+            self.intervals.append(Interval(val, val))
+            return        
+
+        # find the insertion index for val in start
+        start, end = 0, len(self.intervals) - 1
+        while start <= end:
+            mid = (start + end)//2
+            midInterval = self.intervals[mid]
+            if midInterval.start == val:
+                return
+            elif midInterval.start > val:
+                end = mid - 1
+            else:
+                start = mid + 1
+        
+        # now start is the next insertion index
+        index = start
+
+        # a special case to insert val at the beginning
+        if index == 0:
+            if val == self.intervals[0].start - 1:
+                self.intervals[0].start = val
+            else:
+                self.intervals.insert(0, Interval(val, val))
+            return
+
+        # a special case to insert val at the end
+        if index == len(self.intervals):
+            if val == self.intervals[index-1].end + 1:
+                self.intervals[index-1].end = val
+            elif val > self.intervals[index-1].end + 1:
+                self.intervals.append(Interval(val, val))
+            return
+            
+        # insertion within the list
+        left_interval = self.intervals[index-1]
+        right_interval = self.intervals[index]
+
+        # within the left interval, early return
+        if val <= left_interval.end:
+            return
+
+        # update the left interval's end
+        if val == left_interval.end+1:
+            left_interval.end = val
+
+        # update the right interval's start
+        if val == right_interval.start-1:
+            right_interval.start = val
+
+        # merge left and right intervals, if this is the case
+        if left_interval.end == right_interval.start:
+            left_interval.end = right_interval.end
+            self.intervals.pop(index)
+            return
+
+        # left interval and right interval have gap, insert the interval "val"
+        if left_interval.end < val and right_interval.start > val:
+            self.intervals.insert(index, Interval(val, val))
         
 
     def getIntervals(self):
         """
         :rtype: List[Interval]
         """
-        
+        return self.intervals
+
+
+obj = SummaryRanges()
+test_list = [1, 0, 3, 7, 2, 6]
+for num in test_list:
+    obj.addNum(num)
+    print(obj.getIntervals())
 
 
 # Your SummaryRanges object will be instantiated and called as such:
