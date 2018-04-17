@@ -28,6 +28,7 @@ class SummaryRanges:
         """
         self.intervals = []
 
+    # why this is wrong?
     def addNum(self, val):
         """
         :type val: int

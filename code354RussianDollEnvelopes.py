@@ -28,6 +28,6 @@ class Solution:
         
         return max(dp)
 
-envelopes = [[5,4],[6,4],[6,7],[2,3]]
+envelopes = [[46,89],[50,53],[52,68],[72,45],[77,81]]
 obj = Solution()
 print(obj.maxEnvelopes(envelopes))
