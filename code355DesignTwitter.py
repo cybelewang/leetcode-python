@@ -32,13 +32,14 @@ twitter.unfollow(1, 2);
 // since user 1 is no longer following user 2.
 twitter.getNewsFeed(1);
 """
+from heapq import heappop, heappush
 class Twitter:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.data = {}  # key: user id, value: (set of followees, list of posts)
 
     def postTweet(self, userId, tweetId):
         """
@@ -47,7 +48,10 @@ class Twitter:
         :type tweetId: int
         :rtype: void
         """
-        
+        if userId not in self.data:
+            self.data[userId] = (set(), [])
+
+        self.data[userId][1].append(tweetId)            
 
     def getNewsFeed(self, userId):
         """
@@ -55,7 +59,35 @@ class Twitter:
         :type userId: int
         :rtype: List[int]
         """
-        
+        nf = [] # the result
+        if userId not in self.data:
+            return nf
+
+        heap = []
+        users = self.data[userId][0]
+        users.add(userId)
+        last_index = {}
+        for user in users:
+            if user not in self.data:
+                continue
+            posts = self.data[user][1]
+            last_index[user] = len(posts) - 1
+            heappush(heap, (-posts[-1], user) if len(posts) > 0 else (2**31-1, user))
+
+        for _ in range(10):
+            if len(heap) == 0:
+                break
+            latest = heappop(heap)
+            if latest[0] == 2**31-1:
+                break
+            else:
+                nf.append(-latest[0])
+                user = latest[1]
+                posts = self.data[user][1]
+                last_index[user] -= 1                
+                heappush(heap, (-posts[last_index[user]], user) if last_index[user] > -1 else (2**31-1, user))
+
+        return nf
 
     def follow(self, followerId, followeeId):
         """
@@ -64,7 +96,8 @@ class Twitter:
         :type followeeId: int
         :rtype: void
         """
-        
+        if followerId in self.data:
+            self.data[followerId][0].add(followeeId)
 
     def unfollow(self, followerId, followeeId):
         """
@@ -73,12 +106,23 @@ class Twitter:
         :type followeeId: int
         :rtype: void
         """
-        
+        if followerId in self.data:
+            if followeeId in self.data[followerId][0]:
+                self.data[followerId][0].remove(followeeId)
 
 
 # Your Twitter object will be instantiated and called as such:
-# obj = Twitter()
-# obj.postTweet(userId,tweetId)
+obj = Twitter()
+obj.postTweet(1,5)
+print(obj.getNewsFeed(1))
+obj.follow(1, 2)
+obj.postTweet(2, 6)
+print(obj.getNewsFeed(1))
+obj.unfollow(1, 2)
+print(obj.getNewsFeed(1))
+obj.follow(1,3)
+print(obj.getNewsFeed(1))
+print(obj.getNewsFeed(2))
 # param_2 = obj.getNewsFeed(userId)
 # obj.follow(followerId,followeeId)
 # obj.unfollow(followerId,followeeId)
