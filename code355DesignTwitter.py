@@ -96,8 +96,10 @@ class Twitter:
         :type followeeId: int
         :rtype: void
         """
-        if followerId in self.data:
-            self.data[followerId][0].add(followeeId)
+        # followerId may not be in map yet
+        if followerId not in self.data:
+            self.data[followerId] = (set(), [])
+        self.data[followerId][0].add(followeeId)
 
     def unfollow(self, followerId, followeeId):
         """
@@ -113,15 +115,11 @@ class Twitter:
 
 # Your Twitter object will be instantiated and called as such:
 obj = Twitter()
-obj.postTweet(1,5)
+obj.postTweet(1,1)
 print(obj.getNewsFeed(1))
-obj.follow(1, 2)
-obj.postTweet(2, 6)
-print(obj.getNewsFeed(1))
-obj.unfollow(1, 2)
-print(obj.getNewsFeed(1))
-obj.follow(1,3)
-print(obj.getNewsFeed(1))
+obj.follow(2, 1)
+print(obj.getNewsFeed(2))
+obj.unfollow(2, 1)
 print(obj.getNewsFeed(2))
 # param_2 = obj.getNewsFeed(userId)
 # obj.follow(followerId,followeeId)

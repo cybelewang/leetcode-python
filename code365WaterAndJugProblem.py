@@ -17,6 +17,8 @@ Example 2:
 Input: x = 2, y = 6, z = 5
 Output: False
 """
+# http://www.cnblogs.com/grandyang/p/5628836.html
+# https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity
 class Solution:
     def canMeasureWater(self, x, y, z):
         """
@@ -25,4 +27,13 @@ class Solution:
         :type z: int
         :rtype: bool
         """
-        
+        def gcd(x, y):
+            """
+            get greatest common divisor of x and y
+            famous Euclidean algorithm
+            """
+            return x if y == 0 else gcd(y, x % y)
+
+        return z == 0 or ((x + y >= z) and (z % gcd(x, y) == 0))
+
+print(Solution().canMeasureWater(3, 5, 4))
