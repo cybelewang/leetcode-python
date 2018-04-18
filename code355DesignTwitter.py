@@ -126,3 +126,13 @@ print(obj.getNewsFeed(2))
 # param_2 = obj.getNewsFeed(userId)
 # obj.follow(followerId,followeeId)
 # obj.unfollow(followerId,followeeId)
+
+"""
+Input:
+["Twitter","postTweet","getNewsFeed","follow","getNewsFeed","unfollow","getNewsFeed"]
+[[],[1,1],[1],[2,1],[2],[2,1],[2]]
+Output:
+[null,null,[1],null,[],null,[]]
+Expected:
+[null,null,[1],null,[1],null,[]]
+"""
