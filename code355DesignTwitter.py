@@ -115,7 +115,9 @@ class Twitter:
 
 # Your Twitter object will be instantiated and called as such:
 obj = Twitter()
-obj.postTweet(1,1)
+obj.postTweet(2,5)
+obj.postTweet(1,3)
+obj.postTweet(1,101)
 print(obj.getNewsFeed(1))
 obj.follow(2, 1)
 print(obj.getNewsFeed(2))
@@ -127,10 +129,10 @@ print(obj.getNewsFeed(2))
 
 """
 Input:
-["Twitter","postTweet","getNewsFeed","follow","getNewsFeed","unfollow","getNewsFeed"]
-[[],[1,1],[1],[2,1],[2],[2,1],[2]]
+["Twitter","postTweet","postTweet","postTweet","postTweet","postTweet","postTweet","postTweet","postTweet","postTweet","postTweet","getNewsFeed","follow","getNewsFeed"]
+[[],[2,5],[1,3],[1,101],[2,13],[2,10],[1,2],[2,94],[2,505],[1,333],[1,22],[2],[2,1],[2]]
 Output:
-[null,null,[1],null,[],null,[]]
+[null,null,null,null,null,null,null,null,null,null,null,[505,94,10,13,5],null,[505,94,22,333,10,13,5,2,101,3]]
 Expected:
-[null,null,[1],null,[1],null,[]]
+[null,null,null,null,null,null,null,null,null,null,null,[505,94,10,13,5],null,[22,333,505,94,2,10,13,101,3,5]]
 """

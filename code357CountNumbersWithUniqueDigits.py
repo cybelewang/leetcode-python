@@ -10,7 +10,7 @@ class Solution:
         :type n: int
         :rtype: int
         """
-        res = [0, 10, 91, 739, 5275, 32491, 168571, 712891, 2345851, 5611771, 8877691]
+        res = [1, 10, 91, 739, 5275, 32491, 168571, 712891, 2345851, 5611771, 8877691]
 
         return res[n] if n < 11 else res[10]
 
@@ -20,7 +20,7 @@ class Solution:
         :rtype: int
         """
         if n == 0:
-            return 0
+            return 1
         elif n == 1:
             return 10
         elif n > 10:
