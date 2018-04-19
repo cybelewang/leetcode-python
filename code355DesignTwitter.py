@@ -39,7 +39,8 @@ class Twitter:
         """
         Initialize your data structure here.
         """
-        self.data = {}  # key: user id, value: (set of followees, list of posts)
+        self.data = {}  # key: user id, value: (set of followees, list of (-time stamp, post))
+        self.timestamp = 0  # a simple increasing counter to record the sequence of the tweet
 
     def postTweet(self, userId, tweetId):
         """
@@ -51,7 +52,8 @@ class Twitter:
         if userId not in self.data:
             self.data[userId] = (set(), [])
 
-        self.data[userId][1].append(tweetId)            
+        self.data[userId][1].append([-self.timestamp, tweetId]) # use negative timestamp value so the latest tweet always on top in heapq
+        self.timestamp += 1
 
     def getNewsFeed(self, userId):
         """
@@ -64,28 +66,30 @@ class Twitter:
             return nf
 
         heap = []
-        users = self.data[userId][0]
-        users.add(userId)
-        last_index = {}
+        users = self.data[userId][0]    # follow-up users
+        users.add(userId)   # add user herself
+        last_index = {} # MAP to quickly find the last index of the user's tweet to be push into heapq
+        # push each user's latest tweet into minHeap
         for user in users:
             if user not in self.data:
                 continue
-            posts = self.data[user][1]
+            posts = self.data[user][1]  # [-time stamp, tweet id]
             last_index[user] = len(posts) - 1
-            heappush(heap, (-posts[-1], user) if len(posts) > 0 else (2**31-1, user))
+            if len(posts) > 0:
+                heappush(heap, posts[-1] + [user]) # [-time stamp, tweet id, user id], -time stamp will serve as the key when comparing with other entries
 
+        # pop out latest tweet from minHeap, and push that user's latest tweet, if she has
         for _ in range(10):
             if len(heap) == 0:
                 break
             latest = heappop(heap)
-            if latest[0] == 2**31-1:
-                break
-            else:
-                nf.append(-latest[0])
-                user = latest[1]
-                posts = self.data[user][1]
-                last_index[user] -= 1                
-                heappush(heap, (-posts[last_index[user]], user) if last_index[user] > -1 else (2**31-1, user))
+            nf.append(latest[1])
+            user = latest[2]
+            # push the pop out user's latest tweet
+            posts = self.data[user][1]
+            last_index[user] -= 1
+            if last_index[user] > -1:
+                heappush(heap, posts[last_index[user]] + [user])
 
         return nf
 
@@ -118,10 +122,15 @@ obj = Twitter()
 obj.postTweet(2,5)
 obj.postTweet(1,3)
 obj.postTweet(1,101)
-print(obj.getNewsFeed(1))
-obj.follow(2, 1)
+obj.postTweet(2,13)
+obj.postTweet(2,10)
+obj.postTweet(1,2)
+obj.postTweet(2,94)
+obj.postTweet(2,505)
+obj.postTweet(1,333)
+obj.postTweet(1,22)
 print(obj.getNewsFeed(2))
-obj.unfollow(2, 1)
+obj.follow(2, 1)
 print(obj.getNewsFeed(2))
 # param_2 = obj.getNewsFeed(userId)
 # obj.follow(followerId,followeeId)
