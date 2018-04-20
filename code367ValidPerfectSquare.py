@@ -12,6 +12,12 @@ Example 2:
 Input: 14
 Returns: False
 """
+# in math, a square will be sum of consequective odd numbers, for example:
+# 1 = 1
+# 4 = 1 + 3
+# 9 = 1 + 3 + 5
+# 16 = 1 + 3 + 5 + 7
+
 class Solution:
     # more elegant binary search, why does this work?
     def isPerfectSquare(self, num):
