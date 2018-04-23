@@ -27,7 +27,9 @@ Return: [1,3],[2,3]
 All possible pairs are returned from the sequence:
 [1,3],[2,3]
 """
+from heapq import *
 class Solution:
+    # https://leetcode.com/problems/find-k-pairs-with-smallest-sums/discuss/84551/simple-Java-O(KlogK)-solution-with-explanation
     def kSmallestPairs(self, nums1, nums2, k):
         """
         :type nums1: List[int]
@@ -35,4 +37,62 @@ class Solution:
         :type k: int
         :rtype: List[List[int]]
         """
+        m, n = len(nums1), len(nums2)
+        if m < 1 or n < 1 or k < 1:
+            return []
+
+        res = []
+        queue = []
+        for i in range(min(k, m)):
+            heappush(queue, (nums1[i] + nums2[0], nums1[i], nums2[0], 0))   # tuple (sum of num1 and num2, num1, num2, current nums2's index)
         
+        while k > 0 and len(queue) > 0:
+            t = heappop(queue)
+            res.append([t[1], t[2]])
+            if t[3] < n-1:
+                heappush(queue, (t[1] + nums2[t[3] + 1], t[1], nums2[t[3] + 1], t[3] + 1))
+            # think why we don't need to push additional items into min_heap if t[3] >= n-1?
+            k -= 1
+        
+        return res
+
+    # first solution, doesn't work for nums1 = [1, 1, 2], nums2 = [1,2,3]
+    # the idea is to limit the first element in neighboring indices, e.g., comparing nums1[i] + nums2[p] and nums1[i+1] + nums2[q]
+    # then advance p or q accordingly.Doesn't work for nums1 = [1, 1, 2], nums2 = [1,2,3]
+    def kSmallestPairs2(self, nums1, nums2, k):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        m, n = len(nums1), len(nums2)
+        if m < 1 or n < 1 or k < 1:
+            return []
+
+        res = []
+        i, p, q = 0, 0, 0
+        while i < m-1 and len(res) < k:
+            first, second = nums1[i] + nums2[p], nums1[i+1] + nums2[q]
+            if first <= second:
+                res.append([nums1[i], nums2[p]])
+                p += 1
+                if p == n:
+                    i += 1
+                    p = q
+                    q = 0
+            else:
+                res.append([nums1[i+1], nums2[q]])
+                q += 1
+                # q will never achieve n first because nums1[i] + nums2[-1] <= nums1[i+1] + nums2[-1]
+        
+        while p < n and len(res) < k:
+            res.append([nums1[i], nums2[p]])
+            p += 1
+        
+        return res
+
+obj = Solution()
+nums1 = [1,1, 2]
+nums2 = [1,2,3]
+print(obj.kSmallestPairs(nums1, nums2, 9))
