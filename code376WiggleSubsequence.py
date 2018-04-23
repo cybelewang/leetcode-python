@@ -20,9 +20,21 @@ Follow up:
 Can you do it in O(n) time?
 """
 class Solution:
+    # http://www.cnblogs.com/grandyang/p/5697621.html
     def wiggleMaxLength(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        
+        if not nums: return 0
+        p, q = 1, 1
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i-1]:
+                p = q + 1
+            elif nums[i] < nums[i-1]:
+                q = p + 1
+
+        return max(p, q)
+
+nums = [1,17,5,10,13,15,10,5,16,8]
+print(Solution().wiggleMaxLength(nums))
