@@ -30,13 +30,18 @@ randomSet.insert(2);
 // Since 2 is the only number in the set, getRandom always return 2.
 randomSet.getRandom();
 """
+# use dict (insert and remove) and list (random)
+# the question is how to remove an element in O(1) because removing element in a list is O(n)
+# the tricky is to swap the element (also index) with the end, and then remove the end
+from random import choice
 class RandomizedSet:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.map = {}
+        self.data = []
 
     def insert(self, val):
         """
@@ -44,7 +49,12 @@ class RandomizedSet:
         :type val: int
         :rtype: bool
         """
-        
+        if val in self.map:
+            return False
+        else:
+            self.map[val] = len(self.data)
+            self.data.append(val)
+            return True
 
     def remove(self, val):
         """
@@ -52,15 +62,34 @@ class RandomizedSet:
         :type val: int
         :rtype: bool
         """
-        
+        if val in self.map:
+            index = self.map[val]
+            last_data = self.data[-1]
+
+            # assign the data in "index" with the last data, and update last data's index
+            self.data[index] = last_data
+            self.map[last_data] = index
+
+            # remove val from map
+            self.map.pop(val)
+            self.data.pop()
+
+            return True
+        else:
+            return False
 
     def getRandom(self):
         """
         Get a random element from the set.
         :rtype: int
         """
-        
+        # what about if set is empty?
+        return choice(self.data)
 
+obj = RandomizedSet()
+print(obj.insert(1))
+print(obj.remove(2))
+print(obj.getRandom())
 
 # Your RandomizedSet object will be instantiated and called as such:
 # obj = RandomizedSet()

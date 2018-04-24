@@ -24,10 +24,54 @@ How does it change the problem?
 What limitation we need to add to the question to allow negative numbers?
 """
 class Solution:
+    # DP
     def combinationSum4(self, nums, target):
         """
         :type nums: List[int]
         :type target: int
         :rtype: int
         """
+        nums = sorted(filter(lambda x: x <= target, nums))  # filter only those <= target, and sort them
+        dp = [0]*(target+1) # dp[i] represents number of combinations for i
+
+        for num in nums:
+            dp[num] = 1
+
+        for i in range(1, target+1):
+            for num in nums:
+                if num < i:
+                    dp[i] += dp[i-num]
+                else:
+                    break
         
+        return dp[target]                                                         
+
+    # recursive + memo
+    def combinationSum5(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        def count(target, memo):
+            if target == 0:
+                return 1
+            elif target < 0:
+                return 0
+            else:
+                if target in memo:
+                    return memo[target]
+
+                res = 0
+                for num in nums:
+                    res += count(target - num, memo)
+                memo[target] = res
+                return res
+        
+        nums.sort()
+        memo = {}
+        return count(target, memo)
+
+nums, target = [4, 1, 2], 32
+obj = Solution()
+print(obj.combinationSum4(nums, target))

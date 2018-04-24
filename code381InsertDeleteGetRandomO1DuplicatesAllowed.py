@@ -28,13 +28,16 @@ collection.remove(1);
 // getRandom should return 1 and 2 both equally likely.
 collection.getRandom();
 """
+# same as 380, but using a list to keep track of the index
+from random import choice
 class RandomizedCollection:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.map = {}
+        self.data = []
 
     def insert(self, val):
         """
@@ -42,7 +45,14 @@ class RandomizedCollection:
         :type val: int
         :rtype: bool
         """
-        
+        if val in self.map:
+            self.map[val].add(len(self.data))
+            self.data.append(val)
+            return False
+        else:
+            self.map[val] = {len(self.data), }
+            self.data.append(val)
+            return True
 
     def remove(self, val):
         """
@@ -50,14 +60,30 @@ class RandomizedCollection:
         :type val: int
         :rtype: bool
         """
-        
+        if val in self.map:
+            pos = self.map[val].pop()   # position for val in self.data
+            # assign pos with last_data
+            last_data = self.data[-1]
+            self.data[pos] = last_data
+            # first remove the original index (len(self.data)-1) for last_data
+            self.map[last_data].remove(len(self.data)-1)
+            # then assign the new index (pos) for last_data
+            self.map[last_data].add(pos)
+            # remove last data
+            self.data.pop()
+            if not self.map[val]:
+                self.map.pop(val)
+            
+            return True
+        else:
+            return False
 
     def getRandom(self):
         """
         Get a random element from the collection.
         :rtype: int
         """
-        
+        return choice(self.data)
 
 
 # Your RandomizedCollection object will be instantiated and called as such:
