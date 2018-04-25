@@ -16,21 +16,45 @@ return 13.
 Note: 
 You may assume k is always valid, 1 ≤ k ≤ n^2.
 """
-# min heap, key is that when we select a cell matrix[x][y], the next smallest must be in [x+1][y] or [x][y+1]
-# this is similar to 355 design twitter's get latest news, or 23 merge k sorted lists, the only difference is that this problem needs to push two neighbors after popping out one.
-# https://stackoverflow.com/questions/15179536/kth-smallest-element-in-sorted-matrix
-"""
-O(k log(k)) solution.
-
-Build a minheap.
-
-Add (0,0) to the heap. While, we haven't found the kth smallest element, remove the top element (x,y) from heap and add next two elements [(x+1,y) and (x,y+1)] if they haven't been visited before.
-
-We are doing O(k) operations on a heap of size O(k) and hence the complexity.
-"""
+# similar to 373
 from heapq import *
 class Solution:
+    # binary search solution
+    # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173/Share-my-thoughts-and-Clean-Java-Code
     def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        m, n = len(matrix), len(matrix[0])
+
+        low, high = matrix[0][0], matrix[-1][-1]
+        while low < high:
+            mid = (low + high)//2
+            count, j = 0, n - 1
+            for i in range(m):
+                while j >=0 and matrix[i][j] > mid:
+                    j -= 1
+                count += j + 1
+            
+            if count < k:
+                low = mid + 1
+            else:
+                high = mid
+        
+        return low
+        
+    # min heap, key is that when we select a cell matrix[x][y], the next smallest must be in [x+1][y] or [x][y+1]
+    # this is similar to 355 design twitter's get latest news, or 23 merge k sorted lists, the only difference is that this problem needs to push two neighbors after popping out one.
+    # https://stackoverflow.com/questions/15179536/kth-smallest-element-in-sorted-matrix
+    """
+    O(k log(k)) solution.
+    Build a minheap.
+    Add (0,0) to the heap. While, we haven't found the kth smallest element, remove the top element (x,y) from heap and add next two elements [(x+1,y) and (x,y+1)] if they haven't been visited before.
+    We are doing O(k) operations on a heap of size O(k) and hence the complexity.
+    """
+    def kthSmallest2(self, matrix, k):
         """
         :type matrix: List[List[int]]
         :type k: int

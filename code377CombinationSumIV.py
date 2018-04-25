@@ -44,7 +44,7 @@ class Solution:
                 else:
                     break
         
-        return dp[target]                                                         
+        return dp[target]
 
     # recursive + memo
     def combinationSum5(self, nums, target):

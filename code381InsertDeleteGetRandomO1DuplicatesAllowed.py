@@ -66,7 +66,8 @@ class RandomizedCollection:
             last_data = self.data[-1]
             self.data[pos] = last_data
             # first remove the original index (len(self.data)-1) for last_data
-            self.map[last_data].remove(len(self.data)-1)
+            if len(self.map[last_data]) > 0:
+                self.map[last_data].remove(len(self.data)-1)
             # then assign the new index (pos) for last_data
             self.map[last_data].add(pos)
             # remove last data
@@ -86,6 +87,20 @@ class RandomizedCollection:
         return choice(self.data)
 
 
+obj = RandomizedCollection()
+print(obj.insert(4))
+print(obj.insert(3))
+print(obj.insert(4))
+print(obj.insert(2))
+print(obj.remove(4))
+print(obj.remove(3))
+print(obj.remove(4))
+print(obj.remove(4))
+
+"""
+["RandomizedCollection","insert","insert","insert","insert","insert","remove","remove","remove","remove"]
+[[],[4],[3],[4],[2],[4],[4],[3],[4],[4]]
+"""
 # Your RandomizedCollection object will be instantiated and called as such:
 # obj = RandomizedCollection()
 # param_1 = obj.insert(val)
