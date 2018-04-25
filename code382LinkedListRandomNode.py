@@ -21,6 +21,10 @@ solution.getRandom();
 #         self.val = x
 #         self.next = None
 
+# reservoir sampling
+# http://www.cnblogs.com/grandyang/p/5759926.html
+from ListNode import *
+from random import randrange
 class Solution:
 
     def __init__(self, head):
@@ -29,16 +33,28 @@ class Solution:
         Note that the head is guaranteed to be not null, so it contains at least one node.
         :type head: ListNode
         """
-        
+        self.head = head
 
     def getRandom(self):
         """
         Returns a random node's value.
         :rtype: int
         """
+        i, node, res = 2, self.head.next, self.head.val
+        while node:
+            j = randrange(0, i)
+            if j == 0:
+                res = node.val
+            i += 1
+            node = node.next
         
+        return res
 
 
+l1 = ListNode(0)
+l1.fromList([8,1,3])
+obj = Solution(l1)
+print(obj.getRandom())
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(head)
 # param_1 = obj.getRandom()

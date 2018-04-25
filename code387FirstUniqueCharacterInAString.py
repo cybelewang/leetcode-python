@@ -17,3 +17,16 @@ class Solution:
         :type s: str
         :rtype: int
         """
+        count, base = [0]*26, ord('a')
+        for c in s:
+            count[ord(c)-base] += 1
+        
+        for i, c in enumerate(s):
+            if count[ord(c)-base] == 1:
+                return i
+        
+        return -1
+
+test_cases = ['leetcode', 'loveleetcode']
+for case in test_cases:
+    print(Solution().firstUniqChar(case))

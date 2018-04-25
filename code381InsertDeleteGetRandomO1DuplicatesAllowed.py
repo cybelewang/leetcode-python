@@ -61,17 +61,19 @@ class RandomizedCollection:
         :rtype: bool
         """
         if val in self.map:
-            pos = self.map[val].pop()   # position for val in self.data
+            # randomly select a position for val in self.data
+            pos = self.map[val].pop()   
             # assign pos with last_data
             last_data = self.data[-1]
             self.data[pos] = last_data
-            # first remove the original index (len(self.data)-1) for last_data
-            if len(self.map[last_data]) > 0:
+            if pos != len(self.data) - 1:   # trap here! if pos is len(data) - 1, then we removed len(data) - 1 twice! So we need to exclude this condition
+                # first remove the original index (len(self.data)-1) for last_data
                 self.map[last_data].remove(len(self.data)-1)
-            # then assign the new index (pos) for last_data
-            self.map[last_data].add(pos)
+                # then assign the new index (pos) for last_data
+                self.map[last_data].add(pos)
             # remove last data
             self.data.pop()
+
             if not self.map[val]:
                 self.map.pop(val)
             

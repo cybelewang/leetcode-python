@@ -16,28 +16,44 @@ solution.reset();
 // Returns the random shuffling of array [1,2,3].
 solution.shuffle();
 """
+# Fisher–Yates shuffle Algorithm
+# https://www.geeksforgeeks.org/shuffle-a-given-array/
+from random import randint
 class Solution:
 
     def __init__(self, nums):
         """
         :type nums: List[int]
         """
-        
+        self.nums = nums
+        self.output = nums[:]
 
     def reset(self):
         """
         Resets the array to its original configuration and return it.
         :rtype: List[int]
         """
-        
+        self.output = self.nums[:]
+        return self.nums
 
     def shuffle(self):
         """
         Returns a random shuffling of the array.
         :rtype: List[int]
         """
-        
+        o = self.output
+        n = len(o)
+        for i in range(n-1):
+            j = randint(i, n-1)
+            o[i], o[j] = o[j], o[i]
 
+        return o
+
+nums = list(range(8))
+obj = Solution(nums)
+print(obj.shuffle())
+print(obj.reset())
+print(obj.shuffle())
 
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(nums)
