@@ -74,4 +74,23 @@ class Solution:
         :type s: str
         :rtype: NestedInteger
         """
-        
+        # not starting with '[' means only one integer, no list
+        if s[0] != '[':
+            return NestedInteger(int(s))
+
+        sign, value = 1, 0
+        stack = []
+        parent = None
+        for c in s:
+            if c == '-':
+                sign = -1
+            elif c = '[':
+                if not parent:
+                    child = NestedInteger()
+                    parent.add(child)
+                    stack.append(parent)
+                    parent = child
+                else:
+                    parent = NestedInteger()                
+            elif c = ']':
+

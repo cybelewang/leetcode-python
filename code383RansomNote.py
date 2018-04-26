@@ -11,6 +11,7 @@ canConstruct("a", "b") -> false
 canConstruct("aa", "ab") -> false
 canConstruct("aa", "aab") -> true
 """
+from operator import sub
 class Solution:
     def canConstruct(self, ransomNote, magazine):
         """
@@ -26,9 +27,10 @@ class Solution:
         for c in magazine:
             magCnt[ord(c)-base] += 1
 
-        return noteCnt <= magCnt
+        return not any(filter(lambda x: x > 0, map(sub, noteCnt, magCnt)))
 
 obj = Solution()
 print(obj.canConstruct("a", "b"))# -> false
 print(obj.canConstruct("aa", "ab"))# -> false
 print(obj.canConstruct("aa", "aab"))# -> true
+print(obj.canConstruct("fihjjjjei", "hjibagacbhadfaefdjaeaebgi"))
