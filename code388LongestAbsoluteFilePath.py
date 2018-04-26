@@ -38,4 +38,9 @@ class Solution:
         :type input: str
         :rtype: int
         """
+        i, j = 0, 0 # start and stop index
+        level, res = 0, 0   # indent level and final result (longest path)
         
+        j = input.find('\n', i)
+        while j != -1:
+            

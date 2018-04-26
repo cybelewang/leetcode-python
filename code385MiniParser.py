@@ -80,17 +80,23 @@ class Solution:
 
         sign, value = 1, 0
         stack = []
-        parent = None
-        for c in s:
+        for (i, c) in enumerate(s):
             if c == '-':
                 sign = -1
-            elif c = '[':
-                if not parent:
-                    child = NestedInteger()
-                    parent.add(child)
-                    stack.append(parent)
-                    parent = child
-                else:
-                    parent = NestedInteger()                
-            elif c = ']':
-
+            elif c == '[':  # create a NestedInteger object with empty list
+                ni = NestedInteger()
+                if not stack:
+                    stack[-1].add(ni)
+                stack.append(ni)
+            elif c == ']':
+                if s[i-1] != ']':   # a corner case about the second ']' of '[[1]]'
+                    stack[-1].add(NestedInteger(sign*value))
+                    value, sign = 0, 1
+                res = stack.pop()   # s must end with ']'
+            elif c == ',':
+                stack[-1].add(NestedInteger(sign*value))
+                value, sign = 0, 1
+            else:
+                value = value*10 + ord(c) - ord('0')
+        
+        return res        
