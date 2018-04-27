@@ -38,9 +38,51 @@ class Solution:
         :type input: str
         :rtype: int
         """
-        i, j = 0, 0 # start and stop index
-        level, res = 0, 0   # indent level and final result (longest path)
+        def countLevel(s, start):
+            """
+            return the level of path starting from index "start"
+            """
+            level = 0
+            while (start+1 <= len(s)) and (s[start:start+1] == '\t'):
+                level += 1
+                start += 1
+
+            return (level, start)
+
+        start, res = 0, 0
+        stack = [(-1, 0)] # tuple (level, total length of the directions including '/'), bug fixe: very import to initialiate it with (-1, 0) (like a virtual root direction) to make sure stack will never be empty, think about "dir\ndir1\nabc.txt"
         
-        j = input.find('\n', i)
-        while j != -1:
-            
+        while start < len(input):
+            # get upper level direction's level number, and total length
+            upper_level, upper_length = stack[-1]
+            # parse current substr's level and start index
+            level, start = countLevel(input, start)
+            # bug fixed: remove lower or equal level directions, as file name may be at the same level, or upper level of last direction
+            while level <= upper_level:
+                stack.pop() # we do not need to care about empty stack because level will always > -1
+                upper_level, upper_length = stack[-1]
+
+            # get the end index of this substr
+            end = input.find('\n', start)
+            if end == -1:
+                # this hits the end of path
+                end = len(input)
+
+            if input[start:end].count('.') > 0:
+                # this is a file name (having extension)
+                res = max(res, end-start+upper_length)   # end-start: this substr length, +1: '/'
+            else:
+                # this is a direction
+                stack.append((level, end-start+upper_length+1)) # end-start: this substr length, +1: '/' at the end
+
+            # reset start to beginning of next substr
+            start = end + 1
+
+        return res
+
+input = "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext\n\tsubdir3\n\tveryveryveryveryveryveryveryveryveryverylong.txt"
+#"abc.exe"
+#"dir\ndir1\nabc.txt"
+#"dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext\n\tsubdir3\n\tveryveryveryveryveryveryveryveryveryverylong.txt"
+obj = Solution()
+print(obj.lengthLongestPath(input))

@@ -24,4 +24,14 @@ class Solution:
         :type t: str
         :rtype: str
         """
-        
+        c1, c2 = set(s), set(t)
+        c3 = c2.difference(c1)
+        if c3:
+            return c3.pop()
+        else:
+            return [c for c in c1 if s.count(c) != t.count(c)][0]
+
+s = "abcd"
+t = "abcdb"
+obj = Solution()
+print(obj.findTheDifference(s,t))

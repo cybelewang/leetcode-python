@@ -8,6 +8,7 @@ Please optimize your algorithm to use less time and space. The input size may be
 """
 from collections import deque
 class Solution:
+    # OJ's best solution
     def lexicalOrder(self, n):
         """
         :type n: int
@@ -16,7 +17,8 @@ class Solution:
         nums = list(range(1, n+1))
         nums.sort(key=str)
         return nums
-
+        
+    # iterative solution
     def lexicalOrder2(self, n):
         """
         :type n: int

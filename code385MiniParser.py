@@ -89,7 +89,7 @@ class Solution:
                     stack[-1].add(ni)
                 stack.append(ni)
             elif c == ']':
-                if s[i-1] != ']':   # a corner case about the second ']' of '[[1]]'
+                if s[i-1].isdigit():   # a corner case about the second ']' of '[[1]]', and empty list'[]'
                     stack[-1].add(NestedInteger(sign*value))
                     value, sign = 0, 1
                 res = stack.pop()   # s must end with ']'
