@@ -13,6 +13,15 @@ class Solution:
         :type n: int
         :rtype: List[int]
         """
+        nums = list(range(1, n+1))
+        nums.sort(key=str)
+        return nums
+
+    def lexicalOrder2(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
         stack = deque(range(min(9, n), 0, -1))   # initialize queue with 9 to 0
         res = []
         while len(stack) > 0:
@@ -23,7 +32,7 @@ class Solution:
         return res
 
     # recursive solution
-    def lexicalOrder2(self, n):
+    def lexicalOrder3(self, n):
         """
         :type n: int
         :rtype: List[int]

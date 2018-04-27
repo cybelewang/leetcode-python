@@ -85,7 +85,7 @@ class Solution:
                 sign = -1
             elif c == '[':  # create a NestedInteger object with empty list
                 ni = NestedInteger()
-                if not stack:
+                if stack:
                     stack[-1].add(ni)
                 stack.append(ni)
             elif c == ']':
@@ -99,4 +99,14 @@ class Solution:
             else:
                 value = value*10 + ord(c) - ord('0')
         
-        return res        
+        return res
+
+
+"""
+Input:
+"[]"
+Output:
+[0]
+Expected:
+[]
+"""
