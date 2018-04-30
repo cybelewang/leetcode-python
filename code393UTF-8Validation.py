@@ -38,4 +38,44 @@ class Solution:
         :type data: List[int]
         :rtype: bool
         """
+        start = 0
+        while start < len(data):
+            first = data[start]
+            count, factor = 0, 0x80
+            while first & factor:
+                count += 1
+                factor //=2
+            mask = 1 << (7-count)   # bit 1 on the '0' position
+            if count == 1 or first & mask:
+                return False
+            # decoded value from the first byte
+            value = first & (mask - 1)
+            
+            # count == 0, no need to check
+            # count == 2 to 4, check if following integers start with binary 10
+            for i in range(1, count):
+                # maybe out of index
+                if start + i >= len(data):
+                    return False
+                follow = data[start + i]
+                if follow & 0xC0 != 0x80:
+                    return False
+
+                # continuously update the decoded value
+                value = (value << 6) + (follow & 0x3F)
+
+            # now check if decoded value is in range, we only need to check if value >= min_range
+            # count == 0, always valid
+            if (count == 2 and value < 0x80) or \
+                (count == 3 and value < 0x800) or \
+                (count == 4 and value < 0x10000):
+                return False
+
+            # advance start index
+            start += count if count > 0 else 1  # bug fixed: count may be zero and start will never advance!!!
         
+        return True
+
+obj = Solution()
+data = [235, 140, 4]
+print(obj.validUtf8(data))
