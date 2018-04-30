@@ -94,8 +94,9 @@ class Solution:
                     value, sign = 0, 1
                 res = stack.pop()   # s must end with ']'
             elif c == ',':
-                stack[-1].add(NestedInteger(sign*value))
-                value, sign = 0, 1
+                if s[i-1].isdigit():   # corner case '[],[]'
+                    stack[-1].add(NestedInteger(sign*value))
+                    value, sign = 0, 1
             else:
                 value = value*10 + ord(c) - ord('0')
         
@@ -109,4 +110,13 @@ Output:
 [0]
 Expected:
 []
+"""
+
+"""
+Input:
+"[123,456,[788,799,833],[[]],10,[]]"
+Output:
+[123,456,[788,799,833],0,[[]],0,10,[]]
+Expected:
+[123,456,[788,799,833],[[]],10,[]]
 """

@@ -20,9 +20,28 @@ Output:
 6
 """
 class Solution:
+    # OJ best solution
     def lastRemaining(self, n):
         """
         :type n: int
         :rtype: int
         """
-        
+        start,i=0,1
+        left=True
+        while n>1:            
+            if left or n%2==1:
+                start+=i
+            n//=2    
+            i*=2
+            left=not left
+        return start+1
+
+    # http://www.cnblogs.com/grandyang/p/5860706.html
+    def lastRemaining2(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        return 1 if n == 1 else 2*(1 + n//2 - self.lastRemaining(n//2))
+
+print(Solution().lastRemaining(9))

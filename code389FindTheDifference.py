@@ -17,8 +17,18 @@ e
 Explanation:
 'e' is the letter that was added.
 """
+import collections
 class Solution:
+    # OJ best solution
     def findTheDifference(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        return list(collections.Counter(t) - collections.Counter(s))[0]
+    # my own solution
+    def findTheDifference2(self, s, t):
         """
         :type s: str
         :type t: str
