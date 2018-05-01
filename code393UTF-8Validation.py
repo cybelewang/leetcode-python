@@ -33,7 +33,30 @@ The next byte is a continuation byte which starts with 10 and that's correct.
 But the second continuation byte does not start with 10, so it is invalid.
 """
 class Solution:
+    # OJ's best solution, but OJ test cases don't check data range
     def validUtf8(self, data):
+        """
+        :type data: List[int]
+        :rtype: bool
+        """
+        count=0
+        for x in data:
+            if count==0:
+                if x>>5==0b110:
+                    count=1
+                elif x>>4==0b1110:
+                    count=2
+                elif x>>3==0b11110:
+                    count=3
+                elif x>>7==1:
+                    return False
+            else:
+                if x>>6!=0b10:
+                    return False
+                count-=1
+        return count==0
+    # my solution, also checking the data range
+    def validUtf8_2(self, data):
         """
         :type data: List[int]
         :rtype: bool
@@ -45,6 +68,8 @@ class Solution:
             while first & factor:
                 count += 1
                 factor //=2
+            if count > 4:   # bug fixed: count may > 4
+                return False
             mask = 1 << (7-count)   # bit 1 on the '0' position
             if count == 1 or first & mask:
                 return False
@@ -77,5 +102,5 @@ class Solution:
         return True
 
 obj = Solution()
-data = [235, 140, 4]
+data = [194,155,231,184,185,246,176,131,161,222,174,227,162,134,241,154,168,185,218,178,229,187,139,246,178,187,139,204,146,225,148,179,245,139,172,134,193,156,233,131,154,240,166,188,190,216,150,230,145,144,240,167,140,163,221,190,238,168,139,241,154,159,164,199,170,224,173,140,244,182,143,134,206,181,227,172,141,241,146,159,170,202,134,230,142,163,244,172,140,191]
 print(obj.validUtf8(data))
