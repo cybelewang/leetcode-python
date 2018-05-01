@@ -27,4 +27,16 @@ class Solution:
         :type A: List[int]
         :rtype: int
         """
+        n, s = len(A), sum(A)
+        F = sum(map(lambda x, y: x*y, range(n), A)) # F(0)
+        res = F
+
+        for i in range(1, n):
+            F += s - n*A[n-i]   # F(i) - F(i-1) = sum(A) - n*A[n-i]
+            res = max(res, F)
         
+        return res
+
+obj = Solution()
+A = []
+print(obj.maxRotateFunction(A))
