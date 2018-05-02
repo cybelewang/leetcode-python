@@ -21,29 +21,39 @@ Output:
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
 """
 class Solution:
-    # http://www.cnblogs.com/grandyang/p/5852352.html
+    # https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/discuss/87768/4-lines-Python
     def longestSubstring(self, s, k):
         """
         :type s: str
         :type k: int
         :rtype: int
         """
-        i, res = 0, 0
-        while (len(s) - i) > res:            
+        for c in set(s):
+            if s.count(c) < k:
+                return max(self.longestSubstring(t, k) for t in s.split(c))
+        return len(s)
+    # TLE
+    # http://www.cnblogs.com/grandyang/p/5852352.html
+    def longestSubstring2(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: int
+        """
+        i, res, n = 0, 0, len(s)
+        while (n - i) > res:            
             max_index = i
             mask = 0  # bit 0: >= k, bit 1: < k. bug fixed: we should not initialize mask to (1<<26) - 1 but let the inner for loop to set the bit.
-            map = {}    # save the count of each character
+            map = [0]*26    # save the count of each character
             for j in range(i, len(s)):
-                if s[j] not in map:
-                    map[s[j]] = 1
-                else:
-                    map[s[j]] += 1
-                if map[s[j]] >= k:
+                t = ord(s[j]) - ord('a')
+                map[t] += 1
+                if map[t] >= k:
                     # set corresponding bit to 0
-                    mask &= ~(1<<(ord(s[j]) - ord('a')))
+                    mask &= ~(1<<t)
                 else:
                     # set corresponding bit to 1
-                    mask |= 1<<(ord(s[j]) - ord('a'))
+                    mask |= 1<<t
 
                 if mask == 0:
                     res = max(res, j-i+1)

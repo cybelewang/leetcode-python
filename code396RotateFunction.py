@@ -28,7 +28,8 @@ class Solution:
         :rtype: int
         """
         n, s = len(A), sum(A)
-        F = sum(map(lambda x, y: x*y, range(n), A)) # F(0)
+        #F = sum(map(lambda x, y: x*y, range(n), A)) # F(0)
+        F = sum([i*x for i, x in enumerate(A)])
         res = F
 
         for i in range(1, n):
