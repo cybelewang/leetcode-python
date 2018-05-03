@@ -28,4 +28,15 @@ class Solution:
         :type n: int
         :rtype: int
         """
-        
+        length, count = 0, 0
+        while count < n:
+            length += 1
+            count += 9*(10**(length-1))*length
+            
+        count -= 9*(10**(length-1))*length
+
+        num = 10**(length - 1) + (n-count-1)//length
+        return ord(str(num)[(n-count-1)%length]) - ord('0')
+
+obj = Solution()
+print(obj.findNthDigit(2**31-1))
