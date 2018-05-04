@@ -45,6 +45,9 @@ class Solution:
         res = []
         for query in queries:
             a, b = query[0], query[1]
+            if a not in graph or b not in graph:
+                res.append(-1.0)
+                continue
             if a == b:
                 res.append(1.0)
                 continue

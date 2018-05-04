@@ -39,4 +39,4 @@ class Solution:
         return ord(str(num)[(n-count-1)%length]) - ord('0')
 
 obj = Solution()
-print(obj.findNthDigit(2**31-1))
+print(obj.findNthDigit(3))
