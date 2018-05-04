@@ -20,6 +20,12 @@ Input: num = "10", k = 2
 Output: "0"
 Explanation: Remove all the digits from the number and it is left with nothing which is 0.
 """
+# use a deque
+# if this digit d < last digit in deque, keep poping the last digit from deque until d >= last digit, or deque is empty, or count == k
+# if count still < k after the above process, removing large digits from the end to beginning (pop method)
+# remove leading '0's
+# finally if stack is empty return '0' otherwise return the actual stack string
+from collections import deque
 class Solution:
     def removeKdigits(self, num, k):
         """
@@ -27,4 +33,27 @@ class Solution:
         :type k: int
         :rtype: str
         """
+        stack = deque()
+        count = 0
+        for d in num:
+            while count < k and stack and d < stack[-1]:
+                stack.pop()
+                count += 1
+
+            stack.append(d)
+
+        # remove large digits from end
+        while stack and count < k:
+            stack.pop()
+            count += 1
         
+        # remove leading '0's
+        while stack and stack[0] == '0':
+            stack.popleft()
+        
+        return ''.join(stack) if stack else '0'
+
+test_cases = [('1', 1), ('78912', 3), ('1432219', 3), ('100200', 1), ('100',1)]
+obj = Solution()
+for num, k in test_cases:
+    print(obj.removeKdigits(num, k))

@@ -23,4 +23,32 @@ class Solution:
         :type num: int
         :rtype: List[str]
         """
+        def dfs(cur, i, used, res):
+            """
+            cur: current number
+            i: the bit index from 0 to 9
+            used: number of bits set to 1            
+            """
+            if used == num:
+                res.append(self.getTime(cur))
+                return
+            if num - used < 10 - i: # check if OK to set this bit as 0
+                dfs(cur, i+1, used, res)
+            dfs(cur|(1<<i), i+1, used+1, res)
         
+        res = []
+        if num < 11:
+            dfs(0, 0, 0, res)
+        
+        return res
+
+    def getTime(self, num):
+        """
+        converts number to clock time
+        lower 6 bits for minutes
+        higher 4 bits for hours
+        """
+        return str(num//64)+':'+('0' if num%64 < 10 else '')+str(num%64)
+
+obj = Solution()
+print(obj.readBinaryWatch(1))
