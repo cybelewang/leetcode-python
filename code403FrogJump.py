@@ -30,10 +30,37 @@ Example 2:
 Return false. There is no way to jump to the last stone as 
 the gap between the 5th and 6th stone is too large.
 """
+# DFS + HashMap
 class Solution:
     def canCross(self, stones):
         """
         :type stones: List[int]
         :rtype: bool
         """
+        if not stones:  # ask this corner case
+            return False
         
+        def dfs(cur, k, ss, mem):
+            if cur == stones[-1]:
+                return True
+            elif cur < stones[-1]:
+                if (cur, k) in mem:
+                    return mem[(cur, k)]
+                else:
+                    res = False
+                    for offset in range(-1,2):
+                        next = cur + k + offset
+                        if next > cur and next in ss:
+                            res = res or dfs(next, k+offset, ss, mem)
+                    
+                    mem[(cur, k)] = res
+                    return res
+            else:
+                return False
+
+        ss, mem = set(stones), {}
+        return dfs(0, 0, ss, mem)
+
+stones = [0,1,3,5,6,8,12,17]
+obj = Solution()
+print(obj.canCross(stones))

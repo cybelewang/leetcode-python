@@ -27,7 +27,23 @@ Explanation: Remove all the digits from the number and it is left with nothing w
 # finally if stack is empty return '0' otherwise return the actual stack string
 from collections import deque
 class Solution:
+    # OJ's best solution
     def removeKdigits(self, num, k):
+        """
+        :type num: str
+        :type k: int
+        :rtype: str
+        """
+        out=[]
+        for digit in num:
+            while k and out and out[-1] > digit:
+                out.pop()
+                k-=1
+            out.append(digit)
+        return ''.join(out[:-k or None]).lstrip('0') or "0"
+        
+    # my own solution
+    def removeKdigits2(self, num, k):
         """
         :type num: str
         :type k: int
