@@ -28,4 +28,22 @@ class Solution:
         :type num: int
         :rtype: str
         """
+        # two's complement
+        if num < 0:
+            num += 2**32
+
+        res = ''
+        while num:
+            d = num%16
+            if d < 10:
+                res = chr(d + ord('0')) + res
+            else:
+                res = chr(d - 10 + ord('a')) + res
+            num //= 16
         
+        return res or '0'
+
+test_cases = [0, 26, -1]
+obj = Solution()
+for num in test_cases:
+    print(obj.toHex(num))
