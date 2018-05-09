@@ -26,7 +26,7 @@ class Solution:
     # TLE
     # similar to Reverse Pairs
     # http://www.cnblogs.com/grandyang/p/5933787.html, method 2
-    def splitArray(self, nums, m):
+    def splitArray2(self, nums, m):
         """
         :type nums: List[int]
         :type m: int
@@ -53,7 +53,7 @@ nums = [499,498,497,496,495,494,493,492,491,490,489,488,487,486,485,484,483,482,
 m = 50
 
 obj = Solution()
-print(obj.splitArray(nums, m))
+print(obj.splitArray2(nums, m))
 
 """
 The answer is between maximum value of input array numbers and sum of those numbers.

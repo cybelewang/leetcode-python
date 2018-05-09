@@ -21,13 +21,57 @@ The above image represents the elevation map [[1,4,3,1,3,2],[3,2,1,3,2,4],[2,3,3
 
 After the rain, water is trapped between the blocks. The total volume of water trapped is 4.
 """
-# similar to 42, trapping raing water
-# here we use a mxn matrix to store the trapped water
-# first fill matrix row by row, using the method in problem 42
-# then fill matrix column by column, and take the minimum value
-# finally sum all water in the matrix
+from heapq import heappush, heappop
 class Solution:
+    # MinHeap + BFS
+    # 1. push all board cells into MinHeap by comparing the height, and mark them as "visited"
+    # 2. poll the first (min) cell from MinHeap, and check its non-visited neighbors, if neighbor's height < this cell's height, add difference into res, 
+    # and push the neighbor cell (with >= this cell's height) into MinHeap, mark this neighbor as visited
+    # we always process the minimum height cell first, because it determines the plank level
     def trapRainWater(self, heightMap):
+        """
+        :type heightMap: List[List[int]]
+        :rtype: int
+        """
+        if not heightMap:
+            return 0
+
+        m, n = len(heightMap), len(heightMap[0])
+        visited = [[False]*n for _ in range(m)]
+        neighbors = [(0, -1), (-1, 0), (0, 1), (1, 0)] # left, above, right, below
+        queue = []
+
+        # push top and bottom row cells into MinHeap
+        for row in {0, m-1}:# use a set to avoid adding the first row into MinHeap twice
+            for j in range(n):
+                heappush(queue, (heightMap[row][j], row, j))
+                visited[row][j] = True
+        
+        for col in {0, n-1}:
+            for i in range(1, m-1):
+                heappush(queue, (heightMap[i][col], i, col))
+                visited[i][col] = True
+        
+        res = 0
+        # BFS from outer to inner, like peeling the onion
+        while queue:
+            height, row, col = heappop(queue)
+            for dx, dy in neighbors:
+                i, j = row + dx, col + dy
+                if -1 < i < m and -1 < j < n and not visited[i][j]:
+                    visited[i][j] = True
+                    res += max(0, height - heightMap[i][j]) # avoid using if-else
+                    heappush(queue, (max(height, heightMap[i][j]), i, j))   # tricky!!!
+        
+        return res
+
+    # Below is a wrong solution. The reason is that the plank water level may not be determined by that column or row, see [[12,13,1,12],[13,4,13,12],[13,8,10,12],[12,13,12,12],[13,13,13,13]]
+    # similar to 42, trapping raing water
+    # here we use a mxn matrix to store the trapped water
+    # first fill matrix row by row, using the method in problem 42
+    # then fill matrix column by column, and take the minimum value
+    # finally sum all water in the matrix
+    def trapRainWater2(self, heightMap):
         """
         :type heightMap: List[List[int]]
         :rtype: int
