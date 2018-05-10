@@ -28,6 +28,7 @@ class Solution:
     # 2. poll the first (min) cell from MinHeap, and check its non-visited neighbors, if neighbor's height < this cell's height, add difference into res, 
     # and push the neighbor cell (with >= this cell's height) into MinHeap, mark this neighbor as visited
     # we always process the minimum height cell first, because it determines the plank level
+    # https://leetcode.com/problems/trapping-rain-water-ii/discuss/89461/Java-solution-using-PriorityQueue
     def trapRainWater(self, heightMap):
         """
         :type heightMap: List[List[int]]

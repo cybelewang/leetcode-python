@@ -23,6 +23,41 @@ where the largest sum among the two subarrays is only 18.
 """
 
 class Solution:
+    # binary search
+    # https://leetcode.com/problems/split-array-largest-sum/discuss/89817/Clear-Explanation:-8ms-Binary-Search-Java
+    def splitArray(self, nums, m):
+        """
+        :type nums: List[int]
+        :type m: int
+        :rtype: int
+        """
+        if not nums: return 0
+        l, r = 0, 0
+        for num in nums:
+            l = max(l, num)
+            r += num
+
+        while l <= r:
+            mid = (l + r)//2
+            if self.valid(mid, nums, m):
+                r = mid - 1
+            else:
+                l = mid + 1
+        
+        return l
+
+    def valid(self, target, nums, m):
+        count, total = 1, 0
+        for num in nums:
+            total += num
+            if total > target:
+                count += 1
+                total = num
+                if count > m:
+                    return False
+        
+        return True
+
     # TLE
     # similar to Reverse Pairs
     # http://www.cnblogs.com/grandyang/p/5933787.html, method 2
@@ -53,7 +88,7 @@ nums = [499,498,497,496,495,494,493,492,491,490,489,488,487,486,485,484,483,482,
 m = 50
 
 obj = Solution()
-print(obj.splitArray2(nums, m))
+print(obj.splitArray(nums, m))
 
 """
 The answer is between maximum value of input array numbers and sum of those numbers.
