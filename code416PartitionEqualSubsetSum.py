@@ -21,8 +21,29 @@ Explanation: The array cannot be partitioned into equal sum subsets.
 """
 from bisect import bisect_left
 class Solution:
+    # Knapsack algorithm, see OneNote under Sum related
+    # https://leetcode.com/problems/partition-equal-subset-sum/discuss/90592/01-knapsack-detailed-explanation
+    def canPartition(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        total = sum(nums)
+        if total & 1:
+            return False
+        
+        target = total//2
+        dp = [False]*(target+1)
+        dp[0] = True
+
+        for num in nums:
+            for i in range(target, num-1, -1):
+                dp[i] = dp[i] or dp[i-num]
+
+        return dp[target]
+
     # Wrong solution. Target number sum(nums)//2 is not necessarily to be the sum beginning from smallest number.
-    def canPartition2(self, nums):
+    def canPartition3(self, nums):
         """
         :type nums: List[int]
         :rtype: bool
@@ -46,4 +67,4 @@ class Solution:
         return nums[index] == (nums[-1]//2)
 
 obj = Solution()
-print(obj.canPartition2([1, 2, 3, 4, 6]))
+print(obj.canPartition([1, 2, 3, 4, 6]))
