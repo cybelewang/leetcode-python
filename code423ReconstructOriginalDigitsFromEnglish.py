@@ -51,5 +51,9 @@ class Solution:
             for c in s:
                 letter_count[ord(c) - base] -= digit_count[num]
 
-        return ''.join(map(str, sum([i]*digit_count[i] for i in range(10), [])))        
+        digits = []
+        for i in range(10):
+            digits.extend([i]*digit_count[i])
+
+        return ''.join(map(str, digits))        
 
