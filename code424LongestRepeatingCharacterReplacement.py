@@ -35,7 +35,19 @@ class Solution:
         :type k: int
         :rtype: int
         """
+        i, j, count, base = 0, 0, [0]*26, ord('A')
+        while j < len(s):
+            count[ord(s[j]) - base] += 1
+            j += 1
+            if j - i - max(count) > k:
+                count[ord(s[i]) - base] -= 1
+                i += 1
+        
+        return j - i
 
+s = "ABCABBC"
+obj = Solution()
+print(obj.characterReplacement(s, 2))
 """
 https://leetcode.com/problems/longest-repeating-character-replacement/discuss/91278/7-lines-C++
 Based on the Python solution by @dalwise. Use a sliding window s[i:j], always add the new character, and remove the first window character if the extension isn't ok. So in each step, either extend the window by one or move it by one.
