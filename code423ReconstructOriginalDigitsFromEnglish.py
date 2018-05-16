@@ -13,7 +13,9 @@ Example 2:
 Input: "fviefuro"
 
 Output: "45"
+"""
 
+"""
 first round to find the fingerprint letter
 zero    ->      eorz    ->  z(1)
 two     ->      otw     ->  w(1)
@@ -37,8 +39,8 @@ class Solution:
         :type s: str
         :rtype: str
         """
-        digit_count = [0]*10
-        letter_count = [0]*26
+        digit_count = [0]*10    # digit_count[i] is the number of digit i in the final result
+        letter_count = [0]*26   # letter_count[i] is the number of character c with ord(c) = i + ord('a')
         base = ord('a')
         
         fp = [('z', 'zero', 0), ('w', 'two', 2), ('u', 'four', 4), ('x', 'six', 6), ('o', 'one', 1), ('r', 'three', 3), ('f', 'five', 5), ('s', 'seven', 7), ('g', 'eight', 8), ('e', 'nine', 9)]
@@ -51,9 +53,13 @@ class Solution:
             for c in s:
                 letter_count[ord(c) - base] -= digit_count[num]
 
+        return ''.join(map(str, sum([[i]*digit_count[i] for i in range(10)], [])))
+"""
         digits = []
         for i in range(10):
             digits.extend([i]*digit_count[i])
 
-        return ''.join(map(str, digits))        
-
+        return ''.join(map(str, digits))
+"""
+obj = Solution()
+print(obj.originalDigits("owoztneoer"))
