@@ -7,13 +7,19 @@ GetMaxKey() - Returns one of the keys with maximal value. If no element exists, 
 GetMinKey() - Returns one of the keys with minimal value. If no element exists, return an empty string "".
 Challenge: Perform all these in O(1) time complexity.
 """
+
+# use two dict, one from key to count, and the other one from count to a set of keys
+from collections import defaultdict
 class AllOne:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.strcnt = defaultdict(int)
+        self.cntstrs = defaultdict(set)
+        self.min = 0
+        self.max = 0
 
     def inc(self, key):
         """
@@ -21,7 +27,15 @@ class AllOne:
         :type key: str
         :rtype: void
         """
-        
+        cnt = self.strcnt[key]  # get original count
+        if cnt > 0:
+            self.cntstrs[cnt].discard(key)  # remove from original count-set(str) dict
+
+        cnt += 1    # increase count
+        self.strcnt[key] += 1   # update count for key
+
+        self.cntstrs[cnt].add(key)  # add key into new count's dict
+        self.max = max(self.max, cnt)   # update max count of the whole class
 
     def dec(self, key):
         """
@@ -29,21 +43,44 @@ class AllOne:
         :type key: str
         :rtype: void
         """
-        
+        cnt = self.strcnt[key]  # get original count
+        if cnt > 0:
+            self.cntstrs[cnt].discard(key)  # remove from original count-set(str) dict
+
+            cnt -= 1    # decrease count
+            self.strcnt[key] -= 1   # update count for key
+
+            if cnt > 0:
+                self.cntstrs[cnt].add(key)  # add key into new count's dict
+                self.min = max(self.min, cnt)   # update min count of the whole class
 
     def getMaxKey(self):
         """
         Returns one of the keys with maximal value.
         :rtype: str
         """
-        
+        keys = self.cntstrs[self.max]
+        if keys:
+            res = keys.pop()
+            keys.add(res)
+            return res
+        else:
+            return ''
 
     def getMinKey(self):
         """
         Returns one of the keys with Minimal value.
         :rtype: str
         """
-        
+        keys = self.cntstrs[self.min]
+        if keys:
+            res = keys.pop()
+            keys.add(res)
+            return res
+        else:
+            return ''
+
+
 
 
 # Your AllOne object will be instantiated and called as such:
