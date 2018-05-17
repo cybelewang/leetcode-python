@@ -39,15 +39,17 @@ class Solution:
         while j < len(s):
             count[ord(s[j]) - base] += 1
             j += 1
-            if j - i - max(count) > k:
+            if j - i - max(count) > k: # (j-i) is the current window size, or the current result to return until this loop step
+                # we need to maintain the window size by rolling s[i] out (j increases by 1, so window size j - i doesn't change)
                 count[ord(s[i]) - base] -= 1
                 i += 1
+            # if j - i <= max(count) + k, we don't need to roll s[i] out
         
         return j - i
 
 s = "ABCABBC"
 obj = Solution()
-print(obj.characterReplacement(s, 2))
+print(obj.characterReplacement(s, 2)) # "CA" can be replaced by "BB", thus result is 5
 """
 https://leetcode.com/problems/longest-repeating-character-replacement/discuss/91278/7-lines-C++
 Based on the Python solution by @dalwise. Use a sliding window s[i:j], always add the new character, and remove the first window character if the extension isn't ok. So in each step, either extend the window by one or move it by one.
