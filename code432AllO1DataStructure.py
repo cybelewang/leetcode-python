@@ -16,10 +16,10 @@ class AllOne:
         """
         Initialize your data structure here.
         """
-        self.strcnt = defaultdict(int)
-        self.cntstrs = defaultdict(set)
-        self.min = 0
-        self.max = 0
+        self.key_value = defaultdict(int)   # map from key to its value
+        self.value_keys = defaultdict(set)  # map from count to a set of keys with this value
+        self.min = 0    # min value
+        self.max = 0    # max value
 
     def inc(self, key):
         """
@@ -27,15 +27,24 @@ class AllOne:
         :type key: str
         :rtype: void
         """
-        cnt = self.strcnt[key]  # get original count
-        if cnt > 0:
-            self.cntstrs[cnt].discard(key)  # remove from original count-set(str) dict
-
-        cnt += 1    # increase count
-        self.strcnt[key] += 1   # update count for key
-
-        self.cntstrs[cnt].add(key)  # add key into new count's dict
-        self.max = max(self.max, cnt)   # update max count of the whole class
+        value = self.key_value[key]  # get original value, if the key doesn't exist, value is 0
+        keys = self.value_keys[value]  # get original set of keys corresponding to value, if the value doesn't exist, keys is empty set
+        keys.discard(key)  # remove key from original value - key sets, if key exists in the set
+        if not keys:
+            self.value_keys.pop(value)
+            """
+            # What's wrong with the below code? think about after inc('a') twice, max and min are 2, and now inc('b'), min will not be updated to 1
+            if self.min == value:
+                self.min = value + 1
+            """
+        # increase value and update maps
+        value += 1
+        self.key_value[key] = value
+        self.value_keys[value].add(key)
+        # update max
+        self.max = max(self.max, value)
+        # update min
+        self.min = 1 if self.min == 0 else min(self.min, value)
 
     def dec(self, key):
         """
@@ -43,46 +52,74 @@ class AllOne:
         :type key: str
         :rtype: void
         """
-        cnt = self.strcnt[key]  # get original count
-        if cnt > 0:
-            self.cntstrs[cnt].discard(key)  # remove from original count-set(str) dict
+        if key not in self.key_value:
+            return
+        # get original value and key set
+        value = self.key_value[key]
+        keys = self.value_keys[value]
+        keys.discard(key)
+        if not keys:
+            self.value_keys.pop(value)
+            if self.max == value:
+                self.max = value - 1
 
-            cnt -= 1    # decrease count
-            self.strcnt[key] -= 1   # update count for key
+        # decrease value and update maps
+        value -= 1
+        if value > 0:
+            self.key_value[key] = value
+            self.value_keys[value].add(key)
+        else:# bug fixed: forgot to pop key with value 0
+            self.key_value.pop(key)
 
-            if cnt > 0:
-                self.cntstrs[cnt].add(key)  # add key into new count's dict
-                self.min = max(self.min, cnt)   # update min count of the whole class
+        # update min
+        self.min = 1 if self.min == 0 else min(self.min, value)
 
     def getMaxKey(self):
         """
         Returns one of the keys with maximal value.
         :rtype: str
         """
-        keys = self.cntstrs[self.max]
-        if keys:
+        if self.max == 0:
+            return ''
+        else:
+            keys = self.value_keys[self.max]
             res = keys.pop()
             keys.add(res)
             return res
-        else:
-            return ''
 
     def getMinKey(self):
         """
         Returns one of the keys with Minimal value.
         :rtype: str
         """
-        keys = self.cntstrs[self.min]
-        if keys:
+        if self.min == 0:
+            return ''
+        else:
+            keys = self.value_keys[self.min]
             res = keys.pop()
             keys.add(res)
             return res
-        else:
-            return ''
 
-
-
-
+obj = AllOne()
+print(obj.min)
+print(obj.max)
+obj.inc('a')
+print(obj.min)
+print(obj.max)
+obj.dec('a')
+print(obj.min)
+print(obj.max)
+obj.inc('a')
+obj.inc('a')
+obj.inc('b')
+print(obj.min)
+print(obj.max)
+obj.dec('b')
+obj.inc('c')
+obj.inc('c')
+obj.inc('c')
+print(obj.min)
+print(obj.max)
 # Your AllOne object will be instantiated and called as such:
 # obj = AllOne()
 # obj.inc(key)
