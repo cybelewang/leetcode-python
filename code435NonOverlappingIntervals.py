@@ -35,4 +35,24 @@ class Solution:
         :type intervals: List[Interval]
         :rtype: int
         """
+        if not intervals:
+            return 0
+
         intervals.sort(key = lambda x : x.start)
+        ref, res = intervals[0], 0
+        for i in range(1, len(intervals)):
+            if intervals[i].start < ref.end:
+                res += 1
+                if intervals[i].end >= ref.end:
+                    continue
+            ref = intervals[i]
+
+        return res
+
+#input = [[1,4],[2,3],[3,4]]
+#input = [ [1,2], [2,3], [3,4], [1,3] ]
+input = [ [1,2], [1,2], [1,2] ]
+intervals = [Interval(s, e) for (s, e) in input]
+
+obj = Solution()
+print(obj.eraseOverlapIntervals(intervals))
