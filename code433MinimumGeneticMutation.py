@@ -36,6 +36,7 @@ bank: ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
 
 return: 3
 """
+from collections import deque
 class Solution(object):
     def minMutation(self, start, end, bank):
         """
@@ -44,4 +45,59 @@ class Solution(object):
         :type bank: List[str]
         :rtype: int
         """
+        def encode(s):
+            """
+            encode input string to a 16-bit integer
+            A: 0b00
+            C: 0b01
+            G: 0b10
+            T: 0b11
+            """
+            res = 0
+            for c in s:
+                res <<= 2
+                if c == 'C':
+                    res += 1
+                elif c == 'G':
+                    res += 2
+                elif c == 'T':
+                    res += 3
+            
+            return res
         
+        valid = set()
+        for s in bank:
+            valid.add(encode(s))
+        
+        s, e = encode(start), encode(end)
+        #valid.add(e)   # ask if we need to add end to bank?
+        
+        # BFS
+        q, visited, level = deque(), set(), 0
+        q.append(s)
+        visited.add(s)
+        while q:
+            l = len(q)
+            for i in range(l):
+                current = q.popleft()
+                if current == e:
+                    return level
+                # iterate all possible mutations
+                for shift in range(8):
+                    mask = 0xFFFF - (0b11<<(2*shift))   # mask to reset the two bits to 0
+                    base = current & mask
+                    for offset in range(4): # iterate A C G T
+                        num = base + (offset << (2*shift))
+                        if num not in visited and num in valid:
+                            visited.add(num)
+                            q.append(num)
+
+            level += 1
+
+        return -1
+
+obj = Solution()
+start="AACCGGTT"
+end = "AACCGGTA"
+bank = []
+print(obj.minMutation(start, end, bank))

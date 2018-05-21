@@ -24,10 +24,10 @@ Output: 0
 Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
 """
 # Definition for an interval.
-# class Interval:
-#     def __init__(self, s=0, e=0):
-#         self.start = s
-#         self.end = e
+class Interval:
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
 
 class Solution:
     def eraseOverlapIntervals(self, intervals):
@@ -35,4 +35,4 @@ class Solution:
         :type intervals: List[Interval]
         :rtype: int
         """
-        
+        intervals.sort(key = lambda x : x.start)

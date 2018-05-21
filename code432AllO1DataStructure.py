@@ -8,9 +8,17 @@ GetMinKey() - Returns one of the keys with minimal value. If no element exists, 
 Challenge: Perform all these in O(1) time complexity.
 """
 
-# use two dict, one from key to count, and the other one from count to a set of keys
+# The correct solution is to use a bi-direction linked list, like C++'s list, or Java's LinkedList.
+# Each list node will be a struct(C++) or tuple (Java) like (value, HashSet(key)), so the min and max value can be got from the linkedlist's head and tail
+# When inc a key, we move the key from current value's list node to next value's list node
+# when dec a key, we move the key from current value's list node to previous value's list node
+
+# a wrong solution. 
+# use two dict, one from key to count, and the other one from count to a set of keys. use member min and max to track min value and max value. The problem is it's impossible to update min and max in O(1)
+# think about an example: inc('a') 5 times, and inc('b') 3 times and inc('c') 1 time, now min = 1, max = 5, then dec('c'), how does min update to 3?
+# 
 from collections import defaultdict
-class AllOne:
+class AllOne2:
 
     def __init__(self):
         """
@@ -100,7 +108,7 @@ class AllOne:
             keys.add(res)
             return res
 
-obj = AllOne()
+obj = AllOne2()
 print(obj.min)
 print(obj.max)
 obj.inc('a')
