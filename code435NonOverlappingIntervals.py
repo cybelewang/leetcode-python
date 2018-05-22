@@ -30,6 +30,8 @@ class Interval:
         self.end = e
 
 class Solution:
+    # sort the intervals based on their start value
+    # then iterate all the intervals, when seeing overlapped intervals, always keep the interval with smaller end value
     def eraseOverlapIntervals(self, intervals):
         """
         :type intervals: List[Interval]

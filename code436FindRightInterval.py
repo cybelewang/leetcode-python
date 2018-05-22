@@ -38,10 +38,36 @@ class Interval:
 
 from bisect import bisect_left, insort_left
 class Solution:
+    # OJ's best
+    def findRightInterval(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[int]
+        """
+        minVal = 100000
+        maxVal = -100000
+        for interval in intervals:
+            minVal = min(minVal, interval.start)
+            maxVal = max(maxVal, interval.end)
+        
+        bucketLength = maxVal -minVal + 1
+        bucket = [-1] * bucketLength
+        for index, interval in enumerate(intervals):
+            bucket[interval.start - minVal] = index
+        
+        for i in range(len(bucket) - 2, -1, -1):
+            if bucket[i] == -1:
+                bucket[i] = bucket[i + 1]
+        
+        result = [-1] * len(intervals)
+        for index, interval in enumerate(intervals):
+            result[index] = bucket[interval.end - minVal]
+        return result
+    # My solution
     # Add tuple(start, index) into a binary search array using the bisect_left method, O(n)
     # For each interval, find the insertion index for interval.end in the above tuple array, and append the index in tuple, O(logn)
     # The overall time complexity is O(nlogn)
-    def findRightInterval(self, intervals):
+    def findRightInterval2(self, intervals):
         """
         :type intervals: List[Interval]
         :rtype: List[int]

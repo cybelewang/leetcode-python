@@ -71,6 +71,7 @@ class Solution:
             return res
 
 # pure recursive solution
+# wrong solution!
 class Solution2:
 
     def pathSum(self, root, sum):
@@ -105,7 +106,7 @@ class Solution2:
         self.helper(node.right, 0, target) # starting from right child
 
 null = None
-test_case =  [10,5,-3,3,2,null,11,3,-2,null,1]
+test_case =  [1,null,2,null,3,null,4,null,5]
 root = ListToTree(test_case)
-print(Solution().pathSum(root, 8))
+print(Solution2().pathSum(root, 3)) # expected 2
         
