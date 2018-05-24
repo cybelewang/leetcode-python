@@ -45,10 +45,21 @@ Note:
 All characters have an ASCII value in [35, 126].
 1 <= len(chars) <= 1000.
 """
+from collections import Counter
 class Solution:
     def compress(self, chars):
         """
         :type chars: List[str]
         :rtype: int
         """
-        
+        res, char_count = 0, Counter(chars)
+        for c in char_count:
+            count = char_count[c]            
+            res += 1 + len(str(count))
+            if count == 1: res -= 1 # remove the number if the count of letter is only 1
+            
+        return res
+
+chars = ["a","a","b","b","c","c","c"]
+obj = Solution()
+print(obj.compress(chars))

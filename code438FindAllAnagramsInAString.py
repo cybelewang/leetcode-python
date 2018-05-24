@@ -38,41 +38,48 @@ class Solution:
         :type p: str
         :rtype: List[int]
         """
+        def updateBits(index, increment, count_s, count_p, encode):
+            """
+            update encode by adding or removing alphabet[index] from the window
+            index: the letter index in alphabet
+            increment: the increment count of alphabet[index], either 1(add) or -1(remove)
+            return updated encode
+            """
+            count_s[index] += increment
+            if count_s[index] == count_p[index]:
+                encode |= 1 << index
+            else:
+                encode &= (1<<26) - 1 - (1<<index)
+            
+            return encode
+            
         count_s, count_p, base = [0]*26, [0]*26, ord('a')
-        expected = 0
+        expected = (1<<26) - 1  # this is expected encode int, with all 26 bits set to 1
+        encode = expected
+        # count each letter in p
+        # reset the bit with corresponding letter's count > 0
+        # the bit of the letters not in p will remain 1
         for c in p:
             index = ord(c) - base
             count_p[index] += 1
-            expected |= 1 << index  # bug fixed: initially set all 26 bits to 1, we should leave the unused letter's bit as 0
+            encode &= (1<<26) - 1 - (1<<index)
         
-        i, encode = 0, 0
+        # now encode is sitting in initial value, with 0 means count not matching, and 1 means count matching
+        i = 0   # start index of the fixed-size window
         res = []
-        for j, c in enumerate(s):
-            index = ord(c) - base
-            count_s[index] += 1
-            if count_s[index] == count_p[index]:
-                encode |= 1<<index
-            else:
-                encode &= expected - (1<<index)
-            #if encode == expected:
-            #    res.append(i)
+        for j in range(len(s)):
+            # add j into window
+            encode = updateBits(ord(s[j])-base, 1, count_s, count_p, encode)
             if j - i + 1 == len(p):
                 if encode == expected:
                     res.append(i)
-                    
-                index = ord(s[i]) - base
-                count_s[index] -= 1
-                # bug fixed: forgot to update the encode
-                if count_s[index] == count_p[index]:
-                    encode |= 1<<index
-                else:
-                    encode &= expected - (1<<index)
-
+                # remove s[i] from window
+                encode = updateBits(ord(s[i])-base, -1, count_s, count_p, encode)
                 i += 1
-        
+                
         return res
 
-s= "baa"
-p= "aa"
+s= "cbaebabacd"
+p= "abc"
 obj = Solution()
 print(obj.findAnagrams(s, p))
