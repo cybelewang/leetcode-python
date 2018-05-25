@@ -16,7 +16,7 @@ Output: 7 -> 8 -> 0 -> 7
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution:
     def addTwoNumbers(self, l1, l2):
         """
@@ -24,4 +24,68 @@ class Solution:
         :type l2: ListNode
         :rtype: ListNode
         """
+        def getLength(head):
+            """
+            get the length of the linked list
+            """
+            count = 0
+            while head:
+                count += 1
+                head = head.next
+
+            return count
+
+        def reverse(head):
+            """
+            reverse the linked list in place
+            """
+            cur, pre = head, None
+            while cur:
+                next = cur.next
+                cur.next = pre
+                pre = cur
+                cur = next
+
+            return pre            
+
+        len1, len2 = getLength(l1), getLength(l2)
+        if len2 > len1:
+            l1, l2 = l2, l1
+            len1, len2 = len2, len1
         
+        helper = ListNode(0)
+        it = helper
+        for _ in range(len1-len2):
+            it.next = ListNode(l1.val)
+            l1 = l1.next
+            it = it.next
+        
+        for _ in range(len2):
+            it.next = ListNode(l1.val + l2.val)
+            l1 = l1.next
+            l2 = l2.next
+            it = it.next
+        
+        head = reverse(helper.next)
+        node, carry = head, 0
+        while node:
+            temp = carry
+            carry = (node.val + carry)//10
+            node.val = (node.val + temp)%10 # bug fixed: cannot use updated carry to calculate the remain value, must save carry first to "temp"
+            node = node.next
+        
+        head = reverse(head)
+        if carry > 0:
+            helper.val = carry
+            helper.next = head
+            return helper
+        else:
+            return head
+
+l1, l2 = ListNode(0), ListNode(0)
+l1.fromList([9, 9, 9, 9])
+l2.fromList([1])
+PrintLinkedList(l1)
+PrintLinkedList(l2)
+l3 = Solution().addTwoNumbers(l2, l1)
+PrintLinkedList(l3)

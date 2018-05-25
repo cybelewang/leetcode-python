@@ -52,6 +52,38 @@ class Solution:
         :type chars: List[str]
         :rtype: int
         """
+        if not chars:
+            return 0
+
+        i, j, count, last = 1, 1, 1, chars[0]
+        for j in range(1, len(chars)):
+            if chars[j] != last:
+                if count > 1:
+                    for digit in str(count):
+                        chars[i] = digit
+                        i += 1
+                chars[i] = chars[j]
+                i += 1  # bug fixed: fogot to advance i to the next available position after copying chars[j] to chars[i]
+                last = chars[j]
+                count = 1
+            else:
+                count += 1
+        
+        # don't forget the last repeating characters
+        if count > 1:
+            for digit in str(count):
+                chars[i] = digit
+                i += 1
+        
+        print(chars[:i])
+        return i
+
+    # wrong solution, misunderstood the requirements (modify the array in place)
+    def compress2(self, chars):
+        """
+        :type chars: List[str]
+        :rtype: int
+        """
         res, char_count = 0, Counter(chars)
         for c in char_count:
             count = char_count[c]            

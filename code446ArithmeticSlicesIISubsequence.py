@@ -11,13 +11,13 @@ The following sequence is not arithmetic.
 
 1, 1, 2, 5, 7
 
-A zero-indexed array A consisting of N numbers is given. A subsequence slice of that array is any sequence of integers (P0, P1, ..., Pk) such that 0 ≤ P0 < P1 < ... < Pk < N.
+A zero-indexed array A consisting of N numbers is given. A subsequence slice of that array is any sequence of integers (P_0, P_1, ..., P_k) such that 0 ≤ P_0 < P_1 < ... < P_k < N.
 
-A subsequence slice (P0, P1, ..., Pk) of array A is called arithmetic if the sequence A[P0], A[P1], ..., A[Pk-1], A[Pk] is arithmetic. In particular, this means that k ≥ 2.
+A subsequence slice (P_0, P_1, ..., P_k) of array A is called arithmetic if the sequence A[P_0], A[P_1], ..., A[P_k-1], A[P_k] is arithmetic. In particular, this means that k ≥ 2.
 
 The function should return the number of arithmetic subsequence slices in the array A.
 
-The input contains N integers. Every integer is in the range of -231 and 231-1 and 0 ≤ N ≤ 1000. The output is guaranteed to be less than 231-1.
+The input contains N integers. Every integer is in the range of -2^31 and 2^31-1 and 0 ≤ N ≤ 1000. The output is guaranteed to be less than 2^31-1.
 
 
 Example:
@@ -36,10 +36,30 @@ All arithmetic subsequence slices are:
 [2,4,6,8,10]
 [2,6,10]
 """
+from collections import defaultdict
 class Solution:
+    # http://www.cnblogs.com/grandyang/p/6057934.html
     def numberOfArithmeticSlices(self, A):
         """
         :type A: List[int]
         :rtype: int
         """
+        n = len(A)
+        dp = [defaultdict(int) for _ in range(n)]
+        res = 0
+
+        for i in range(n):
+            for j in range(i):
+                diff = A[i] - A[j]
+                # dp[i][diff] += 1
+                # if diff in dp[j]:
+                #     res += dp[j][diff]
+                #     dp[i][diff] += dp[j][diff]
+                dp[i][diff] = 1 + dp[j][diff]
+                res += dp[j][diff]
         
+        return res
+
+A = [2, 4, 6, 8, 10]
+obj = Solution()
+print(obj.numberOfArithmeticSlices(A))
