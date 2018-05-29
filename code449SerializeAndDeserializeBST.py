@@ -15,7 +15,9 @@ Note: Do not use class member/global/static variables to store states. Your seri
 #         self.left = None
 #         self.right = None
 
-# similar to problem 297 Serialize and Deserialize Binary Tree
+# similar to problem 297 Serialize and Deserialize Binary Tree (BFS solution)
+# use DFS to solve this problem
+from TreeNode import *
 class Codec:
 
     def serialize(self, root):
@@ -24,7 +26,17 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        
+        def _dfs(root, encode):
+            if not root:
+                encode.append('X')
+            else:
+                encode.append(str(root.val))
+                _dfs(root.left, encode)
+                _dfs(root.right, encode)
+
+        encode = []
+        _dfs(root, encode)
+        return ','.join(encode)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -32,8 +44,33 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        
+        def _dfs(encode, start):
+            if start < len(encode):
+                value = encode[start]
+                if value == 'X':
+                    return (None, start + 1)
+                else:
+                    root = TreeNode(int(value))
+                    left, index = _dfs(encode, start + 1)
+                    right, index = _dfs(encode, index)
+                    root.left, root.right = left, right
+                    return (root, index)
+            else:
+                return (None, start)
+
+        encode = data.split(',')
+        root, end = _dfs(encode, 0)
+        return root
+
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
+
+root = ListToTree([1, 2, 3, None, None, 4, 5])
+PrintTree(root)
+codec = Codec()
+str_codec = codec.serialize(root)
+print(str_codec)
+recover = codec.deserialize(str_codec)
+PrintTree(recover)

@@ -22,6 +22,8 @@ Note: Do not use class member/global/static variables to store states. Your seri
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
+# similar to problem 449 Serialize and Deserialize BST
 from TreeNode import *
 from collections import deque
 class Codec:

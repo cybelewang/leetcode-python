@@ -35,10 +35,22 @@ Explanation:
 "bbaA" is also a valid answer, but "Aabb" is incorrect.
 Note that 'A' and 'a' are treated as two different characters.
 """
+from collections import Counter
 class Solution:
     def frequencySort(self, s):
         """
         :type s: str
         :rtype: str
         """
+        count = [(key, value) for key, value in Counter(s).items()]
+        count.sort(key = lambda x: (-x[1], x[0]))
+
+        sb = []
+        for char, num in count:
+            sb.append(''.join([char]*num))
         
+        return ''.join(sb)
+
+s = "tree"
+obj = Solution()
+print(obj.frequencySort(s))
