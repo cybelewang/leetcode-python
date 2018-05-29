@@ -14,7 +14,7 @@ Output:
 [5,6]
 """
 class Solution:
-    # similar to problem 442
+    # similar to problem 442, 1st pass mark corresponding index's value as negative, 2nd pass filter out the index with values > 0
     def findDisappearedNumbers(self, nums):
         """
         :type nums: List[int]
