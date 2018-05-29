@@ -45,21 +45,24 @@ class Solution:
         :rtype: int
         """
         n = len(A)
-        dp = [defaultdict(int) for _ in range(n)]
+        # dp[i] is a dict. Key is the difference between A[i] and any previous number A[0:i] (i excluded), value is the number of slices with each slice ending with A[i]
+        dp = [defaultdict(int) for _ in range(n)]   # pitfall: cannot use [defaultdict(int)]*n
         res = 0
 
         for i in range(n):
             for j in range(i):
                 diff = A[i] - A[j]
-                # dp[i][diff] += 1
-                # if diff in dp[j]:
-                #     res += dp[j][diff]
-                #     dp[i][diff] += dp[j][diff]
-                dp[i][diff] = 1 + dp[j][diff]
-                res += dp[j][diff]
+                dp[i][diff] += 1    # one more slice with difference "diff" and ends with A[i]
+                if diff in dp[j]:
+                    res += dp[j][diff]
+                    dp[i][diff] += dp[j][diff]  # The previous slices ending with A[j] can form new slices ending with A[i]
+
+                # or use below code
+                # dp[i][diff] += 1 + dp[j][diff]    # should not use dp[i][diff] = 1 + dp[j][diff] because diff may already exist
+                # res += dp[j][diff]
         
         return res
 
-A = [2, 4, 6, 8, 10]
+A = [2, 2, 3, 4]
 obj = Solution()
 print(obj.numberOfArithmeticSlices(A))

@@ -15,6 +15,7 @@ Note: Do not use class member/global/static variables to store states. Your seri
 #         self.left = None
 #         self.right = None
 
+# similar to problem 297 Serialize and Deserialize Binary Tree
 class Codec:
 
     def serialize(self, root):

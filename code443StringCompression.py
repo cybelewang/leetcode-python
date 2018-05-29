@@ -75,7 +75,7 @@ class Solution:
                 chars[i] = digit
                 i += 1
         
-        print(chars[:i])
+        #print(chars[:i])
         return i
 
     # wrong solution, misunderstood the requirements (modify the array in place)
