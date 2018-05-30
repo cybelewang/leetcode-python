@@ -23,6 +23,7 @@ Output: 0
 
 Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
 """
+# similar to problem 452, Minimum Number of Arrows to Burst Balloons
 # Definition for an interval.
 class Interval:
     def __init__(self, s=0, e=0):

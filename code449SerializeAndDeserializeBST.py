@@ -18,6 +18,47 @@ Note: Do not use class member/global/static variables to store states. Your seri
 # similar to problem 297 Serialize and Deserialize Binary Tree (BFS solution)
 # use DFS to solve this problem
 from TreeNode import *
+class Codec_OJ:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        return root
+        result = []
+        self.serializeBST(root, result)
+        return " ".join(result)
+    
+    def serializeBST(self, root, result):
+        if not root:
+            return
+        result.append(str(root.val))
+        self.serializeBST(root.left, result)
+        self.serializeBST(root.right, result)
+        
+        
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        :type data: str
+        :rtype: TreeNode
+        """
+        return data
+        data = [int(val) for val in data.split()]
+        return self.build(data, -sys.maxsize, sys.maxsize)
+        
+            
+    def build(self, vals, left, right):
+        if vals and left < vals[0] < right:
+            val = vals.pop(0)
+            node = TreeNode(val)
+            node.left = self.build(vals, left, val)
+            node.right = self.build(vals, val, right)
+            return node
+        
+# my own solution
 class Codec:
 
     def serialize(self, root):

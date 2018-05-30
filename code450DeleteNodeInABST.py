@@ -44,7 +44,16 @@ Another valid answer is [5,2,6,null,4,null,7].
 #         self.right = None
 from TreeNode import *
 class Solution:
+    # https://webdocs.cs.ualberta.ca/~holte/T26/del-from-bst.html
     def deleteNode(self, root, key):
+        """
+        :type root: TreeNode
+        :type key: int
+        :rtype: TreeNode
+        """
+        
+    # wrong solution, we cannot just move values from right child
+    def deleteNode2(self, root, key):
         """
         :type root: TreeNode
         :type key: int
@@ -89,6 +98,18 @@ class Solution:
         return helper.right
 
 null = None
-root = ListToTree([5, null])
+Input=[2,0,33,null,1,25,40,null,null,11,31,34,45,10,18,29,32,null,36,43,46,4,null,12,24,26,30,null,null,35,39,42,44,null,48,3,9,null,14,22,null,null,27,null,null,null,null,38,null,41,null,null,null,47,49,null,null,5,null,13,15,21,23,null,28,37,null,null,null,null,null,null,null,null,8,null,null,null,17,19,null,null,null,null,null,null,null,7,null,16,null,null,20,6]
+key = 33
+root = ListToTree(Input)
 PrintTree(root)
-PrintTree(Solution().deleteNode(root, 3))
+PrintTree(Solution().deleteNode(root, key))
+
+"""
+Input:
+[2,0,33,null,1,25,40,null,null,11,31,34,45,10,18,29,32,null,36,43,46,4,null,12,24,26,30,null,null,35,39,42,44,null,48,3,9,null,14,22,null,null,27,null,null,null,null,38,null,41,null,null,null,47,49,null,null,5,null,13,15,21,23,null,28,37,null,null,null,null,null,null,null,null,8,null,null,null,17,19,null,null,null,null,null,null,null,7,null,16,null,null,20,6]
+33
+Output:
+[2,0,40,null,1,25,45,null,null,11,31,34,46,10,18,29,32,null,36,43,48,4,null,12,24,26,30,null,null,35,39,42,44,null,49,3,9,null,14,22,null,null,27,null,null,null,null,38,null,41,null,null,null,47,null,null,null,5,null,13,15,21,23,null,28,37,null,null,null,null,null,null,8,null,null,null,17,19,null,null,null,null,null,null,null,7,null,16,null,null,20,6]
+Expected:
+[2,0,34,null,1,25,40,null,null,11,31,35,45,10,18,29,32,null,36,43,46,4,null,12,24,26,30,null,null,null,39,42,44,null,48,3,9,null,14,22,null,null,27,null,null,38,null,41,null,null,null,47,49,null,null,5,null,13,15,21,23,null,28,37,null,null,null,null,null,null,null,null,8,null,null,null,17,19,null,null,null,null,null,null,null,7,null,16,null,null,20,6]
+"""

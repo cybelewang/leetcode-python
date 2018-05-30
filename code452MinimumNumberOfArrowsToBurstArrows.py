@@ -14,6 +14,8 @@ Output:
 Explanation:
 One way is to shoot one arrow for example at x = 6 (bursting the balloons [2,8] and [1,6]) and another arrow at x = 11 (bursting the other two balloons).
 """
+# similar to 354 Russian Doll Envelopes, 435 Non-overlapping intervals
+# first sort all balloons based on the end, then 
 class Solution:
     def findMinArrowShots(self, points):
         """
