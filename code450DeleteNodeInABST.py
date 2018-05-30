@@ -44,6 +44,7 @@ Another valid answer is [5,2,6,null,4,null,7].
 #         self.right = None
 from TreeNode import *
 class Solution:
+    # We need to find the next smallest node, and move it to the node to be deleted. See below for details
     # https://webdocs.cs.ualberta.ca/~holte/T26/del-from-bst.html
     def deleteNode(self, root, key):
         """
@@ -51,6 +52,54 @@ class Solution:
         :type key: int
         :rtype: TreeNode
         """
+        # a helper TreeNode, similar to the helper node in linkedlist
+        helper = TreeNode(0)
+        helper.right = root
+
+        # search the node with key
+        parent, node = helper, root
+        while node:
+            if node.val == key:
+                break
+            elif node.val > key:
+                parent = node
+                node = node.left
+            else:
+                parent = node
+                node = node.right
+        else:
+            # node not found
+            return root
+
+        def _delete(parent, node):
+            # case 1: key node is a leaf node
+            if node.left is None and node.right is None:
+                if parent.left == node:
+                    parent.left = None
+                else:
+                    parent.right = None
+            # case 2: key node has only one subtree
+            elif node.left is None or node.right is None:
+                if parent.left == node:
+                    parent.left = node.left or node.right
+                else:
+                    parent.right = node.left or node.right
+            # case 3: key node has both left and right subtrees
+            else:                
+                # now find the smallest node in the right subtree, and use that node to replace key node
+                p1, n1 = node, node.right
+                while n1 and n1.left:
+                    p1 = n1
+                    n1 = n1.left
+                # replace key node value with the next smallest node's value
+                node.val = n1.val
+                # recursively delete/replace the next smallest node's value with next next smallest node's value
+                _delete(p1, n1)
+        
+        # call the _delete subfunction
+        _delete(parent, node)
+
+        return helper.right
         
     # wrong solution, we cannot just move values from right child
     def deleteNode2(self, root, key):
