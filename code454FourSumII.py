@@ -1,7 +1,7 @@
 """
 Given four lists A, B, C, D of integer values, compute how many tuples (i, j, k, l) there are such that A[i] + B[j] + C[k] + D[l] is zero.
 
-To make problem a bit easier, all A, B, C, D have same length of N where 0 ≤ N ≤ 500. All integers are in the range of -228 to 228 - 1 and the result is guaranteed to be at most 231 - 1.
+To make problem a bit easier, all A, B, C, D have same length of N where 0 ≤ N ≤ 500. All integers are in the range of -2^28 to 2^28 - 1 and the result is guaranteed to be at most 2^31 - 1.
 
 Example:
 
@@ -19,7 +19,11 @@ The two tuples are:
 1. (0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
 2. (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
 """
+from collections import defaultdict
 class Solution:
+    # put all A+B into a map, and all C+D into another map
+    # iterate the A+B map, and find if there's opposite in map C+D
+    # O(n^2)
     def fourSumCount(self, A, B, C, D):
         """
         :type A: List[int]
@@ -28,4 +32,25 @@ class Solution:
         :type D: List[int]
         :rtype: int
         """
+        AB, CD = defaultdict(int), defaultdict(int)
+        for a in A:
+            for b in B:
+                AB[a+b] += 1
         
+        for c in C:
+            for d in D:
+                CD[c+d] += 1
+        
+        res = 0
+        for ab in AB:
+            if -ab in CD:
+                res += AB[ab]*CD[-ab]
+
+        return res
+
+A = [ 1, 2]
+B = [-2,-1]
+C = [-1, 2]
+D = [ 0, 2]
+obj = Solution()
+print(obj.fourSumCount(A, B, C, D))        

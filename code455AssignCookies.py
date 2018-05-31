@@ -1,5 +1,8 @@
 """
-Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie. Each child i has a greed factor gi, which is the minimum size of a cookie that the child will be content with; and each cookie j has a size sj. If sj >= gi, we can assign the cookie j to the child i, and the child i will be content. Your goal is to maximize the number of your content children and output the maximum number.
+Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie. 
+Each child i has a greed factor g_i, which is the minimum size of a cookie that the child will be content with; and each cookie j has a size s_j. 
+If s_j >= g_i, we can assign the cookie j to the child i, and the child i will be content. 
+Your goal is to maximize the number of your content children and output the maximum number.
 
 Note:
 You may assume the greed factor is always positive. 
@@ -30,4 +33,21 @@ class Solution:
         :type s: List[int]
         :rtype: int
         """
+        g.sort(reverse = True)
+        s.sort(reverse = True)
+
+        i, j, res = 0, 0, 0
+        while i < len(g) and j < len(s):
+            if s[j] >= g[i]:
+                i += 1
+                j += 1
+                res += 1
+            else:
+                i += 1
         
+        return res
+
+g = [100,99,3, 2, 1]
+s = [100, 100, 100]
+obj = Solution()
+print(obj.findContentChildren(g, s))
