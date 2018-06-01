@@ -32,14 +32,14 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
-        third, stack = -2**31, []   # third is a_k
+        third, stack = -2**31, []   # third is a_k, or '2' in '132'
 
         for i in range(len(nums)-1, -1, -1):
             if nums[i] < third:
                 return True
             else:
-                while stack and nums[i] > stack[-1]:
-                    third = stack.pop()
+                while stack and nums[i] > stack[-1]:# stack elements are in descending order
+                    third = stack.pop()# this assures third will be the largest number that < nums[i]
                 stack.append(nums[i])
 
         return False
@@ -74,6 +74,6 @@ class Solution:
 
         return False
 
-nums = [1, 3, 3]
+nums = [1, 5, 3, 4]
 obj = Solution()
 print(obj.find132pattern(nums))
