@@ -26,12 +26,13 @@ Explanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0
 """
 class Solution:
     # http://www.cnblogs.com/grandyang/p/6081984.html
+    # https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C++-O(n)-space-and-time-solution-(8-lines)-with-detailed-explanation.
     def find132pattern(self, nums):
         """
         :type nums: List[int]
         :rtype: bool
         """
-        third, stack = -2**31, []
+        third, stack = -2**31, []   # third is a_k
 
         for i in range(len(nums)-1, -1, -1):
             if nums[i] < third:
@@ -73,6 +74,6 @@ class Solution:
 
         return False
 
-nums = [3, 1, 4, 2]
+nums = [1, 3, 3]
 obj = Solution()
 print(obj.find132pattern(nums))

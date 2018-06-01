@@ -19,12 +19,17 @@ The two tuples are:
 1. (0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
 2. (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
 """
-from collections import defaultdict
+from collections import defaultdict, Counter
 class Solution:
+    # OJ short solution
+    def fourSumCount(self, A, B, C, D):
+        AB = Counter(a+b for a in A for b in B)
+        return sum(AB[-c-d] for c in C for d in D)
+    # my solution
     # put all A+B into a map, and all C+D into another map
     # iterate the A+B map, and find if there's opposite in map C+D
     # O(n^2)
-    def fourSumCount(self, A, B, C, D):
+    def fourSumCount2(self, A, B, C, D):
         """
         :type A: List[int]
         :type B: List[int]
