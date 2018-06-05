@@ -19,7 +19,9 @@ Output: True
 
 Explanation: It's the substring "abc" four times. (And the substring "abcabc" twice.)
 """
-# KMP solution http://www.cnblogs.com/grandyang/p/6087347.html
+# KMP solution
+# https://www.geeksforgeeks.org/find-given-string-can-represented-substring-iterating-substring-n-times/
+# http://www.cnblogs.com/grandyang/p/6087347.html
 class Solution(object):
     # https://leetcode.com/problems/repeated-substring-pattern/discuss/94334/Easy-python-solution-with-explaination
     # First char of input string is first char of repeated substring
