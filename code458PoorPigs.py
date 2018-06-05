@@ -22,7 +22,7 @@ class Solution(object):
         :type minutesToTest: int
         :rtype: int
         """
-        return ceil(log(buckets, (minutesToTest//minutesToDie+1)))
+        return int(ceil(log(buckets, (minutesToTest//minutesToDie+1))))
 
     # wrong solution
     def poorPigs2(self, buckets, minutesToDie, minutesToTest):
@@ -32,6 +32,6 @@ class Solution(object):
         :type minutesToTest: int
         :rtype: int
         """
-        return ceil(buckets/ceil(minutesToTest/minutesToDie))
+        return int(ceil(buckets/ceil(minutesToTest/minutesToDie)))
 
 print(Solution().poorPigs(1000, 15, 60))
