@@ -61,6 +61,9 @@ class LFUCache:
         :type value: int
         :rtype: void
         """
+        if self.capacity < 1: #bug fixed: corner case when capacity is 0
+            return
+
         if key in self.map:
             # get the corresponding ListNode
             node = self.map[key]
