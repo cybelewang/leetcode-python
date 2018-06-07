@@ -17,9 +17,29 @@ Only two moves are needed (remember each move increments or decrements one eleme
 
 [1,2,3]  =>  [2,2,3]  =>  [2,2,2]
 """
-# mathmatically, the target number or base is the average of all numbers
 class Solution:
+    # similar to 296 Best Meeting Point
+    # http://www.cnblogs.com/grandyang/p/6089060.html
+    # consider an array with only two elements, the minimum moves is the absolute difference between the two numbers
+    # so we can sort the number first, then for each symmetric paired numbers, the difference is the minimum move
     def minMoves2(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        i, j = 0, len(nums)-1
+        nums.sort()
+        res = 0
+        while (i < j):
+            res += nums[j] - nums[i]
+            i += 1
+            j -= 1
+
+        return res
+
+    # wrong solution
+    # mathmatically, the target number or base is the average of all numbers
+    def minMoves2_wrong(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -40,6 +60,6 @@ class Solution:
 
         return res
 
-nums = [1, 0, 2]
+nums = [1, 0, 0, 8, 6]
 print(Solution().minMoves2(nums))
         
