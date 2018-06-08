@@ -20,8 +20,27 @@ Output: 6
 Explanation: There are six substrings "z", "a", "b", "za", "ab", "zab" of string "zab" in the string s.
 """
 class Solution:
-    # wrong solution, consider p = 'abaab', where 'ab' were calculated twice
+    # http://www.cnblogs.com/grandyang/p/6143071.html
     def findSubstringInWraproundString(self, p):
+        """
+        :type p: str
+        :rtype: int
+        """
+        count, base, length = [0]*26, ord('a'), 0
+        for i in range(len(p)):
+            if i > 0 and ord(p[i]) - ord(p[i-1]) in (1, -25):
+                length += 1
+            else:
+                length = 1
+            
+            index = ord(p[i]) - base
+            count[index]  = max(count[index], length)
+
+        print(count)
+        return sum(count)
+
+    # wrong solution, consider p = 'abaab', where 'ab' were calculated twice
+    def findSubstringInWraproundString2(self, p):
         """
         :type p: str
         :rtype: int
@@ -41,4 +60,6 @@ class Solution:
         return res
 
 obj = Solution()
-print(obj.findSubstringInWraproundString('abaab'))
+#p = 'abaab'
+p = 'abzdebcdef'
+print(obj.findSubstringInWraproundString(p))

@@ -32,10 +32,50 @@ Output: "Neither"
 
 Explanation: This is neither a IPv4 address nor a IPv6 address.
 """
+# python 3 module "ipaddress" doesn't handle scenarios of "::" and leading zeros
 class Solution:
     def validIPAddress(self, IP):
         """
         :type IP: str
         :rtype: str
         """
-        
+        def valid_IPv4_segment(s):
+            """
+            check if given string s is a valid IPv4 segment
+            """
+            n = len(s)
+            if n < 1 or n > 3:
+                return False
+            
+            try:
+                num = int(s)
+                return -1 < num < 256 and str(num) == s # convert back to string to filter leading zeros and invalid characters with spaces, etc
+            except:
+                return False
+
+        # a set of all valid hex characters
+        valid_hex_chars = set(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'])
+        #print(valid_hex_chars)
+        def valid_IPv6_segment(s):
+            """
+            check if given string s is a valid IPv4 segment
+            """
+            n = len(s)
+            return 0 < n < 5 and all(c in valid_hex_chars for c in s)
+
+        if IP.count('.') == 3:  # check IPv4
+            fields = IP.split('.')
+            if all(valid_IPv4_segment(f) for f in fields):
+                return "IPv4"
+        elif IP.count(':') == 7: # check IPv6
+            fields = IP.split(':')
+            if all(valid_IPv6_segment(f) for f in fields):
+                return "IPv6"
+
+        return "Neither"        
+
+
+test_IPs = ['172.16.254.1', '172.16.254.01', '', '....', '277.0.0.1', '2001:0db8:85a3::8A2E:0370:7334', '2001:0db8:85a3:0000:0000:8a2e:0370:7334', '02001:0db8:85a3:0000:0000:8a2e:0370:7334']
+obj = Solution()
+for IP in test_IPs:
+    print(obj.validIPAddress(IP))

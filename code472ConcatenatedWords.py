@@ -17,10 +17,35 @@ The length sum of elements in the given array will not exceed 600,000.
 All the input string will only include lower case letters.
 The returned elements order does not matter.
 """
+# similar problems: 139, 140
+# use problem 139's solution
+# http://www.cnblogs.com/grandyang/p/6254527.html
 class Solution:
     def findAllConcatenatedWordsInADict(self, words):
         """
         :type words: List[str]
         :rtype: List[str]
         """
-        
+        wordDict = set(words)
+        res = []
+
+        for word in wordDict:
+            #wordDict.remove(word)
+            n = len(word)
+            dp = [False]*(n + 1)
+            dp[0] = True
+            for j in range(1, n + 1):
+                for i in range(0, j):
+                    if j-i < n and dp[i] and word[i:j] in wordDict:
+                        dp[j] = True
+                        break
+            if dp[n]:
+                res.append(word)
+
+            #wordDict.add(word)
+
+        return res
+
+words = ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+obj = Solution()
+print(obj.findAllConcatenatedWordsInADict(words))

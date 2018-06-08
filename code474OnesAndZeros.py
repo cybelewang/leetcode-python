@@ -20,6 +20,8 @@ Output: 2
 Explanation: You could form "10", but then you'd have nothing left. Better form "0" and "1".
 """
 class Solution:
+    # tried to sort strs based on length and count of 1 and 0, then greedy based on the min(m, n) but failed
+    # DP method, help from http://www.cnblogs.com/grandyang/p/6188893.html
     def findMaxForm(self, strs, m, n):
         """
         :type strs: List[str]
@@ -27,3 +29,16 @@ class Solution:
         :type n: int
         :rtype: int
         """
+        dp = [[0]*(n+1) for _ in range(m+1)]    # dp[i][j] represents max count of strs with i 0s and j 1s
+        for s in strs:
+            zeros = s.count('0')
+            ones = len(s) - zeros
+            for i in range(m, zeros-1, -1):
+                for j in range(n, ones-1, -1):
+                    dp[i][j] = max(dp[i][j], dp[i-zeros][j-ones] + 1)
+
+        return dp[m][n]
+
+strs = ["10", "0001", "111001", "1", "0"]
+m, n = 5, 3
+print(Solution().findMaxForm(strs, m, n))

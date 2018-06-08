@@ -19,6 +19,7 @@ Input: [1,2,3,4],[1,4]
 Output: 1
 Explanation: The two heater was placed in the position 1 and 4. We need to use radius 1 standard, then all the houses can be warmed.
 """
+from bisect import bisect_left
 class Solution:
     def findRadius(self, houses, heaters):
         """
@@ -26,4 +27,18 @@ class Solution:
         :type heaters: List[int]
         :rtype: int
         """
-        
+        # corner cases of no houses, no heaters
+        houses.sort()
+        heaters.sort()
+        i, j, res = 0, 0, 0 # we should find j first using binary search
+        while i < len(houses):
+            diff1 = abs(houses[i] - heaters[j])
+            diff2 = 2**31 - 1
+            if j + 1 < len(heaters):
+                diff2 = abs(houses[i] - heaters[j+1])
+                j += 1
+            res = max(res, min(diff1, diff2))
+            i += 1
+
+        return res
+
