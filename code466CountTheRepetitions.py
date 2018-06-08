@@ -31,7 +31,7 @@ class Solution:
         :rtype: int
         """
         # pre-check letter set
-        if set(s2) > set(s1):
+        if not set(s2) <= set(s1):  # check s2 issubset of s1
             return 0
 
         l1, l2 = len(s1), len(s2)   # unit length
@@ -65,7 +65,8 @@ class Solution:
         return x2 // (n2 * l2)
 
 obj = Solution()
-print(obj.getMaxRepetitions("abacb", 6, "bcaa", 1))
+print(obj.getMaxRepetitions("musicforever", 10, "lovelive", 10000))
+#print(obj.getMaxRepetitions("abacb", 6, "bcaa", 1))
 # also see http://www.cnblogs.com/grandyang/p/6149294.html
 
 """

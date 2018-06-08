@@ -60,7 +60,7 @@ class Solution:
 
         return dfs(desiredTotal, 0, {})
 
-    # my own solution
+    # wrong solution
     def canIWin2(self, maxChoosableInteger, desiredTotal):
         """
         :type maxChoosableInteger: int
@@ -106,4 +106,4 @@ class Solution:
         return dfs(0, default_used, {})
 
 obj = Solution()
-print(obj.canIWin(10, 20))
+print(obj.canIWin2(10, 40))
