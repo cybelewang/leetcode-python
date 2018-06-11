@@ -19,6 +19,7 @@ Output: 2
 
 Explanation: You could form "10", but then you'd have nothing left. Better form "0" and "1".
 """
+# 0-1 knapsack? https://leetcode.com/problems/ones-and-zeroes/discuss/95808/0-1-knapsack-in-python
 class Solution:
     # tried to sort strs based on length and count of 1 and 0, then greedy based on the min(m, n) but failed
     # DP method, help from http://www.cnblogs.com/grandyang/p/6188893.html

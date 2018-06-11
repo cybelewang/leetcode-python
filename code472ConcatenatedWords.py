@@ -32,6 +32,7 @@ class Solution:
         for word in wordDict:
             #wordDict.remove(word)
             n = len(word)
+            if n == 0: continue # bug fixed: '' should not be in the result
             dp = [False]*(n + 1)
             dp[0] = True
             for j in range(1, n + 1):
@@ -46,6 +47,7 @@ class Solution:
 
         return res
 
-words = ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+words = [""]
+#words = ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
 obj = Solution()
 print(obj.findAllConcatenatedWordsInADict(words))

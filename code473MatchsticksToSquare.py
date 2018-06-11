@@ -22,10 +22,41 @@ The length of the given matchstick array will not exceed 15.
 """
 # similar to 416 partition equal subset sum, this problem requires 4 subsets with equal length
 class Solution:
+    # OJ's better solution
+    def makesquare(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        nums.sort(reverse=True)
+        if len(nums) < 4:
+            return False
+        total = sum(nums)
+        if total % 4 != 0:
+            return False
+        target = total / 4
+        if any(n > target for n in nums):
+            return False
+        return self.dfs([target] * 4, 0, nums)
+
+    def dfs(self, lefts, idx, nums):
+        if idx == len(nums):
+            return True
+        n = nums[idx]
+        used = set()
+        for i, left in enumerate(lefts):
+            if left >= n and left not in used:
+                lefts[i] -= n
+                if self.dfs(lefts, idx + 1, nums):
+                    return True
+                lefts[i] += n
+                used.add(left)
+        return False
+
     # not solved, help from http://www.cnblogs.com/grandyang/p/6238425.html
     # sort nums in reversed order, allocate 4 buckets, then iterate all buckets, for each bucket, try to add from the largest if the sum is <= target, then recursively call dfs
     # after each recursive call, remove the added number from the bucket to test all cases
-    def makesquare(self, nums):
+    def makesquare2(self, nums):
         """
         :type nums: List[int]
         :rtype: bool
@@ -33,15 +64,16 @@ class Solution:
         if len(nums) < 4:
             return False
 
-        nums.sort(reverse = True)
         sum_ = sum(nums)
         length = sum_//4
         if sum_ % 4 != 0 or nums[0] > length:
             return False
 
-        return self.dfs(nums, [0]*4, 0, length)
+        nums.sort(reverse = True)
 
-    def dfs(self, nums, sums, pos, target):
+        return self.dfs2(nums, [0]*4, 0, length)
+
+    def dfs2(self, nums, sums, pos, target):
         if pos >= len(nums):
             return all(x == target for x in sums)
         for i in range(4):
@@ -55,5 +87,6 @@ class Solution:
         return False
 
 obj = Solution()
-nums = [3,3,3,3,1, 1, 2]
+#nums = [8,16,24,32,40,48,56,64,72,80,88,96,104,112,60]
+nums = [12,12,12,12,12,12,12,12,12,12,12,12,12]
 print(obj.makesquare(nums))

@@ -21,6 +21,7 @@ Explanation: The two heater was placed in the position 1 and 4. We need to use r
 """
 from bisect import bisect_left
 class Solution:
+    # my own solution: for each house, find the insertion position in heaters, then find the minimum radius, and update the result
     def findRadius(self, houses, heaters):
         """
         :type houses: List[int]
@@ -30,15 +31,19 @@ class Solution:
         # corner cases of no houses, no heaters
         houses.sort()
         heaters.sort()
-        i, j, res = 0, 0, 0 # we should find j first using binary search
-        while i < len(houses):
-            diff1 = abs(houses[i] - heaters[j])
-            diff2 = 2**31 - 1
-            if j + 1 < len(heaters):
-                diff2 = abs(houses[i] - heaters[j+1])
-                j += 1
-            res = max(res, min(diff1, diff2))
-            i += 1
+        m, n ,res = len(houses), len(heaters), 0
+        for house in houses:
+            i = bisect_left(heaters, house)
+            if i == 0:
+                res = max(res, abs(house - heaters[i]))
+            elif i == n:
+                res = max(res, abs(house - heaters[n-1]))
+            else:
+                res = max(res, min(abs(house - heaters[i]), abs(house - heaters[i-1])))
 
         return res
 
+houses = [1, 2, 3, 4]
+heaters = [1, 4]
+obj = Solution()
+print(obj.findRadius(houses, heaters))
