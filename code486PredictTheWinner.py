@@ -21,11 +21,10 @@ Note:
 Any scores in the given array are non-negative integers and will not exceed 10,000,000.
 If the scores of both players are equal, then player 1 is still the winner.
 """
-# similar problems: 464
+# similar problems: 375, 464
 class Solution:
     def PredictTheWinner(self, nums):
         """
         :type nums: List[int]
         :rtype: bool
         """
-        
