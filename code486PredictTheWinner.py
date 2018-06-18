@@ -24,7 +24,7 @@ If the scores of both players are equal, then player 1 is still the winner.
 # similar problems: 375, 464
 # http://www.cnblogs.com/grandyang/p/6369688.html
 class Solution:
-    # DP
+    # DP, The dp[i][j] saves how much more scores that the first-in-action player will get from i to j than the second player. 
     def PredictTheWinner(self, nums):
         """
         :type nums: List[int]
@@ -70,20 +70,20 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
-        # this is the correct recursive function
+        # why this is the wrong recursive function? [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], should be true
         def CanWin(nums, i, j, score1, score2, player):
             if i == j:
                 if player == 1:
                     return score1 + nums[i] >= score2
                 else:
-                    return score2 + nums[i] >= score1
+                    return score2 + nums[i] > score1    # bug fixed: cannot use >=, should be > because the description says "equal" also means player 1 wins
             else:
                 if player == 1:
-                    return not CanWin(nums, i+1, j, score1 + nums[i], score2, 2) or not CanWin(nums, i, j-1, score1 + nums[j], score2, 2)
+                    return (not CanWin(nums, i+1, j, score1 + nums[i], score2, 2)) or (not CanWin(nums, i, j-1, score1 + nums[j], score2, 2))
                 else:
-                    return not CanWin(nums, i+1, j, score1, score2 + nums[i], 1) or not CanWin(nums, i, j-1, score1, score2 + nums[j], 1)
+                    return (not CanWin(nums, i+1, j, score1, score2 + nums[i], 1)) or (not CanWin(nums, i, j-1, score1, score2 + nums[j], 1))
 
-        # this is a wrong recursive function?
+        # this is a wrong recursive function, consider case [2,4,55,6,8], should be false
         def CanWin_Wrong(nums, i, j, score1, score2, player):
             if i == j:  # just one number left
                 if player == 1:
@@ -113,5 +113,5 @@ class Solution:
             return CanWin(nums, 0, len(nums)-1, 0, 0, 1)
 
 #nums = [1, 5, 7, 6]
-nums = [1, 5, 2]
-print(Solution().PredictTheWinner2(nums))
+nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+print(Solution().PredictTheWinner3(nums))
