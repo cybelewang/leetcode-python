@@ -1,5 +1,6 @@
 """
-For a web developer, it is very important to know how to design a web page's size. So, given a specific rectangular web page’s area, your job by now is to design a rectangular web page, whose length L and width W satisfy the following requirements:
+For a web developer, it is very important to know how to design a web page's size. 
+So, given a specific rectangular web page’s area, your job by now is to design a rectangular web page, whose length L and width W satisfy the following requirements:
 
 1. The area of the rectangular web page you designed must equal to the given target area.
 
@@ -16,10 +17,17 @@ Note:
 The given area won't exceed 10,000,000 and is a positive integer
 The web page's width and length you designed must be positive integers.
 """
+from math import ceil
 class Solution:
     def constructRectangle(self, area):
         """
         :type area: int
         :rtype: List[int]
         """
+        x = ceil(area**0.5)
+        while area % x != 0:
+            x += 1
         
+        return [x, area//x]
+
+print(Solution().constructRectangle(10000000))

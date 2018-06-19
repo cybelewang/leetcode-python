@@ -16,6 +16,7 @@ If nums = [1,2,2], a solution is:
 ]
 
 """
+# TODO: try to solve it using problem 491's solution
 class Solution:
     def countLastNumber(self, sub):
         j, count = len(sub) - 2, 1
