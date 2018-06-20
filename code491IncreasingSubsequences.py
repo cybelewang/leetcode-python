@@ -12,6 +12,16 @@ The given array may contain duplicates, and two equal integers should also be co
 # similar problems: 90 Subsets II
 from collections import defaultdict
 class Solution:
+    def findSubsequences_OJBest(self, nums):
+        res = set()
+        for n in nums:
+            new_seq = set()
+            for r in res:
+                if n >= r[-1]:
+                    new_seq.add((*r, n))
+            res.update(new_seq)
+            res.add((n,))
+        return [n for n in res if len(n) > 1]
     # help from http://www.cnblogs.com/grandyang/p/6388103.html, solution 4
     # a solution without using set: use a dict to save the number's "cur" length, default to 0 (beginning)
     def findSubsequences(self, nums):
