@@ -1,5 +1,6 @@
 """
-In LOL world, there is a hero called Teemo and his attacking can make his enemy Ashe be in poisoned condition. Now, given the Teemo's attacking ascending time series towards Ashe and the poisoning time duration per Teemo's attacking, you need to output the total time that Ashe is in poisoned condition.
+In LOL world, there is a hero called Teemo and his attacking can make his enemy Ashe be in poisoned condition. 
+Now, given the Teemo's attacking ascending time series towards Ashe and the poisoning time duration per Teemo's attacking, you need to output the total time that Ashe is in poisoned condition.
 
 You may assume that Teemo attacks at the very beginning of a specific time point, and makes Ashe be in poisoned condition immediately.
 
@@ -29,4 +30,24 @@ class Solution:
         :type duration: int
         :rtype: int
         """
-        
+        if not timeSeries:
+            return 0
+
+        s, e = timeSeries[0], timeSeries[0] + duration
+        res = 0
+        for i in range(1, len(timeSeries)):
+            t = timeSeries[i]
+            if t <= e:
+                e = t + duration
+            else:
+                res += e - s
+                s = t
+                e = t + duration
+        # don't forget the last duration!
+        res += e - s
+
+        return res
+
+timeSeries = [1, 2]
+duration = 3
+print(Solution().findPoisonedDuration(timeSeries, duration))

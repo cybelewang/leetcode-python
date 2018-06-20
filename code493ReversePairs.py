@@ -15,10 +15,22 @@ Note:
 The length of the given array will not exceed 50,000.
 All the numbers in the input array are in the range of 32-bit integer.
 """
+from bisect import insort_right, bisect_right
 class Solution:
+    # my own solution, for each num, find the insertion position of 2*num, and calculate how many numbers in the sorted list are larger than 2*num
     def reversePairs(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
+        res, sort = 0, []
+        for num in nums:
+            index = bisect_right(sort, 2*num)
+            res += len(sort) - index
+            insort_right(sort, num)
         
+        return res
+
+nums = [1,3,2,3,1]
+obj = Solution()
+print(obj.reversePairs(nums))
