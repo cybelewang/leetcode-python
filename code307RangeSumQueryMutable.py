@@ -15,8 +15,10 @@ You may assume the number of calls to update and sumRange function is distribute
 # problem 303's solution: update O(n), query O(1)
 # segment tree: update O(logn), query O(logn)
 # so we use segment tree. For implementation details, see http://codeforces.com/blog/entry/18051
-# Binary Indexed Tree?
-class NumArray:
+# Binary Indexed Tree: update O(logn), query O(logn)
+# The advantages of Binary Indexed Tree over Segment are, requires less space and very easy to implement..
+# Implementation details: http://www.cnblogs.com/grandyang/p/4985506.html
+class NumArray_SegmentTree:
     
     def __init__(self, nums):
         """
@@ -65,10 +67,68 @@ class NumArray:
         
         return res
 
+class NumArray_BIT: # Binary Indexed Tree
+    
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        """
+        # construct binary indexed tree with size len(nums) + 1
+        self.length = len(nums)
+        self.nums = [0]*(self.length)
+        self.bit = [0]*(self.length + 1)
+        for i in range(self.length):
+            self.update(i, nums[i])
+
+    def update(self, i, val):
+        """
+        :type i: int
+        :type val: int
+        :rtype: void
+        """
+        diff = val - self.nums[i]
+        self.nums[i] = val
+        # index in BITree[] is 1 more than the index in arr[]
+        i += 1
+        # Traverse all ancestors and add 'val'
+        while i <= self.length:
+            # add val to current node of BI Tree
+            self.bit[i] += diff
+            # update index to parent
+            i += i & (-i)
+
+    def getSum(self, i):
+        """
+        resturns sum of nums[0...i]
+        :type i: int
+        """
+        res = 0
+        # index in BITree[] is 1 more than the index in arr[]
+        i += 1
+        # Traverse ancestors of BITree[index]
+        while i > 0:
+            # Add current element of BITree to sum
+            res += self.bit[i]
+            # Move index to parent node in getSum View
+            i -= i & (-i)
+        
+        return res
+
+    def sumRange(self, i, j):
+        """
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+        return self.getSum(j) - self.getSum(i-1)
 
 # Your NumArray object will be instantiated and called as such:
 nums = list(range(13))
-obj = NumArray(nums)
+obj = NumArray_BIT(nums)
+print(obj.nums)
+print(obj.bit)
 print(obj.sumRange(0, 6))
 obj.update(0,1)
+print(obj.nums)
+print(obj.bit)
 print(obj.sumRange(0,6))

@@ -22,10 +22,26 @@ All elements in nums1 and nums2 are unique.
 The length of both nums1 and nums2 would not exceed 1000.
 """
 class Solution:
+    # my own solution
+    # process nums2 in reversed direction, and use a stack to keep the potential candidate
     def nextGreaterElement(self, nums1, nums2):
         """
         :type nums1: List[int]
         :type nums2: List[int]
         :rtype: List[int]
         """
-        
+        stack, mem = [], {}
+        for i in range(len(nums2)-1, -1, -1):
+            value = nums2[i]
+            mem[value] = i
+            while stack and stack[-1] < value:
+                stack.pop() 
+            nums2[i] = -1 if not stack else stack[-1]               
+            stack.append(value)
+
+        return [nums2[mem[value]] for value in nums1]                
+
+obj = Solution()
+nums1 = [4,1,2]
+nums2 = [1,3,4,2]
+print(obj.nextGreaterElement(nums1, nums2))

@@ -20,4 +20,26 @@ class Solution:
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
-        
+        res = []
+        M  = len(matrix)
+        if M == 0: return res
+        N = len(matrix[0])
+
+        i, j, up = 0, 0, True
+        for sum_ in range(M + N - 1):
+            if up:
+                i = sum_ - j
+                while j <= sum_:
+                    res.append(matrix[i][j])
+                    j += 1
+                    i -= 1
+            else:
+                j = sum_ - i
+                while i >= 0:
+                    res.append(matrix[i][j])
+                    i -= 1
+                    j += 1
+            
+            up = not up
+
+        return res

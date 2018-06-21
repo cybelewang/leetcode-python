@@ -39,6 +39,8 @@ class Solution:
             for i in range(target, n-1, -1):
                 dp[i] += dp[i - n]
         return dp[target]
+
+    # my own solution
     def findTargetSumWays(self, nums, S):
         """
         :type nums: List[int]
@@ -62,4 +64,4 @@ class Solution:
 
 nums = [1, 1, 1, 1, 1]
 obj = Solution()
-print(obj.findTargetSumWays(nums, 3))
+print(obj.findTargetSumWays_OJBest(nums, 3))
