@@ -17,6 +17,7 @@ All the numbers in the input array are in the range of 32-bit integer.
 """
 from bisect import insort_right, bisect_right
 class Solution:
+    # TLE
     # my own solution, for each num, find the insertion position of 2*num, and calculate how many numbers in the sorted list are larger than 2*num
     def reversePairs(self, nums):
         """
