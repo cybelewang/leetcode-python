@@ -15,6 +15,10 @@ Note:
 The total number of elements of the given matrix will not exceed 10,000.
 """
 class Solution:
+    # my own solution
+    # in general the row index + col index will increase from 0 to M + N - 2
+    # clock-wise turn: hit either the top row (increase col), or the right col (increase row)
+    # counter-clock-wise turn: hit either the left col (increase row), or the bottom row (increase col)
     def findDiagonalOrder(self, matrix):
         """
         :type matrix: List[List[int]]
@@ -25,21 +29,38 @@ class Solution:
         if M == 0: return res
         N = len(matrix[0])
 
-        i, j, up = 0, 0, True
-        for sum_ in range(M + N - 1):
-            if up:
-                i = sum_ - j
-                while j <= sum_:
-                    res.append(matrix[i][j])
+        i, j, clock_wise = 0, 0, True
+        res.append(matrix[0][0])
+        for _ in range(M + N - 1):
+            if clock_wise:  # clock-wise turn
+                if j + 1 < N:   # hit top row, increase col
                     j += 1
-                    i -= 1
+                else:   # hit right col, increase row
+                    i += 1
+                # loop until hit the bottom row or left col
+                while i < M and j > -1:
+                    res.append(matrix[i][j])
+                    i += 1
+                    j -= 1
+                # restore i, j to valid values
+                i -= 1
+                j += 1
             else:
-                j = sum_ - i
-                while i >= 0:
-                    res.append(matrix[i][j])
-                    i -= 1
+                if i + 1 < M:
+                    i += 1
+                else:
                     j += 1
+                while j < N and i > -1:
+                    res.append(matrix[i][j])
+                    j += 1
+                    i -= 1
+                # restore i, j to valid values
+                i += 1
+                j -= 1
             
-            up = not up
+            clock_wise = not clock_wise
 
         return res
+
+matrix = [ [ 1, 2, 3, 0 ], [ 4, 5, 6, 0 ], [ 7, 8, 9, 0 ]]
+print(Solution().findDiagonalOrder(matrix))

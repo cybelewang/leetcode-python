@@ -18,4 +18,11 @@ class Solution:
         :type words: List[str]
         :rtype: List[str]
         """
-        
+        row1 = set('QWERTYUIOPqwertyuiop')
+        row2 = set('ASDFGHJKLasdfghjkl')
+        row3 = set('ZXCVBNMzxcvbnm')
+
+        return [w for w in words if (set(w) <= row1 or set(w) <= row2 or set(w) <= row3)]
+
+words = ["Hello", "Alaska", "Dad", "Peace"]
+print(Solution().findWords(words))
