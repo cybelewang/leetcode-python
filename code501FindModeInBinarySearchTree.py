@@ -25,11 +25,50 @@ Follow up: Could you do that without using any extra space? (Assume that the imp
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/6436150.html
+    # inorder traversal, count the same value appearance
     def findMode(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
         """
+        self.prev = None    # previous node's value
+        self.cnt = 0    # count of the same value. bug fixed: should not be initialized to 0. Why?
+        self.max = 0    # max of self.cnt
+        self.res = []   # result
+
+        def inorder(root):
+            """
+            inorder traversal of the BST
+            """
+            if root is None:
+                return
+            ## process left
+            inorder(root.left)
+
+            ## process root
+            # update count
+            if self.prev:
+                self.cnt = self.cnt + 1 if root.val == self.prev else 1
+            else:
+                self.cnt = 1
+            # update max and res
+            if self.cnt >= self.max:
+                if self.cnt > self.max: self.res.clear()
+                self.max = self.cnt
+                self.res.append(root.val)
+            # update prev
+            self.prev = root.val
+
+            ## process right            
+            inorder(root.right)
         
+        # main
+        inorder(root)
+        return self.res
+
+root = ListToTree([1,None,2,None, 3])
+PrintTree(root)
+print(Solution().findMode(root))
