@@ -35,7 +35,7 @@ class Solution:
         :rtype: List[int]
         """
         self.prev = None    # previous node's value
-        self.cnt = 0    # count of the same value. bug fixed: should not be initialized to 0. Why?
+        self.cnt = 1    # count of the same value. bug fixed: should not be initialized to 0. Why?
         self.max = 0    # max of self.cnt
         self.res = []   # result
 
@@ -52,8 +52,7 @@ class Solution:
             # update count
             if self.prev:
                 self.cnt = self.cnt + 1 if root.val == self.prev else 1
-            else:
-                self.cnt = 1
+
             # update max and res
             if self.cnt >= self.max:
                 if self.cnt > self.max: self.res.clear()
@@ -69,6 +68,6 @@ class Solution:
         inorder(root)
         return self.res
 
-root = ListToTree([1,None,2,None, 3])
+root = ListToTree([0,None,0])
 PrintTree(root)
 print(Solution().findMode(root))
