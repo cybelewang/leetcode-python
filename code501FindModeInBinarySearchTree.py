@@ -50,7 +50,7 @@ class Solution:
 
             ## process root
             # update count
-            if self.prev:
+            if self.prev is not None:   # bug fixed: change from "if self.prev:" to "if self.prev is not None:" because if self.prev == 0, it will fail
                 self.cnt = self.cnt + 1 if root.val == self.prev else 1
 
             # update max and res
