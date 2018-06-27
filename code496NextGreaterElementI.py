@@ -21,6 +21,7 @@ Note:
 All elements in nums1 and nums2 are unique.
 The length of both nums1 and nums2 would not exceed 1000.
 """
+# similar problems: 503
 class Solution:
     # my own solution
     # process nums2 in reversed direction, and use a stack to keep the potential candidate

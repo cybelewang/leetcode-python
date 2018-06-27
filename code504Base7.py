@@ -16,4 +16,17 @@ class Solution:
         :type num: int
         :rtype: str
         """
+        is_negative = num < 0
+        if is_negative:
+            num *= -1
+        digits = []
+        while num:
+            digits.append(str(num%7))
+            num //= 7
         
+        if is_negative:
+            digits.append('-')
+        
+        return ''.join(digits[::-1]) or '0'
+
+print(Solution().convertToBase7(-1000000))

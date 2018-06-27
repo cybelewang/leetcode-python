@@ -25,6 +25,8 @@ Follow up: Could you do that without using any extra space? (Assume that the imp
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
+# similar problems: 508
 from TreeNode import *
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/6436150.html

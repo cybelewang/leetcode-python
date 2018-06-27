@@ -1,5 +1,6 @@
 """
-Given scores of N athletes, find their relative ranks and the people with the top three highest scores, who will be awarded medals: "Gold Medal", "Silver Medal" and "Bronze Medal".
+Given scores of N athletes, find their relative ranks and the people with the top three highest scores, 
+who will be awarded medals: "Gold Medal", "Silver Medal" and "Bronze Medal".
 
 Example 1:
 Input: [5, 4, 3, 2, 1]
@@ -16,4 +17,15 @@ class Solution:
         :type nums: List[int]
         :rtype: List[str]
         """
+        t = sorted(zip(nums, range(len(nums))), reverse = True)
+        medals = ['Gold Medal', 'Silver Medal', 'Bronze Medal']
+        for i, (_, index) in enumerate(t):
+            if i < 3:
+                nums[index] = medals[i]
+            else:
+                nums[index] = str(i+1)
         
+        return nums
+
+nums = [5, 4, 1, 2, 3]
+print(Solution().findRelativeRanks(nums))

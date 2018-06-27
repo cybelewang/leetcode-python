@@ -23,6 +23,7 @@ You may assume all numbers in the input are non-negative integers.
 The length of Profits array and Capital array will not exceed 50,000.
 The answer is guaranteed to fit in a 32-bit signed integer.
 """
+# Note the question asks for the final capital, not the profit
 from heapq import heappush, heappop
 class Solution:
     # my own solution: sort the tuple (capital, profit), then add all tuple (profit, capital) into MaxHeap if capital <= current
@@ -37,7 +38,7 @@ class Solution:
         """
         t = sorted(zip(map(lambda x: -x, Profits), Capital), key = lambda x: x[1])  # heapq is a MinHeap, so we use negative profit values
         heap = []
-        res, i = 0, 0
+        i = 0
         # initially add all tuples into MaxHeap if capital <= W
         while i < len(t) and t[i][1] <= W:
             heappush(heap, t[i])
@@ -47,7 +48,6 @@ class Solution:
         for _ in range(k):
             if heap:
                 p, _ = heappop(heap)    # max profit with capital <= W
-                res += -p
                 W += -p
                 # similarily add all tuples into MaxHeap if capital <= W
                 while i < len(t) and t[i][1] <= W:
@@ -56,7 +56,7 @@ class Solution:
             else:
                 break
         
-        return res
+        return W
 
 Profits=[1,2,3]
 Capital=[1, 1, 2]
