@@ -59,7 +59,7 @@ class Solution:
         return res
 
 Profits=[1,2,3]
-Capital=[0,1,1]
-k=200
-W=0
+Capital=[1, 1, 2]
+k=1
+W=2
 print(Solution().findMaximizedCapital(k, W, Profits, Capital))
