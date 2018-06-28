@@ -86,7 +86,7 @@ class NumArray_BIT: # Binary Indexed Tree
         :type val: int
         :rtype: void
         """
-        diff = val - self.nums[i]
+        diff = val - self.nums[i]   # perhaps better to use diff instead of val???
         self.nums[i] = val
         # index in BITree[] is 1 more than the index in arr[]
         i += 1
