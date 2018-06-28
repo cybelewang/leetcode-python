@@ -26,6 +26,24 @@ The answer is guaranteed to fit in a 32-bit signed integer.
 # Note the question asks for the final capital, not the profit
 from heapq import heappush, heappop
 class Solution:
+    def findMaximizedCapital_OJBest(self, k, W, Profits, Capital):
+        """
+        :type k: int
+        :type W: int
+        :type Profits: List[int]
+        :type Capital: List[int]
+        :rtype: int
+        """
+        future = sorted(zip(Capital, Profits))[::-1]
+        current = []
+        while k > 0:
+            while future and future[-1][0] <= W:
+                heapq.heappush(current, -future.pop()[1])
+            if not current:
+                break
+            W -= heapq.heappop(current)
+            k -= 1
+        return W
     # my own solution: sort the tuple (capital, profit), then add all tuple (profit, capital) into MaxHeap if capital <= current
     # loop k times, each time pick up a max tuple (profit, capital), update the current W, then add all all tuple (profit, capital) into MaxHeap if capital <= W
     def findMaximizedCapital(self, k, W, Profits, Capital):
