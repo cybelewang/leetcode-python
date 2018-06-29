@@ -22,6 +22,7 @@ Length of both ring and key will be in range 1 to 100.
 There are only lowercase letters in both strings and might be some duplcate characters in both strings.
 It's guaranteed that string key could always be spelled by rotating the string ring.
 """
+from collections import defaultdict
 class Solution:
     def findRotateSteps(self, ring, key):
         """
@@ -29,4 +30,49 @@ class Solution:
         :type key: str
         :rtype: int
         """
+        m, n = len(key), len(ring)
+        dp = [[0]*n for _ in range(m+1)]    # dp[i][j] is the min step from key[i] to ring[j], not including the steps to "spell". dp[m][0] is the start condition
+        for i in range(m-1, -1, -1):
+            for j in range(n):
+                dp[i][j] = 2**31 - 1
+                for k in range(n):
+                    if ring[k] == key[i]:
+                        diff = abs(j - k)
+                        step = min(diff, n-diff)
+                        dp[i][j] = min(dp[i][j], step + dp[i+1][k])
+
+        return dp[0][0] + m # "m" are the "spell" steps
+
+    # my own solution
+    # use a intermediate list to keep a particular character's all possible (previous steps, index i in ring)
+    # for the next character's each index j in ring, find out min steps between i and j and add this min steps to previous steps 
+    # improvement: previously used a findMinStep(i, j, N) to calculate the min step between i and j, then improved to min(abs(i-j), N-abs(i-j))
+    def findRotateSteps2(self, ring, key):
+        """
+        :type ring: str
+        :type key: str
+        :rtype: int
+        """
+        N = len(ring)
+        mem = defaultdict(list)
+        for i, c in enumerate(ring):
+            mem[c].append(i)
         
+        prev = [(0, 0)] # start tuple (steps, index)
+
+        for c in key:
+            c_indices = mem[c]  # get all indices of current character c in key
+            cur = []    # this will hold all possible steps after processing character c
+            for j in c_indices:
+                p = (2**31-1, j)    # tuple (steps, index)
+                for steps, i in prev:   # iterate all previous (steps, index) and add steps to rotate from previous character index i to current character index j, as well as 1 step to push the character
+                    p = min(p, (steps + min(abs(i-j), N-abs(i-j)) + 1, j))
+                cur.append(p)
+            prev = cur
+
+        return min(prev)[0]    
+            
+obj = Solution()
+ring = "godding"
+key = "gg"
+print(obj.findRotateSteps(ring, key))
