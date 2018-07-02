@@ -1,6 +1,7 @@
 """
 
-You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.
+You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. 
+You may assume that you have infinite number of each kind of coin.
 
 Note: You can assume that
 
@@ -35,3 +36,25 @@ class Solution(object):
         :rtype: int
         """
         
+    # 1st trial, treat it as a permutation problem, but this question is about combination
+    def change_Wrong(self, amount, coins):
+        """
+        :type amount: int
+        :type coins: List[int]
+        :rtype: int
+        """
+        dp = [0]*(amount+1)
+        dp[0] = 1
+
+        coins.sort()
+
+        for i in range(1, amount+1):
+            for coin in coins:
+                if i - coin > -1:
+                    dp[i] += dp[i-coin]
+
+        return dp[amount]
+
+amount = 5
+coins = [1, 2, 5]
+print(Solution().change(amount, coins))
