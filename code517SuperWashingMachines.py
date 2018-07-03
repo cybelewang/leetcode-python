@@ -55,3 +55,4 @@ class Solution:
 obj = Solution()
 machines = [0,0,11,5]
 print(obj.findMinMoves(machines))
+# [4, 0, 0, 4] => 2
