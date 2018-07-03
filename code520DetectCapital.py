@@ -22,4 +22,10 @@ class Solution:
         :type word: str
         :rtype: bool
         """
-        
+        return word in (word.upper(), word.lower(), word[:1].upper()+word[1:].lower())  # don't use word[0], instead using word[:1] to avoide index out of range exception
+
+test_cases = ['a', 'A', 'USA', 'leetcode', 'Google', 'FlaG']
+obj = Solution()
+for word in test_cases:
+    print(word, end=' -> ')
+    print(obj.detectCapitalUse(word))

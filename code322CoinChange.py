@@ -12,6 +12,7 @@ return -1.
 Note:
 You may assume that you have an infinite number of each kind of coin.
 """
+# similar problems: 518
 class Solution:
     # DP solution, accepted
     def coinChange(self, coins, amount):

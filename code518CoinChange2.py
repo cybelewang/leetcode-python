@@ -28,15 +28,30 @@ Example 3:
 Input: amount = 10, coins = [10] 
 Output: 1
 """
+# similar problems: 322, 377
+# initially thought to use 264 Ugly Number II's method, but that one cannot be used here
+# the key idea here is to iterate all combinations without overlapping
 class Solution(object):
+    # help from http://www.cnblogs.com/grandyang/p/7669088.html
+    # dp[i] is number of combinations for amount i
+    # first iterate coin, then for each coin add all possible amount
+    # for loop sequence is different from 1st trial
     def change(self, amount, coins):
         """
         :type amount: int
         :type coins: List[int]
         :rtype: int
         """
+        dp = [0]*(amount+1)
+        dp[0] = 1
+
+        for coin in coins:
+            for i in range(coin, amount+1):
+                dp[i] += dp[i-coin]
+
+        return dp[amount]
         
-    # 1st trial, treat it as a permutation problem, but this question is about combination
+    # 1st trial, wrong solution, overlapping cases
     def change_Wrong(self, amount, coins):
         """
         :type amount: int
