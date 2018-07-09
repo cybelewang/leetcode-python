@@ -36,6 +36,8 @@ class Solution(object):
     # dp[i] is number of combinations for amount i
     # first iterate coin, then for each coin add all possible amount
     # for loop sequence is different from 1st trial
+    # this is a 1-D space DP solution, it can be derived from knapsack method, which uses 2-D space:
+    # https://leetcode.com/problems/coin-change-2/discuss/99212/Knapsack-problem-Java-solution-with-thinking-process-O(nm)-Time-and-O(m)-Space
     def change(self, amount, coins):
         """
         :type amount: int

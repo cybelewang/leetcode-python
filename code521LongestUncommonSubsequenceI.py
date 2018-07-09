@@ -18,6 +18,7 @@ Note:
 Both strings' lengths will not exceed 100.
 Only letters from a ~ z will appear in input strings.
 """
+# how to get the number of unique subsequences for a string? do not use set. Previous problems have this similar question and used a map...
 class Solution:
     def findLUSlength(self, a, b):
         """
@@ -25,4 +26,10 @@ class Solution:
         :type b: str
         :rtype: int
         """
+        if len(a) > len(b):
+            return self.findLUSlength(b, a)
         
+        if a != b:
+            return len(b)
+        else:
+            return -1
