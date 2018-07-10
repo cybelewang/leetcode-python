@@ -19,11 +19,28 @@ Output: The root of a Greater Tree like this:
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
+    # my own solution, modified reverse-order traversal
     def convertBST(self, root):
         """
         :type root: TreeNode
         :rtype: TreeNode
         """
-        
+        def rev_order(root, prev):
+            if root is not None:
+                prev = rev_order(root.right, prev)
+                root.val += prev
+                prev = rev_order(root.left, root.val)
+
+            return prev
+
+        # main
+        rev_order(root, 0)
+
+        return root
+
+root = ListToTree([6, 4, 15, None, None, 8, None, 7, 9])
+PrintTree(root)
+root = Solution().convertBST(root)
+PrintTree(root)

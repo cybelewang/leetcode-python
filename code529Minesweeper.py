@@ -60,13 +60,48 @@ class Solution:
         :type click: List[int]
         :rtype: List[List[str]]
         """
+        neighbors = [[0,-1], [-1,-1], [-1, 0],[-1, 1], [0, 1],[1,1], [1, 0],[1,-1]]
+
+        # main
         x, y = click
         if board[x][y] == 'M':
             board[x][y] = 'X'
-            return
+            return board
 
+        m, n = len(board), len(board[0])
+        count = [[0]*n for _ in range(m)]
+
+        # assign mineral count to all cells
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'M':
+                    count[i][j] = 100   # set the mineral itself to a very large count
+                    for dx, dy in neighbors:
+                        x, y = i + dx, j + dy
+                        if -1 < x < m and -1 < y < n:
+                            count[x][y] += 1
+       
+        # dfs definition                    
         def dfs(board, i, j, m, n):
             """
             i, j: indices of selected index
             m, n: size of board
             """
+            if -1 < i < m and -1 < j < n:
+                cur = board[i][j]
+                if cur == 'E':
+                    if count[i][j] == 0:
+                        board[i][j] = 'B'
+                        for dx, dy in neighbors:
+                            x, y = i + dx, j + dy
+                            dfs(board, x, y, m, n)
+                    else:
+                        board[i][j] = str(count[i][j])
+
+        dfs(board, click[0], click[1], m, n)
+
+        return board
+
+                            
+board = [['B', '1', 'E', '1', 'B'], ['B', '1', 'M', '1', 'B'], ['B', '1', '1', '1', 'B'], ['B', 'B', 'B', 'B', 'B']]
+print(Solution().updateBoard(board, (1, 2)))

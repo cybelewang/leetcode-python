@@ -25,11 +25,28 @@ Note: There are at least two nodes in this BST.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
+    # my own solution, modified inorder traversal
+    # need to consider 
     def getMinimumDifference(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
+        self.res = 2**32 - 1
+        def inorder(root, prev):
+            if root:
+                prev = inorder(root.left, prev)
+                self.res = min(self.res, root.val - prev)
+                prev = inorder(root.right, root.val)
+            
+            return prev
         
+        inorder(root, -2**31)
+
+        return self.res
+
+root = ListToTree([9, 6, 19, None, 8])
+PrintTree(root)
+print(Solution().getMinimumDifference(root)) 

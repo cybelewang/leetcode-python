@@ -1,5 +1,6 @@
 """
-Given an array of integers and an integer k, you need to find the number of unique k-diff pairs in the array. Here a k-diff pair is defined as an integer pair (i, j), where i and j are both numbers in the array and their absolute difference is k.
+Given an array of integers and an integer k, you need to find the number of unique k-diff pairs in the array. 
+Here a k-diff pair is defined as an integer pair (i, j), where i and j are both numbers in the array and their absolute difference is k.
 
 Example 1:
 Input: [3, 1, 4, 1, 5], k = 2
@@ -19,11 +20,27 @@ The pairs (i, j) and (j, i) count as the same pair.
 The length of the array won't exceed 10,000.
 All the integers in the given input belong to the range: [-1e7, 1e7].
 """
+from collections import Counter
 class Solution:
+    # my own solution: 
+    # k > 0, we add k to nums, and check the number of intersected elements with original nums
+    # k = 0, we check the number of elements whose count > 1
     def findPairs(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
         :rtype: int
         """
+        res = 0
+        if k != 0:
+            required = [i + k for i in nums]
+            res = len(set(nums) & set(required))
+        else:
+            count = Counter(nums)
+            res = len([x for x in count if count[x] > 1])
         
+        return res
+
+nums = [1, 2, 3, 4]
+k = 0
+print(Solution().findPairs(nums, k))
