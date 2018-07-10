@@ -60,4 +60,13 @@ class Solution:
         :type click: List[int]
         :rtype: List[List[str]]
         """
-        
+        x, y = click
+        if board[x][y] == 'M':
+            board[x][y] = 'X'
+            return
+
+        def dfs(board, i, j, m, n):
+            """
+            i, j: indices of selected index
+            m, n: size of board
+            """

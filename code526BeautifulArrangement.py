@@ -26,9 +26,46 @@ Note:
 N is a positive integer and will not exceed 15.
 """
 class Solution:
+    # https://leetcode.com/problems/beautiful-arrangement/discuss/99738/Easy-Python-~230ms
+    # X is the set of still available numbers.
+    # Note that my i goes downwards, from N to 1. Because position i = 1 can hold any number, so I don't even have to check whether the last remaining number fits there. 
+    # Also, position i = 2 happily holds every second number and i = 3 happily holds every third number, so filling the lowest positions last has a relatively high chance of success. 
+    # In other words, it's relatively hard to end up with dead ends this way.
     def countArrangement(self, N):
         """
         :type N: int
         :rtype: int
         """
-        
+        def count(i, X):
+            if i == 1:
+                return 1
+            return sum(count(i - 1, X - {x})
+                    for x in X
+                    if x % i == 0 or i % x == 0)
+
+        return count(N, set(range(1, N + 1)))
+    # brutal force recursive solution
+    # note, we don't need to build the beautiful arrays
+    def countArrangement2(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        def dfs(nums, used, start):
+            if start == N+1:
+                return 1
+            res = 0
+            for i in range(1, N+1):
+                if not used[i] and (nums[i] % start == 0 or start % nums[i] == 0):
+                    used[i] = True
+                    res += dfs(nums, used, start+1)
+                    used[i] = False
+
+            return res
+
+        nums = list(range(N+1)) # nums[i] = i
+        used = [False]*(N+1)
+
+        return dfs(nums, used, 1)
+
+print(Solution().countArrangement2(4))
