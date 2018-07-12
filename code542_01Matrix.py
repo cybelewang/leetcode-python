@@ -31,8 +31,44 @@ The cells are adjacent in only four directions: up, down, left and right.
 # 1st trial TLE: iterate the matrix, for each 0, update all other 1s' distance
 from collections import deque
 class Solution:
-    # BFS solution from solution 1 in http://www.cnblogs.com/grandyang/p/6602288.html
+    # Two-pass solution: first pass update value from left top cells, second pass update value from bottom right cells
     def updateMatrix(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        INT_MAX = 2**31-1
+        m = len(matrix)
+        if m < 1:
+            return matrix
+        n = len(matrix[0])
+
+        # update all '1' to INT_MAX - 1 (why -1? because we need to add 1 later)
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] != 0:
+                    matrix[i][j] = INT_MAX - 1
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] != 0:
+                    if i > 0:
+                        matrix[i][j] = min(matrix[i][j], matrix[i-1][j] + 1)    # update from top
+                    if j > 0:
+                        matrix[i][j] = min(matrix[i][j], matrix[i][j-1] + 1)    # update from left
+
+        for i in range(m-1, -1, -1):
+            for j in range(n-1, -1, -1):
+                if matrix[i][j] != 0:
+                    if i < m - 1:
+                        matrix[i][j] = min(matrix[i][j], matrix[i+1][j] + 1)    # update from bottom
+                    if j < n - 1:
+                        matrix[i][j] = min(matrix[i][j], matrix[i][j+1] + 1)    # update from right
+
+        return matrix
+
+    # BFS solution from solution 1 in http://www.cnblogs.com/grandyang/p/6602288.html
+    def updateMatrix2(self, matrix):
         """
         :type matrix: List[List[int]]
         :rtype: List[List[int]]

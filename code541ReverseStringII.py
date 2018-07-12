@@ -10,10 +10,10 @@ The string consists of lower English letters only.
 Length of the given string and k will in the range [1, 10000]
 """
 class Solution:
-	def reverseStr_OJBest(self, s, k) :
-		return ''.join(s[i : i+k][::-1] + s[i+k : i+k*2]
-			for i in range(0, len(s), k*2))
-            
+    """    
+        def reverseStr_OJBest(self, s, k):
+            return ''.join(s[i : i+k][::-1] + s[i+k : i+k*2] for i in range(0, len(s), k*2))
+    """
     # my own solution
     # take advantage of s[start:end] which will check range automatically
     def reverseStr(self, s, k):
