@@ -71,5 +71,5 @@ class Solution:
         
         return dp[0][n-1]
 
-boxes = list(range(100))
+boxes = [1, 1, 2, 1, 3, 1]
 print(Solution().removeBoxes(boxes))
