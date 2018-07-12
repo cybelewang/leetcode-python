@@ -61,7 +61,7 @@ class Solution:
                 for dx, dy in neighbors:
                     x, y = i + dx, j + dy
                     if -1 < x < m and -1 < y < n:
-                        if matrix[x][y] < 2:
+                        if matrix[x][y] <= cur + 1: # bug fixed: initially used: if matrix[x][y] < 2
                             continue
                         matrix[x][y] = min(matrix[x][y], cur + 1)
                         q.append((x, y))
