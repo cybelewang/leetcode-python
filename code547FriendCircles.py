@@ -24,10 +24,59 @@ N is in range [1,200].
 M[i][i] = 1 for all students.
 If M[i][j] = 1, then M[j][i] = 1.
 """
+from collections import deque
 class Solution:
+    # my 2nd trial
+    # create a set to store students not processed
+    # iterate all students, for each student in the set, use BFS to process all friends, and remove friends from the set
     def findCircleNum(self, M):
         """
         :type M: List[List[int]]
         :rtype: int
         """
-        
+        N, circle = len(M), 0
+        unvisited = set(range(N))
+        q = deque()
+        for i in range(N):
+            # ignore those visited because they belong to existing circles
+            if i in unvisited:
+                unvisited.remove(i)
+                circle += 1
+                q.append(i)
+                while q:
+                    host = q.popleft()
+                    for friend in range(host+1, N):
+                        if M[host][friend]:
+                            unvisited.remove(friend)
+                            q.append(friend)
+                
+        return circle
+
+
+    # 1st trial, iterate all cells of M, for each connection, use BFS to color indirect connections. The result is wrong because we missed those without friends
+    def findCircleNum2(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        N = len(M)
+        circle = 1  # id of the friend circle
+        q = deque()
+        for i in range(N):
+            for j in range(i+1, N):
+                if M[i][j] == 1:
+                    circle += 1
+                    q.append(i)
+                    q.append(j)
+                    M[i][j] = circle
+                    while q:
+                        host = q.popleft()
+                        for k in range(host+1, N):
+                            if M[host][k] == 1:
+                                M[host][k] = circle
+                                q.append(k)
+
+        return circle - 1
+
+M = [[1, 1, 0], [0, 1, 1], [0, 1, 1]]
+print(Solution().findCircleNum(M))
