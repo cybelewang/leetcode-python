@@ -45,8 +45,8 @@ class Solution:
                 q.append(i)
                 while q:
                     host = q.popleft()
-                    for friend in range(host+1, N):
-                        if M[host][friend]:
+                    for friend in range(N): # bug fixed: previously used range(host+1, N) but think about this: 0->9, 2->9, how can we make 0->2?
+                        if M[host][friend] and friend in unvisited: # bug fixed: friend must be in unvisited, otherwise remove it from unvisited will raise key error exception
                             unvisited.remove(friend)
                             q.append(friend)
                 
@@ -78,5 +78,5 @@ class Solution:
 
         return circle - 1
 
-M = [[1, 1, 0], [0, 1, 1], [0, 1, 1]]
+M = [[1,0,0,1],[0,1,1,0],[0,1,1,1],[1,0,1,1]]
 print(Solution().findCircleNum(M))

@@ -14,7 +14,7 @@ Example 2:
 Input: "PPALLL"
 Output: False
 """
-from collections import Counter
+# misunderstood the problem in 1st trial: requires two CONTINUOUS "L"
 class Solution:
     def checkRecord(self, s):
         """
@@ -22,8 +22,7 @@ class Solution:
         :rtype: bool
         """
         # ask about empty string
-        count = Counter(s)
-        return (count['A'] < 2) and (count['L'] < 3)    # beauty of collections.Counter: if the key doesn't exist in Counter, it just return 0 instead of inserting records, or raising exceptions
+        return s.count('A') < 2 and s.find('LLL') == -1
 
 test_cases = ['', 'PPALLP', 'PPALLL']
 for s in test_cases:

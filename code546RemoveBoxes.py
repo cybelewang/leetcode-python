@@ -26,6 +26,7 @@ class Solution:
     # dp[i][j][k] is the max points from i to j (inclusive) with k continuous same numbers (boxes[i]) on the left of i
     # the key is considering k, which is the count of boxes[i] on the left of i
     # knap sack approach: (1) remove current [i] (2) iterate range(i+1, j+1) and for each boxes[m]==boxes[i], remove [i:m]
+    # TLE for python version, have to use C++ version
     def removeBoxes(self, boxes):
         """
         :type boxes: List[int]
