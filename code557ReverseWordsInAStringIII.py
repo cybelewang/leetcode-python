@@ -13,4 +13,7 @@ class Solution:
         :type s: str
         :rtype: str
         """
-        
+        return ' '.join(ss[::-1] for ss in s.split())
+
+s = "Let's take LeetCode contest"
+print(Solution().reverseWords(s))

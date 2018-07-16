@@ -8,6 +8,7 @@ Note:
 The length of the array is in range [1, 20,000].
 The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
 """
+from collections import defaultdict
 class Solution:
     def subarraySum(self, nums, k):
         """
@@ -15,3 +16,24 @@ class Solution:
         :type k: int
         :rtype: int
         """
+        sum_, mem = 0, defaultdict(int) # default value is 0, for other values, use lambda: value
+        mem[0] = 0
+        for num in nums:
+            sum_ += num
+            mem[sum_] += 1
+        
+        res = 0
+        if k == 0:
+            for key in mem:
+                if mem[key] > 1:
+                    res += mem[key] - 1
+        else:
+            for key in mem:
+                if k + key in mem:
+                    res += mem[k+key]
+
+        return res
+
+if __name__ == "__main__":
+    nums = [0, 0, 0]    # test this case
+    print(Solution().subarraySum(nums, 0))
