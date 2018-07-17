@@ -17,23 +17,15 @@ class Solution:
         :rtype: int
         """
         sum_, mem = 0, defaultdict(int) # default value is 0, for other values, use lambda: value
-        mem[0] = 0
+        mem[0] = 1
         for num in nums:
             sum_ += num
             mem[sum_] += 1
         
         res = 0
-        if k == 0:
-            for key in mem:
-                if mem[key] > 1:
-                    res += mem[key] - 1
-        else:
-            for key in mem:
-                if k + key in mem:
-                    res += mem[k+key]
 
         return res
 
 if __name__ == "__main__":
-    nums = [0, 0, 0]    # test this case
-    print(Solution().subarraySum(nums, 0))
+    nums = [1, 1, 1]    # test this case
+    print(Solution().subarraySum(nums, 2))

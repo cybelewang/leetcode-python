@@ -48,9 +48,11 @@ class Solution:
         a = sorted(d[i:])
         d[i:] = a
 
-        return int(''.join(d))
+        res = int(''.join(d))        
 
-test_cases = [0, 12, 21, 100, 101, 1234, 1243, 1342, 43211, 12334, 12433]
+        return -1 if res > 2**31 - 1 else res   # bug fixed: the problem states that for result > 2**31-1, return -1
+
+test_cases = [0, 12, 21, 100, 101, 1234, 1243, 1342, 43211, 12334, 12433, 1999999999]
 obj = Solution()
 for n in test_cases:
     print(n, end = ' -> ')

@@ -34,11 +34,11 @@ class Solution:
         """
         n = len(nums)
         strs = [str(num) for num in nums]
-        if n > 3:
+        if n > 2:
             strs[1] = '(' + strs[1]
             strs[-1] = strs[-1] + ')'
         
         return '/'.join(strs)
 
-nums = [1000,100,10,2]
+nums = [2,3,4]
 print(Solution().optimalDivision(nums))
