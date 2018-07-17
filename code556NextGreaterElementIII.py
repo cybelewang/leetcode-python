@@ -16,6 +16,7 @@ Output: -1
 """
 # similar problems: 31 next permutation
 class Solution:
+    # my own solution
     def nextGreaterElement(self, n):
         """
         :type n: int

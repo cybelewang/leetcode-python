@@ -19,17 +19,36 @@ Note:
 The depth of the tree is at most 1000.
 The total number of nodes is at most 5000.
 """
-
-"""
+from collections import deque
 # Definition for a Node.
 class Node(object):
     def __init__(self, val, children):
         self.val = val
         self.children = children
-"""
+
 class Solution(object):
+    # BFS
     def maxDepth(self, root):
         """
         :type root: Node
         :rtype: int
         """
+        if not root:
+            return 0
+
+        q = deque()
+        q.append(root)
+        h = 0
+        while q:
+            length = len(q)
+            h += 1
+            for _ in range(length):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+        
+        return h
+
+

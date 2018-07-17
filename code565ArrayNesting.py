@@ -18,8 +18,27 @@ The elements of A are all distinct.
 Each element of A is an integer within the range [0, N-1].
 """
 class Solution:
+    # my own solution, get the max length loop of the directed graph
     def arrayNesting(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
+        numbers = set(range(len(nums)))
+        res = 0
+
+        while numbers:
+            i = numbers.pop()
+            length = 1
+            while nums[i] in numbers:                
+                i = nums[i]
+                numbers.remove(i)
+                length += 1
+
+            res = max(res, length)
+        
+        return res
+
+nums = [1, 0]
+print(Solution().arrayNesting(nums))      
+            

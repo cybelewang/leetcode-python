@@ -13,6 +13,7 @@ Note:
 The length of the array won't exceed 10,000.
 You may assume the sum of all the numbers is in the range of a signed 32-bit integer.
 """
+# similar problems: 560
 class Solution:
     # https://leetcode.com/problems/continuous-subarray-sum/discuss/99499/Java-O(n)-time-O(k)-space
     # convert from sum = n*k to sum % k = 0

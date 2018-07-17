@@ -16,4 +16,13 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        
+        n = len(nums)
+        nums.sort()
+        res = 0
+        for i in range(0, n, 2):
+            res += nums[i]
+
+        return res
+
+nums = [1, 4, 3, 2]
+print(Solution().arrayPairSum(nums))

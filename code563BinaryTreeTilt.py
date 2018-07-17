@@ -27,11 +27,30 @@ All the tilt values won't exceed the range of 32-bit integer.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
     def findTilt(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
-        
+        self.tilt = 0
+        def dfs(root):
+            if not root:
+                return 0
+            
+            left = dfs(root.left)
+            right = dfs(root.right)
+
+            self.tilt += abs(left - right)
+
+            return left + right + root.val
+
+        # main
+        dfs(root)
+
+        return self.tilt
+
+root = ListToTree([1, 2, None, 3, 4, 5, None, 6])
+PrintTree(root)
+print(Solution().findTilt(root))
