@@ -1,5 +1,6 @@
 """
-Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
+Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. 
+A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
 
 Example 1:
 Given tree s:
@@ -30,11 +31,51 @@ Given tree t:
  1   2
 Return false.
 """
+# similar problems: 100 Same Tree
+from TreeNode import *
 class Solution:
+    # my own solution: use inorder string to represent the tree, and check if t is a substring of s
+    # bug fixed: consider s = 12 and t = 2, if we use ',' to separate each node, '2' will be considered as substring of '12', so we need to add ',' before the node
     def isSubtree(self, s, t):
         """
         :type s: TreeNode
         :type t: TreeNode
         :rtype: bool
         """
+        def encode(root, values):
+            """
+            serialize tree to a string, in order
+            """
+            if not root:
+                values.append(',#')
+            else:
+                encode(root.left, values)
+                values.append(','+str(root.val))
+                encode(root.right, values)
         
+        s_values, t_values = [], []
+        encode(s, s_values)
+        encode(t, t_values)
+
+        return ''.join(s_values).count(''.join(t_values)) > 0
+
+    # recursive solution, from https://www.cnblogs.com/grandyang/p/6828687.html
+    def isSubtree2(self, s, t):
+        """
+        :type s: TreeNode
+        :type t: TreeNode
+        :rtype: bool
+        """
+        if s is None and t is None:
+            return True
+        elif s is None or t is None:
+            return False
+
+        if s.val == t.val and self.isSubtree2(s.left, t.left) and self.isSubtree2(s.right, t.right):
+            return True
+        else:
+            return self.isSubtree2(s.left, t) or self.isSubtree2(s.right, t)
+
+s = ListToTree([12, 2])
+t = ListToTree([1, 2])
+print(Solution().isSubtree2(s, t))

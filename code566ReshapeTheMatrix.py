@@ -33,6 +33,7 @@ The height and width of the given matrix is in range [1, 100].
 The given r and c are all positive.
 """
 class Solution:
+    # my own solution
     def matrixReshape(self, nums, r, c):
         """
         :type nums: List[List[int]]
@@ -40,4 +41,18 @@ class Solution:
         :type c: int
         :rtype: List[List[int]]
         """
-        
+        m, n = len(nums), len(nums[0])
+        if m * n != r * c:
+            return nums
+
+        singlerow = sum(nums, [])   # convert a 2-D list to 1-D list
+        res = []
+        for i in range(0, m*n, c):
+            res.append(singlerow[i:i+c])
+
+        return res
+
+if __name__ == '__main__':
+    obj = Solution()
+    nums = [[1,2],[3,4]]
+    print(obj.matrixReshape(nums, 1, 4))

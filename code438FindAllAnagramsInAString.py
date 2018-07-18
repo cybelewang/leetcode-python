@@ -30,6 +30,7 @@ The substring with start index = 0 is "ab", which is an anagram of "ab".
 The substring with start index = 1 is "ba", which is an anagram of "ab".
 The substring with start index = 2 is "ab", which is an anagram of "ab".
 """
+# similar problems: 567
 class Solution:
     # use 26 bits to represent if each s's letter's count is the same as p
     def findAnagrams(self, s, p):

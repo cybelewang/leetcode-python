@@ -10,6 +10,7 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
 """
 # similar problems: 523
 from collections import defaultdict
+from bisect import bisect
 class Solution:
     # my own solution
     def subarraySum(self, nums, k):
@@ -18,25 +19,29 @@ class Solution:
         :type k: int
         :rtype: int
         """
-        sum_, mem = 0, defaultdict(int) # default value is 0, for other values, use lambda: value
-        for num in nums:
+        sum_, mem = 0, defaultdict(list)    # mem is a dict with key of the accumulated sum, value of a list holding all indices of this accumulated sum
+        for i, num in enumerate(nums):
             sum_ += num
-            mem[sum_] += 1
+            mem[sum_].append(i)
         
         res = 0
         if k in mem:
-            res += mem[k]   # subarray starts from beginning position
+            res += len(mem[k])   # subarrays start from beginning position
         
         if k == 0:
             for key in mem:
-                res += mem[key]*(mem[key] - 1)//2   # if k == 0, calculate the combinations = C(n, 2)
+                res += len(mem[key])*(len(mem[key]) - 1)//2   # if k == 0, calculate the combinations = C(n, 2)
         else:        
             for key in mem:
                 if k + key in mem:
-                    res += mem[key] * mem[k+key]    # if k != 0, one end has mem[key] selections and other end has mem[k+key] selections
+                    for left in mem[key]:
+                        right = bisect(mem[k+key], left)
+                        res += len(mem[k+key]) - right
+                    # below is wrong because we need to consider the sequence: k + key must be after key
+                    #res += mem[key] * mem[k+key]    # if k != 0, one end has mem[key] selections and other end has mem[k+key] selections
 
         return res
 
 if __name__ == "__main__":
-    nums = [-1, -1, 1]    # test this case
-    print(Solution().subarraySum(nums, 1))
+    nums = [0, 0, 0]    # test this case
+    print(Solution().subarraySum(nums, 0))
