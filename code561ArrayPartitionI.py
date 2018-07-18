@@ -11,6 +11,13 @@ n is a positive integer, which is in the range of [1, 10000].
 All the integers in the array will be in the range of [-10000, 10000].
 """
 class Solution:
+    def arrayPairSum_OJBEST(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return sum(sorted(nums)[::2])
+        
     def arrayPairSum(self, nums):
         """
         :type nums: List[int]
@@ -25,4 +32,4 @@ class Solution:
         return res
 
 nums = [1, 4, 3, 2]
-print(Solution().arrayPairSum(nums))
+print(Solution().arrayPairSum_OJBEST(nums))

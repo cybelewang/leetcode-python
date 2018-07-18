@@ -44,10 +44,8 @@ class Solution(object):
             h += 1
             for _ in range(length):
                 node = q.popleft()
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
+                for child in node.children:
+                    q.append(child)
         
         return h
 

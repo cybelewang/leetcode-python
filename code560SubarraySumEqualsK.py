@@ -38,5 +38,5 @@ class Solution:
         return res
 
 if __name__ == "__main__":
-    nums = [0, 0, 0]    # test this case
-    print(Solution().subarraySum(nums, 0))
+    nums = [-1, -1, 1]    # test this case
+    print(Solution().subarraySum(nums, 1))
