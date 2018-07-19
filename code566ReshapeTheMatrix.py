@@ -32,7 +32,19 @@ Note:
 The height and width of the given matrix is in range [1, 100].
 The given r and c are all positive.
 """
+from itertools import chain
 class Solution:
+    def matrixReshape_OJBEST(self, nums, r, c):
+        """
+        :type nums: List[List[int]]
+        :type r: int
+        :type c: int
+        :rtype: List[List[int]]
+        """
+        if r * c == len(nums) * len(nums[0]):
+            return list(zip(*[chain.from_iterable(nums)] * c))
+        else:
+            return nums
     # my own solution
     def matrixReshape(self, nums, r, c):
         """
@@ -55,4 +67,4 @@ class Solution:
 if __name__ == '__main__':
     obj = Solution()
     nums = [[1,2],[3,4]]
-    print(obj.matrixReshape(nums, 1, 4))
+    print(obj.matrixReshape_OJBEST(nums, 1, 4))

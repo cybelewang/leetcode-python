@@ -34,7 +34,7 @@ Return false.
 # similar problems: 100 Same Tree
 from TreeNode import *
 class Solution:
-    # my own solution: use inorder string to represent the tree, and check if t is a substring of s
+    # my own solution: use preorder (bug fixed. why inorder doesn't work) string to represent the tree, and check if t is a substring of s
     # bug fixed: consider s = 12 and t = 2, if we use ',' to separate each node, '2' will be considered as substring of '12', so we need to add ',' before the node
     def isSubtree(self, s, t):
         """
@@ -49,13 +49,15 @@ class Solution:
             if not root:
                 values.append(',#')
             else:
-                encode(root.left, values)
                 values.append(','+str(root.val))
+                encode(root.left, values)                
                 encode(root.right, values)
         
         s_values, t_values = [], []
         encode(s, s_values)
         encode(t, t_values)
+        #print(''.join(s_values))
+        #print(''.join(t_values))
 
         return ''.join(s_values).count(''.join(t_values)) > 0
 
@@ -76,6 +78,13 @@ class Solution:
         else:
             return self.isSubtree2(s.left, t) or self.isSubtree2(s.right, t)
 
-s = ListToTree([12, 2])
-t = ListToTree([1, 2])
-print(Solution().isSubtree2(s, t))
+s = ListToTree([3,4,5,1,2,None,None,0])
+t = ListToTree([4,1, 2])
+print(Solution().isSubtree(s, t))   # expected: False
+
+
+s = ListToTree([3,4,5,1,None,2])
+#PrintTree(s)
+t = ListToTree([3,1, 2])
+#PrintTree(t)
+print(Solution().isSubtree2(s, t))  # expected: False

@@ -49,11 +49,11 @@ class Solution:
             if i >= len(s1) - 1:    # bug fixed
                 if mask == 0:
                     return True
-                idx = ord(s2[i-len(s1)]) - ord('a')
+                idx = ord(s2[i+1-len(s1)]) - ord('a')   # bug fixed: the left index should be i+1-len(s1), not i - len(s1)
                 count2[idx] -= 1
                 mask = update_mask(count1, count2, idx, mask)
 
         return False
 
-s1, s2 = 'ab', 'eidbaooo'
+s1, s2 = 'adc', 'dcda'
 print(Solution().checkInclusion(s1, s2))

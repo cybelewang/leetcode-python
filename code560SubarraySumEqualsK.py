@@ -12,6 +12,22 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
 from collections import defaultdict
 from bisect import bisect
 class Solution:
+    # see https://leetcode.com/problems/subarray-sum-equals-k/discuss/102111/Python-Simple-with-Explanation
+    def subarraySum_OJBEST(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        count = collections.Counter()
+        count[0] = 1
+        ans = su = 0
+        for x in A:
+            su += x
+            ans += count[su-K]
+            count[su] += 1
+        return ans
+        
     # my own solution
     def subarraySum(self, nums, k):
         """
