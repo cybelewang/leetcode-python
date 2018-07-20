@@ -9,7 +9,7 @@ The length of the array is in range [1, 20,000].
 The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
 """
 # similar problems: 523
-from collections import defaultdict
+from collections import defaultdict, Counter
 from bisect import bisect
 class Solution:
     # see https://leetcode.com/problems/subarray-sum-equals-k/discuss/102111/Python-Simple-with-Explanation
@@ -19,12 +19,12 @@ class Solution:
         :type k: int
         :rtype: int
         """
-        count = collections.Counter()
+        count = Counter()
         count[0] = 1
         ans = su = 0
-        for x in A:
+        for x in nums:
             su += x
-            ans += count[su-K]
+            ans += count[su-k]
             count[su] += 1
         return ans
         

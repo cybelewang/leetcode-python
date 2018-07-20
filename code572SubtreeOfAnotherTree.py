@@ -34,7 +34,7 @@ Return false.
 # similar problems: 100 Same Tree
 from TreeNode import *
 class Solution:
-    # my own solution: use preorder (bug fixed. why inorder doesn't work) string to represent the tree, and check if t is a substring of s
+    # my own solution: use preorder (bug fixed. why inorder doesn't work?) string to represent the tree, and check if t is a substring of s
     # bug fixed: consider s = 12 and t = 2, if we use ',' to separate each node, '2' will be considered as substring of '12', so we need to add ',' before the node
     def isSubtree(self, s, t):
         """
@@ -61,7 +61,7 @@ class Solution:
 
         return ''.join(s_values).count(''.join(t_values)) > 0
 
-    # recursive solution, from https://www.cnblogs.com/grandyang/p/6828687.html
+    # my own recursive solution, has bugs
     def isSubtree2(self, s, t):
         """
         :type s: TreeNode
@@ -70,7 +70,7 @@ class Solution:
         """
         if s is None and t is None:
             return True
-        elif s is None or t is None:
+        if s is None or t is None:
             return False
 
         if s.val == t.val and self.isSubtree2(s.left, t.left) and self.isSubtree2(s.right, t.right):
@@ -78,13 +78,43 @@ class Solution:
         else:
             return self.isSubtree2(s.left, t) or self.isSubtree2(s.right, t)
 
+    # from https://www.cnblogs.com/grandyang/p/6828687.html
+    def isSubtree3(self, s, t):
+        """
+        :type s: TreeNode
+        :type t: TreeNode
+        :rtype: bool
+        """
+        def sameTree(s, t):
+            if s is None and t is None:
+                return True
+            if s is None or t is None:
+                return False
+
+            if s.val == t.val:
+                return sameTree(s.left, t.left) and sameTree(s.right, t.right)
+            else:
+                return False
+
+        # main
+        if sameTree(s, t):
+            return True
+        else:
+            if s is not None:
+                return self.isSubtree3(s.left, t) or self.isSubtree3(s.right, t)
+            else:
+                return False
+            
+
 s = ListToTree([3,4,5,1,2,None,None,0])
+#PrintTree(s)
 t = ListToTree([4,1, 2])
+#PrintTree(t)
 print(Solution().isSubtree(s, t))   # expected: False
 
 
 s = ListToTree([3,4,5,1,None,2])
-#PrintTree(s)
+PrintTree(s)
 t = ListToTree([3,1, 2])
-#PrintTree(t)
-print(Solution().isSubtree2(s, t))  # expected: False
+PrintTree(t)
+print(Solution().isSubtree3(s, t))  # expected: False

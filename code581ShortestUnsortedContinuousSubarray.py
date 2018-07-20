@@ -12,9 +12,31 @@ Then length of the input array is in range [1, 10,000].
 The input array may contain duplicates, so ascending order here means <=.
 """
 class Solution:
+    # my own solution: two passes. Scan left to right and find the left margin. Scan right to left and find the right margin. 
     def findUnsortedSubarray(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        
+        n = len(nums)
+
+        left = -1
+        for i in range(n):
+            while left > -1 and nums[i] < nums[left]:
+                left -= 1
+            
+            if left + 1 == i:
+                left = i
+            
+        right = n
+        for j in range(n-1, -1, -1):
+            while right < n and nums[j] > nums[right]:
+                right += 1
+            
+            if j + 1 == right:
+                right = j
+
+        return max(0, right - left - 1) # think about [1, 1, 1], after two passes, left = 2, right = 0
+
+nums = [2, 1,1, 1]
+print(Solution().findUnsortedSubarray(nums))
