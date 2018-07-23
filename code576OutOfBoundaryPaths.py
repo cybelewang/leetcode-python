@@ -38,6 +38,34 @@ class Solution:
         
         return dp[N][i][j]
 
+    # BFS solution, corrected from findPaths_WRONG
+    # key is to use a new 2-D matrix to hold the number of appearances in [i][j]
+    def findPaths2(self, m, n, N, i, j):
+        M = 1000000007
+        neighbors = [[0, -1], [-1, 0], [0,1], [1, 0]]
+        q = {(i, j)}    # holds the positions of ball in last move
+
+        pre = [[0]*n for _ in range(m)] # holds the number of appearances of ball in last move in [i][j]
+        pre[i][j] = 1
+        res = 0
+
+        for _ in range(N):
+            cur = [[0]*n for _ in range(m)] # initialize a new 2-D matrix to calculate the number of appearances of ball after 1-step move
+            next_ = set()   # initialize a new set to hold the new positions after 1-step move
+            for i, j in q:
+                for dx, dy in neighbors:
+                    x, y = i+dx, j+dy
+                    if -1 < x < m and -1 < y < n:   # within boundary, update cur and next_
+                        cur[x][y] += pre[i][j]
+                        next_.add((x,y))
+                    else:
+                        res = (res + pre[i][j]) % M # out of boundary, update res
+            
+            # update pre and q
+            pre = cur
+            q = next_
+
+        return res
          
     # my own solution, wrong on DP derivation
     def findPaths_WRONG(self, m, n, N, i, j):
@@ -84,4 +112,4 @@ class Solution:
 
         return res
 
-print(Solution().findPaths(2,3,8,1,0))
+print(Solution().findPaths2(2,3,8,1,0))

@@ -1,7 +1,8 @@
 """
 Given an m * n matrix M initialized with all 0's and several update operations.
 
-Operations are represented by a 2D array, and each operation is represented by an array with two positive integers a and b, which means M[i][j] should be added by one for all 0 <= i < a and 0 <= j < b.
+Operations are represented by a 2D array, and each operation is represented by an array with two positive integers a and b, 
+which means M[i][j] should be added by one for all 0 <= i < a and 0 <= j < b.
 
 You need to count and return the number of maximum integers in the matrix after performing all the operations.
 
@@ -33,6 +34,7 @@ The range of a is [1,m], and the range of b is [1,n].
 The range of operations size won't exceed 10,000.
 """
 class Solution:
+    # my own solution
     def maxCount(self, m, n, ops):
         """
         :type m: int
@@ -40,4 +42,9 @@ class Solution:
         :type ops: List[List[int]]
         :rtype: int
         """
+        # ask the expected result if operations is empty
+        for a, b in ops:
+            m = min(m, a)
+            n = min(n, b)
         
+        return m*n

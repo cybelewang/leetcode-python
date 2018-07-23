@@ -1,7 +1,8 @@
 """
 Suppose Andy and Doris want to choose a restaurant for dinner, and they both have a list of favorite restaurants represented by strings.
 
-You need to help them find out their common interest with the least list index sum. If there is a choice tie between answers, output all of them with no order requirement. You could assume there always exists an answer.
+You need to help them find out their common interest with the least list index sum. 
+If there is a choice tie between answers, output all of them with no order requirement. You could assume there always exists an answer.
 
 Example 1:
 Input:
@@ -22,10 +23,26 @@ The index is starting from 0 to the list length minus 1.
 No duplicates in both lists.
 """
 class Solution:
+    # my own solution
     def findRestaurant(self, list1, list2):
         """
         :type list1: List[str]
         :type list2: List[str]
         :rtype: List[str]
         """
-        
+        mydict = {name:i for i, name in enumerate(list2)}
+        res, sum_ = [], len(list1) + len(list2) - 1
+        for i, name in enumerate(list1):
+            if name in mydict:
+                j = mydict[name]
+                if i + j <= sum_:
+                    if i + j < sum_:
+                        res.clear()
+                        sum_ = i + j
+                    res.append(name)
+
+        return res
+
+list1 = ["Shogun", "Tapioca Express", "Burger King", "KFC"]
+list2 = ["KFC", "Shogun", "Burger King"]
+print(Solution().findRestaurant(list1, list2))

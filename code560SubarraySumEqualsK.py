@@ -8,7 +8,7 @@ Note:
 The length of the array is in range [1, 20,000].
 The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
 """
-# similar problems: 523
+# similar problems: 523, 594 Longest Harmonious Subsequence
 from collections import defaultdict, Counter
 from bisect import bisect
 class Solution:

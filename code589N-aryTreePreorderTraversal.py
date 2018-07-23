@@ -20,7 +20,27 @@ class Node(object):
         self.children = children
 """
 class Solution(object):
+    # iterative solution
     def preorder(self, root):
+        """
+        :type root: Node
+        :rtype: List[int]
+        """
+        res = []
+        if not root:
+            return res
+
+        stack = [root]
+        while len(stack) > 0:
+            node = stack.pop()
+            res.append(node.val)
+            for child in reversed(node.children):
+                stack.append(child)
+
+        return res
+
+    # recursive solution
+    def preorder2(self, root):
         """
         :type root: Node
         :rtype: List[int]

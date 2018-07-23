@@ -23,12 +23,26 @@ class Node(object):
         self.children = children
 """
 class Solution(object):
+    # iterative solution
     def postorder(self, root):
         """
         :type root: Node
         :rtype: List[int]
         """
+        res = []
+        if not root:
+            return res
 
+        stack = [root]
+        while len(stack) > 0:
+            node = stack.pop()
+            res.append(node.val)
+            for child in node.children:
+                stack.append(child)
+        
+        return res[::-1]
+
+    # recursive solution
     def postorder2(self, root):
         """
         :type root: Node
