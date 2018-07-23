@@ -28,3 +28,19 @@ class Solution(object):
         :type root: Node
         :rtype: List[int]
         """
+
+    def postorder2(self, root):
+        """
+        :type root: Node
+        :rtype: List[int]
+        """
+        def dfs(root, res):
+            if not root:
+                return
+            
+            res.append(root.val)
+            for node in root.children[::-1]:
+                dfs(node, res)
+        res = []
+        dfs(root, res)
+        return res[::-1]
