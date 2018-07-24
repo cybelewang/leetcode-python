@@ -77,5 +77,5 @@ class Solution:
         """
         return (v2[0]-v1[0])**2 + (v2[1]-v1[1])**2
 
-input = [[0,1],[1,0], [-1,0],[0,-1]]
+input = [[1,1], [5,3], [3,5], [7,7]] # expected False
 print(Solution().validSquare(*input))

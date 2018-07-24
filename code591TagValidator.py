@@ -113,6 +113,7 @@ class Solution(object):
 
         return not stack
 
-code = "<A></A><B></B>" # expected: False because the last tag should match the first tag
+#code = "<A></A><B></B>" # expected: False because the last tag should match the first tag
+code = "<DIV>This is the first line <![CDATA[<div>]]></DIV>"
 obj = Solution()
 print(obj.isValid(code))            

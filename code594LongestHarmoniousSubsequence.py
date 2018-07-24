@@ -13,7 +13,7 @@ Note: The length of the input array will not exceed 20,000.
 # similar problems: 560 Subarray Sum Equals k
 from collections import defaultdict
 class Solution:
-    # my own solution
+    # my own solution, has a bug because not considering the single value case like [1, 1, 1, 1]
     def findLHS(self, nums):
         """
         :type nums: List[int]
@@ -24,9 +24,12 @@ class Solution:
         for i in nums:
             val = count[i] + 1
             count[i] = val
-            res = max(res, val + count[i-1], val + count[i+1])
+            if count[i-1] > 0:
+                res = max(res, val + count[i-1])
+            if count[i+1] > 0:
+                res = max(res, val + count[i+1])
 
         return res
 
-nums = [1,3,2,2,5,2,3,7]
+nums = [1, 1, 1, 1]
 print(Solution().findLHS(nums))

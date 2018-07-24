@@ -34,10 +34,12 @@ class Solution:
         :rtype: str
         """
         # ask about empty input
+        if not expression:
+            return '0/1'
+            
         parse = expression.split('/')
         n = len(parse)
-        if not parse:
-            return '0/1'
+
 
         nums, denums = [0]*(n-1), [0]*(n-1) # bug fixed: there are only (n-1) pairs, not n pairs
         nums[0] = int(parse[0])
