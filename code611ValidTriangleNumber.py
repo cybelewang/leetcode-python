@@ -12,10 +12,26 @@ Note:
 The length of the given array won't exceed 1000.
 The integers in the given array are in the range of [0, 1000].
 """
+from bisect import bisect_left
 class Solution:
     def triangleNumber(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        
+        # sort nums
+        nums.sort()
+        start, n = 0, len(nums)
+        while start < n and nums[start] == 0:
+            start += 1
+
+        nums = nums[start:]
+        res = 0
+
+        for i in range(n-1):
+            a = nums[i]
+            for j in range(i+1, n):
+                b = nums[j]
+                index = bisect_left(nums, a+b)
+                
+                

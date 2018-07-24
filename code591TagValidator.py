@@ -80,8 +80,8 @@ class Solution(object):
         :type code: str
         :rtype: bool
         """
-        stack = []
-        for i in range(len(code)):
+        stack, i = [], 0
+        while i < len(code):
             if i > 0 and not stack: # last tag should match first tag, for example <A></A><B></B>
                 return False
 
@@ -110,6 +110,8 @@ class Solution(object):
                 if tag.upper() != tag:
                     return False                    
                 stack.append(tag)
+            
+            i += 1
 
         return not stack
 
