@@ -33,6 +33,7 @@ All values will be in the range of [0, 1000].
 The number of operations will be in the range of [1, 1000].
 Please do not use the built-in Queue library.
 """
+# ask if k is 0 or negative
 class MyCircularQueue:
 
     def __init__(self, k):
@@ -40,6 +41,9 @@ class MyCircularQueue:
         Initialize your data structure here. Set the size of the queue to be k.
         :type k: int
         """
+        self.data = [0]*k
+        self.length = 0
+        self.start = 0        
         
 
     def enQueue(self, value):
@@ -48,13 +52,35 @@ class MyCircularQueue:
         :type value: int
         :rtype: bool
         """
-        
+        # check if queue is full
+        if self.isFull():
+            return False
+
+        # find the index after tail of the queue
+        index = (self.start + self.length)%len(self.data)
+
+        self.data[index] = value
+        # increase the data length
+        self.length += 1
+
+        return True
 
     def deQueue(self):
         """
         Delete an element from the circular queue. Return true if the operation is successful.
         :rtype: bool
         """
+        # check if queue is empty
+        if self.isEmpty():
+            return False
+
+        # move start index to right by 1
+        self.start = (self.start + 1)%len(self.data)
+
+        # decrease the data length
+        self.length -= 1
+
+        return True
         
 
     def Front(self):
@@ -62,6 +88,10 @@ class MyCircularQueue:
         Get the front item from the queue.
         :rtype: int
         """
+        if self.isEmpty():
+            return -1
+        else:
+            return self.data[self.start]      
         
 
     def Rear(self):
@@ -69,13 +99,19 @@ class MyCircularQueue:
         Get the last item from the queue.
         :rtype: int
         """
-        
+        if self.isEmpty():
+            return -1
+        else:
+            tail = (self.start + self.length - 1)%len(self.data)    # bug fixed: forgot -1, we are looking for the tail, not the next insertion index for tail
+            return self.data[tail]
+
 
     def isEmpty(self):
         """
         Checks whether the circular queue is empty or not.
         :rtype: bool
         """
+        return self.length == 0
         
 
     def isFull(self):
@@ -83,8 +119,18 @@ class MyCircularQueue:
         Checks whether the circular queue is full or not.
         :rtype: bool
         """
-        
+        return self.length == len(self.data)
 
+obj = MyCircularQueue(3)
+obj.enQueue(1)
+obj.enQueue(2)
+obj.enQueue(3)
+obj.enQueue(4)
+print(obj.Rear())
+print(obj.isFull())
+print(obj.deQueue())
+obj.enQueue(4)
+print(obj.Rear())
 
 # Your MyCircularQueue object will be instantiated and called as such:
 # obj = MyCircularQueue(k)

@@ -20,6 +20,7 @@ Merged tree:
 	 5   4   7
 Note: The merging process must start from the root nodes of both trees.
 """
+from TreeNode import *
 class Solution:
     def mergeTrees(self, t1, t2):
         """
@@ -27,4 +28,16 @@ class Solution:
         :type t2: TreeNode
         :rtype: TreeNode
         """
-        
+        if t1 and t2:
+            t1.val += t2.val
+            t1.left = self.mergeTrees(t1.left, t2.left)
+            t1.right = self.mergeTrees(t1.right, t2.right)            
+            return t1
+        else:
+            return t1 or t2
+
+t1 = ListToTree([1,2, None, 3, None, 4, None])
+t2 = ListToTree([5, None, 6, None, 7])
+PrintTree(t1)
+PrintTree(t2)
+PrintTree(Solution().mergeTrees(t1, t2))        
