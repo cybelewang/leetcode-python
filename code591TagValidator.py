@@ -107,8 +107,11 @@ class Solution(object):
                 if i < 0 or i == j or i - j > 9:
                     return False
                 tag = code[j:i]
-                if tag.upper() != tag:
-                    return False                    
+                for char in tag:
+                    if ord(char) < ord('A') or ord(char) > ord('Z'):
+                        return False
+                #if tag.upper() != tag: # bug fixed: compare upper case only cannot guarantee that all characters are 'A-Z'
+                    #return False                    
                 stack.append(tag)
             
             i += 1
@@ -116,6 +119,6 @@ class Solution(object):
         return not stack
 
 #code = "<A></A><B></B>" # expected: False because the last tag should match the first tag
-code = "<DIV>This is the first line <![CDATA[<div>]]></DIV>"
+code = "<A<></A<>" # expected: False
 obj = Solution()
 print(obj.isValid(code))            
