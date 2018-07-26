@@ -52,6 +52,8 @@ Note:
 The given d is in range [1, maximum depth of the given tree + 1].
 The given binary tree has at least one tree node.
 """
+from TreeNode import *
+from collections import deque
 class Solution:
     def addOneRow(self, root, v, d):
         """
@@ -60,4 +62,36 @@ class Solution:
         :type d: int
         :rtype: TreeNode
         """
+        if d == 1:
+            node = TreeNode(v)
+            node.left = root
+            return node
+
+        # BFS navigate to depth d-1
+        q = deque()
+        q.append(root)
+        for _ in range(d-2):    # we already counted 1 level when appending root to q, so we only need to go (d-2) further levels
+            len_ = len(q)
+            for _ in range(len_):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
         
+        # now q has all parent tree nodes for depth d
+        for p in q:
+            # insert node and relink original left subtree
+            node = TreeNode(v)
+            node.left = p.left
+            p.left = node
+            # insert node and relink original right subtree
+            node = TreeNode(v)
+            node.right = p.right
+            p.right = node
+            
+        return root
+
+t = ListToTree([4, 2, 6, 3, 1, 5])
+PrintTree(t)
+PrintTree(Solution().addOneRow(t, 1, 1))

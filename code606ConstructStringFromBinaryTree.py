@@ -83,7 +83,42 @@ class Solution:
         # main
         return preorder(t)
 
+    def str2tree(self, s):
+        """
+        follow-up: convert string to tree
+        """
+        if not s:
+            return None
+
+        index = s.find('(')
+        if index == -1:
+            return TreeNode(int(s))
+        
+        # find the position of ')' which matches the first '('
+        unbalanced, i = 0, 0
+        for i, c in enumerate(s):
+            if c == '(':
+                unbalanced += 1
+            elif c == ')':
+                unbalanced -= 1
+                if unbalanced == 0:
+                    break
+
+        # create treenode for root, and left subtree string, right subtree string
+        root = TreeNode(int(s[:index]))
+        left_s = s[index+1:i]
+        right_s = s[i+2:-1]
+
+        root.left = self.str2tree(left_s)
+        root.right = self.str2tree(right_s)
+
+        return root       
+
+
 root = ListToTree([1,2,3,None,4])
 #root = ListToTree([1,None,2,None, 3,None,4])
 PrintTree(root)
-print(Solution().tree2str(root))
+s = Solution().tree2str(root)
+print(s)
+t = Solution().str2tree(s)
+PrintTree(t)
