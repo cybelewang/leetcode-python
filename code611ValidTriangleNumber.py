@@ -44,12 +44,12 @@ class Solution:
         """
         # sort nums
         nums.sort()
-        start, n = 0, len(nums)
-        while start < n and nums[start] == 0:
+        start = 0
+        while start < len(nums) and nums[start] == 0:
             start += 1
 
         nums = nums[start:]
-        res = 0
+        res, n = 0, len(nums)
 
         for i in range(n-2):
             a = nums[i]
@@ -60,5 +60,6 @@ class Solution:
         
         return res
 
-nums = [3,4,5,5]        
-print(Solution().triangleNumber(nums))
+#nums = [3,4,5,5]    
+nums = [0, 0, 0]    
+print(Solution().triangleNumber2(nums))
