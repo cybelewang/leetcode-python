@@ -19,10 +19,64 @@ Note:
 The integer n is in the range [1, 1000] and k is in the range [0, 1000].
 """
 class Solution:
+    # Solution 2 from http://www.cnblogs.com/grandyang/p/7111385.html
     def kInversePairs(self, n, k):
         """
         :type n: int
         :type k: int
         :rtype: int
         """
-        
+        M = 1000000007
+        dp = [[0]*(k+1) for _ in range(n+1)]    # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
+        dp[0][0] = 1
+
+        for i in range(1, n+1):
+            dp[i][0] = 1
+            for j in range(k+1):
+                dp[i][j] = (dp[i-1][j] + dp[i][j-1])%M
+                if j >= i:
+                    dp[i][j] = (dp[i][j] - dp[i-1][j-i] + M)%M
+        print(dp)
+        return dp[n][k]
+
+    # Solution 1 from http://www.cnblogs.com/grandyang/p/7111385.html
+    def kInversePairs2(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: int
+        """
+        M = 1000000007
+        dp = [[0]*(k+1) for _ in range(n+1)]    # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
+        dp[0][0] = 1
+
+        for i in range(n+1):
+            for j in range(i):
+                for m in range(k+1):
+                    if m - j > -1 and m - j <= k:
+                        dp[i][m] = (dp[i][m] + dp[i-1][m-j])%M
+        print(dp)
+        return dp[n][k]
+
+    # my 1st trial using DP, why it is wrong?
+    # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
+    # dp[i][j] can be get by putting i into position p for array with numbers from 1 to i-1, so (i-p) numbers will be moved to right and caused (i-p) more inverse pairs
+    def kInversePairs3(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: int
+        """
+        M = 1000000007
+        dp = [[0]*(k+1) for _ in range(n+1)]    # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
+        #dp[0][0] = 1
+        for i in range(1, n+1):
+            dp[i][0] = 1
+            for j in range(1, k+1):
+                for p in range(i, i-j-1, -1):
+                    deb = j - i + p
+                    dp[i][j] = (dp[i][j] + dp[i-1][deb])%M
+        print(dp)
+        return dp[n][k]
+
+print(Solution().kInversePairs2(3, 2))

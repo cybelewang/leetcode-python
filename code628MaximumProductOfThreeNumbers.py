@@ -13,7 +13,7 @@ Multiplication of any three numbers in the input won't exceed the range of 32-bi
 """
 # similar problems: 152 Maximum Product Subarray
 class Solution:
-    # my own solution. 
+    # my own solution with bug fixed
     # keep two arrays, max2 tracks the max product of any two numbers before nums[i], min2 tracks the min product of any two numbers before nums[i]
     # The max three product must be max of max2[i-1]*nums[i] and min2[i-1]*nums[i]
     # max2 and min2 can be achieved using the similar way as shown below
@@ -24,17 +24,17 @@ class Solution:
         """
         n = len(nums)
         # get the max product and min product of two numbers
-        max2, min2 = [0]*n, [0]*n
+        max2, min2 = [-2**31]*n, [2**31-1]*n
         max_left, min_left = nums[0], nums[0]
         for i in range(1, n-1):
             a, b = max_left*nums[i], min_left*nums[i]
-            max2[i] = max(a, b)
-            min2[i] = min(a, b)
+            max2[i] = max(max2[i-1], a, b)  # bug fixed: should consider max2[i-1] when updating max2[i]
+            min2[i] = min(min2[i-1], a, b)
             max_left = max(max_left, nums[i])
             min_left = min(min_left, nums[i])
         
-        print(max2)
-        print(min2)
+        #print(max2)
+        #print(min2)
         # the final result will be either max2_left * nums[i], or min2_left * nums[i]
         res = -2**31
         for i in range(2, n):
