@@ -33,6 +33,8 @@ class Solution:
             max_left = max(max_left, nums[i])
             min_left = min(min_left, nums[i])
         
+        print(max2)
+        print(min2)
         # the final result will be either max2_left * nums[i], or min2_left * nums[i]
         res = -2**31
         for i in range(2, n):
@@ -41,5 +43,5 @@ class Solution:
 
         return res
 
-nums = [-1, -2, -3, 4]
+nums = [-4,-3,-2,-1,60] # expected: 720
 print(Solution().maximumProduct(nums))
