@@ -1,5 +1,6 @@
 """
-There are n different online courses numbered from 1 to n. Each course has some duration(course length) t and closed on dth day. A course should be taken continuously for t days and must be finished before or on the dth day. You will start at the 1st day.
+There are n different online courses numbered from 1 to n. Each course has some duration(course length) t and closed on dth day. 
+A course should be taken continuously for t days and must be finished before or on the dth day. You will start at the 1st day.
 
 Given n online courses represented by pairs (t,d), your task is to find the maximal number of courses that can be taken.
 
@@ -16,10 +17,28 @@ Note:
 The integer 1 <= d, t, n <= 10,000.
 You can't take two courses simultaneously.
 """
+from heapq import heappush, heappop
 class Solution:
+    # my own solution with priority queue
+    # calculate each course's last start date (d-t+1) and sort the courses based on the last start date and during days
     def scheduleCourse(self, courses):
         """
         :type courses: List[List[int]]
         :rtype: int
         """
+        a = []
+        for t, d in courses:
+            heappush(a, (d-t+1, t)) # bug fixed: should use d-t+1 because it is the correct beginning date 
         
+        start, count = 1, 0
+        while a:
+            s, t = heappop(a)
+            if s < start:
+                break
+            start += t
+            count += 1
+        
+        return count
+    
+courses = [[100, 200], [200, 1300], [1000, 1250], [2000, 3200]]
+print(Solution().scheduleCourse(courses))

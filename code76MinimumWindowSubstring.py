@@ -11,6 +11,7 @@ If there is no such window in S that covers all characters in T, return the empt
 
 If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
 """
+# similar problems: 632 Smallest Range
 class Solution(object):
     required = {} # count of each unique required character
     requires = 0 # count of all required characters

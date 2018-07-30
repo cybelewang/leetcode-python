@@ -61,7 +61,7 @@ class Solution:
 
     # my 1st trial using DP, TLE
     # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
-    # dp[i][j] can be get by putting i into position p for array with numbers from 1 to i-1, so (i-p) numbers will be moved to right and caused (i-p) more inverse pairs
+    # dp[i][j] can be get by putting i into position m for array with numbers from 1 to i, so (i-m) numbers will be moved to right and caused (i-m) more inverse pairs
     def kInversePairs3(self, n, k):
         """
         :type n: int
