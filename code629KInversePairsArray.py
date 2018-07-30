@@ -20,6 +20,7 @@ The integer n is in the range [1, 1000] and k is in the range [0, 1000].
 """
 class Solution:
     # Solution 2 from http://www.cnblogs.com/grandyang/p/7111385.html
+    # also see https://leetcode.com/problems/k-inverse-pairs-array/discuss/104815/Java-DP-O(nk)-solution
     def kInversePairs(self, n, k):
         """
         :type n: int
@@ -32,7 +33,7 @@ class Solution:
 
         for i in range(1, n+1):
             dp[i][0] = 1
-            for j in range(k+1):
+            for j in range(1, k+1):
                 dp[i][j] = (dp[i-1][j] + dp[i][j-1])%M
                 if j >= i:
                     dp[i][j] = (dp[i][j] - dp[i-1][j-i] + M)%M
@@ -58,7 +59,7 @@ class Solution:
         print(dp)
         return dp[n][k]
 
-    # my 1st trial using DP, why it is wrong?
+    # my 1st trial using DP, TLE
     # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
     # dp[i][j] can be get by putting i into position p for array with numbers from 1 to i-1, so (i-p) numbers will be moved to right and caused (i-p) more inverse pairs
     def kInversePairs3(self, n, k):
@@ -69,14 +70,13 @@ class Solution:
         """
         M = 1000000007
         dp = [[0]*(k+1) for _ in range(n+1)]    # dp[i][j] is the number of arrays (1 to i) which has j inverse pairs
-        #dp[0][0] = 1
+        dp[0][0] = 1
         for i in range(1, n+1):
             dp[i][0] = 1
             for j in range(1, k+1):
-                for p in range(i, i-j-1, -1):
-                    deb = j - i + p
-                    dp[i][j] = (dp[i][j] + dp[i-1][deb])%M
+                for p in range(j, max(j-i+1, 0)-1, -1):
+                    dp[i][j] = (dp[i][j] + dp[i-1][p])%M
         print(dp)
         return dp[n][k]
 
-print(Solution().kInversePairs2(3, 2))
+print(Solution().kInversePairs3(3, 2))
