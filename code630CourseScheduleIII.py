@@ -17,11 +17,34 @@ Note:
 The integer 1 <= d, t, n <= 10,000.
 You can't take two courses simultaneously.
 """
+# tags: greedy, interval
+# why should we sort the intervals based on the end value in this problem?
 from heapq import heappush, heappop
 class Solution:
-    # my own solution with priority queue
-    # calculate each course's last start date (d-t+1) and sort the courses based on the last start date and during days
+    # help from http://www.cnblogs.com/grandyang/p/7126289.html
+    # greedy algorithm: sort the courses by the end time, iterate all courses, 
+    # for each course, add during to priority queue, add during to start time and check if it meets end time requirement, if not, remove the longest duration course
     def scheduleCourse(self, courses):
+        """
+        :type courses: List[List[int]]
+        :rtype: int
+        """
+        cur = 0
+        courses.sort(key = lambda c: c[1])  # sort courses by the end time
+        q = []
+
+        for duration, endTime in courses:
+            cur += duration
+            heappush(q, -duration)
+            if cur > endTime:
+                cur += heappop(q)   # note that heap saves the negative duration
+            
+        return len(q)
+
+    # my own wrong solution with priority queue
+    # calculate each course's last start date (d-t+1) and sort the courses based on the last start date and during days
+    # doesn't work for [[5,5],[4,6],[2,6]] which expects 2
+    def scheduleCourse2(self, courses):
         """
         :type courses: List[List[int]]
         :rtype: int

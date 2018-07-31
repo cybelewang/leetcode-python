@@ -31,6 +31,8 @@ For each item, you need to buy at most 6 of them.
 You are not allowed to buy more items than you want, even if that would lower the overall price.
 """
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/7261663.html
+    # DFS solution, also a kind of knapsack
     def shoppingOffers(self, price, special, needs):
         """
         :type price: List[int]
@@ -38,4 +40,23 @@ class Solution:
         :type needs: List[int]
         :rtype: int
         """
-        
+        # initialize result to price without any offer
+        res = sum([price[i]*needs[i] for i in range(len(price))])
+
+        for offer in special:
+            # try to use offer
+            for i, need in enumerate(needs):
+                needs[i] = need - offer[i]
+
+            # check if offer is valid
+            if all(map(lambda x: x>=0, needs)):
+                res = min(res, self.shoppingOffers(price, special, needs) + offer[-1])  # recursive call
+            
+            # restore needs
+            for i, need in enumerate(needs):
+                needs[i] = need + offer[i]
+
+        return res
+
+input = [[2,3,4], [[1,1,0,4],[2,2,1,9]], [1,2,1]]
+print(Solution().shoppingOffers(*input))

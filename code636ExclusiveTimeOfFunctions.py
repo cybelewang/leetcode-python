@@ -29,10 +29,33 @@ Functions could be called recursively, and will always end.
 1 <= n <= 100
 """
 class Solution:
+    # my own solution, use stack and update start time t
+    # fixed a bug when going through test cases
     def exclusiveTime(self, n, logs):
         """
         :type n: int
         :type logs: List[str]
         :rtype: List[int]
         """
-        
+        res = [0]*n
+        stack, t = [], 0
+        for s in logs:
+            a = s.split(':')
+            id, time = int(a[0]), int(a[2])
+            if a[1] == 'start':
+                if stack:                    
+                    res[stack[-1]] += time - t
+                t = time    # bug fixed: t should be updated regardless stack is empty or not
+                stack.append(id)
+            else:
+                stack.pop()
+                res[id] += time - t + 1
+                t = time + 1
+
+        return res
+
+obj = Solution()
+n = 3
+#logs = ["0:start:0", "1:start:2", "2:start:3", "2:end:3", "1:end:5", "0:end:6"]
+logs = ["0:start:0", "0:end:1", "1:start:3", "1:end:4", "2:start:6", "2:end:7"]
+print(obj.exclusiveTime(n, logs))

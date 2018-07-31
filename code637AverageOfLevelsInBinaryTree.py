@@ -20,10 +20,35 @@ The range of node's value is in the range of 32-bit signed integer.
 #         self.left = None
 #         self.right = None
 
+from TreeNode import *
+from collections import deque
 class Solution:
     def averageOfLevels(self, root):
         """
         :type root: TreeNode
         :rtype: List[float]
         """
+        res = []
+        if not root:
+            return res
+
+        q = deque()
+        q.append(root)
+
+        while q:
+            len_, avg = len(q), 0
+            for i in range(len_):
+                node = q.popleft()
+                avg = avg + (node.val - avg)/(i+1)  # Cumulative moving average: https://en.wikipedia.org/wiki/Moving_average
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            
+            res.append(avg)
         
+        return res
+
+t = ListToTree([3,9,20,None, None, 15, 7])
+PrintTree(t)
+print(Solution().averageOfLevels(t))
