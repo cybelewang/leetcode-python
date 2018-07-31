@@ -40,5 +40,6 @@ class Solution:
         
         return count
     
-courses = [[100, 200], [200, 1300], [1000, 1250], [2000, 3200]]
+#courses = [[100, 200], [200, 1300], [1000, 1250], [2000, 3200]]
+courses = [[5,5],[4,6],[2,6]] # expected 2
 print(Solution().scheduleCourse(courses))
