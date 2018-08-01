@@ -24,10 +24,54 @@ Example 5:
 Input: "x=x+2"
 Output: "No solution"
 """
+# similar problems: 224, 227 calculator
 class Solution:
+    # my own solution with bug fixed
+    # don't forget the case 'x', '-x'
     def solveEquation(self, equation):
         """
         :type equation: str
         :rtype: str
         """
+        if equation.count('=') != 1:
+            return 'No solution'
         
+        index = equation.find('=')
+        left, right = equation[:index]+'+', equation[index+1:]+'+'  # append a '+' to avoid missing calculating the last number or x
+        a, b = self.simplify(left)
+        c, d = self.simplify(right)
+
+        if a == c and b == d:
+            return "Infinite solutions"
+        elif a == c:
+            return "No solution"
+        else:
+            return "x="+str((d-b)//(a-c))
+
+    def simplify(self, expression):
+        """
+        simplify an expression to ax+b form
+        return a, b
+        """
+        a, b = 0, 0
+        i = 0
+        for j in range(1, len(expression)):
+            if expression[j] in ('+', '-'):
+                if expression[j-1] == 'x':  # bug fixed: missed cases 'x', '+x' and '-x', which corresponds to '', '+', and '-'
+                    e = expression[i:j-1]
+                    if e == '+' or e == '':
+                        a += 1
+                    elif e == '-':
+                        a -= 1
+                    else:
+                        a += int(e)
+                else:
+                    b += int(expression[i:j])
+                i = j
+
+        return (a, b)
+
+equations = ['', '-x', 'x=-x', '1=2', '2x+3x-6x=x+2', 'x=x']
+obj = Solution()
+for e in equations:
+    print(obj.solveEquation(e))

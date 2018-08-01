@@ -30,6 +30,7 @@ There are at most 6 kinds of items, 100 special offers.
 For each item, you need to buy at most 6 of them.
 You are not allowed to buy more items than you want, even if that would lower the overall price.
 """
+from operator import mul
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/7261663.html
     # DFS solution, also a kind of knapsack
@@ -41,7 +42,7 @@ class Solution:
         :rtype: int
         """
         # initialize result to price without any offer
-        res = sum([price[i]*needs[i] for i in range(len(price))])
+        res = sum(map(mul, price, needs))
 
         for offer in special:
             # try to use offer

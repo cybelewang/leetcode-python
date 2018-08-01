@@ -13,16 +13,40 @@ Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 The number of ways decoding "12" is 2.
 
 """
+# similar problems: 639 Decode Ways II
 # dynamic programming
 # First use an array ways[]
 # Then reduce to extra two variables pre1, pre2
 class Solution:
+    # similar solution to problem 639
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s:
+            return 0
+
+        n = len(s)
+        dp = [0]*(n+1)
+
+        table = {str(num):1 for num in range(1,27)}
+
+        dp[0], dp[1] = 1, table.get(s[0], 0)
+        for i in range(2,n+1):
+            # single letter
+            dp[i] = table.get(s[i-1], 0) * dp[i-1]
+            # two letters
+            dp[i] += table.get(s[i-2:i], 0) * dp[i-2]
+
+        return dp[n]
+           
     def __init__(self):
         self.decode = {}
         for i in range(1, 27):  # bug fixed: change 26 to 27
             self.decode[str(i)] = True
-        
-    def numDecodings(self, s):
+    
+    def numDecodings2(self, s):
         """
         :type s: str
         :rtype: int
