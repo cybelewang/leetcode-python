@@ -12,6 +12,7 @@ Input:
 Output:
 [2,3]
 """
+# similar problems: 645 Set Mismatch
 class Solution:
     # a better solution by assigning negative sign to value in the corresponding index, we still keeps the original information and could recover the whole array
     # http://www.cnblogs.com/grandyang/p/6209746.html

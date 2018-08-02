@@ -13,9 +13,25 @@ Note:
 The number of given pairs will be in the range [1, 1000].
 """
 class Solution:
+    # my own solution
     def findLongestChain(self, pairs):
         """
         :type pairs: List[List[int]]
         :rtype: int
         """
-        
+        pairs.sort()
+
+        pre_end = pairs[0][1]
+        res = 1
+        for i in range(1, len(pairs)):
+            s, e = pairs[i]
+            if s > pre_end:
+                pre_end = e
+                res += 1
+            else:
+                pre_end = min(pre_end, e)
+
+        return res
+
+pairs = [[1,2], [2,4], [3,4]]
+print(Solution().findLongestChain(pairs))

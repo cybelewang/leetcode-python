@@ -20,4 +20,18 @@ class Solution:
         :type s: str
         :rtype: int
         """
+        n = len(s)
+        dp = [[False]*n for _ in range(n)]  # dp[i][j] indicates if substring s[i:j+1] is palindromic
+
+        res = 0
+        for i in range(n-1, -1, -1):
+            dp[i][i] = True
+            for j in range(i+1, n):
+                dp[i][j] = (s[i]==s[j]) and dp[i+1][j-1]
+                if dp[i][j]:
+                    res += 1
         
+        return res
+
+s = 'aaa'
+print(Solution().countSubstrings(s))
