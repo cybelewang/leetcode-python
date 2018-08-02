@@ -26,6 +26,22 @@ Output: "No solution"
 """
 # similar problems: 224, 227 calculator
 class Solution:
+    def solveEquation_OJBest(self, equation):
+        """
+        :type equation: str
+        :rtype: str
+        """
+        x, n, side = 0, 0, 1
+        
+        for eq, sign, num, isx in re.findall(r'(=)|([-+]?)(\d*)(x?)', equation):
+            if eq:
+                side = -1
+            elif isx:
+                x += side*int(sign+'1')*int(num or 1)
+            elif num:
+                n -= side*int(sign+num)
+        
+        return 'x=%d' % (n/x) if x else 'No solution' if n else 'Infinite solutions' 
     # my own solution with bug fixed
     # don't forget the case 'x', '-x'
     def solveEquation(self, equation):
