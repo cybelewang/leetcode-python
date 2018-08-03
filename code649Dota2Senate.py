@@ -30,10 +30,50 @@ And in the round 2, the third senator can just announce the victory since he is 
 Note:
 The length of the given string will in the range [1, 10,000].
 """
+from collections import deque
 class Solution:
+    # don't understand the problem. Compare count('R') and count('D')?
+    # help from http://www.cnblogs.com/grandyang/p/7439222.html
+    # the result can be determined in the middle of string if there are only 'R' or 'D' left
     def predictPartyVictory(self, senate):
         """
         :type senate: str
         :rtype: str
         """
+        n = len(senate)
+        q1, q2 = deque(), deque()
+        for i, s in enumerate(senate):
+            if s == 'R':
+                q1.append(i)
+            else:
+                q2.append(i)
         
+        while q1 and q2:
+            s1, s2 = q1.popleft(), q2.popleft()
+            if s1 < s2:
+                q1.append(s1+n)
+            else:
+                q2.append(s2+n)
+            
+        return 'R' if q1 else 'D'
+
+    # this may work?
+    def predictPartyVictory_trial(self, senate):
+        """
+        :type senate: str
+        :rtype: str
+        """
+        cnt_R = senate.count('R')
+        cnt_D = senate.count('D')
+        if cnt_R > cnt_D:
+            return 'R'
+        elif cnt_R < cnt_D:
+            return 'D'
+        else:
+            return senate[0]
+
+test_cases = ['R', 'D', 'RDD', 'RRDD', 'DDRR', 'RDRD']
+for s in test_cases:
+    print(s, end = ' -> ')
+    print(Solution().predictPartyVictory(s), end = ' -> ')
+    print(Solution().predictPartyVictory_trial(s))

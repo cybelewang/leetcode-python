@@ -16,6 +16,45 @@ The input will only have lower-case letters.
 1 <= root length <= 100
 1 <= sentence words length <= 1000
 """
+# similar problems: 208 Implement Trie
+
+class TrieNode:
+    
+    def __init__(self, c):
+        self.c = c
+        self.isLeaf = False
+        self.children = {}
+
+class Trie:
+    
+    def __init__(self):
+        self.root = TrieNode('')
+        self.root.isLeaf = True
+    
+    def addWord(self, w):
+        node = self.root
+        for c in w:
+            if c not in node.children:
+                node.children[c] = TrieNode(c)
+            node = node.children[c]
+        
+        node.isLeaf = True
+
+    def replace(self, w):
+        """
+        replace w with the shortest root
+        """
+        node = self.root
+        for i, c in enumerate(w):
+            if c in node.children:
+                node = node.children[c]
+                if node.isLeaf:
+                    return w[:i+1]
+            else:
+                break
+
+        return w
+
 class Solution:
     def replaceWords(self, dict, sentence):
         """
@@ -23,4 +62,12 @@ class Solution:
         :type sentence: str
         :rtype: str
         """
-        
+        trie = Trie()
+        for w in dict:
+            trie.addWord(w)
+
+        return ' '.join(map(trie.replace, sentence.split()))
+
+d = ["cat", "bat", "rat"]
+sentence = "the cattle was rattled by the battery"
+print(Solution().replaceWords(d, sentence))

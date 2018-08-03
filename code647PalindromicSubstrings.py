@@ -14,6 +14,7 @@ Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
 Note:
 The input string length won't exceed 1000.
 """
+# similar problems: 5 Longest Palindrome Substring; 132 Palindrome Partitioning II
 class Solution:
     def countSubstrings(self, s):
         """
@@ -26,8 +27,9 @@ class Solution:
         res = 0
         for i in range(n-1, -1, -1):
             dp[i][i] = True
+            res += 1    # bug fixed: forgot to update result here
             for j in range(i+1, n):
-                dp[i][j] = (s[i]==s[j]) and dp[i+1][j-1]
+                dp[i][j] = (s[i]==s[j]) and ((i+1>j-1) or dp[i+1][j-1]) # bug fixed: when i+1>j-1, we searched to the lower-left portion of DP matrix, which has no meaning
                 if dp[i][j]:
                     res += 1
         
