@@ -12,6 +12,18 @@ The given array's numbers won't have any order.
 """
 # similar problems: 442 Find All Duplicates in an Array
 class Solution:
+    def findErrorNums_OJBest(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        n = len(nums)
+        SumList = sum(nums)
+        SumSet = sum(set(nums))
+        num1 = SumList - SumSet
+        num2 = int(n * (n + 1) / 2 - SumSet)
+        return [num1,num2]
+
     # tricky O(1) space O(n) time solution from http://www.cnblogs.com/grandyang/p/7324242.html
     # mark corresponding index by turning the number to negative, in this way we know if the index has been visited
     def findErrorNums(self, nums):
