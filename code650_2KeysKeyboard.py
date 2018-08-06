@@ -17,9 +17,32 @@ Note:
 The n will be in the range [1, 1000].
 """
 class Solution:
+"""
+    #https://leetcode.com/problems/2-keys-keyboard/discuss/105897/Loop-best-case-log(n)-no-DP-no-extra-space-no-recursion-with-explanation
+    public int minSteps(int n) {
+        int s = 0;
+        for (int d = 2; d <= n; d++) {
+            while (n % d == 0) {
+                s += d;
+                n /= d;
+            }
+        }
+        return s;
+    } 
+    """   
+    # my own solution
     def minSteps(self, n):
         """
         :type n: int
         :rtype: int
         """
-        
+        dp = list(range(n+1))
+        dp[1] = 0
+
+        for i in range(1, n+1):
+            for j in range(2, n//i + 1):
+                    dp[i*j] = min(dp[i*j], dp[i] + j)
+        #print(dp)
+        return dp[n]
+
+print(Solution().minSteps(10))

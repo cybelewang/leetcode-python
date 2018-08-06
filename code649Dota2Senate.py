@@ -55,9 +55,9 @@ class Solution:
             else:
                 q2.append(s2+n)
             
-        return 'R' if q1 else 'D'
+        return 'Radiant' if q1 else 'Dire'
 
-    # this may work?
+    # wrong solution, consider DDRRR
     def predictPartyVictory_trial(self, senate):
         """
         :type senate: str
@@ -66,11 +66,15 @@ class Solution:
         cnt_R = senate.count('R')
         cnt_D = senate.count('D')
         if cnt_R > cnt_D:
-            return 'R'
+            return 'Radiant'
         elif cnt_R < cnt_D:
-            return 'D'
+            return 'Dire'
+        
+        if senate[0] == 'R':
+            return 'Radiant'
         else:
-            return senate[0]
+            return 'Dire'
+            
 
 test_cases = ['R', 'D', 'RDD', 'RRDD', 'DDRR', 'RDRD']
 for s in test_cases:
