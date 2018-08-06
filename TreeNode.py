@@ -11,6 +11,9 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
+    def __repr__(self):
+        return str(self.val)
+
 def ListToTree(lt):
     """
     Convert a list to a binary tree, using leetcode style list
