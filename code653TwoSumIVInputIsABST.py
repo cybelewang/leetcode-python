@@ -25,7 +25,7 @@ Target = 28
 Output: False
 """
 class Solution:
-    # similar to two-pointer array solution
+    # my solution, similar to two-pointer solution for a sorted array
     def findTarget(self, root, k):
         """
         :type root: TreeNode
@@ -35,50 +35,43 @@ class Solution:
         if not root:
             return False
 
+        def pushleft(root, stack):
+            # push root and its most left branch nodes into stack
+            while root:
+                stack.append(root)
+                root = root.left
+
+        def pushright(root, stack):
+            # push root and its most right branch nodes into stack
+            while root:
+                stack.append(root)
+                root = root.right
+
         # stacks to hold the most left and most right tree nodes
         left, right = [], []
-        node = root
-        while node:
-            left.append(node)
-            node = node.left
+        pushleft(root, left)
+        pushright(root, right)
 
-        node = root
-        while node:
-            right.append(node)
-            node = node.right
-
+        # initialize two pointers at the smallest node and largest node
         small, large = left.pop(), right.pop()
-        node = small.right
-        while node:
-            left.append(node)
-            node = node.left
-
-        node = large.left
-        while node:
-            right.append(node)
-            node = node.right
+        pushleft(small.right, left)
+        pushright(large.left, right)
 
         while small != large:
             sum_ = small.val + large.val
             if sum_ == k:
                 return True
-            elif sum_ < k:
+            elif sum_ < k:  # move small to larger node
                 small = left.pop()
-                node = small.right
-                while node:
-                    left.append(node)
-                    node = node.left
-            else:
+                pushleft(small.right, left)
+            else:   # move large to smaller node
                 large = right.pop()
-                node = large.left
-                while node:
-                    right.append(node)
-                    node = node.right
+                pushright(large.left, right)
 
         return False
             
 
-    # recursive solution, O(n) space
+    # my recursive solution, O(n) space
     def findTarget2(self, root, k):
         """
         :type root: TreeNode
