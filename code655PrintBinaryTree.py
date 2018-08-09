@@ -47,6 +47,7 @@ Output:
  ["4", "",  "", "",  "", "", "", "",  "",  "",  "",  "",  "", "", ""]]
 Note: The height of binary tree is in the range of [1, 10].
 """
+from TreeNode import *
 class Solution:
     def printTree(self, root):
         """
@@ -69,7 +70,7 @@ class Solution:
                 h2, w2 = count(root.right, h+1)
                 h = max(h1, h2)
                 w = 2*max(w1, w2) + 1
-                return (w, h)
+                return (h, w)
 
         def put(root, row, left, right, res):
             """
@@ -86,9 +87,12 @@ class Solution:
                 put(root.left, row+1, left, mid-1, res)
                 put(root.right, row+1, mid+1, right, res)
         
-            # main
-            h, w = count(root, 1)
-            res = [['']*w for _ in range(h)]       
+        # main
+        h, w = count(root, 1)
+        res = [['']*w for _ in range(h)]       
+        put(root, 0, 0, w-1, res)
 
-            put(root, 0, 0, w-1, res)
+        return res
 
+root = ListToTree([1,2])
+print(Solution().printTree(root))

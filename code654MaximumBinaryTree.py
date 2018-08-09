@@ -23,7 +23,24 @@ The size of the given array will be in the range [1,1000].
 # similar problems: 307 Range Sum Query Mutable
 from TreeNode import *
 class Solution:
-    # my own solution using segment tree
+    def constructMaximumBinaryTree_OJBest(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: TreeNode
+        """
+        # if not nums: return None
+        stack = []
+        for n in nums:
+            cur = TreeNode(n)
+
+            while stack and stack[-1].val < n:
+                cur.left = stack.pop()
+            if stack:
+                stack[-1].right = cur
+            stack.append(cur)
+        return stack[0]
+
+    # my own solution using segment tree, O(nlogn)
     def constructMaximumBinaryTree(self, nums):
         """
         :type nums: List[int]
