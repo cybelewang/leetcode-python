@@ -89,4 +89,4 @@ class Solution:
         return res
             
 nums = [3,2,1,6,0,5]
-PrintTree(Solution().constructMaximumBinaryTree(nums))
+PrintTree(Solution().constructMaximumBinaryTree_OJBest(nums))

@@ -19,4 +19,3 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
-        
