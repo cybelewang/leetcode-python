@@ -15,6 +15,7 @@ Absolute value of elements in the array and x will not exceed 10^4
 UPDATE (2017/9/19):
 The arr parameter had been changed to an array of integers (instead of a list of integers). Please reload the code definition to get the latest changes.
 """
+# similar problems: 719 Find K-th Smallest Pair Distance
 from bisect import bisect
 class Solution:
     # my own solution using binary search and two pointers
