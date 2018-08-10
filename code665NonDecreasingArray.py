@@ -13,9 +13,28 @@ Output: False
 Explanation: You can't get a non-decreasing array by modify at most one element.
 Note: The n belongs to [1, 10,000].
 """
+# similar problems: 334 Increasing Triplet Subsequence
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/7565424.html
+    # see OneNote
     def checkPossibility(self, nums):
         """
         :type nums: List[int]
         :rtype: bool
         """
+        cnt, n = 1, len(nums)
+        for i in range(1, n):
+            if nums[i] < nums[i-1]:
+                if cnt == 0:
+                    return False
+                if i == 1 or nums[i] >= nums[i-2]:
+                    nums[i-1] = nums[i]
+                else:
+                    nums[i] = nums[i-1]
+                cnt -= 1
+        #print(nums)
+
+        return True
+
+nums = [4, 5, 2, 3]
+print(Solution().checkPossibility(nums))
