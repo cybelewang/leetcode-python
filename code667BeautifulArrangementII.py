@@ -13,7 +13,7 @@ Input: n = 3, k = 2
 Output: [1, 3, 2]
 Explanation: The [1, 3, 2] has three different positive integers ranging from 1 to 3, and the [2, 1] has exactly 2 distinct integers: 1 and 2.
 Note:
-The n and k are in the range 1 <= k < n <= 104.
+The n and k are in the range 1 <= k < n <= 10^4.
 """
 class Solution:
     def constructArray(self, n, k):
