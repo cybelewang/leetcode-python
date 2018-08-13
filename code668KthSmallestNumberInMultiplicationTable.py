@@ -27,7 +27,10 @@ Note:
 The m and n will be in the range [1, 30000].
 The k will be in the range [1, m * n]
 """
+# similar problems: 378 Kth Smallest Element in a Sorted Matrix; 719 Find K-th Smallest Pair Distance
 class Solution:
+    # solution 1 from http://www.cnblogs.com/grandyang/p/8367505.html
+    # binary search the result, for each mid, count the numbers <= mid row by row
     def findKthNumber(self, m, n, k):
         """
         :type m: int
@@ -35,4 +38,55 @@ class Solution:
         :type k: int
         :rtype: int
         """
+        left, right = 1, m*n
+        while left <= right:
+            mid, cnt = (left + right)//2, 0
+            # count numbers <= mid
+            for i in range(1, m+1):
+                cnt += n if mid > n*i else mid//i
+            # reset search boundaries
+            if cnt == k:
+                left = mid
+                break
+            elif cnt < k:
+                left = mid + 1
+            else:
+                right = mid - 1
         
+        return left
+
+    # solution 2 from http://www.cnblogs.com/grandyang/p/8367505.html
+    # binary search the result, for each mid, count the numbers <= mid using the below method:
+    # start from the left bottom number (i, j) = (m, 1)
+    # if i*j <= mid, count numbers from (1, j) to (i, j), then processed to next column by increasing j
+    # if i*j > mid, decrease i
+    def findKthNumber2(self, m, n, k):
+        """
+        :type m: int
+        :type n: int
+        :type k: int
+        :rtype: int
+        """
+        left, right = 1, m*n
+        while left <= right:
+            mid, cnt = (left + right)//2, 0
+            # count numbers <= mid
+            i, j = m, 1
+            while i >= 1 and j <= n:
+                if i*j <= mid:
+                    cnt += i
+                    j += 1
+                else:
+                    i -= 1
+            # reset search boundaries
+            if cnt == k:
+                left = mid
+                break
+            elif cnt < k:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return left
+
+print(Solution().findKthNumber2(2,3,6))

@@ -16,7 +16,7 @@ return 13.
 Note: 
 You may assume k is always valid, 1 ≤ k ≤ n^2.
 """
-# similar to 373
+# similar problems: 373 Find K Pairs With Smallest Sums; 668 Kth Smallest Number in Multiplication Table
 from heapq import *
 class Solution:
     # binary search solution

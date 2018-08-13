@@ -15,11 +15,32 @@ Explanation: The [1, 3, 2] has three different positive integers ranging from 1 
 Note:
 The n and k are in the range 1 <= k < n <= 10^4.
 """
+# similar problems: 526 Beautiful Arrangement
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/7577878.html
+    # think about how many possible absolute differences? always n - 1
+    # try to form an array with max possible absolute differences: for example n =6, 1, 6, 2, 5, 3, 4, and we found the style is fetch numbers from two ends each time
     def constructArray(self, n, k):
         """
         :type n: int
         :type k: int
         :rtype: List[int]
         """
-        
+        i, j = 1, n
+        res = []
+        flag = 1 # determine to use i or j, actually we can also use (k--%2) as flag
+        for _ in range(k-1):
+            if flag:
+                res.append(i)
+                i += 1
+            else:
+                res.append(j)
+                j -= 1
+            flag ^= 1   # flip between 0 and 1
+
+        res.extend(range(i, j+1))
+
+        return res
+
+n , k= 6, 3
+print(Solution().constructArray(n, k))

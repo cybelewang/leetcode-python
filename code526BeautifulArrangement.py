@@ -25,6 +25,7 @@ Number at the 2nd position (i=2) is 1, and i (i=2) is divisible by 1.
 Note:
 N is a positive integer and will not exceed 15.
 """
+# similar problems: 667 Beautiful Arrangement II
 class Solution:
     # https://leetcode.com/problems/beautiful-arrangement/discuss/99738/Easy-Python-~230ms
     # X is the set of still available numbers.
