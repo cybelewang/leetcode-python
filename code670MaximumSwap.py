@@ -14,9 +14,53 @@ Note:
 The given number is in the range [0, 10^8]
 """
 class Solution:
+    def maximumSwap(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        s = list(str(num))
+        n = len(s)
+        for i in range(n-1):
+            bFound = False
+            k = i
+            for j in range(i+1, n):
+                if s[j] > s[k] or (k != i and s[j] == s[k]):
+                    k = j
+                    bFound = True
+            
+            if bFound:
+                s[i], s[k] = s[k], s[i]
+                return int(''.join(s))
+
+        return num
+    # WRONG SOLUTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # 1993, expected 9913
+    def maximumSwap_WRONG(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        s = list(str(num))
+        n = len(s)
+        for i in range(n-1):
+            bFound = False
+            k = i
+            for j in range(i+1, n):
+                if s[j] > s[k]:
+                    k = j
+                    bFound = True
+            
+            if bFound:
+                s[i], s[k] = s[k], s[i]
+                return int(''.join(s))
+
+        return num
+
+    # WRONG SOLUTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # my own solution
     # convert num to string, then for every digit s[i], try to find a bigger digit on its right side
-    def maximumSwap(self, num):
+    def maximumSwap_WRONG2(self, num):
         """
         :type num: int
         :rtype: int
@@ -32,7 +76,7 @@ class Solution:
         
         return num
 
-test_cases = [0, 12, 2736, 9973, 1111, 9867]
+test_cases = [0, 12, 2736, 9973, 1111, 9867, 98368, 1993]
 obj = Solution()
 for num in test_cases:
     print(num, end = ' -> ')

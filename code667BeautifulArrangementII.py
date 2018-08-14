@@ -17,10 +17,40 @@ The n and k are in the range 1 <= k < n <= 10^4.
 """
 # similar problems: 526 Beautiful Arrangement
 class Solution:
-    # help from http://www.cnblogs.com/grandyang/p/7577878.html
+    # solution from http://www.cnblogs.com/grandyang/p/7577878.html
+    # observe different results when n = 6
+    # k = 1 ==> 1, 2, 3, 4, 5, 6
+    # k = 2 ==> 6, 1, 2, 3, 4, 5
+    # k = 3 ==> 1, 6, 2, 3, 4, 5
+    # k = 4 ==> 6, 1, 5, 2, 3, 4
+    # k = 5 ==> 1, 6, 2, 5, 3, 4
+    def constructArray(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[int]
+        """
+        res = []
+        i, j = 1, n
+        while i <= j:
+            if k > 1:
+                if k & 1:
+                    res.append(i)
+                    i += 1
+                else:
+                    res.append(j)
+                    j -= 1
+                k -= 1
+            else:
+                res.append(i)
+                i += 1
+
+        return res
+
+    # help from http://www.cnblogs.com/grandyang/p/7577878.html and my own trial
     # think about how many possible absolute differences? always n - 1
     # try to form an array with max possible absolute differences: for example n =6, 1, 6, 2, 5, 3, 4, and we found the style is fetch numbers from two ends each time
-    def constructArray(self, n, k):
+    def constructArray_WRONG(self, n, k):
         """
         :type n: int
         :type k: int
@@ -29,7 +59,7 @@ class Solution:
         i, j = 1, n
         res = []
         flag = 1 # determine to use i or j, actually we can also use (k--%2) as flag
-        for _ in range(k-1):
+        for _ in range(k):  # bug fixed: change from range(k-1) to range(k). Think about n = 3, k = 2
             if flag:
                 res.append(i)
                 i += 1
@@ -42,5 +72,5 @@ class Solution:
 
         return res
 
-n , k= 6, 3
+n , k= 6, 4
 print(Solution().constructArray(n, k))

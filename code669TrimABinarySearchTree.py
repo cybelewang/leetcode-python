@@ -67,13 +67,14 @@ class Solution:
 
         return root
 
+    # WRONG SOLUTION!
     # my own solution using deque
     # first put the outline tree nodes into a deque in order
     # pop all left tree nodes if they < L, then relink the next recursive result as left subtree
     # pop all right tree nodes if they > R, then relink the next recursive result as right subtree
     # finally check the position of original root in the deque and return new root
     # a pitfall is to consider only the left part of outline when checking < L, or only the right part of outline when checking > R
-    def trimBST2(self, root, L, R):
+    def trimBST2_WRONG(self, root, L, R):
         """
         :type root: TreeNode
         :type L: int
@@ -115,7 +116,8 @@ class Solution:
             return contour[-1]  # L and R are in left subtree of root
         else:
             return root # root is between L and R
-        
-root = ListToTree([3, 0, 4, None, 2, None, None, 1])
+
+null = None        
+root = ListToTree([45,30,46,10,36,null,49,8,24,34,42,48,null,4,9,14,25,31,35,41,43,47,null,0,6,null,null,11,20,null,28,null,33,null,null,37,null,null,44,null,null,null,1,5,7,null,12,19,21,26,29,32,null,null,38,null,null,null,3,null,null,null,null,null,13,18,null,null,22,null,27,null,null,null,null,null,39,2,null,null,null,15,null,null,23,null,null,null,40,null,null,null,16,null,null,null,null,null,17])
 PrintTree(root)
-PrintTree(Solution().trimBST(root, 1, 4))
+PrintTree(Solution().trimBST(root, 32, 44))
