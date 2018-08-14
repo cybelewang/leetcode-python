@@ -38,6 +38,42 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
+        if not root:
+            return -1
+
+        def getLeastMax(root):
+            """
+            get the least max value for tree with root node
+            return the root value if all values are the same
+            """
+            if not root.left:
+                return root.val
+
+            if root.left.val == root.val:
+                # we need to go deeper to find more potential results
+                left_max = getLeastMax(root.left)
+            else:
+                # subtree must be larger than root, we don't need to go deeper
+                left_max = root.left.val
+
+            if root.right.val == root.val:
+                right_max = getLeastMax(root.right)
+            else:
+                right_max = root.right.val
+
+            if left_max > root.val and right_max > root.val:
+                # both left and right > root, take the min one
+                return min(left_max, right_max)
+            else:
+                # either/both left and right == root, take the max one
+                return max(left_max, right_max)
+
+        # main
+        res = getLeastMax(root)
+        if res == root.val:
+            return -1
+        else:
+            return res
         
     # WRONG SOLUTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # BFS

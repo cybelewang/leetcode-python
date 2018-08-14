@@ -100,13 +100,13 @@ class Solution:
         while contour and contour[0].val < L:
             contour.popleft()
         if contour: # deque could be empty
-            contour[0].left = self.trimBST2(contour[0].left, L, R)   # relink left subtree
+            contour[0].left = self.trimBST2_WRONG(contour[0].left, L, R)   # relink left subtree
 
         # from right end remove all large tree nodes > R     
         while contour and contour[-1].val > R:
             contour.pop()
         if contour: # deque could be empty
-            contour[-1].right = self.trimBST2(contour[-1].right, L, R)   # relink right subtree
+            contour[-1].right = self.trimBST2_WRONG(contour[-1].right, L, R)   # relink right subtree
 
         if not contour:
             return None # no tree nodes left

@@ -18,4 +18,17 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        
+        res, cnt = 0, 0
+        pre = -2**31 - 1
+        for num in nums:
+            if num > pre:
+                cnt += 1
+            else:
+                cnt = 1
+            res = max(res, cnt)
+            pre = num
+
+        return res
+
+nums = [1,3,5,4,7]
+print(Solution().findLengthOfLCIS(nums))
