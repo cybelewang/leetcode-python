@@ -83,7 +83,7 @@ class Solution:
                         q.append(num)
                         s.add(num)
         
-        return len(s)
+        return len(q)
 
 n, m = 3, 1
 print(Solution().flipLights(n, m))

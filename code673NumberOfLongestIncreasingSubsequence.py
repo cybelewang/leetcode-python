@@ -12,6 +12,7 @@ Explanation: The length of longest continuous increasing subsequence is 1, and t
 Note: Length of the given array will be not exceed 2000 and the answer is guaranteed to be fit in 32-bit signed int.
 
 """
+# similar problems: 300 Longest Increasing Subsequence
 class Solution:
     # my own solution with bug fixed
     # initially just use max length in dp, but forgot the count
@@ -21,7 +22,7 @@ class Solution:
         :rtype: int
         """
         n = len(nums)
-        dp = [[1, 1] for _ in range(n)] # dp[i] contains the length and count of LIS from nums[0] to nums[i]
+        dp = [[1, 1] for _ in range(n)] # dp[i] contains the length and count of LIS ending with nums[i]
 
         max_len = 1
         for i in range(n):
