@@ -16,13 +16,17 @@ You may assume that all the inputs are consist of lowercase letters a-z.
 For contest purpose, the test data is rather small by now. You could think about highly efficient algorithm after the contest.
 Please remember to RESET your class variables declared in class MagicDictionary, as static/class variables are persisted across multiple test cases. Please see here for more details.
 """
+# similar problems: 161 One Edit Distance
+from collections import defaultdict
+# a solution using one edit distance
+# another solution is to convert dict list to a set, then change every character of word from 'a' to 'z' but skp itself, then check if the new word is in the set
 class MagicDictionary:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.mem = defaultdict(list)   # key: length, value: list of same length words
 
     def buildDict(self, dict):
         """
@@ -30,7 +34,8 @@ class MagicDictionary:
         :type dict: List[str]
         :rtype: void
         """
-        
+        for word in dict:
+            self.mem[len(word)].append(word)        
 
     def search(self, word):
         """
@@ -38,8 +43,18 @@ class MagicDictionary:
         :type word: str
         :rtype: bool
         """
-        
+        # check word with every word in the same length list and see if they are one edit distance
+        n = len(word)
+        for w in self.mem[n]:
+            cnt = 0
+            for i in range(n):
+                if w[i] != word[i]:
+                    cnt += 1
 
+            if cnt == 1:
+                return True
+
+        return False
 
 # Your MagicDictionary object will be instantiated and called as such:
 # obj = MagicDictionary()

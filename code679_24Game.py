@@ -1,5 +1,6 @@
 """
-You have 4 cards each containing a number from 1 to 9. You need to judge whether they could operated through *, /, +, -, (, ) to get the value of 24.
+You have 4 cards each containing a number from 1 to 9. 
+You need to judge whether they could operated through *, /, +, -, (, ) to get the value of 24.
 
 Example 1:
 Input: [4, 1, 8, 7]
@@ -14,9 +15,21 @@ Every operation done is between two numbers. In particular, we cannot use - as a
 You cannot concatenate numbers together. For example, if the input is [1, 2, 1, 2], we cannot write this as 12 + 12.
 """
 class Solution:
+      
     def judgePoint24(self, nums):
         """
         :type nums: List[int]
         :rtype: bool
         """
-        
+        eps = 0.001
+
+        def dfs(nums, ops):
+            if len(nums) == 1:
+                return abs(nums[0] - 24) < eps
+            
+
+        # main
+        ops = ['+', '-', '*', '/']
+
+        return dfs(nums, ops)
+

@@ -1,5 +1,6 @@
 """
-Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether this string is valid. We define the validity of a string by these rules:
+Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether this string is valid. 
+We define the validity of a string by these rules:
 
 Any left parenthesis '(' must have a corresponding right parenthesis ')'.
 Any right parenthesis ')' must have a corresponding left parenthesis '('.
@@ -19,9 +20,64 @@ Note:
 The string size will be in the range [1, 100].
 """
 class Solution:
+    # solution 3 in http://www.cnblogs.com/grandyang/p/7617017.html
+    # another solution is using two stacks to hold positions of '(' and '*'
     def checkValidString(self, s):
         """
         :type s: str
         :rtype: bool
         """
-        
+        # low: number of unmatched '(' when there are '(' and '*' is treated as ')'
+        # high: number of unmatched '(' when '*' is treated as '('
+        low, high = 0, 0
+        for c in s:
+            if c == '(':
+                low += 1
+                high += 1
+            elif c == ')':
+                low = max(0, low-1)
+                high -= 1
+            else:
+                low = max(0, low-1)
+                high += 1
+            
+            if high < 0:
+                return False
+
+        return low == 0
+
+    # my own DFS solution
+    def checkValidString2(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        def dfs(s, i, cnt):
+            """
+            i: current index in s
+            cnt: previous number of unmatched '('
+            return True if valid else False
+            """
+            if cnt < 0: # we have more ')' than '(' in s[:i], and there is no way to repair it, so fail immediately
+                return False
+
+            if i == len(s):
+                return cnt == 0
+
+            if s[i] == '(':
+                return dfs(s, i+1, cnt+1)
+            elif s[i] == ')':
+                return dfs(s, i+1, cnt-1)
+            else:
+                return dfs(s, i+1, cnt+1) or dfs(s, i+1, cnt-1) or dfs(s, i+1, cnt)
+                
+        # main
+        if s.startswith(')'):
+            return False
+        else:
+            return dfs(s, 0, 0)
+
+test_cases = ['', '(', ')', '*', '()', '(*)', '(*()', '((*)', ')*)', '*)*)']
+for s in test_cases:
+    print(s, end = ' -> ')
+    print(Solution().checkValidString(s))
