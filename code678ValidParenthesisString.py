@@ -20,7 +20,7 @@ Note:
 The string size will be in the range [1, 100].
 """
 class Solution:
-    # solution 3 in http://www.cnblogs.com/grandyang/p/7617017.html
+    # https://leetcode.com/problems/valid-parenthesis-string/discuss/107577/Short-Java-O(n)-time-O(1)-space-one-pass
     # another solution is using two stacks to hold positions of '(' and '*'
     def checkValidString(self, s):
         """
@@ -46,7 +46,7 @@ class Solution:
 
         return low == 0
 
-    # my own DFS solution
+    # my own DFS solution, TLE
     def checkValidString2(self, s):
         """
         :type s: str
