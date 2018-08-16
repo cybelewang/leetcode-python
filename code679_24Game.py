@@ -15,7 +15,8 @@ Every operation done is between two numbers. In particular, we cannot use - as a
 You cannot concatenate numbers together. For example, if the input is [1, 2, 1, 2], we cannot write this as 12 + 12.
 """
 class Solution:
-      
+    # reference to http://www.cnblogs.com/grandyang/p/8395062.html  
+    # DFS solution
     def judgePoint24(self, nums):
         """
         :type nums: List[int]
@@ -24,12 +25,40 @@ class Solution:
         eps = 0.001
 
         def dfs(nums, ops):
-            if len(nums) == 1:
+            n = len(nums)
+            if n == 1:
                 return abs(nums[0] - 24) < eps
             
+            for i in range(n):
+                for j in range(n):
+                    if i == j:
+                        continue
+                    t = [nums[k] for k in range(n) if k != i and k != j]
+                    for op in ops:
+                        if (op == '+' or op == '*') and (i > j):    # if i > j, we already tested nums[i] + nums[j] or nums[i]*nums[j] previously
+                            continue
+                        if op == '/' and abs(nums[j]) < eps:    # cannot divide zero
+                            continue
+
+                        if op == '+':
+                            t.append(nums[i]+nums[j])
+                        elif op == '-':
+                            t.append(nums[i]-nums[j])
+                        elif op == '*':
+                            t.append(nums[i]*nums[j])
+                        else:
+                            t.append(nums[i]/nums[j])
+                        
+                        if dfs(t, ops):
+                            return True
+                        t.pop() # bug fixed: forgot to restore t
+            
+            return False
 
         # main
         ops = ['+', '-', '*', '/']
 
         return dfs(nums, ops)
 
+nums = [1, 2, 1, 2]
+print(Solution().judgePoint24(nums))

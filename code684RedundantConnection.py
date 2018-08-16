@@ -2,11 +2,13 @@
 
 In this problem, a tree is an undirected graph that is connected and has no cycles.
 
-The given input is a graph that started as a tree with N nodes (with distinct values 1, 2, ..., N), with one additional edge added. The added edge has two different vertices chosen from 1 to N, and was not an edge that already existed.
+The given input is a graph that started as a tree with N nodes (with distinct values 1, 2, ..., N), with one additional edge added. 
+The added edge has two different vertices chosen from 1 to N, and was not an edge that already existed.
 
 The resulting graph is given as a 2D-array of edges. Each element of edges is a pair [u, v] with u < v, that represents an undirected edge connecting nodes u and v.
 
-Return an edge that can be removed so that the resulting graph is a tree of N nodes. If there are multiple answers, return the answer that occurs last in the given 2D-array. The answer edge [u, v] should be in the same format, with u < v.
+Return an edge that can be removed so that the resulting graph is a tree of N nodes. 
+If there are multiple answers, return the answer that occurs last in the given 2D-array. The answer edge [u, v] should be in the same format, with u < v.
 
 Example 1:
 Input: [[1,2], [1,3], [2,3]]
@@ -30,10 +32,56 @@ Update (2017-09-26):
 We have overhauled the problem description + test cases and specified clearly the graph is an undirected graph. For the directed graph follow up please see Redundant Connection II). We apologize for any inconvenience caused.
 
 """
+# similar problems: 261 Graph Valid Tree;
 class Solution:
+    # Union Find solution http://www.cnblogs.com/grandyang/p/7628977.html
+    # O(N) space
     def findRedundantConnection(self, edges):
         """
         :type edges: List[List[int]]
         :rtype: List[int]
         """
+        def find(root, i):
+            """
+            find the largest "root" node which is connected to i
+            """
+            while root[i] != -1:
+                i = root[i]
+
+            return i
+
+        N = len(edges)
+        root = [-1]*(N+1)
+
+        for u, v in edges:
+            x, y = find(root, u), find(root, v)
+            if x == y:  # shared the root, must be connected
+                return [u, v]
+            root[x] = y # bug fixed: previously was root[u] = v
+
+        return []
+
+    # my brutal force solution with O(N^2) space
+    def findRedundantConnection2(self, edges):
+        """
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
+        N = len(edges)
+        connected = [set() for _ in range(N)]   # connected[i] is a set containing all nodes connected to (i+1)
+
+        for u, v in edges:
+            if v in connected[u-1]:
+                return [u, v]
+            
+            for p in connected[u-1]:
+                connected[p-1].add(v)
+                connected[v-1].add(p)
+
+            connected[u-1].add(v)
+            connected[v-1].add(u)
         
+        return []
+
+edges = [[1,2], [1,3], [2,3]]
+print(Solution().findRedundantConnection(edges))

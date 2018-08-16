@@ -37,9 +37,32 @@ The size of the input list will be between 1 and 1000.
 Every integer represented in the list will be between -30000 and 30000.
 """
 class Solution:
+    # my own solution
+    # an example to simplify the logic statements
     def calPoints(self, ops):
         """
         :type ops: List[str]
         :rtype: int
         """
+        stack, res = [], 0
+        for op in ops:
+            p = 0
+            if op == '+':
+                p = sum(stack[-2:])
+            elif op == 'C':
+                if stack:
+                    res -= stack.pop()
+                continue
+            elif op == 'D':
+                if stack:
+                    p = 2*stack[-1]
+            else:
+                p = int(op)
+            
+            res += p
+            stack.append(p)
         
+        return res
+
+ops = ["C", "C", "+"]
+print(Solution().calPoints(ops))
