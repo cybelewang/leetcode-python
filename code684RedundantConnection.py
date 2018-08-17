@@ -61,6 +61,7 @@ class Solution:
 
         return []
 
+    # Wrong solution!!!!!!!!!!!!!
     # my brutal force solution with O(N^2) space
     def findRedundantConnection2(self, edges):
         """
@@ -83,5 +84,5 @@ class Solution:
         
         return []
 
-edges = [[1,2], [1,3], [2,3]]
-print(Solution().findRedundantConnection(edges))
+edges = [[1,4],[3,4],[1,3],[1,2],[4,5]]
+print(Solution().findRedundantConnection2(edges))
