@@ -32,7 +32,7 @@ Update (2017-09-26):
 We have overhauled the problem description + test cases and specified clearly the graph is an undirected graph. For the directed graph follow up please see Redundant Connection II). We apologize for any inconvenience caused.
 
 """
-# similar problems: 261 Graph Valid Tree;
+# similar problems: 261 Graph Valid Tree; 
 class Solution:
     # Union Find solution http://www.cnblogs.com/grandyang/p/7628977.html
     # O(N) space
@@ -61,7 +61,7 @@ class Solution:
 
         return []
 
-    # Wrong solution!!!!!!!!!!!!!
+    # Wrong solution because it doesn't link the nodes if they are not directly connected
     # my brutal force solution with O(N^2) space
     def findRedundantConnection2(self, edges):
         """
@@ -84,5 +84,5 @@ class Solution:
         
         return []
 
-edges = [[1,4],[3,4],[1,3],[1,2],[4,5]]
+edges = [[1,4],[3,4],[1,3]] # expected: True
 print(Solution().findRedundantConnection2(edges))

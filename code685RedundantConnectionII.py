@@ -28,9 +28,40 @@ The size of the input 2D-array will be between 3 and 1000.
 Every integer represented in the 2D-array will be between 1 and N, where N is the size of the input array.
 """
 class Solution:
+    # my own solution using problem 684's method
+    # two conditions: (1) in-degree of the node is 2; (2) there is a loop
     def findRedundantDirectedConnection(self, edges):
         """
         :type edges: List[List[int]]
         :rtype: List[int]
         """
-        
+        def find(root, i):
+            """
+            find the "root" node which is connected to i
+            """
+            while root[i] != -1:
+                i = root[i]
+
+            return i
+
+        # main
+        N = len(edges)
+        root = [-1]*(N+1)
+        indegree = [0]*(N+1)
+
+        for u, v in edges:
+            indegree[v] += 1
+            if indegree[v] == 2:
+                return [u, v]
+            
+            x, y = find(root, u), find(root, v)
+            if x == y:
+                return [u, v]
+
+            root[y] = x
+
+        return []
+
+
+edges = [[1,2],[2,3],[3,1],[4,1]]
+print(Solution().findRedundantDirectedConnection(edges))
