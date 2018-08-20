@@ -72,7 +72,7 @@ class Solution:
         connected = [set() for _ in range(N)]   # connected[i] is a set containing all nodes connected to (i+1)
 
         for u, v in edges:
-            if v in connected[u-1]:
+            if v in connected[u-1]: # we should not check like this. We should use DFS to check if u and v are connected. See findRedundantConnection3
                 return [u, v]
             
             for p in connected[u-1]:
@@ -84,5 +84,38 @@ class Solution:
         
         return []
 
-edges = [[1,4],[3,4],[1,3]] # expected: True
-print(Solution().findRedundantConnection2(edges))
+    # correct DFS solution, revised from findRedundantConnection2
+    def findRedundantConnection3(self, edges):
+        """
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
+        N = len(edges)
+        connected = [set() for _ in range(N)]   # connected[i] is a set containing all nodes connected to (i+1)
+
+        def dfs(u, v, visited):
+            """
+            check if u and v are connected
+            visited: a set stores the visited nodes
+            """
+            if u == v:
+                return True
+
+            if u not in visited:
+                visited.add(u)
+                return any(dfs(p, v, visited) for p in connected[u-1])
+
+            return False
+
+        for u, v in edges:            
+            visited = set()
+            if dfs(u, v, visited):
+                return [u, v]
+
+            connected[u-1].add(v)
+            connected[v-1].add(u)        
+
+        return []
+
+edges = [[1,4],[3,4],[1,3], [1,2], [4,5]] # expected: [1,3]
+print(Solution().findRedundantConnection3(edges))

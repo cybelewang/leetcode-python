@@ -63,6 +63,6 @@ class Solution:
             return 1.0
 
         mem = {}
-        return dfs(r, c, K, mem)/N/8
+        return dfs(r, c, K, mem)/K/K
 
 print(Solution().knightProbability(3,2,0,0))
