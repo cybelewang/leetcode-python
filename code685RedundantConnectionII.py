@@ -28,38 +28,53 @@ The size of the input 2D-array will be between 3 and 1000.
 Every integer represented in the 2D-array will be between 1 and N, where N is the size of the input array.
 """
 class Solution:
+    # three cases: two indegrees only, cycle only, two indegrees and cycle
+    # the third case is complex. See below analysis in code.
     def findRedundantDirectedConnection(self, edges):
         """
         :type edges: List[List[int]]
         :rtype: List[int]
         """
-        def find(root, i):
+        def find(parent, i):
             """
             find the "root" node which is connected to i
             """
-            while root[i] != -1:
-                i = root[i]
+            while parent[i] != i:
+                i = parent[i]
 
-            return i
+            return parent[i]
 
         # main
         N = len(edges)
-        root = [-1]*(N+1)
-        indegree = [0]*(N+1)
-
-        res = []
+        parent = [0]*(N+1)
+        A, B = [], []
+        
+        # step 1, check whether there is a node with two parents
+        for i in range(N):
+            u, v = edges[i]
+            if parent[v] == 0:
+                parent[v] = u
+            else:
+                A, B = [parent[v], v], [u, v]   # remove either A or B can fix the two-parent-node problem, we need to further check cycle existence to determine which one to remove
+                edges[i][1] = 0 # invalid the second edge
+        
+        # step 2, union find
+        parent = list(range(N+1))
         for u, v in edges:
-            indegree[v] += 1
-            if indegree[v] == 2:
-                res = [u, v]
+            if v == 0:  # pass invalid edges
+                continue
+
+            pu = find(parent, u)
+            if pu == v: # a cycle exists
+                # if A is not empty, this means there were two parents for A[1]: A[0], B[0]
+                # although we have made B invalid, there is still a cycle, so we need to remove A to solve two problems: 2 parent nodes and cycle
+                # if A is empty, this means there is only cycle, so we need to remove current edge
+                return A or [u, v]
             
-            x, y = find(root, u), find(root, v)
-            if x == y:
-                res = [u, v]
-
-            root[y] = x
-
-        return res
+            parent[v] = pu
+        
+        # tree is valid after invalidating B, so B is the result
+        return B
 
     # WRONG SOLUTION!
     # my own solution using problem 684's method

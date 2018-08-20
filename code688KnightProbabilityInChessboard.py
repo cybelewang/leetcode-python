@@ -21,6 +21,7 @@ N will be between 1 and 25.
 K will be between 0 and 100.
 The knight always initially starts on the board.
 """
+# similar problems: 576 Out of Boundary Paths
 class Solution:
     def knightProbability(self, N, K, r, c):
         """
@@ -32,9 +33,52 @@ class Solution:
         """
         def encode(x, y, k):
             val = k
-            val << 5
+            val <<= 7
             val |= y
-            val << 5
+            val <<= 5
+            val |= x
+
+            return val
+
+        dirs = [(-2,1),(-1,2),(1,2),(2,1),(2,-1),(1,-2),(-1,-2),(-2,-1)]
+        def dfs(x, y, k, mem):
+            if k == 0:
+                return 1
+
+            val = encode(x, y, k)
+            if val in mem:
+                return mem[val]
+
+            onboard = 0
+            for dx, dy in dirs:
+                if x < 0 or x >= N or y < 0 or y >= N:
+                    continue
+                onboard += dfs(x+dx, y+dy, k-1, mem)
+            
+            mem[val] = onboard
+
+            return onboard
+        
+        # main
+        mem = {}
+        onboard = dfs(r, c, K, mem)
+        #print(onboard)
+        return onboard/(8**K)
+
+    # my own DFS + Map solution, TLE
+    def knightProbability2(self, N, K, r, c):
+        """
+        :type N: int
+        :type K: int
+        :type r: int
+        :type c: int
+        :rtype: float
+        """
+        def encode(x, y, k):
+            val = k
+            val <<= 7
+            val |= y
+            val <<= 5
             val |= x
 
             return val
@@ -63,6 +107,8 @@ class Solution:
             return 1.0
 
         mem = {}
-        return dfs(r, c, K, mem)/K/K
+        onboard = dfs(r, c, K, mem)
+        print(onboard)
+        return onboard/(8**K)
 
-print(Solution().knightProbability(3,2,0,0))
+print(Solution().knightProbability(25,100,0,0))

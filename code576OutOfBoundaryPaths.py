@@ -19,6 +19,7 @@ Once you move the ball out of boundary, you cannot move it back.
 The length and height of the grid is in range [1,50].
 N is in range [0,50].
 """
+# similar problems: 688 Knight Probability in Chessboard
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/6927921.html
     # key is the definition of DP array

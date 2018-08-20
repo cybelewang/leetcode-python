@@ -37,11 +37,36 @@ Note: The given binary tree has not more than 10000 nodes. The height of the tre
 #         self.right = None
 from TreeNode import *
 class Solution:
-    # WRONG SOLUTION!
+    # recursive solution
+    def longestUnivaluePath2(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        self.res = 0
+
+        def dfs(root):
+            if not root:
+                return 0
+
+            left, right = dfs(root.left), dfs(root.right)   # we always recursively call the recursive function so all nodes will be visited            
+            left = 1 + left if root.left and root.left.val == root.val else 0
+            right = 1 + right if root.right and root.right.val == root.val else 0
+
+            self.res = max(self.res, left + right)
+
+            return max(left, right)
+
+        # main
+        dfs(root)
+
+        return self.res    
+
+    # WRONG SOLUTION! The problem requires longest path, not count of nodes.
     # my own solution using two stacks: same and diff
     # same stores the same value nodes which are directly connected
     # diff stores the different value nodes encountered when iterating
-    def longestUnivaluePath(self, root):
+    def longestUnivaluePath3(self, root):
         """
         :type root: TreeNode
         :rtype: int
@@ -76,4 +101,4 @@ nums = [26,26,26,26,26,24,26,25,25,25,27,23,25,25,27,24,26,24,26,24,24,null,28,n
 
 root = ListToTree(nums)
 PrintTree(root)
-print(Solution().longestUnivaluePath(root))
+print(Solution().longestUnivaluePath2(root))
