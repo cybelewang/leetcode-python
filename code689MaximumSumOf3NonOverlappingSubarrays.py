@@ -22,4 +22,30 @@ class Solution:
         :type k: int
         :rtype: List[int]
         """
+        n = len(nums)
+        k_sum = [0]*(n-k+1)
+
+        k_sum[0] = sum(nums[:k])    # sum of k numbers starting from index i
+        for i in range(1, n-k+1):
+            k_sum[i] = k_sum[i-1] - nums[i-1] + nums[i]
+
+        max_k_sum_index = list(range(n-k+1))    # max_k_sum_index[i] is the index j, which has the max k sum for j in range [i:]
+        for i in range(n-k-1, -1, -1):
+            if k_sum[max_k_sum_index[i+1]] > k_sum[i]:
+                max_k_sum_index[i] = max_k_sum_index[i+1]
+
+        max_sum, res = 0, [0, k, 2*k]
+        for i in range(n-2*k):
+            for j in range(i+k, n-k):
+                current = k_sum[i] + k_sum[j] + k_sum[max_k_sum_index[j+k]]
+                if current > max_sum:
+                    max_sum = current
+                    res = [i, j, max_k_sum_index[j+k]]
+                else:
+                    res = min(res, [i, j, max_k_sum_index[j+k]])
         
+        return res
+
+nums = [1,2,1,2,6,7,5,1]
+k = 2
+print(Solution().maxSumOfThreeSubarrays(nums, k))
