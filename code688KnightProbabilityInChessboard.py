@@ -23,6 +23,7 @@ The knight always initially starts on the board.
 """
 # similar problems: 576 Out of Boundary Paths
 class Solution:
+    # improved solution
     def knightProbability(self, N, K, r, c):
         """
         :type N: int
@@ -51,7 +52,7 @@ class Solution:
 
             onboard = 0
             for dx, dy in dirs:
-                if x < 0 or x >= N or y < 0 or y >= N:
+                if x+dx < 0 or x+dx >= N or y+dy < 0 or y+dy >= N:
                     continue
                 onboard += dfs(x+dx, y+dy, k-1, mem)
             
@@ -65,7 +66,7 @@ class Solution:
         #print(onboard)
         return onboard/(8**K)
 
-    # my own DFS + Map solution, TLE
+    # my own DFS + Map solution
     def knightProbability2(self, N, K, r, c):
         """
         :type N: int
@@ -108,7 +109,7 @@ class Solution:
 
         mem = {}
         onboard = dfs(r, c, K, mem)
-        print(onboard)
+        #print(onboard)
         return onboard/(8**K)
 
-print(Solution().knightProbability(25,100,0,0))
+print(Solution().knightProbability(3,2,0,0))
