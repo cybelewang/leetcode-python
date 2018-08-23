@@ -16,11 +16,17 @@ nums[i] will be between 1 and 65535.
 k will be between 1 and floor(nums.length / 3).
 """
 class Solution:
-    # my own O(N^2) solution
+    def maxSumOfThreeSubarrays(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+    # my own O(N^2) solution, TLE
     # generate a list k_sum[i], value is the sum of k numbers starting from index i
     # get a list max_k_sum[i], value is the index j in k_sum, with k_sum[j] is the largest in range k_sum[i:]
     # then we iterate nums with i and j, and can find the third largest k_sum with the help of max_k_sum
-    def maxSumOfThreeSubarrays(self, nums, k):
+    def maxSumOfThreeSubarrays2(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
