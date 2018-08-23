@@ -22,6 +22,44 @@ class Solution:
         :type k: int
         :rtype: List[int]
         """
+        n = len(nums)
+        sum_ = [0]*(n+1)    # k sum for k numbers starting from i is sum_[i+k] - sum_[i]
+        for i in range(1, n+1):
+            sum_[i] = sum_[i-1] + nums[i-1]
+
+        left = [0]*(n+1)  # left[i] is the starting index of k numbers with largest k-sum in nums[:i] (excludes i)
+        max_left = 0
+        for i in range(k, n+1):
+            if sum_[i] - sum_[i-k] > max_left:
+                max_left = sum_[i] - sum_[i-k]
+                left[i] = i - k
+            else:
+                left[i] = left[i-1]
+
+        right = [n-k]*(n+1) # right[i] is the starting index of k numbers with largest k-sum in nums[i:] (includes i)
+        max_right = 0
+        for i in range(n-k, -1, -1):
+            if sum_[i+k] - sum_[i] > max_right:
+                max_right = sum_[i+k] - sum_[i]
+                right[i] = i
+            else:
+                right[i] = right[i+1]
+
+        max_k_sum = 0
+        res = []
+        for m in range(k, n-2*k+1): # note middle k-number's start index range
+            l = left[m] # left index
+            r = right[m+k]  # right index
+            cur_sum = sum_[l+k] - sum_[l] + sum_[m+k] - sum_[m] + sum_[r+k] - sum_[r]
+            if cur_sum > max_k_sum:
+                max_k_sum = cur_sum
+                res = [l, m, r]
+            elif cur_sum == max_k_sum:
+                res = min(res, [l, m, r])
+        
+        return res
+        
+
     # my own O(N^2) solution, TLE
     # generate a list k_sum[i], value is the sum of k numbers starting from index i
     # get a list max_k_sum[i], value is the index j in k_sum, with k_sum[j] is the largest in range k_sum[i:]
@@ -56,6 +94,7 @@ class Solution:
         
         return res
 
-nums = list(range(20000))
+#nums = list(range(20000))
+nums = [1,2,1,2,6,7,5,1]
 k = 2
 print(Solution().maxSumOfThreeSubarrays(nums, k))
