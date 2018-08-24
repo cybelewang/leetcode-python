@@ -16,6 +16,8 @@ nums[i] will be between 1 and 65535.
 k will be between 1 and floor(nums.length / 3).
 """
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/8453386.html
+    # wrote in my own way
     def maxSumOfThreeSubarrays(self, nums, k):
         """
         :type nums: List[int]
