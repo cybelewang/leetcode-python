@@ -19,11 +19,43 @@ Input words contain only lowercase letters.
 Follow up:
 Try to solve it in O(n log k) time and O(n) extra space.
 """
+from collections import Counter
+from heapq import heappush, heappop
 class Solution:
+    # my own solution by searching how to get a fixed-size heapq: check length every time when adding a new element
     def topKFrequent(self, words, k):
         """
         :type words: List[str]
         :type k: int
         :rtype: List[str]
         """
-        
+
+        def mirror(s):
+            """
+            mirror 'a' to 'z', 'b' to 'y', 'c' to 'x', ...
+            we need this function because we need to treat lower alphabetical word as higher comparison value
+            """
+            return ''.join(map(lambda x: chr(2*ord('a')+25-ord(x)), s))
+
+        count = Counter(words)
+        q = []
+        for w in count:
+            c, m = count[w], mirror(w)
+            if len(q) == k:
+                freq, top = heappop(q)
+                if (freq, top) < (c, m):
+                    heappush(q, (c, m))
+                else:
+                    heappush(q, (freq, top))
+            else:
+                heappush(q, (c, m))
+
+        res = []
+        for _ in range(k):
+            res.append(mirror(heappop(q)[1]))
+
+        return res[::-1]
+
+words = ["the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"]
+k = 4
+print(Solution().topKFrequent(words, k))

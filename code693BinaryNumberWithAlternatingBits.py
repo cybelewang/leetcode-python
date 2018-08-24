@@ -28,4 +28,9 @@ class Solution:
         :type n: int
         :rtype: bool
         """
-        
+        s = bin(n)
+        return s.count('00') == 0 and s.count('11') == 0
+
+test_cases = [5, 7, 11, 10]
+for n in test_cases:
+    print(Solution().hasAlternatingBits(n))
