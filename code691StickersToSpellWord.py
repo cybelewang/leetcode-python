@@ -39,6 +39,7 @@ target has length in the range [1, 15], and consists of lowercase English letter
 In all test cases, all words were chosen randomly from the 1000 most common US English words, and the target was chosen as a concatenation of two random words.
 The time limit may be more challenging than usual. It is expected that a 50 sticker test case can be solved within 35ms on average.
 """
+# multiple knapsack problem?
 class Solution:
     # from https://leetcode.com/problems/stickers-to-spell-word/discuss/108318/C++JavaPython-DP-+-Memoization-with-optimization-29-ms-(C++)
     # There are potentially a lot of overlapping sub problems, but meanwhile we don't exactly know what those sub problems are. DP with memoization works pretty well in such cases. The workflow is like backtracking, but with memoization. Here I simply use a sorted string of target as the key for the unordered_map DP. A sorted target results in a unique sub problem for possibly different strings.
@@ -47,7 +48,8 @@ class Solution:
     # The DP formula is:
     # dp[s] = min(1+dp[reduced_s]) for all stickers, 
     # here reduced_s is a new string after certain sticker applied
-    # Optimization: If the target can be spelled out by a group of stickers, at least one of them has to contain character target[0]. So I explicitly require next sticker containing target[0], which significantly reduced the search space.
+    # Optimization: If the target can be spelled out by a group of stickers, at least one of them has to contain character target[0]. 
+    # So I explicitly require next sticker containing target[0], which significantly reduced the search space.
     def minStickers(self, stickers, target):
         """
         :type stickers: List[str]
