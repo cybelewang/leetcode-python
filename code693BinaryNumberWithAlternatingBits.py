@@ -23,7 +23,16 @@ Explanation:
 The binary representation of 10 is: 1010.
 """
 class Solution:
+    # another solution from OJ
     def hasAlternatingBits(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        num = n ^ (n >> 1)
+        return not (num & (num + 1))
+    # my own solution
+    def hasAlternatingBits2(self, n):
         """
         :type n: int
         :rtype: bool

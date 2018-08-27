@@ -20,8 +20,14 @@ Given the above grid, return 0.
 Note: The length of each dimension in the given grid does not exceed 50.
 """
 class Solution:
-    # my own solution of coloring the pixels
+    # https://leetcode.com/problems/max-area-of-island/discuss/108565/4-lines
     def maxAreaOfIsland(self, grid):
+        grid = {i + j*1j: val for i, row in enumerate(grid) for j, val in enumerate(row)}
+        def area(z):
+            return grid.pop(z, 0) and 1 + sum(area(z + 1j**k) for k in range(4))
+        return max(map(area, set(grid)))
+    # my own solution of coloring the pixels
+    def maxAreaOfIsland2(self, grid):
         """
         :type grid: List[List[int]]
         :rtype: int

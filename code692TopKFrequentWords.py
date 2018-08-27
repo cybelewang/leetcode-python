@@ -20,10 +20,28 @@ Follow up:
 Try to solve it in O(n log k) time and O(n) extra space.
 """
 from collections import Counter
-from heapq import heappush, heappop
+from heapq import heapify, heappush, heappop
 class Solution:
-    # my own solution by searching how to get a fixed-size heapq: check length every time when adding a new element
+    # correct solution from https://blog.csdn.net/fuxuemingzhu/article/details/79559691
+    # Key idea is that heapify is O(n) time, and heappush, heappop is in O(logn) time
+    # So we don't need to maintain a size-k priority queue, but use heapify to get a minHeap (not totally sorted), then use heappop to get first K elements
+    # this avoids reverse priority of a string, as in topKFrequent2's mirror function
     def topKFrequent(self, words, k):
+        """
+        :type words: List[str]
+        :type k: int
+        :rtype: List[str]
+        """
+        count = Counter(words)
+        q = [(-freq, word) for word, freq in count.items()]
+        heapify(q)
+
+        return [heappop(q)[1] for _ in range(k)] 
+    # Wrong Solution, test ['a', 'aa', 'aaa']
+    # the mistake is the mirror function, which cannot guarantee mirror('a') > mirror('aa')
+    # my own solution by searching how to get a fixed-size heapq: check length every time when adding a new element
+    # the challenge is how to make 'a' larger than 'aa'
+    def topKFrequent2(self, words, k):
         """
         :type words: List[str]
         :type k: int
