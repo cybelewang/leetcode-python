@@ -44,3 +44,19 @@ class Solution:
 
 s = "00110011"
 print(Solution().countBinarySubstrings(s))
+
+"""
+https://leetcode.com/problems/count-binary-substrings/discuss/108600/Java-O(n)-Time-O(1)-Space
+public int countBinarySubstrings(String s) {
+    int prevRunLength = 0, curRunLength = 1, res = 0;
+    for (int i=1;i<s.length();i++) {
+        if (s.charAt(i) == s.charAt(i-1)) curRunLength++;
+        else {
+            prevRunLength = curRunLength;
+            curRunLength = 1;
+        }
+        if (prevRunLength >= curRunLength) res++;
+    }
+    return res;
+}
+"""
