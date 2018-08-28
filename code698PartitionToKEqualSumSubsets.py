@@ -12,8 +12,80 @@ Note:
 """
 # similar problems: 416 Partition Equal Subset Sum;
 class Solution:
-    # wrong solution, TLE, dfs will go to a dead loop due to lack of paramter start
+    # http://bookshadow.com/weblog/2017/10/15/leetcode-partition-to-k-equal-sum-subsets/
+    # DFS + MAP
+    def canPartitionKSubsets(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        dmap = {}
+        def solve(nums, target, k):
+            if k == 1: return sum(nums) == target
+            key = (tuple(nums), k)
+            if key in dmap: return dmap[key]
+            size = len(nums)
+            ans = False
+            for x in range(1 << size):  # binary 1 and 0 represent if that number is used, range(1<<size) contains all cases
+                sums = 0
+                rest = []
+                for y in range(size):
+                    if (x >> y) & 1:  sums += nums[y]
+                    else: rest.append(nums[y])
+                if sums == target and solve(rest, target, k - 1):
+                    ans = True
+                    break
+            dmap[key] = ans
+            return ans
+        
+        # main
+        sums = sum(nums)
+        if sums % k: return False
+            
+        return solve(sorted(nums), sums // k, k)
+    # from http://www.cnblogs.com/grandyang/p/7733098.html
+    # but still TLE
     def canPartitionKSubsets2(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        sum_ = sum(nums)
+        if sum_ % k:
+            return False
+        
+        target = sum_ // k
+        nums.sort()
+
+        n = len(nums)
+        used = [False]*n
+
+        def dfs(nums, used, target, cursum, k, start):
+            if k == 1:
+                return True
+            
+            if cursum == target:
+                return dfs(nums, used, target, 0, k-1, 0)
+
+            if cursum > target or start == len(nums):
+                return False
+
+            for i in range(start, len(nums)):
+                if used[i]:
+                    continue
+
+                used[i] = True
+                if dfs(nums, used, target, cursum + nums[i], k, i+1):
+                    return True
+                used[i] = False
+                
+            return False
+        
+        return dfs(nums, used, target, 0, k, 0)
+    # 1st trial with help from http://www.cnblogs.com/grandyang/p/7733098.html, TLE
+    def canPartitionKSubsets3(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
@@ -51,5 +123,5 @@ class Solution:
         
         return dfs(nums, used, target, 0, k)
 
-nums, k = [4,5,3,2,5,5,5,1,5,5,5,5,3,5,5,2], 13
-print(Solution().canPartitionKSubsets2(nums, k))
+nums, k = [4,5,3,2,1,3,5,2, 5, 5, 5, 5, 5, 5, 5, 5], 13
+print(Solution().canPartitionKSubsets(nums, k))

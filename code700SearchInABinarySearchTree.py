@@ -1,6 +1,7 @@
 """
 
-Given the root node of a binary search tree (BST) and a value. You need to find the node in the BST that the node's value equals the given value. Return the subtree rooted with that node. If such node doesn't exist, you should return NULL.
+Given the root node of a binary search tree (BST) and a value. You need to find the node in the BST that the node's value equals the given value. 
+Return the subtree rooted with that node. If such node doesn't exist, you should return NULL.
 
 For example, 
 
@@ -35,3 +36,13 @@ class Solution:
         :type val: int
         :rtype: TreeNode
         """
+        node = root
+        while node:
+            if node.val == val:
+                return node
+            elif node.val < val:
+                node = node.right
+            else:
+                node = node.left
+        
+        return None
