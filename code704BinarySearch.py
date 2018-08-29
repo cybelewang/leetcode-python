@@ -1,5 +1,6 @@
 """
-Given a sorted (in ascending order) integer array nums of n elements and a target value, write a function to search target in nums. If target exists, then return its index, otherwise return -1.
+Given a sorted (in ascending order) integer array nums of n elements and a target value, write a function to search target in nums. 
+If target exists, then return its index, otherwise return -1.
 
 
 Example 1:
@@ -28,4 +29,14 @@ class Solution:
         :type target: int
         :rtype: int
         """
-        
+        left, right = 0, len(nums)
+        while left < right:
+            mid = (left + right)//2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid
+
+        return -1

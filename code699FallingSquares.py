@@ -56,10 +56,33 @@ Note:
 1 <= positions[i][0] <= 10^8.
 1 <= positions[i][1] <= 10^6.
 """
+# similar problems: 218 The Skyline Problem
 class Solution:
+    # brutal force solution from http://www.cnblogs.com/grandyang/p/8486414.html
     def fallingSquares(self, positions):
         """
         :type positions: List[List[int]]
         :rtype: List[int]
         """
-        
+        n = len(positions)
+        heights = [0]*n
+
+        res, h = [], 0  # result and current max height 
+        for i in range(n):
+            left, length = positions[i]
+            right = left + length
+            heights[i] += length    # add height onto the base height[i]
+
+            h = max(h, heights[i])
+            res.append(h)
+
+            for j in range(i+1, n):
+                l, len_ = positions[j]
+                r = l + len_
+                if l < right and r > left:  # try to slide j on top of i and get these conditions
+                    heights[j] = max(heights[j], heights[i])
+
+        return res
+
+positions = [[1, 2], [2, 3], [6, 1]]
+print(Solution().fallingSquares(positions))

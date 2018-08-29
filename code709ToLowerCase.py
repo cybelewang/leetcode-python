@@ -22,4 +22,4 @@ class Solution:
         :type str: str
         :rtype: str
         """
-        
+        return str.lower();
