@@ -18,7 +18,8 @@ Note:
 You may assume that nums' length ≥ k-1 and k ≥ 1.
 
 """
-from heapq import heapify, heappushpop
+from heapq import heapify, heappushpop, heappush
+# my own solution, not accepted for 3 times
 class KthLargest:
 
     def __init__(self, k, nums):
@@ -28,6 +29,7 @@ class KthLargest:
         """
         nums.sort()
         self.heap = nums[-k:]
+        self.k = k
         heapify(self.heap)
 
     def add(self, val):
@@ -35,9 +37,13 @@ class KthLargest:
         :type val: int
         :rtype: int
         """
-        top = self.heap[0]
-        if top < val:
-            heappushpop(self.heap, val)
+        if len(self.heap) < self.k:
+            heappush(self.heap, val)
+            return self.heap[0]
+        else:            
+            top = self.heap[0]
+            if top < val:
+                heappushpop(self.heap, val)
             
         return self.heap[0]
 
@@ -52,3 +58,8 @@ print(obj.add(5))   # returns 5
 print(obj.add(10))  # returns 5
 print(obj.add(9))   # returns 8
 print(obj.add(4))   # returns 8
+
+"""
+["KthLargest","add","add","add","add","add"]
+[[1,[]],[-3],[-2],[-4],[0],[4]]
+"""

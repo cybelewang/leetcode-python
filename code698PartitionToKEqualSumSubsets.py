@@ -12,6 +12,37 @@ Note:
 """
 # similar problems: 416 Partition Equal Subset Sum;
 class Solution:
+    def canPartitionKSubsets_OJBest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        if len(nums) < k:   return False
+        if k == 1:  return True
+        s = sum(nums)
+        if s%k != 0:    return False
+        target = s//k
+        nums.sort()
+        nums = nums[::-1]
+        used = [False]*len(nums)
+        start = 0
+        for i in range(k-1):
+            if not self.helper(nums, target, used, start):
+                return False
+            while used[start]:
+                start += 1
+        return True
+    
+    def helper(self, nums, target, used, start):
+        for i in range(start, len(used)):
+            if used[i]: continue
+            if nums[i] > target:
+                continue
+            if nums[i] == target or self.helper(nums, target-nums[i], used, i+1):
+                used[i] = True
+                return True
+        return False
     # http://bookshadow.com/weblog/2017/10/15/leetcode-partition-to-k-equal-sum-subsets/
     # DFS + MAP
     def canPartitionKSubsets(self, nums, k):
@@ -124,4 +155,4 @@ class Solution:
         return dfs(nums, used, target, 0, k)
 
 nums, k = [4,5,3,2,1,3,5,2, 5, 5, 5, 5, 5, 5, 5, 5], 13
-print(Solution().canPartitionKSubsets(nums, k))
+print(Solution().canPartitionKSubsets_OJBest(nums, k))
