@@ -58,6 +58,30 @@ Note:
 """
 # similar problems: 218 The Skyline Problem
 class Solution:
+    def fallingSquares_OJBest(self, positions):
+        """
+        :type positions: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        # heights[k]: current height for range [coords[k], coords[k+1])
+        coords = [0, math.inf]
+        heights = [0, 0]
+        
+        res = []
+        for l, h in positions:
+            r = l + h
+            l_idx = bisect.bisect_right(coords, l)
+            r_idx = bisect.bisect_left(coords, r)
+            
+            new_h = max(heights[l_idx-1:r_idx]) + h
+            # print(l,r,l_idx,r_idx,coords, heights)
+            coords[l_idx:r_idx] = [l, r]
+            heights[l_idx:r_idx] = [new_h, heights[r_idx-1]]
+            # print(l,r,l_idx,r_idx,coords, heights)
+            res.append(max(res[-1] if res else 0, new_h))
+
+        return res
     # brutal force solution from http://www.cnblogs.com/grandyang/p/8486414.html
     def fallingSquares(self, positions):
         """

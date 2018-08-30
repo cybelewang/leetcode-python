@@ -26,19 +26,22 @@ All values will be in the range of [0, 1000000].
 The number of operations will be in the range of [1, 10000].
 Please do not use the built-in HashSet library.
 """
+# initially thought using a prefix tree to store digits
+# most OJ people use boolean array
 class MyHashSet:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.array = [False]*1000000
 
     def add(self, key):
         """
         :type key: int
         :rtype: void
         """
+        self.array[key] = True
         
 
     def remove(self, key):
@@ -46,6 +49,7 @@ class MyHashSet:
         :type key: int
         :rtype: void
         """
+        self.array[key] = False
         
 
     def contains(self, key):
@@ -54,7 +58,7 @@ class MyHashSet:
         :type key: int
         :rtype: bool
         """
-        
+        return self.array[key]
 
 
 # Your MyHashSet object will be instantiated and called as such:

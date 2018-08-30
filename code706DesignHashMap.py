@@ -25,13 +25,14 @@ All keys and values will be in the range of [0, 1000000].
 The number of operations will be in the range of [1, 10000].
 Please do not use the built-in HashMap library.
 """
+# similar problems: 705 Design HashSet
 class MyHashMap:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.array = [-1]*1000000
 
     def put(self, key, value):
         """
@@ -40,6 +41,7 @@ class MyHashMap:
         :type value: int
         :rtype: void
         """
+        self.array[key] = value
         
 
     def get(self, key):
@@ -48,6 +50,7 @@ class MyHashMap:
         :type key: int
         :rtype: int
         """
+        return self.array[key]
         
 
     def remove(self, key):
@@ -56,7 +59,7 @@ class MyHashMap:
         :type key: int
         :rtype: void
         """
-        
+        self.array[key] = -1
 
 
 # Your MyHashMap object will be instantiated and called as such:
