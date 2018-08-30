@@ -38,6 +38,9 @@ The input is two lists: the subroutines called and their arguments. Solution's c
 pick has no arguments. Arguments are always wrapped with a list, even if there aren't any.
 
 """
+from random import randint
+# help from https://my.oschina.net/yysue/blog/1846164
+# map the number in blacklist to other numbers not in blacklist
 class Solution:
 
     def __init__(self, N, blacklist):
@@ -45,14 +48,29 @@ class Solution:
         :type N: int
         :type blacklist: List[int]
         """
-        
+        self.M = N - len(blacklist)
+        self.map = {b:-1 for b in blacklist}
+
+        for b in blacklist:
+            if b < self.M:
+                while N-1 in self.map:
+                    N -= 1
+                self.map[b] = N - 1
+                N -= 1
+            
+        print(self.map)
 
     def pick(self):
         """
         :rtype: int
         """
-        
+        p = randint(0, self.M-1)
+        return self.map[p] if p in self.map else p
 
+
+N, blacklist = 11, [2,3,5,8]
+obj = Solution(N, blacklist)
+print(obj.pick())
 
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(N, blacklist)

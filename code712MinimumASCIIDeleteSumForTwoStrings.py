@@ -19,11 +19,26 @@ Note:
 0 < s1.length, s2.length <= 1000.
 All elements of each string will have an ASCII value in [97, 122].
 """
+# similar problems: 583 Delete Operation for Two Strings
 class Solution:
+    # my own solution, similar way to find the longest common subsequence
     def minimumDeleteSum(self, s1, s2):
         """
         :type s1: str
         :type s2: str
         :rtype: int
         """
+        m, n = len(s1), len(s2)
+        dp = [[0]*(n+1) for _ in range(m+1)]
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                if s1[i-1] == s2[j-1]:
+                    dp[i][j] = max(dp[i][j], ord(s1[i-1]) + dp[i-1][j-1])
         
+        return sum(map(ord, s1)) + sum(map(ord, s2)) - 2*dp[m][n]
+
+test_cases = [('sea', 'eat'), ('delete', 'leet')]
+obj = Solution()
+for s1, s2 in test_cases:
+    print(obj.minimumDeleteSum(s1, s2))

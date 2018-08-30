@@ -10,6 +10,7 @@ Note:
 The length of given words won't exceed 500.
 Characters in given words can only be lower-case letters.
 """
+# similar problems: 712 Maximum ASCII Delete Sum for Two Strings
 class Solution:
     # my own solution, use DP to find out the length of the longest common subsequence between word1 and word2, this longest common subsequence will be the final string that make word1 == word2
     def minDistance(self, word1, word2):

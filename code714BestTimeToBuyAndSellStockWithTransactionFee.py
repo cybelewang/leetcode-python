@@ -1,7 +1,8 @@
 """
 Your are given an array of integers prices, for which the i-th element is the price of a given stock on day i; and a non-negative integer fee representing a transaction fee.
 
-You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction. You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
+You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction. 
+You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
 
 Return the maximum profit you can make.
 
@@ -20,11 +21,23 @@ Note:
 0 < prices[i] < 50000.
 0 <= fee < 50000.
 """
+# similar problems: 123, 188, 309
 class Solution:
+    # my own solution using knapsack algorighm
     def maxProfit(self, prices, fee):
         """
         :type prices: List[int]
         :type fee: int
         :rtype: int
         """
+        n = len(prices)
+        dp = [0]*n
+        for i in range(1, n):
+            dp[i] = dp[i-1] # no selling on day i
+            for j in range(i):  # selling on day i, need to iterate previous days and get the max profit
+                dp[i] = max(dp[i], dp[j] + prices[i] - prices[j] - fee)
         
+        return dp[-1]
+
+prices, fee = [1, 3, 2, 8, 4, 9], 2
+print(Solution().maxProfit(prices, fee))
