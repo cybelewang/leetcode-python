@@ -17,6 +17,7 @@ Note:
 from bisect import bisect_left
 class Solution:
     # my own solution using accumulated product array and binary search
+    # this is not a correct solution because the problem requires contiguous subarrays
     def numSubarrayProductLessThanK(self, nums, k):
         """
         :type nums: List[int]

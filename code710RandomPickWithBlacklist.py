@@ -38,6 +38,7 @@ The input is two lists: the subroutines called and their arguments. Solution's c
 pick has no arguments. Arguments are always wrapped with a list, even if there aren't any.
 
 """
+# similar problems: 528 Random Pick with Weight
 from random import randint
 # help from https://my.oschina.net/yysue/blog/1846164
 # map the number in blacklist to other numbers not in blacklist

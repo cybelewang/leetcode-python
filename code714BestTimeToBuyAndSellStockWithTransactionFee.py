@@ -23,7 +23,7 @@ Note:
 """
 # similar problems: 123, 188, 309
 class Solution:
-    # my own solution using knapsack algorighm
+    # my own solution using knapsack algorighm, TLE
     def maxProfit(self, prices, fee):
         """
         :type prices: List[int]
