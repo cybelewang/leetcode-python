@@ -23,8 +23,23 @@ Note:
 """
 # similar problems: 123, 188, 309
 class Solution:
-    # my own solution using knapsack algorighm, TLE
+    # solution 2 from http://www.cnblogs.com/grandyang/p/7776979.html
     def maxProfit(self, prices, fee):
+        """
+        :type prices: List[int]
+        :type fee: int
+        :rtype: int
+        """
+        sold, hold = 0, -prices[0]
+        for price in prices:
+            t = sold
+            sold = max(sold, hold + price - fee)
+            hold = max(hold, t - price)
+        
+        return sold
+        
+    # my own solution using knapsack algorighm, TLE
+    def maxProfit_TLE(self, prices, fee):
         """
         :type prices: List[int]
         :type fee: int

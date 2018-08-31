@@ -26,4 +26,15 @@ class Solution:
         :type bits: List[int]
         :rtype: bool
         """
-        
+        i, last = 0, 0
+        while i < len(bits):
+            if bits[i]:
+                i += 2
+                last = 2
+            else:
+                i += 1
+                last = 1
+
+        return last == 1
+
+print(Solution().isOneBitCharacter([1, 0, 0]))

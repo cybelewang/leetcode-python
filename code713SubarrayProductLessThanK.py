@@ -16,9 +16,33 @@ Note:
 """
 from bisect import bisect_left
 class Solution:
+    # my own solution after revising 5 times
+    # i, j is the start/end index of a sliding window
+    # iterate j, update product by multipling nums[j]
+    # advance i until the sliding window's product < k
+    # count i to j and add to result, and they represent all subarrays ending with nums[j] that with product < k
+    def numSubarrayProductLessThanK(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        n, res = len(nums), 0
+        product = 1
+        i = 0
+        for j in range(n):
+            product *= nums[j]
+            while i <= j and product >= k:
+                product //= nums[i]
+                i += 1
+            res += j - i + 1
+
+        return res
+                     
+
     # my own solution using accumulated product array and binary search
     # this is not a correct solution because the problem requires contiguous subarrays
-    def numSubarrayProductLessThanK(self, nums, k):
+    def numSubarrayProductLessThanK_WRONG(self, nums, k):
         """
         :type nums: List[int]
         :type k: int

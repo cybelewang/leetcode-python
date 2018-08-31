@@ -18,10 +18,11 @@ The total number of calls to addRange in a single test case is at most 1000.
 The total number of calls to queryRange in a single test case is at most 5000.
 The total number of calls to removeRange in a single test case is at most 1000.
 """
+# better to use Java's TreeSet
 class RangeModule:
 
     def __init__(self):
-        
+        pass
 
     def addRange(self, left, right):
         """
