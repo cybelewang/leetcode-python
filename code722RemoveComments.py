@@ -66,4 +66,37 @@ class Solution:
         :type source: List[str]
         :rtype: List[str]
         """
-        
+        res = []
+        left = 0    # number of unmatched '/*' from previous lines
+        for s in source:
+            line, i, start = '', 0, 0
+            while i < len(s)-1:
+                sub = s[i:i+2]
+                if sub == '/*':
+                    if left == 0:   line += s[start:i]
+                    left += 1
+                    i += 2
+                elif sub == '*/':
+                    left -= 1
+                    if left == 0:   start = i + 2
+                    i += 2
+                elif sub == '//':
+                    if left == 0:
+                        line += s[start:i]
+                        start = len(s)
+                        i = len(s) - 1
+                    else:
+                        i += 2
+                else:
+                    i += 1
+
+            if left == 0:
+                line += s[start:]
+
+            if line:
+                res.append(line)
+
+        return res
+                
+source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
+print(Solution().removeComments(source))

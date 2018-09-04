@@ -21,9 +21,32 @@ The length of accounts[i] will be in the range [1, 10].
 The length of accounts[i][j] will be in the range [1, 30].
 """
 class Solution:
+    # my own solution with a dict to map email address to result index
     def accountsMerge(self, accounts):
         """
         :type accounts: List[List[str]]
         :rtype: List[List[str]]
         """
-        
+        record, res, index = {}, [], 0
+        for account in accounts:
+            j = index  # initially set email address's value to the next insertion index
+            # now see if email address exists in previous results
+            for i in range(1, len(account)):
+                if account[i] in record:
+                    j = record[account[i]]
+                    break
+            
+            # update email:index map
+            for i in range(1, len(account)):
+                record[account[i]] = j
+            
+            if j < index:
+                res[j].extend(account[1:])
+            else:
+                res.append(account)
+                index += 1
+
+        return res
+
+accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
+print(Solution().accountsMerge(accounts))
