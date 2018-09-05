@@ -60,43 +60,50 @@ The length of source[i] is in the range [0, 80].
 Every open block comment is eventually closed.
 There are no single-quote, double-quote, or control characters in the source code.
 """
+# similar problems: 678 Valid Parenthesis String; 224 Basic Calculator; 227 Basic Calculator II; 591 Tag Validator; 439 Ternary Expression Parser; 385 Mini Parser
 class Solution:
+    # my own solution
     def removeComments(self, source):
         """
         :type source: List[str]
         :rtype: List[str]
         """
-        res = []
-        left = 0    # number of unmatched '/*' from previous lines
+        res = []    # final result
+        blocked = False    # indicate if current line is in '/* */' block
+        line = ''   # intermediate result of each line in the final result
         for s in source:
-            line, i, start = '', 0, 0
+            i, start = 0, 0 # i is the iterator of each line string s in source, start is the start index of string after removing comment
             while i < len(s)-1:
                 sub = s[i:i+2]
                 if sub == '/*':
-                    if left == 0:   line += s[start:i]
-                    left += 1
-                    i += 2
+                    if not blocked:
+                        line += s[start:i]  # concatenate previous valid source code
+                        blocked = True 
+                        i += 2
+                    else:
+                        i += 1
                 elif sub == '*/':
-                    left -= 1
-                    if left == 0:   start = i + 2
+                    if blocked:
+                        blocked = False
+                    start = i + 2   # reset start index to the position just after '*/'
                     i += 2
                 elif sub == '//':
-                    if left == 0:
-                        line += s[start:i]
-                        start = len(s)
-                        i = len(s) - 1
-                    else:
-                        i += 2
+                    if not blocked:   # '//' will only be valid when left is 0
+                        line += s[start:i]  # concatenate previous valid source code
+                        start = len(s)  # set start to the end
+                        i = len(s) - 1  # set iterator to the end of this line so it ignores the rest of the line
+                    else:   # '//' is inside '/* */' nest, not valid
+                        i += 1
                 else:
                     i += 1
 
-            if left == 0:
+            if not blocked:
                 line += s[start:]
-
-            if line:
-                res.append(line)
+                if line:    res.append(line)
+                line = ''
 
         return res
                 
-source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
+#source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
+source = ["a/*comment", "line", "more_comment*/b"]
 print(Solution().removeComments(source))

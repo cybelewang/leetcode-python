@@ -34,12 +34,46 @@ k will be an integer in the range [1, 50].
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution:
+    # my own solution
     def splitListToParts(self, root, k):
         """
         :type root: ListNode
         :type k: int
         :rtype: List[ListNode]
         """
+        if not root:
+            return []
+
+        # count the number of nodes
+        n, node = 0, root
+        while node:
+            n += 1
+            node = node.next
         
+        res, node = [], root
+        q, r = divmod(n, k)
+        for _ in range(k):
+            length = q
+            if r:
+                length += 1
+                r -= 1
+            
+            if not length:
+                res.append(None)
+            else:
+                res.append(node)
+                for _ in range(length-1):
+                    node = node.next
+                temp = node.next
+                node.next = None
+                node = temp
+        
+        return res
+
+head = ListNode(0)
+head.fromList([1,2,3,4])
+res = Solution().splitListToParts(head, 5)
+for node in res:
+    PrintLinkedList(node)

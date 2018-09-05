@@ -23,9 +23,25 @@ Note:
 The length of nums will be in the range [0, 10000].
 Each element nums[i] will be an integer in the range [-1000, 1000].
 """
+# ask about corner case [1, 0]
+
 class Solution:
+    # my own solution
     def pivotIndex(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
+        a = [0]
+        for num in nums:
+            a.append(a[-1] + num)
+        
+        for i, num in enumerate(nums):
+            if a[i] == a[-1] - a[i+1]:
+                return i
+        
+        return -1
+
+#nums = [1, 7, 3, 6, 5, 6]
+nums = [1, 0]
+print(Solution().pivotIndex(nums))

@@ -35,10 +35,73 @@ All atom names consist of lowercase letters, except for the first character whic
 The length of formula will be in the range [1, 1000].
 formula will only consist of letters, digits, and round parentheses, and is a valid formula as defined in the problem.
 """
+from collections import defaultdict
 class Solution:
+    # my own solution with bug fixed
     def countOfAtoms(self, formula):
         """
         :type formula: str
         :rtype: str
         """
+        stack = []
+        i, element = 0, ''
+        count = defaultdict(int)
+        while i < len(formula):
+            c = formula[i]
+            if 64 < ord(c) < 91:
+                # this is an upper case letter, start a new element
+                j = i + 1   # end index (exclusive) of the new element
+                while j < len(formula) and 96 <ord(formula[j])< 123:
+                    j += 1
+                element = formula[i:j]  # new element
+                # now search for the number for this elements
+                i = j
+                while j < len(formula) and 47 < ord(formula[j]) < 58:
+                    j += 1
+                # update count map
+                if i == j:
+                    count[element] += 1
+                else:
+                    count[element] += int(formula[i:j])
+                    i = j
+            elif c == '(':
+                # enter a sub formula
+                stack.append(count)
+                count = defaultdict(int)
+                i += 1
+            else: #if c == ')':
+                # exit a sub formula
+                i += 1
+                # get the repeat of the sub formula
+                j = i
+                while j < len(formula) and 47 < ord(formula[j]) < 58:
+                    j += 1
+                repeat = 1
+                if i < j:
+                    repeat = int(formula[i:j])
+                    i = j
+                # apply repeat to current count map
+                for e in count:
+                    count[e] *= repeat
+                # merge with previous count map
+                previous = stack.pop()
+                for p in previous:
+                    if p in count:
+                        count[p] += previous[p]
+                    else:
+                        count[p] = previous[p]
+                # bug fixed: should not push count back to stack
+                #stack.append(count)
+
+        # out of while loop
+        res = ''
+        for e in sorted(count.keys()):
+            res += e
+            if count[e] > 1:
+                res += str(count[e])
         
+        return res
+
+formula = "K4(ON(SO3)2)2"
+print(Solution().countOfAtoms(formula))
+            
