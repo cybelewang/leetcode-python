@@ -25,10 +25,27 @@ Note:
 The length of S will be in the range [1, 1000].
 Each character S[i] will be in the set {'a', 'b', 'c', 'd'}.
 """
+# similar problems: 5 Longest Palindromic Substring; 132 Palindrome Partitioning II; 516 Longest Palindromic Subsequence; 647 Palindromic Substrings
 class Solution:
+    # my own solution by using problem 5, 132, 647's method, but cannot solve the repeating results issue
     def countPalindromicSubsequences(self, S):
         """
         :type S: str
         :rtype: int
         """
-        
+        M, n = 10**9 + 7, len(S)
+        dp = [[0]*n for _ in range(n)]  # dp[i][j] is the number of non-empty palindromic subsequences that starting with S[i] and ending with S[j]
+
+        for i in range(n-1, -1, -1):
+            dp[i][i] = 1
+            for j in range(i+1, n):
+                if S[j] == S[i]:
+                    for p in range(i+1, j):
+                        for q in range(p, j):                            
+                            dp[i][j] = (dp[i][j] + dp[p][q])%M
+                    
+                    dp[i][j] = (dp[i][j] + 1)%M
+        #print(dp)
+        return sum(sum(dp, []))%M
+
+print(Solution().countPalindromicSubsequences('bccb'))

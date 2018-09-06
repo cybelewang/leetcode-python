@@ -21,10 +21,19 @@ Note:
 The number of calls to MyCalendar.book per test case will be at most 1000.
 In calls to MyCalendar.book(start, end), start and end are integers in the range [0, 10^9].
 """
+# my own solution with modified BST
+class TreeNode:
+
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.left = None
+        self.right = None
+
 class MyCalendar:
 
     def __init__(self):
-        
+        self.root = None
 
     def book(self, start, end):
         """
@@ -32,7 +41,33 @@ class MyCalendar:
         :type end: int
         :rtype: bool
         """
+        if not self.root:
+            self.root = TreeNode(start, end)
+            return True
         
+        parent, node = None, self.root
+        while node:
+            if end <= node.start:
+                parent = node
+                node = node.left
+            elif start >= node.end:
+                parent = node
+                node = node.right
+            else:
+                return False
+        
+        if end <= parent.start:
+            parent.left = TreeNode(start, end)
+        else:
+            parent.right = TreeNode(start, end)
+        
+        return True
+
+
+obj = MyCalendar()
+assert(obj.book(10, 20))
+assert(obj.book(15, 25)==False)
+assert(obj.book(20, 30))
 
 
 # Your MyCalendar object will be instantiated and called as such:

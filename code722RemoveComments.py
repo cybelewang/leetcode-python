@@ -62,7 +62,7 @@ There are no single-quote, double-quote, or control characters in the source cod
 """
 # similar problems: 678 Valid Parenthesis String; 224 Basic Calculator; 227 Basic Calculator II; 591 Tag Validator; 439 Ternary Expression Parser; 385 Mini Parser
 class Solution:
-    # my own solution
+    # my own solution with bug fixed
     def removeComments(self, source):
         """
         :type source: List[str]
@@ -85,7 +85,8 @@ class Solution:
                 elif sub == '*/':
                     if blocked:
                         blocked = False
-                    start = i + 2   # reset start index to the position just after '*/'
+                        start = i + 2   # reset start index to the position just after '*/', we do this only if blocked is true, otherwise this may cause bugs
+                    # bug fixed: previously this line was outside of if blocked block. start = i + 2   # reset start index to the position just after '*/'
                     i += 2
                 elif sub == '//':
                     if not blocked:   # '//' will only be valid when left is 0
@@ -104,9 +105,15 @@ class Solution:
 
         return res
                 
-#source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
-source = ["a/*comment", "line", "more_comment*/b"]
-print(Solution().removeComments(source))
+source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
+#source = ["a/*comment", "line", "more_comment*/b"]
+#source = ["void func(int k) {", "// this function does nothing /*", "   k = k*2/4;", "   k = k/2;*/", "}"]
+for s in source:
+    print(s)
+print('---------------------------------------')
+res = Solution().removeComments(source)
+for r in res:
+    print(r)
 
 """
 Input:

@@ -15,11 +15,41 @@ Note:
 
 The boundaries of each input argument are 1 <= left <= right <= 10000.
 """
+from operator import mul
+from functools import reduce
 class Solution:
+    # another brutal force solution by checking if all digits can be divided
     def selfDividingNumbers(self, left, right):
         """
         :type left: int
         :type right: int
         :rtype: List[int]
         """
+        res = []
+        for num in range(left, right+1):
+            digits = [int(c) for c in str(num)] # array of digits
+            if all(digits) and all(map(lambda d: num % d == 0, digits)):
+                res.append(num)
+
+        return res
+    # my own solution using least common multiple
+    def selfDividingNumbers2(self, left, right):
+        """
+        :type left: int
+        :type right: int
+        :rtype: List[int]
+        """
+        res = []
+        for num in range(left, right+1):
+            digits = [int(c) for c in str(num)] # array of digits
+            if digits.count(0) > 0: continue    # excludes numbers with 0
+            lcm = reduce(mul, digits)//reduce(self.gcd, digits) # least common multiple
+            if num % lcm == 0:
+                res.append(num)
         
+        return res
+
+    def gcd(self, x, y):    # greatest common divisor
+        return x if y == 0 else self.gcd(y, x%y)
+
+print(Solution().selfDividingNumbers(1, 22))

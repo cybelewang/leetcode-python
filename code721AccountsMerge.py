@@ -30,24 +30,30 @@ class Solution:
         record, res, index = {}, [], 0
         for account in accounts:
             j = index  # initially set email address's value to the next insertion index
+            n = len(account)
             # now see if email address exists in previous results
-            for i in range(1, len(account)):
+            for i in range(1, n):
                 if account[i] in record:
                     j = record[account[i]]
                     break
             
-            # update email:index map
-            for i in range(1, len(account)):
-                record[account[i]] = j
-            
+            # check if j is smaller than the expected insertion index
             if j < index:
-                res[j].extend(account[1:])
+                # we found a previous record which has one of the email address, add all other email addresses to that record
+                for k in range(1, n):
+                    if account[k] not in record:
+                        res[j].append(account[k])
             else:
+                # no previous record has any email address in this account, just append a new account
                 res.append(account)
                 index += 1
+
+            # put all email addresses into map (j is either previous record, or this insertion index)
+            for k in range(1, n):
+                record[account[k]] = j
 
         return res
 
 accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
-# two johnsmith@mail.com
+# error: duplicated johnsmith@mail.com
 print(Solution().accountsMerge(accounts))
