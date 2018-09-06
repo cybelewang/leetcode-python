@@ -49,4 +49,5 @@ class Solution:
         return res
 
 accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
+# two johnsmith@mail.com
 print(Solution().accountsMerge(accounts))

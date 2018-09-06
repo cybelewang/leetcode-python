@@ -107,3 +107,12 @@ class Solution:
 #source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
 source = ["a/*comment", "line", "more_comment*/b"]
 print(Solution().removeComments(source))
+
+"""
+Input:
+["void func(int k) {", "// this function does nothing /*", "   k = k*2/4;", "   k = k/2;*/", "}"]
+Output:
+["void func(int k) {","   k = k*2/4;","}"]
+Expected:
+["void func(int k) {","   k = k*2/4;","   k = k/2;*/","}"]
+"""

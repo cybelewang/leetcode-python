@@ -43,8 +43,9 @@ class Solution:
         :type k: int
         :rtype: List[ListNode]
         """
-        if not root:
-            return []
+#       wrong corner case: think about root = None, k = 3, we should return [None, None, None]
+#        if not root:
+#            return []
 
         # count the number of nodes
         n, node = 0, root
