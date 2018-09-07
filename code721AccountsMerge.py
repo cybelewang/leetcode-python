@@ -27,7 +27,7 @@ The length of accounts[i][j] will be in the range [1, 30].
 # For easier interoperability between our DSU template, we will map each email to some integer index by using emailToID. 
 # Then, dsu.find(email) will tell us a unique id representing what component that email is in.
 
-For more information on DSU, please look at Approach #2 in the article here. For brevity, the solutions showcased below do not use union-by-rank.
+# For more information on DSU, please look at Approach #2 in the article here. For brevity, the solutions showcased below do not use union-by-rank.
 class DSU:
     def __init__(self):
         self.p = list(range(10001))
@@ -67,7 +67,7 @@ class Solution2:
     # For each account, draw the edge from the first email to all other emails. 
     # Additionally, we'll remember a map from emails to names on the side. 
     # After finding each connected component using a depth-first search, we'll add that to our answer.
-    def accountsMerge2(self, accounts):
+    def accountsMerge(self, accounts):
         em_to_name = {}
         graph = collections.defaultdict(set)
         for acc in accounts:
@@ -96,7 +96,7 @@ class Solution2:
 
 
     # my own solution with map from email to record index
-    # has bugs because I didn't consider the problem as a graph connection problem
+    # has bugs because I didn't consider the problem as a graph connection problem, must use BFS or DFS to connect all of them
     def accountsMerge_WRONG(self, accounts):
         """
         :type accounts: List[List[str]]
@@ -132,4 +132,4 @@ class Solution2:
 # error: duplicated johnsmith@mail.com
 #accounts = [["Alex","Alex5@m.co","Alex4@m.co","Alex0@m.co"],["Ethan","Ethan3@m.co","Ethan3@m.co","Ethan0@m.co"],["Kevin","Kevin4@m.co","Kevin2@m.co","Kevin2@m.co"],["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe2@m.co"],["Gabe","Gabe3@m.co","Gabe4@m.co","Gabe2@m.co"]]
 accounts = [["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
-print(Solution().accountsMerge(accounts))
+print(Solution2().accountsMerge(accounts))
