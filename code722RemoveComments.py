@@ -85,9 +85,11 @@ class Solution:
                 elif sub == '*/':
                     if blocked:
                         blocked = False
+                        # bug fixed: previously this line was outside of if blocked block. start = i + 2   # reset start index to the position just after '*/'
                         start = i + 2   # reset start index to the position just after '*/', we do this only if blocked is true, otherwise this may cause bugs
-                    # bug fixed: previously this line was outside of if blocked block. start = i + 2   # reset start index to the position just after '*/'
-                    i += 2
+                        i += 2
+                    else:   # bug fixed: previously forgot the case when blocked == False and we see "*/", for example source = ["a//*b//*c","blank","d*//e*//f"]  # expected ["a","blank","d*"]
+                        i += 1
                 elif sub == '//':
                     if not blocked:   # '//' will only be valid when left is 0
                         line += s[start:i]  # concatenate previous valid source code
@@ -108,6 +110,7 @@ class Solution:
 source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
 #source = ["a/*comment", "line", "more_comment*/b"]
 #source = ["void func(int k) {", "// this function does nothing /*", "   k = k*2/4;", "   k = k/2;*/", "}"]
+#source = ["a//*b//*c","blank","d*//e*//f"]  # expected ["a","blank","d*"]
 for s in source:
     print(s)
 print('---------------------------------------')
