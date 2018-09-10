@@ -21,6 +21,7 @@ The length of accounts[i] will be in the range [1, 10].
 The length of accounts[i][j] will be in the range [1, 30].
 """
 # similar problems: 684, 685
+# accepted at 7th try!
 
 # Union Find Solution
 # As in Solution2, draw edges between emails if they occur in the same account. 
@@ -61,6 +62,7 @@ class Solution(object):
 
 
 import collections
+from collections import defaultdict, deque
 class Solution2:
 
     # DFS solution
@@ -94,6 +96,38 @@ class Solution2:
                 ans.append([em_to_name[email]] + sorted(component))
         return ans
 
+    # my own BFS solution by referencing to the above DFS solution
+    def accountsMerge2(self, accounts):
+        graph, names = defaultdict(set), {}
+        for account in accounts:
+            n = len(account)
+            e = account[1]
+            names[e] = account[0]
+            for i in range(2, n):
+                graph[e].add(account[i])
+                graph[account[i]].add(e)
+                names[account[i]] = account[0]
+
+        visited, q = set(), deque()
+        res = []
+        for e in names: # bug fixed: should not use graph because in above code graph will not have a record of email if an account has only one email
+            if e in visited:
+                continue
+            q.clear()
+            q.append(e)
+            component = []
+            while q:
+                src = q.popleft()
+                if src not in visited:
+                    visited.add(src)
+                    component.append(src)
+                    for dst in graph[src]:
+                        q.append(dst)
+            
+            res.append([names[e]] + sorted(component))
+
+        return res
+        
 
     # my own solution with map from email to record index
     # has bugs because I didn't consider the problem as a graph connection problem, must use BFS or DFS to connect all of them
@@ -128,8 +162,8 @@ class Solution2:
 
         return res
 
-#accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
+accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
 # error: duplicated johnsmith@mail.com
 #accounts = [["Alex","Alex5@m.co","Alex4@m.co","Alex0@m.co"],["Ethan","Ethan3@m.co","Ethan3@m.co","Ethan0@m.co"],["Kevin","Kevin4@m.co","Kevin2@m.co","Kevin2@m.co"],["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe2@m.co"],["Gabe","Gabe3@m.co","Gabe4@m.co","Gabe2@m.co"]]
-accounts = [["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
-print(Solution2().accountsMerge(accounts))
+#accounts = [["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
+print(Solution2().accountsMerge2(accounts))

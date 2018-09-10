@@ -27,6 +27,8 @@ Note:
 The number of calls to MyCalendarThree.book per test case will be at most 400.
 In calls to MyCalendarThree.book(start, end), start and end are integers in the range [0, 10^9].
 """
+# similar problems: 729 My Calendar I, 731 My Calendar II
+# see C++ solution
 class MyCalendarThree:
 
     def __init__(self):

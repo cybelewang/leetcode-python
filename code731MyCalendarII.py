@@ -27,7 +27,7 @@ Note:
 The number of calls to MyCalendar.book per test case will be at most 1000.
 In calls to MyCalendar.book(start, end), start and end are integers in the range [0, 10^9].
 """
-# similar problems: 729 My Calendar I
+# similar problems: 729 My Calendar I, 732 My Calendar III
 # see C++ solution
 class MyCalendarTwo:
 
