@@ -36,9 +36,38 @@ The length of asteroids will be at most 10000.
 Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 """
 class Solution:
+    # my own solution
+    # divide asteroids into two same-size list: pos and neg. 
+    # pos holds the positive asteroid, or 0 if that position is negative
+    # neg holds the negative asteroid, or 0 if that position is positive
+    # everytime we overlap pos[:sub] and neg[N-sub:], add them element-wise using the rule as describe above
+    # finally we assemble the result by collecting non-zero values left in neg and pos
     def asteroidCollision(self, asteroids):
         """
         :type asteroids: List[int]
         :rtype: List[int]
         """
+        pos, neg = [], []    # asteroids to right, asteroids to left, 0 means that position's asteroid is either empty or moving to opposite direction
+        for num in asteroids:
+            if num > 0:
+                pos.append(num)
+                neg.append(0)
+            else:
+                neg.append(num)
+                pos.append(0)
         
+        N = len(asteroids)
+        for overlap in range(N-1, 0, -1):
+            for i in range(overlap):
+                j = N - overlap + i
+                if pos[i] + neg[j] > 0:
+                    neg[j] = 0
+                elif pos[i] + neg[j] < 0:
+                    pos[i] = 0
+                else:
+                    pos[i], neg[j] = 0, 0
+        
+        return [size for size in neg + pos if size != 0]
+
+a = [1, -1, -1, 1, -1, 1]
+print(Solution().asteroidCollision(a))

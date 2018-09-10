@@ -88,7 +88,7 @@ class Solution2:
 
     # solution 2 from http://www.cnblogs.com/grandyang/p/4341243.html
     def sortColors2(self, nums):
-        i, j, k = 0, 0, len(nums) - 1
+        i, j, k = 0, 0, len(nums) - 1   # i, k are left and right candidate insertion positions, j is the iterator from 0 to n-1
         while j <= k:
             if nums[j] == 0:
                 nums[i], nums[j] = nums[j], nums[i]
@@ -100,6 +100,7 @@ class Solution2:
             
             j += 1
 
+    # smart solution!
     def sortColors_OJBest(self, nums):
         """
         :type nums: List[int]

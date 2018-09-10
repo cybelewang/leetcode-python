@@ -1,4 +1,6 @@
 """
+77 Combinations
+
 Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
 
 For example,
@@ -37,7 +39,29 @@ class Solution(object):
         self._dfs(res, build, 1, k, n)
 
         return res
+# solution on 9/10/2018
+class Solution2:
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        def dfs(n, num, k, build, res):
+            if k == 0:
+                res.append(build[:])
+                return
 
-obj = Solution()
-print(obj.combine(4,1))
+            for i in range(num+1, n+1):
+                build.append(i)
+                dfs(n, i, k-1, build, res)
+                build.pop()
+        
+        build, res = [], []
+        dfs(n, 0, k, build, res)
+
+        return res
+            
+obj = Solution2()
+print(obj.combine(4,2))
         

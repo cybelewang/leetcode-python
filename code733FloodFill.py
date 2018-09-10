@@ -3,7 +3,9 @@ An image is represented by a 2-D array of integers, each integer representing th
 
 Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, "flood fill" the image.
 
-To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, 
+plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. 
+Replace the color of all of the aforementioned pixels with the newColor.
 
 At the end, return the modified image.
 
@@ -23,7 +25,9 @@ The length of image and image[0] will be in the range [1, 50].
 The given starting pixel will satisfy 0 <= sr < image.length and 0 <= sc < image[0].length.
 The value of each color in image[i][j] and newColor will be an integer in [0, 65535].
 """
+from collections import deque
 class Solution:
+    # my own BFS solution
     def floodFill(self, image, sr, sc, newColor):
         """
         :type image: List[List[int]]
@@ -32,4 +36,25 @@ class Solution:
         :type newColor: int
         :rtype: List[List[int]]
         """
+        m, n = len(image), len(image[0])
+
+        q = deque([(sr, sc)])
+        visited, color = set(), image[sr][sc]
+        dirs = [(0, -1), (-1, 0), (0, 1), (1, 0)]
+
+        while q:
+            x, y = q.popleft()
+            image[x][y] = newColor
+            visited.add((x, y))
+            for dx, dy in dirs:
+                i, j = x + dx, y + dy
+                if -1 < i < m and -1 < j < n and image[i][j] == color and (i, j) not in visited:
+                    q.append((i, j))
         
+        return image
+
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1
+sc = 1
+newColor = 2
+print(Solution().floodFill(image, sr, sc, newColor))
