@@ -35,14 +35,38 @@ Note:
 The length of asteroids will be at most 10000.
 Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 """
+# similar problems: 605 Can Place Flowers
 class Solution:
+    # solution 2 from http://www.cnblogs.com/grandyang/p/8035551.html
+    # we use a list "res" to save the result, and iterate all elements in asteroids
+    # the "front line" is the end of "res"
+    def asteroidCollision(self, asteroids):
+        """
+        :type asteroids: List[int]
+        :rtype: List[int]
+        """
+        res, i = [], 0
+        while i < len(asteroids):
+            if asteroids[i] > 0:
+                res.append(asteroids[i])
+            elif not res or res[-1] < 0:
+                res.append(asteroids[i])
+            elif res[-1] <= -asteroids[i]:
+                if res[-1] < -asteroids[i]:
+                    i -= 1
+                res.pop()
+            
+            i += 1
+
+        return res
+
     # my own solution, TLE
     # divide asteroids into two same-size list: pos and neg. 
     # pos holds the positive asteroid, or 0 if that position is negative
     # neg holds the negative asteroid, or 0 if that position is positive
     # everytime we overlap pos[:sub] and neg[N-sub:], add them element-wise using the rule as describe above
     # finally we assemble the result by collecting non-zero values left in neg and pos
-    def asteroidCollision(self, asteroids):
+    def asteroidCollision2(self, asteroids):
         """
         :type asteroids: List[int]
         :rtype: List[int]
