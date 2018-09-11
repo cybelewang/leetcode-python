@@ -36,7 +36,7 @@ The length of asteroids will be at most 10000.
 Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 """
 class Solution:
-    # my own solution
+    # my own solution, TLE
     # divide asteroids into two same-size list: pos and neg. 
     # pos holds the positive asteroid, or 0 if that position is negative
     # neg holds the negative asteroid, or 0 if that position is positive

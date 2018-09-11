@@ -16,6 +16,7 @@ If n = 4 and k = 2, a solution is:
 ]
 
 """
+# great solution https://leetcode.com/problems/combinations/discuss/27024/1-liner-3-liner-4-liner
 class Solution(object):
     def _dfs(self, res, build, i, k, n):
         if len(build) == k:
@@ -40,6 +41,7 @@ class Solution(object):
 
         return res
 # solution on 9/10/2018
+import itertools
 class Solution2:
     def combine(self, n, k):
         """
@@ -61,7 +63,10 @@ class Solution2:
         dfs(n, 0, k, build, res)
 
         return res
+
+    def combine_Library(self, n, k):
+        return list(itertools.combinations(range(1, n+1), k))
             
 obj = Solution2()
-print(obj.combine(4,2))
+print(obj.combine_Library(4,2))
         
