@@ -1,4 +1,6 @@
 """
+90 Subsets II
+
 Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
 
 Note: The solution set must not contain duplicate subsets.
@@ -16,6 +18,7 @@ If nums = [1,2,2], a solution is:
 ]
 
 """
+# similar problems: 78 Subsets; 491 Increasing Subsequences;
 # TODO: try to solve it using problem 491's solution
 class Solution:
     def countLastNumber(self, sub):
@@ -71,6 +74,28 @@ class Solution:
         
         return res
 
-nums = [2]
-obj = Solution()
+# 2nd solution on 9/12/2018, similar to 78 Subset
+class Solution2:
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        def dfs(nums, start, build, res):
+            res.append(build[:])
+            for i in range(start, len(nums)):
+                if i > start and nums[i] == nums[i-1]:  # the difference between this problem and 78 Subsets I
+                    continue
+                build.append(nums[i])
+                dfs(nums, i+1, build, res)
+                build.pop()
+        
+        nums.sort() # after sorting, same numbers must be together
+        res = []
+        dfs(nums, 0, [], res)
+
+        return res
+
+nums = [1,2,2]
+obj = Solution2()
 print(obj.subsetsWithDup(nums))

@@ -1,4 +1,6 @@
 """
+40 Combination Sum II
+
 Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
 
 Each number in C may only be used once in the combination.
@@ -58,5 +60,29 @@ def combinationSum2(candidates, target):
 
     return result
 
+# 2nd round solution on 9/12/2018
+class Solution2:
+    def combinationSum2(self, candidates, target):
+        def dfs(candidates, start, remain, build, res):
+            if remain < 0:
+                return
+            elif remain == 0:
+                res.append(build[:])
+            else:
+                for i in range(start, len(candidates)):
+                    if i > start and candidates[i] == candidates[i-1]:
+                        continue
+
+                    build.append(candidates[i])
+                    dfs(candidates, i + 1, remain - candidates[i], build, res)
+                    build.pop()
+        
+        candidates.sort()
+        res = []
+        dfs(candidates, 0, target, [], res)
+
+        return res
+                    
+
 test = [10, 1, 2, 7, 6, 1, 5]
-print(combinationSum2(test, 8))    
+print(Solution2().combinationSum2(test, 8))    

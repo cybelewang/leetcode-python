@@ -1,4 +1,6 @@
 """
+78 Subsets
+
 Given a set of distinct integers, nums, return all possible subsets.
 
 Note: The solution set must not contain duplicate subsets.
@@ -17,6 +19,7 @@ If nums = [1,2,3], a solution is:
   []
 ]
 """
+# similar problems: 90 Subsets II; 
 class Solution(object):
     def subsets(self, nums):
         """
@@ -45,8 +48,24 @@ class Solution(object):
         
         return res
 
-test_case = [1,2,3,4]
-obj = Solution()
+# 2nd solution on 9/12/2018, see OneNote "DFS" page
+class Solution2:    
+    def subsets(self, nums):
+        nums.sort()
+        res = []
+
+        def dfs(nums, start, build, res):
+            res.append(build[:])
+            for i in range(start, len(nums)):                
+                build.append(nums[i])
+                dfs(nums, i+1, build, res)
+                build.pop()
+
+        dfs(nums, 0, [], res)
+        return res
+
+test_case = [1,2,3]
+obj = Solution2()
 print(obj.subsets(test_case))    
             
 
