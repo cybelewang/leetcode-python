@@ -52,21 +52,21 @@ class Solution2:
     
     # using recursive solution, same as 1st round solution
     def permute_DFS(self, nums):
-        def dfs(nums, selected, build, res):
+        def dfs(nums, used, build, res):
             if len(nums) == len(build):
                 res.append(build[:])
                 return
             for i, num in enumerate(nums):
-                if selected[i]:
+                if used[i]:
                     continue
                 build.append(num)
-                selected[i] = True
-                dfs(nums, selected, build, res)
-                selected[i] = False
+                used[i] = True
+                dfs(nums, used, build, res)
+                used[i] = False
                 build.pop()
     
-        selected, res = [False]*len(nums), []
-        dfs(nums, selected, [], res)
+        used, res = [False]*len(nums), []
+        dfs(nums, used, [], res)
 
         return res
 

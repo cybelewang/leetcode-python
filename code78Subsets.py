@@ -51,7 +51,6 @@ class Solution(object):
 # 2nd solution on 9/12/2018, see OneNote "DFS" page
 class Solution2:    
     def subsets(self, nums):
-        nums.sort()
         res = []
 
         def dfs(nums, start, build, res):
@@ -64,7 +63,7 @@ class Solution2:
         dfs(nums, 0, [], res)
         return res
 
-test_case = [1,2,3]
+test_case = [2,1,3]
 obj = Solution2()
 print(obj.subsets(test_case))    
             

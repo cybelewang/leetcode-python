@@ -57,11 +57,7 @@ class Solution2:
                 return
             
             for i in range(0, len(nums)):
-                if used[i] or (i > 0 
-                and 
-                nums[i] == nums[i-1] 
-                and 
-                not used[i-1]):   # we need to make sure the same values are used in sequence, or nums[i-1] must be in left of nums[i] if they are equal
+                if used[i] or (i > 0 and nums[i] == nums[i-1] and not used[i-1]):   # we need to make sure the same values are used in sequence, or nums[i-1] must be in left of nums[i] if they are equal
                     continue
                 
                 build.append(nums[i])
