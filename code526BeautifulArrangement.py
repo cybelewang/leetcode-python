@@ -1,4 +1,6 @@
 """
+536 Beautiful Arrangement
+
 Suppose you have N integers from 1 to N. We define a beautiful arrangement as an array that is constructed by these N numbers successfully 
 if one of the following is true for the ith position (1 <= i <= N) in this array:
 
@@ -69,4 +71,33 @@ class Solution:
 
         return dfs(nums, used, 1)
 
-print(Solution().countArrangement2(4))
+# 2nd round solution on 9/13/2018
+class Solution2:
+    def countArrangement(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        self.count = 0
+        def helper(N, filled, unused):
+            if not unused:
+                self.count += 1
+                return
+            for i in range(1, N+1):
+                if filled[i]:
+                    continue
+                number = unused.pop()
+                if number % i == 0 or i % number == 0:
+                    filled[i] = True
+                    helper(N, filled, unused)
+                    filled[i] = False
+                unused.append(number)
+        
+        filled = [False]*(1+N)
+        unused = list(range(1, N+1))
+        helper(N, filled, unused)
+
+        return self.count
+                
+
+print(Solution2().countArrangement(4))

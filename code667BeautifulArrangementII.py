@@ -1,4 +1,6 @@
 """
+667 Beautiful Arrangement II
+
 Given two integers n and k, you need to construct a list which contains n different positive integers ranging from 1 to n and obeys the following requirement: 
 Suppose this list is [a1, a2, a3, ... , an], then the list [|a1 - a2|, |a2 - a3|, |a3 - a4|, ... , |an-1 - an|] has exactly k distinct integers.
 
@@ -49,7 +51,7 @@ class Solution:
 
     # help from http://www.cnblogs.com/grandyang/p/7577878.html and my own trial
     # think about how many possible absolute differences? always n - 1
-    # try to form an array with max possible absolute differences: for example n =6, 1, 6, 2, 5, 3, 4, and we found the style is fetch numbers from two ends each time
+    # try to form an array with max possible absolute differences: for example n =6: 1, 6, 2, 5, 3, 4, and we found the style is fetch numbers from two ends each time
     def constructArray_WRONG(self, n, k):
         """
         :type n: int
@@ -72,5 +74,7 @@ class Solution:
 
         return res
 
+# 2nd round on 9/13/2018 - need help
+
 n , k= 6, 4
-print(Solution().constructArray(n, k))
+print(Solution().constructArray_WRONG(n, k))
