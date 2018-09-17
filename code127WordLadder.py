@@ -1,4 +1,6 @@
 """
+127 Word Ladder
+
 Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
 
 Only one letter can be changed at a time.
@@ -69,7 +71,43 @@ class Solution(object):
                     neighbors.append(candidate)
                     wordSet.remove(candidate)
 
-obj = Solution()
+# 2nd round solution on 9/13/2018, bug fixed
+from collections import deque
+class Solution2:
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    def ladderLength(self, beginWord, endWord, wordList):
+        wordSet = set(wordList)        
+
+        q, level = deque([beginWord]), 0
+        while q:
+            print(q)
+            level += 1
+            n = len(q)
+            for _ in range(n):
+                w = q.popleft()
+                if w == endWord:
+                    return level
+                # bug fixed here: we should not remove w from wordSet here, because w may have been removed
+                # take the example in problem description, hot -> [dot, lot1], here dot -> [lot2, dog], lot1 -> [log], here lot1 and lot2 are actually same, just differentiate them
+                # When we processed [dot, lot1], we will remove lot1, but before that dot has already added lot2 into queue, so next time when seeing lot2, it will raise key error  
+                #wordSet.remove(w)    
+
+                chars = list(w)
+                for i in range(len(w)):
+                    origin = chars[i]
+                    for letter in self.letters:
+                        if letter != origin:
+                            chars[i] = letter
+                            transformed = ''.join(chars)
+                            if transformed in wordSet:
+                                q.append(transformed)
+                                wordSet.remove(transformed)
+                            chars[i] = origin
+                
+        return 0
+
+
+obj = Solution2()
 beginWord = "hit"
 endWord = "cog"
 wordList = ["hot","dot","dog","lot","log","cog"]

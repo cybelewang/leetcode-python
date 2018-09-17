@@ -1,4 +1,5 @@
 """
+125 Valid Palindrome
 Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
 For example,
@@ -33,6 +34,8 @@ class Solution:
                     j -= 1
         
         return True
+
+# 2nd round visited
 
 obj = Solution()
 test_cases = ['', 'a', ':', "A man, a plan, a canal: Panama", 'race a car']

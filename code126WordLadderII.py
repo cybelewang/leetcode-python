@@ -1,4 +1,6 @@
 """
+126 Word Ladder II
+
 Given two words (beginWord and endWord), and a dictionary's word list, find all shortest transformation sequence(s) from beginWord to endWord, such that:
 
 Only one letter can be changed at a time
@@ -49,6 +51,7 @@ class Solution(object):
 
         queue = [beginWord]
         while len(queue) > 0:
+            print(queue)
             new_queue = []      # queue for next level
             for word in queue:  # iterate all words in current level queue           
                 steps = ladder[word] + 1    # steps of strings which are next level neighbors of word
@@ -99,6 +102,16 @@ class Solution(object):
             for s in self.link[word]:
                 self.backTrace(s, beginWord, build)
         build.remove(word)
+
+# 2nd round solution on 9/14/2018
+from collections import deque
+class Solution2:
+    letters = map(chr, range(ord('a'), ord('z')+1))
+    def findLadders(self, beginWord, endWord, wordList):
+        wordSet = set(wordList)
+        q = deque([beginWord])
+        build = []
+        
 
 obj = Solution()
 beginWord = "rat"
