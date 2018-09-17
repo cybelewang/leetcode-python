@@ -1,9 +1,11 @@
+"""
+23 Merge K Sorted Lists
+
+Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+"""
 from ListNode import *
 from BinaryHeap import MinHeap
 
-"""
-Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
-"""
 def mergeKLists(lists):
     """
     Divide and Conquer solution

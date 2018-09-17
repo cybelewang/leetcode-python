@@ -64,5 +64,7 @@ def generateParenthesis(n):
     return result
 """
 
+# 2nd revisit on 9/17/2018
+
 res = generateParenthesis(3)
 print(res)
