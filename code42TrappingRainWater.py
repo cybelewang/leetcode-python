@@ -1,4 +1,6 @@
 """
+42 Trapping Rain Water
+
 Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
 
 For example, 
@@ -43,7 +45,25 @@ def trap2(height):
 
     return result
 
+# 2nd round solution on 9/18/2018
+def trap3(height):
+    if len(height) < 3:
+        return 0
+
+    i, j = 0, len(height)-1
+    plank, res = 0, 0
+    while i <= j:
+        plank = max(plank, min(height[i], height[j]))
+        if height[i] < height[j]:
+            res += plank - height[i]
+            i += 1
+        else:
+            res += plank - height[j]
+            j -= 1
+    
+    return res
+
 test_cases = [[], [0, 1, 2, 3], [4, 3, 2, 1], [0, 0, 1, 0, 0], [0,1,0,2,1,0,1,3,2,1,2,1], [1, 2, 3, 4, 5, 0 ,2, 1, 6]]  
 for case in test_cases:
     print(case, end = ' -> ')
-    print(trap(case))                                      
+    print(trap3(case))                                      

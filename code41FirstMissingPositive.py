@@ -1,4 +1,6 @@
 """
+41 First Missing Positive
+
 Given an unsorted integer array, find the first missing positive integer.
 
 For example,
@@ -34,8 +36,23 @@ def firstMissingPositive(nums):
     
     return i + 1
 
+# 2nd round solution on 9/18/2018
+def firstMissingPositive2(nums):
+    n = len(nums)
+    for i in range(n):
+        while 0 < nums[i] < n + 1 and nums[i] != i+1 and nums[nums[i]-1] != nums[i]:
+            j = nums[i] - 1
+            nums[i], nums[j] = nums[j], nums[i]
+    
+    # now check each position's number, see if its value is i + 1
+    for i in range(n):
+        if nums[i] != i + 1:
+            return i + 1
+    
+    return n+1
+
 test_cases = [[], [1], [1, 2, 0], [3, 4, -1, 1], [2, 2, 2, 2, 2]]
 
 for case in test_cases:
     print(case, end = ' -> ')
-    print(firstMissingPositive(case))
+    print(firstMissingPositive2(case))

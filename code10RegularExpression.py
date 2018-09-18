@@ -47,6 +47,7 @@ p = "mis*is*p*."
 Output: false
 
 """
+# similar problems: 44 Wildcard Matching
 def isMatch(s, p):
     """
     :type s: str

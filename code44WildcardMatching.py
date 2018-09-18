@@ -1,4 +1,6 @@
 """
+44 Wildcard Matching
+
 Implement wildcard pattern matching with support for '?' and '*'.
 
 '?' Matches any single character.
@@ -18,6 +20,7 @@ isMatch("aa", "a*") → true
 isMatch("ab", "?*") → true
 isMatch("aab", "c*a*b") → false
 """
+# similar problems: 10 Regular Expression
 def isMatch(s, p):
     """
     :type s: str
