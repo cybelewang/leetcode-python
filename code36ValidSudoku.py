@@ -1,4 +1,6 @@
 """
+36 Valid Sodoku
+
 Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
 http://sudoku.com.au/TheRules.aspx
 
