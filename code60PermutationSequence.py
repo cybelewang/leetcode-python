@@ -1,4 +1,6 @@
 """
+60 Permutation Sequence
+
 The set [1,2,3,…,n] contains a total of n! unique permutations.
 
 By listing and labeling all of the permutations in order,
@@ -37,7 +39,22 @@ class Solution(object):
         
         return res
 
-obj = Solution()
+# 2nd round solution on 9/19/2018
+class Solution2:
+    fact = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880] # factor of 0 to 9
+    def getPermutation(self, n, k):
+        k -= 1
+        candidates = list(range(1, n+1))
+        res = ''
+        for i in range(1, n+1):
+            index = k // self.fact[n-i]
+            k %= self.fact[n-i]
+            res += str(candidates[index])
+            candidates.pop(index)
+        
+        return res
+
+obj = Solution2()
 n = 3
 for i in range(obj.fact[n]):
     print(obj.getPermutation(n,i + 1))

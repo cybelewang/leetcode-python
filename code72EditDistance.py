@@ -1,4 +1,6 @@
 """
+72 Edit Distance
+
 Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
 
 You have the following 3 operations permitted on a word:
@@ -38,7 +40,31 @@ class Solution(object):
         
         return dist[m][n]
 
-test_cases = [(None, None), ('',''), ('', 'a'), ('a','a'), ('abcd', 'abd'), ('cd','abcd'), ('a', 'bac')]
+# 2nd round solution on 9/19/2018
+class Solution2:
+    def minDistance(self, word1, word2):
+        m, n = len(word1), len(word2)
+        dp = [[0]*(n+1) for _ in range(m+1)]
+
+        for j in range(1, n+1):
+            dp[0][j] = j
+        
+        for i in range(1, m+1):
+            dp[i][0] = i
+        
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                if word1[i-1] == word2[j-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                else:
+                    dp[i][j] = dp[i-1][j-1] + 1
+
+                dp[i][j] = min(dp[i][j], dp[i-1][j] + 1)    # insert a character on word1
+                dp[i][j] = min(dp[i][j], dp[i][j-1] + 1)    # delete a character on word1
+        
+        return dp[m][n]
+
+test_cases = [('',''), ('', 'a'), ('a','a'), ('abcd', 'abd'), ('cd','abcd'), ('a', 'bac')]
 obj = Solution()
 for case in test_cases:
     print(case[0], end = '->')

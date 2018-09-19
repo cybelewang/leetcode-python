@@ -1,4 +1,6 @@
 """
+71 Simplify Path
+
 Given an absolute path for a file (Unix-style), simplify it.
 
 For example,

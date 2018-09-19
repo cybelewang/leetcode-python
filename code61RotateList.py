@@ -1,5 +1,6 @@
-from ListNode import *
 """
+61 Rotate List
+
 Given a list, rotate the list to the right by k places, where k is non-negative.
 
 For example:
@@ -11,7 +12,7 @@ return 4->5->1->2->3->NULL.
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution(object):
     def rotateRight(self, head, k):
         """
