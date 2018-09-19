@@ -1,4 +1,6 @@
 """
+53 Maximum Subarray
+
 Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
 
 For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
@@ -29,7 +31,19 @@ class Solution(object):
 
         return res
 
-obj = Solution()
+# 2nd round solution on 9/18/2018
+class Solution2:
+    def maxSubArray(self, nums):
+        res, curSum = -2**31, 0
+        for num in nums:
+            curSum += num
+            res = max(res, curSum)
+            if curSum < 0:
+                curSum = 0
+
+        return res
+
+obj = Solution2()
 test_cases = [[], [-199], [-1,-2,-3,-4,-5], [-2,1,-3,4,-1,2,1,-5,4]]
 for case in test_cases:
     print(case, end = ' => ')
