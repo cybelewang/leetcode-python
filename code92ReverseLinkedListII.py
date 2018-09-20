@@ -1,5 +1,6 @@
-from ListNode import *
 """
+92 Reverse Linked List II
+
 Reverse a linked list from position m to n. Do it in-place and in one-pass.
 
 For example:
@@ -11,6 +12,7 @@ Note:
 Given m, n satisfy the following condition:
 1 ≤ m ≤ n ≤ length of list.
 """
+from ListNode import *
 class Solution:
     def reverseBetween(self, head, m, n):
         """

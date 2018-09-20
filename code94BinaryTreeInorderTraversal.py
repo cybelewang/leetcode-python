@@ -1,5 +1,5 @@
-from TreeNode import *
 """
+94 Binary Tree Inorder Traversal
 Given a binary tree, return the inorder traversal of its nodes' values.
 
 For example:
@@ -13,6 +13,7 @@ return [1,3,2].
 
 Note: Recursive solution is trivial, could you do it iteratively?
 """
+from TreeNode import *
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):

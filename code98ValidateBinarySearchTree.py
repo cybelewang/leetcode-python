@@ -1,5 +1,6 @@
-from TreeNode import *
 """
+98 Validate Binary Search Tree
+
 Given a binary tree, determine if it is a valid binary search tree (BST).
 
 Assume a BST is defined as follows:
@@ -24,7 +25,7 @@ Binary tree [1,2,3], return false.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 # What's the result if root is None?
 class Solution:
     def isValidBST(self, root):
@@ -57,7 +58,21 @@ class Solution:
                 res = res and self._isValid(root.right, max(minLimit, root.val), maxLimit)
             return res
 
-obj = Solution()
+# 2nd round solution on 9/20/2018
+class Solution2:
+    def isValidBST(self, root):
+        def valid(root, lower, upper):
+            if not root:
+                return True
+
+            if lower < root.val < upper:
+                return valid(root.left, lower, root.val) and valid(root.right, root.val, upper)
+            else:
+                return False
+
+        return valid(root, -2**31-1, 2**31)
+
+obj = Solution2()
 test_cases = [[], [1], [1, 2, 3], [2, 1, 3], [5, 2, 9, 1, 6, 7, 10]] 
 for case in test_cases:
     test_tree = ListToTree(case)

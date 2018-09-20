@@ -1,5 +1,6 @@
-from TreeNode import *
 """
+102 Binary Tree Level Order Traversal
+
 Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
 
 For example:
@@ -22,7 +23,7 @@ return its level order traversal as:
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
     def levelOrder(self, root):
         """

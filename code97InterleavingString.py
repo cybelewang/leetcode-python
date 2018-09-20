@@ -1,4 +1,6 @@
 """
+97 Interleaving String
+
 Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
 
 For example,
@@ -10,7 +12,7 @@ When s3 = "aadbbcbcac", return true.
 When s3 = "aadbbbaccc", return false.
 """
 class Solution:
-    # DP solution with dimension of len(s1) x len(s3)
+    # DP solution with dimension of len(s1) x len(s2)
     def isInterleave(self, s1, s2, s3):
         """
         :type s1: str
@@ -75,9 +77,23 @@ class Solution:
 
         return dp[m][p]
 
+# 2nd round solution on 9/20/2018
+# recursive solution
+class Solution2:
+    def isInterleave(self, s1, s2, s3):
+        if len(s1) + len(s2) != len(s3):
+            return False
+        
+        if not s1:
+            return s2 == s3
+        
+        if not s2:
+            return s1 == s3
+        
+        return (s1[0] == s3[0] and self.isInterleave(s1[1:], s2, s3[1:])) or (s2[0] == s3[0] and self.isInterleave(s1, s2[1:], s3[1:]))
 
 test_cases = [('','',''), ('','a','a'), ('','a','b'), ('a','b','c'), ('a','b','ba'),('a','b','ab'),('aabcc','dbbca', 'aadbbcbcac'),('aabcc','dbbca', 'aadbbbaccc')]
-obj = Solution()
+obj = Solution2()
 for case in test_cases:
     print(', '.join(case), end = ' => ')
     print(obj.isInterleave(case[0], case[1], case[2]))

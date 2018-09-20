@@ -1,5 +1,6 @@
-from TreeNode import *
 """
+103 Binary Tree Zigzag Level Order Traversal
+
 Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
 
 For example:
@@ -22,7 +23,7 @@ return its zigzag level order traversal as:
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
     def zigzagLevelOrder(self, root):
         """

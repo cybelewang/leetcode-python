@@ -13,6 +13,7 @@ For example,
 Given heights = [2,1,5,6,2,3],
 return 10.
 """
+# similar problems: 42 Trapping Rain Water
 class Solution(object):
     def largestRectangleArea(self, heights):
         """
@@ -20,19 +21,22 @@ class Solution(object):
         :rtype: int
         """
         maxArea = 0
-        hist = []
+        hist = []   # a stack that holds indices with values in ascending order
 
         i = 0
         while i < len(heights):
             if not hist or heights[hist[-1]] <= heights[i]:
                 hist.append(i)
+                #print('append ' + str(heights[i]) + ' at '+ str(i))
                 i += 1
-            else:
+            else:   # if last value in stack is greater than current one, pop it out and calculate the corresponding area
+                #print('pop ' + str(heights[hist[-1]]) + ' at ' + str(hist[-1]), end = None)
                 h = heights[hist.pop()]
                 if not hist:
                     w = i
                 else:
                     w = i - 1 - hist[-1]
+                #print(', h = ' + str(h), ', w = ' + str(w), ', area = ' + str(h*w))
                 maxArea = max(h*w, maxArea)
         
         while hist:
@@ -45,6 +49,9 @@ class Solution(object):
         
         return maxArea
 
-test_case = [1,0, 1,0,1]
+# 2nd visit on 9/20/2018, cannot work it out
+
+test_case = [2, 1, 5, 6, 2, 3]
+#test_case = [1,0, 1,0,1]
 obj = Solution()
 print(obj.largestRectangleArea(test_case))

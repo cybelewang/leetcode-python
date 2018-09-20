@@ -1,4 +1,6 @@
 """
+85 Maximal Rectangle, Maximum Rectangle
+
 Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
 
 For example, given the following matrix:
@@ -72,6 +74,8 @@ class Solution(object):
             maxArea = max(maxArea, self.largestRectangleArea(height))
 
         return maxArea
+
+# 2nd visit on 9/20/2018
 
 obj = Solution()
 test_matrix = [["0","0","0"],["0","0","0"],["1","1","1"]]

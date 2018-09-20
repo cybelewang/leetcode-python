@@ -1,5 +1,6 @@
-from TreeNode import *
 """
+99 Recover Binary Search Tree
+
 Two elements of a binary search tree (BST) are swapped by mistake.
 
 Recover the tree without changing its structure.
@@ -13,7 +14,7 @@ A solution using O(n) space is pretty straight forward. Could you devise a const
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 # Use Morris inorder traversal to get the O(1) space solution. 
 class Solution:
     def recoverTree(self, root):

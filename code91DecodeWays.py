@@ -1,4 +1,6 @@
 """
+91 Decode Ways
+
 A message containing letters from A-Z is being encoded to numbers using the following mapping:
 
 'A' -> 1
@@ -77,8 +79,25 @@ class Solution:
         
         return cur
 
+# 2nd round solution on 9/20/2018
+# is the result for '' 0 or 1?
+class Solution2:
+    def numDecodings(self, s):
+        # create a lookup table
+        table = {str(num):1 for num in range(1,27)} # for 1 to 26, they only have 1 way
+        n = len(s)
+        dp = [0]*(n+1)
+        dp[0] = 1
+        for i in range(1, n+1):
+            if s[i-1:i] in table:
+                dp[i] = dp[i-1]
+            if i > 1 and s[i-2:i] in table:
+                dp[i] += dp[i-2]
+
+        return dp[n]
+
 test_cases = ['', '0', '01', '1', '10', '12', '123', '1203', '1020', '1111']
-obj = Solution()
+obj = Solution2()
 for case in test_cases:
     print(case, end = ' -> ')
     print(obj.numDecodings(case))

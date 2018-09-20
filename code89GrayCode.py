@@ -1,4 +1,6 @@
 """
+89 Gray Code
+
 The gray code is a binary numeral system where two successive values differ in only one bit.
 
 Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.
@@ -33,6 +35,7 @@ class Solution:
                 res.append(res[j] + factor)
         
         return res
+# 2nd visit on 9/20/2018, cannot work it out
 
 obj = Solution()
 print(obj.grayCode(4))
