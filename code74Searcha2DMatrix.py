@@ -65,6 +65,7 @@ class Solution2:
         m = len(matrix)
         if m < 1:   return False
         n = len(matrix[0])
+        if n < 1:   return False
 
         top, bottom = 0, m
         while top < bottom:

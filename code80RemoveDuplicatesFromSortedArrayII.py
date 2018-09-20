@@ -31,6 +31,25 @@ class Solution(object):
 
         return i
 
+# 2nd round solution on 9/19/2018
+class Solution2:
+    def removeDuplicates(self, nums):
+        n = len(nums)
+        if n < 3:   return n
+        last, count, insert = nums[0], 1, 1
+        for i in range(1, n):
+            if nums[i] == last:
+                if count < 2:
+                    count += 1
+                    nums[insert] = nums[i]
+                    insert += 1
+            else:
+                nums[insert] = nums[i]
+                insert += 1
+                last, count = nums[i], 1
+
+        return insert
+
 test_cases = [[],[1],[1,1],[1,1,1],[1,1,1,2,2,3],[1,1,1,2,2,2,2,2],[1,1,2,2,3,3,3,3]]
 obj = Solution()
 for case in test_cases:

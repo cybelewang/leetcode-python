@@ -1,5 +1,6 @@
-from ListNode import *
 """
+82 Remove Duplicates from Sorted List II
+
 Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
 
 For example,
@@ -14,7 +15,7 @@ Given 1->1->1->2->3, return 2->3.
 
 # The basic idea is to use a temporary node to save the "candidate" ListNode on the first time seeing a different value. 
 # Then we set this temporary node to None if duplicated num is seen. The next time we see a different value node, we will check this temporary node, if it is not None, we will link it.
-
+from ListNode import *
 class Solution(object):
     def deleteDuplicates(self, head):
         """
