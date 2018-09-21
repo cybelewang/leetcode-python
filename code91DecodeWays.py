@@ -83,6 +83,7 @@ class Solution:
 # is the result for '' 0 or 1?
 class Solution2:
     def numDecodings(self, s):
+        if not s: return 0
         # create a lookup table
         table = {str(num):1 for num in range(1,27)} # for 1 to 26, they only have 1 way
         n = len(s)
