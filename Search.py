@@ -1,7 +1,7 @@
 class BinarySearch:
 
     # applied to problems: 349
-    def findExact(nums, target):
+    def findExact(self, nums, target):
         """
         input nums is a sorted array
         find the index of target in nums
@@ -20,7 +20,7 @@ class BinarySearch:
         return -1
     
     # applied to problems: Heaters， Arranging Coins， Valid Perfect Square，Max Sum of Rectangle No Larger Than K，Russian Doll Envelopes, Valid Triangle Number
-    def lower_bound(nums, target):
+    def lower_bound(self, nums, target):
         """
         similar to C++'s lower_bound
         input nums is a sorted array
@@ -37,7 +37,7 @@ class BinarySearch:
         return right
 
     # applied to problems: Kth Smallest Element in a Sorted Matrix, Sqrt(x)
-    def upper_bound(nums, target):
+    def upper_bound(self, nums, target):
         """
         similar to C++'s upper_bound
         input nums is a sorted array
@@ -56,7 +56,7 @@ class BinarySearch:
 A = list(range(5))
 print(A, sep=' ')
 
-def BinarySearch(A, value):
+def BinarySearch2(A, value):
     l = 0
     r = len(A) - 1
     while l <= r:
@@ -69,4 +69,4 @@ def BinarySearch(A, value):
             r = mid - 1
     return -1
 
-print("The index of 1 is {}",BinarySearch(A, 1))
+print("The index of 1 is {0}".format(BinarySearch2(A, 1)))
