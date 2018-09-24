@@ -1,4 +1,6 @@
 """
+313 Super Ugly Number
+
 Write a program to find the nth super ugly number.
 
 Super ugly numbers are positive numbers whose all prime factors are in the given prime list primes of size k. 
