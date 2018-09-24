@@ -1,4 +1,6 @@
 """
+396 Rotate Function
+
 Given an array of integers A and let n to be its length.
 
 Assume B_k to be an array obtained by rotating the array A k positions clock-wise, we define a "rotation function" F on A as follow:
