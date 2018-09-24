@@ -1,4 +1,6 @@
 """
+466 Count The Repetitions
+
 Define S = [s,n] as the string S which consists of n connected strings s. For example, ["abc", 3] ="abcabcabc".
 
 On the other hand, we define that string s1 can be obtained from string s2 if we can remove some characters from s2 such that it becomes s1. 
