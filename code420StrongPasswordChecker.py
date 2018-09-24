@@ -1,4 +1,6 @@
 """
+420 Strong Password Checker
+
 A password is considered strong if below conditions are all met:
 
 It has at least 6 characters and at most 20 characters.
