@@ -1,4 +1,5 @@
 """
+668 Kth Smallest Number in Multiplication Table
 
 Nearly every one have used the Multiplication Table. But could you find out the k-th smallest number quickly from the multiplication table?
 

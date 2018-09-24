@@ -1,4 +1,6 @@
 """
+636 Exclusive Time of Functions
+
 Given the running logs of n functions that are executed in a nonpreemptive single threaded CPU, find the exclusive time of these functions.
 
 Each function has a unique id, start from 0 to n-1. A function may be called recursively or by another function.

@@ -1,4 +1,6 @@
 """
+664 Strange Printer
+
 There is a strange printer with the following two special requirements:
 
 The printer can only print a sequence of the same character each time.

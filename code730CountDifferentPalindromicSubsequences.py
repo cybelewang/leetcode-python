@@ -1,4 +1,6 @@
 """
+730 Count Different Palindromic Subsequences
+
 Given a string S, find the number of different non-empty palindromic subsequences in S, and return that number modulo 10^9 + 7.
 
 A subsequence of a string S is obtained by deleting 0 or more characters from S.

@@ -1,4 +1,6 @@
 """
+650 2 Keys Keyboard
+
 Initially on a notepad only one character 'A' is present. You can perform two operations on this notepad for each step:
 
 Copy All: You can copy all the characters present on the notepad (partial copy is not allowed).

@@ -1,4 +1,6 @@
 """
+676 Implement Magic Dictionary
+
 Implement a magic directory with buildDict, and search methods.
 
 For the method buildDict, you'll be given a list of non-repetitive words to build a dictionary.

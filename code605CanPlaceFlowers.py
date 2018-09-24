@@ -1,4 +1,6 @@
 """
+605 Can Place Flowers
+
 Suppose you have a long flowerbed in which some of the plots are planted and some are not. 
 However, flowers cannot be planted in adjacent plots - they would compete for water and both would die.
 

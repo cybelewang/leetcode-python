@@ -1,4 +1,6 @@
 """
+689 Maximum Sum of 3 Non-Overlapping Subarrays
+
 In a given array nums of positive integers, find three non-overlapping subarrays with maximum sum.
 
 Each subarray will be of size k, and we want to maximize the sum of all 3*k entries.

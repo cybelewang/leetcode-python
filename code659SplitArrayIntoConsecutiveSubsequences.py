@@ -1,4 +1,6 @@
 """
+659 Split Array into Consecutive Subsequences
+
 You are given an integer array sorted in ascending order (may contain duplicates), you need to split them into several subsequences, 
 where each subsequences consist of at least 3 consecutive integers. Return whether you can make such a split.
 

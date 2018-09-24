@@ -1,4 +1,6 @@
 """
+677 Map Sum Pairs
+
 Implement a MapSum class with insert, and sum methods.
 
 For the method insert, you'll be given a pair of (string, integer). The string represents the key and the integer represents the value. 

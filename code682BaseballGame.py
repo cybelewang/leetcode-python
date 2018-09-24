@@ -1,4 +1,6 @@
 """
+682 Baseball Game
+
 You're now a baseball game point recorder.
 
 Given a list of strings, each string can be one of the 4 following types:
