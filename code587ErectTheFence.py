@@ -1,4 +1,6 @@
 """
+587 Erect the Fence
+
 
 There are some trees, where each tree is represented by (x,y) coordinate in a two-dimensional garden. 
 Your job is to fence the entire garden using the minimum length of rope as it is expensive. 

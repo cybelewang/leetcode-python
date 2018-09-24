@@ -1,4 +1,6 @@
 """
+553 Optimal Division
+
 Given a list of positive integers, the adjacent integers will perform the float division. For example, [2,3,4] -> 2 / 3 / 4.
 
 However, you can add any number of parenthesis at any position to change the priority of operations. 

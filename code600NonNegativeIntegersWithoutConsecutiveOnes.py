@@ -1,4 +1,6 @@
 """
+600 Non-negative Integers without Consecutive Ones
+
 Given a positive integer n, find the number of non-negative integers less than or equal to n, whose binary representations do NOT contain consecutive ones.
 
 Example 1:
