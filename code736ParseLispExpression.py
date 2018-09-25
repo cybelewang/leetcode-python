@@ -52,10 +52,109 @@ The given string expression is well formatted: There are no leading or trailing 
 The length of expression is at most 2000. (It is also non-empty, as that would not be a legal expression.)
 The answer and all intermediate calculations of that answer are guaranteed to fit in a 32-bit integer.
 """
+# similar problems: 224 Basic Calculator, 227 Basic Calculator II, 591 Tag Validator, 640 Solve the Equation, 722 Remove Comments
+# my own recursive solution by splitting expressions to subwords, then evaluate them recursively
+# to shadow the external variable's value, I used a variable map which holds a list of values. When entering an inner expression, we append value for the variable, and pop it when exiting the inner expression
 class Solution:
     def evaluate(self, expression):
         """
         :type expression: str
         :rtype: int
         """
+        variables = {}
+        return self._evaluate(expression, variables)
+
+    def _evaluate(self, expression, variables):
+        """
+        Evaluate current-level expression with variables' values from outside level.
+        To shadow outside same-name variable, we append the local value to the end of the variable's value list, and pop out this value when exiting the function
+        When looking for value of a variable, we always use the last value in the variable's value list
+        """
+        token = self.split(expression)
+        start_word = token[0]
+        local_variables = set()
+        if start_word == 'let':
+            for i in range(1, len(token)-1, 2):
+                # token[i] is variable, token[i+1] is expression
+
+                # evaluate the expression token[i+1]
+                e = self._evaluate(token[i+1], variables)
+                
+                # check if variable token[i] in previous variables map, if so, shadow it by appending the local value
+                v = token[i]
+                if v in variables:
+                    if v in local_variables:    # do not append but update the local value, this is to handle "(lex x 2 x 3 x 4 x)"
+                        variables[v][-1] = e
+                    else:
+                        variables[v].append(e)
+                        local_variables.add(v)
+                else:
+                    variables[v] = [e]
+                    local_variables.add(v)
+
+            # now evaluate the final value of the "let" statement
+            res = self._evaluate(token[-1], variables)
+
+        elif start_word == 'add':    
+            # should have only two expressions
+            res = self._evaluate(token[1], variables) + self._evaluate(token[2], variables)
+        elif start_word == 'mult':
+            res = self._evaluate(token[1], variables) * self._evaluate(token[2], variables)
+        elif start_word in variables:   # assigned variable
+            res = variables[start_word][-1]
+        else:   # must be an integer
+            res = int(start_word)
+
+        # remove local variable's values from variables map
+        for v in local_variables:
+            variables[v].pop()
         
+        return res
+                        
+    def split(self, expression):
+        """
+        split expression by whitespace and form a list, if a substring has parentheses, don't split it
+        example: "(let x 2 (mult x 5))" will be splited to ["let", "x", "2", "(mult x 5)"]
+        example: "x" will be splited to ["x"]
+        intutiton: the left parenthesis count will tell the level, when left_parenthesis_count == 1, and there is a whitespace, it's time to append the substring
+        also don't forget the last substring, which doesn't have a whitespace, but can be triggered by the last ')' or end of expression
+        """
+        left_parenthesis_count = 0
+        token = []
+        start= 0
+        for i, e in enumerate(expression):
+            if e == '(':
+                left_parenthesis_count += 1
+                if left_parenthesis_count == 1: # this is the starting '(' of the whole expression
+                    start = i + 1   # do not include the starting '('
+                elif left_parenthesis_count == 2:   # starts a sub-expression
+                    start = i   # include the starting '('
+            elif e == ')':
+                left_parenthesis_count -= 1
+                """ bug fixed: we don't need to check this condition because only whitespace or the last ')' will cause to append a substring
+                if left_parenthesis_count == 1: # just leave a sub-expression
+                    token.append(expression[start:i+1]) # push back the sub-expression, including the trailing ')'
+                    start = i + 2
+                elif left_parenthesis_count == 0: # this is the end ')' of the whole expression
+                """
+                if left_parenthesis_count == 0: # this is the end ')' of the whole expression
+                    if start < i:   # bug fixed: should always check if the substring is empty
+                        token.append(expression[start:i])   # do not include the end ')'
+                    start = i + 1
+            elif e == ' ' and left_parenthesis_count == 1:  # check if the whitespace is in the first level of expression, if not, do not split
+                token.append(expression[start:i])
+                start = i + 1
+
+        # this will handle the expressions without "()"
+        if start < len(expression):
+            token.append(expression[start:])
+
+        return token
+
+
+expressions = ["(add 1 2)", "(let x 2 (mult x 5))", "(let x 2 (mult x (let x 3 y 4 (add x y))))", "(let x 3 x 2 x)", "(let x 1 y 2 x (add x y) (add x y))", "(let x 2 (add (let x 3 (let x 4 x)) x))", "(let a1 3 b2 (add a1 1) b2)"]
+#expressions = ["(add (let x 3 (let x 4 x)) x)"]
+obj = Solution()
+for expression in expressions:
+    print(expression, end = " = ")
+    print(obj.evaluate(expression))
