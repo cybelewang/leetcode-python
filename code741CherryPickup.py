@@ -29,7 +29,10 @@ grid is an N by N 2D array, with 1 <= N <= 50.
 Each grid[i][j] is an integer in the set {-1, 0, 1}.
 It is guaranteed that grid[0][0] and grid[N-1][N-1] are not -1.
 """
+# similar problems: 64 Minimum Path Sum, 174 Dungeon Game
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/8215787.html
+    # see C++ solution
     def cherryPickup(self, grid):
         """
         :type grid: List[List[int]]
