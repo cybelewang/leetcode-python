@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-"""
-743 Network Delay Time
-
-There are N network nodes, labelled 1 to N.
-
-Given times, a list of travel times as directed edges times[i] = (u, v, w), where u is the source node, v is the target node, and w is the time it takes for a signal to travel from source to target.
-
-Now, we send a signal from a certain node K. How long will it take for all nodes to receive the signal? If it is impossible, return -1.
-
-Note:
-N will be in the range [1, 100].
-K will be in the range [1, N].
-The length of times will be in the range [1, 6000].
-All edges times[i] = (u, v, w) will have 1 <= u, v <= N and 1 <= w <= 100.
-"""
-class Solution:
-    def networkDelayTime(self, times, N, K):
-        """
-        :type times: List[List[int]]
-        :type N: int
-        :type K: int
-        :rtype: int
-        """
-        
-=======
 """
 743 Network Delay Time
 
@@ -59,19 +33,21 @@ class Solution:
         remains, t = N, 0
         while q and remains:
             t, src = heappop(q)
+            if visited[src]:    # bug 1 fixed: we should check visited[src] because it may have been visited before, see times=[[1,2,1],[2,3,7],[1,3,4],[2,1,2]], N=4, K=1
+                continue
             visited[src] = True
             remains -= 1
             for dst, time in graph[src]:
                 if not visited[dst]:
                     heappush(q, (t+time, dst))
-                    # bug fixed: below commented codes should not be here
+                    # bug 2 fixed: below commented codes should not be here
                     # visited[src] = True
                     # remains -= 1
         return -1 if remains else t
 
-times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
+#times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
 #times = [[1,2,1],[2,3,1],[3,1,1]]
 #times = [[1, 2, 1]]
+times = [[1,2,1],[2,3,7],[1,3,4],[2,1,2]]
 obj = Solution()
-print(obj.networkDelayTime(times, 3, 1))
->>>>>>> 70ec95d434a51ef695e1c198b8eacc8a541c4008
+print(obj.networkDelayTime(times, 4, 1))

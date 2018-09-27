@@ -40,6 +40,7 @@ letters has a length in range [2, 10000].
 letters consists of lowercase letters, and contains at least 2 unique letters.
 target is a lowercase letter.
 """
+from bisect import bisect_right
 class Solution:
     def nextGreatestLetter(self, letters, target):
         """
@@ -47,4 +48,9 @@ class Solution:
         :type target: str
         :rtype: str
         """
+        return letters[(bisect_right(letters, target)%len(letters))]
+
+letters = ["c", "f", "j"]
+target = "j"
+print(Solution().nextGreatestLetter(letters, target))
         

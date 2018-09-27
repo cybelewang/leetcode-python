@@ -25,14 +25,32 @@ Note:
 The length of nums is at most 20000.
 Each element nums[i] is an integer in the range [1, 10000].
 """
+# similar problems: 198 House Robber
 from collections import Counter
 class Solution:
-    # my own solution using DP
+    # https://leetcode.com/problems/delete-and-earn/solution/
+    def deleteAndEarn(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        count = Counter(nums)
+        prev = None
+        avoid = using = 0
+        for k in sorted(count):
+            if k - 1 != prev:
+                avoid, using = max(avoid, using), k * count[k] + max(avoid, using)
+            else:
+                avoid, using = max(avoid, using), k * count[k] + avoid
+            prev = k
+        return max(avoid, using)
+        
+    # my own solution using DP, wrong solution, see nums = [1,1,1,2,4,5,5,5,6] with expected result 18
     # to handle duplicated numbers, we convert nums to unique sorted numbers list, and use a counter map to record the repetition of the number
     # dp[i] is the points earned when using nums[i] as the last delete number
     # if nums[i-1] < nums[i] - 1, we can add dp[i-1]
     # if nums[i-1] == nums[i] - 1, we should skip dp[i-1] and use dp[i-2]
-    def deleteAndEarn(self, nums):
+    def deleteAndEarn2(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -53,7 +71,7 @@ class Solution:
 
         return res
 
-test_nums = [[], [1,2,1], [3,4,2], [2, 2, 3, 3, 3, 4], [1, 3, 5, 7, 9]]
+test_nums = [[], [1,2,1], [3,4,2], [2, 2, 3, 3, 3, 4], [1, 3, 5, 7, 9], [1,1,1,2,4,5,5,5,6]]
 obj = Solution()
 for nums in test_nums:
     print(obj.deleteAndEarn(nums))
