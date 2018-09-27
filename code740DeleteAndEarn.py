@@ -25,10 +25,35 @@ Note:
 The length of nums is at most 20000.
 Each element nums[i] is an integer in the range [1, 10000].
 """
+from collections import Counter
 class Solution:
+    # my own solution using DP
+    # to handle duplicated numbers, we convert nums to unique sorted numbers list, and use a counter map to record the repetition of the number
+    # dp[i] is the points earned when using nums[i] as the last delete number
+    # if nums[i-1] < nums[i] - 1, we can add dp[i-1]
+    # if nums[i-1] == nums[i] - 1, we should skip dp[i-1] and use dp[i-2]
     def deleteAndEarn(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
+        count = Counter(nums)
+        sort_nums = sorted(count.keys())
+        n = len(sort_nums)
+
+        res, dp = 0, [0]*n
+        for i, num in enumerate(sort_nums):
+            dp[i] = num*count[num]
+            if i > 0 and sort_nums[i-1] < num - 1:
+                dp[i] += dp[i-1]
+            elif i > 1 and sort_nums[i-1] == num - 1:
+                dp[i] += dp[i-2]
         
+            res = max(res, dp[i])
+
+        return res
+
+test_nums = [[], [1,2,1], [3,4,2], [2, 2, 3, 3, 3, 4], [1, 3, 5, 7, 9]]
+obj = Solution()
+for nums in test_nums:
+    print(obj.deleteAndEarn(nums))
