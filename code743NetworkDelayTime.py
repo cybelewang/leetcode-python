@@ -13,9 +13,12 @@ K will be in the range [1, N].
 The length of times will be in the range [1, 6000].
 All edges times[i] = (u, v, w) will have 1 <= u, v <= N and 1 <= w <= 100.
 """
-from heapq import heappush, heappop
-from collections import defaultdict
+# tags: Dijkstra
+# Dijkstra Algorithm - single source shortest-path tree algorithm
+from heapq import heapify, heappush, heappop
+from collections import defaultdict, deque
 class Solution:
+    # my own solution with BFS and priority queue
     def networkDelayTime(self, times, N, K):
         """
         :type times: List[List[int]]
@@ -45,9 +48,35 @@ class Solution:
                     # remains -= 1
         return -1 if remains else t
 
-#times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
+    # Dijkstra solution with O(V^2) time complexity, V is the number of nodes
+    # This will produce a shortest path tree (dist in this program) and each one represents the shortest path from the source
+    def networkDelayTime_Dijkstra(self, times, N, K):
+        INT_MAX = 2**31
+
+        # dist[i] is the shortest distance from source to node i, initially set to INT_MAX except the source node
+        dist = [INT_MAX]*(N+1)
+        dist[0] = dist[K] = 0   # node 0 is a dummy node
+
+        # priority queue to be used in BFS to extract node with minimum weight
+        q = [(dist[v], v) for v in range(1, N+1)]
+        heapify(q)
+
+        # create an adjacency matrix to represent the graph, to save space, we use nested dict
+        edges = defaultdict(dict)
+        for u, v, w in times:
+            edges[u][v] = w
+
+        while q:
+            _, u = heappop(q)
+            for v in edges[u]:
+                dist[v] = min(dist[v], dist[u] + edges[u][v])
+      
+        res = max(dist)
+        return -1 if res == INT_MAX else res
+
+times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
 #times = [[1,2,1],[2,3,1],[3,1,1]]
 #times = [[1, 2, 1]]
-times = [[1,2,1],[2,3,7],[1,3,4],[2,1,2]]
+#times = [[1,2,1],[2,3,7],[1,3,4],[2,1,2]]
 obj = Solution()
-print(obj.networkDelayTime(times, 4, 1))
+print(obj.networkDelayTime_Dijkstra(times, 3, 1))

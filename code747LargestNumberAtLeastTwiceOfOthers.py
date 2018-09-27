@@ -33,4 +33,23 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
+        n = len(nums)
+        if n < 2:
+            return -1
         
+        # top1, top2 are indices of largest and 2nd largest number in nums
+        top1 = 0 if nums[0] > nums[1] else 1
+        top2 = 0 if nums[0] < nums[1] else 1
+
+        for i in range(2, n):
+            if nums[i] > nums[top1]:
+                top1, top2 = i, top1
+            elif nums[i] > nums[top2]:
+                top2 = i
+        
+        return top1 if nums[top1] >= 2*nums[top2] else -1
+
+test_nums = [[3, 6, 1, 0], [1, 2, 3, 4], [2, 1,1,1], [1, 1, 1, 2]]
+obj = Solution()
+for nums in test_nums:
+    print(obj.dominantIndex(nums))

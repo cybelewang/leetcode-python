@@ -18,9 +18,28 @@ cost will have a length in the range [2, 1000].
 Every cost[i] will be an integer in the range [0, 999].
 """
 class Solution:
+    # DP O(1) space solution
     def minCostClimbingStairs(self, cost):
         """
         :type cost: List[int]
         :rtype: int
         """
+        n = len(cost) + 1
+        pre1 = pre2 = 0
+        for i in range(2, n):
+            pre1, pre2 = min(pre1 + cost[i-1], pre2 + cost[i-2]), pre1
         
+        return pre1
+
+    # DP O(n) space solution
+    def minCostClimbingStairs2(self, cost):
+        n = len(cost) + 1
+        dp = [0]*n
+        for i in range(2, n):
+            dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
+        
+        return dp[-1]
+
+cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+obj = Solution()
+print(obj.minCostClimbingStairs2(cost))

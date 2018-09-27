@@ -29,6 +29,7 @@ Each element nums[i] is an integer in the range [1, 10000].
 from collections import Counter
 class Solution:
     # https://leetcode.com/problems/delete-and-earn/solution/
+    # DP solution: avoid is the max points if not deleting the current number, using is the max points if deleting the current number
     def deleteAndEarn(self, nums):
         """
         :type nums: List[int]
@@ -38,9 +39,9 @@ class Solution:
         prev = None
         avoid = using = 0
         for k in sorted(count):
-            if k - 1 != prev:
+            if k - 1 != prev:   # not adjacent
                 avoid, using = max(avoid, using), k * count[k] + max(avoid, using)
-            else:
+            else:   # adjacent
                 avoid, using = max(avoid, using), k * count[k] + avoid
             prev = k
         return max(avoid, using)
@@ -63,9 +64,9 @@ class Solution:
         for i, num in enumerate(sort_nums):
             dp[i] = num*count[num]
             if i > 0 and sort_nums[i-1] < num - 1:
-                dp[i] += dp[i-1]
+                dp[i] += dp[i-1]    # this is wrong because dp[i-2] maybe larger, if sort_nums[i-2] + 1 = sort_nums[i-1]
             elif i > 1 and sort_nums[i-1] == num - 1:
-                dp[i] += dp[i-2]
+                dp[i] += dp[i-2]    # this is wrong because dp[i-3] maybe larger, if sort_nums[i-3] + 1 = sort_nums[i-2]
         
             res = max(res, dp[i])
 
