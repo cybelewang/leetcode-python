@@ -35,7 +35,7 @@ class Solution:
         """
         n = len(nums)
         if n < 2:
-            return -1
+            return 0    # OJ says expected 0, but I doubt it.
         
         # top1, top2 are indices of largest and 2nd largest number in nums
         top1 = 0 if nums[0] > nums[1] else 1

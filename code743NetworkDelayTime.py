@@ -57,26 +57,32 @@ class Solution:
         dist = [INT_MAX]*(N+1)
         dist[0] = dist[K] = 0   # node 0 is a dummy node
 
-        # priority queue to be used in BFS to extract node with minimum weight
-        q = [(dist[v], v) for v in range(1, N+1)]
-        heapify(q)
+        # set of all nodes
+        Q = set(range(1, N+1))
 
         # create an adjacency matrix to represent the graph, to save space, we use nested dict
         edges = defaultdict(dict)
         for u, v, w in times:
             edges[u][v] = w
 
-        while q:
-            _, u = heappop(q)
+        while Q:
+            # find node in Q with minimum dist
+            u = None
+            for node in Q:
+                if u == None or dist[node] < dist[u]:
+                    u = node
+            
+            Q.remove(u) # remove u from Q
             for v in edges[u]:
-                dist[v] = min(dist[v], dist[u] + edges[u][v])
+                dist[v] = min(dist[v], dist[u] + edges[u][v])   # update the shortest path from source to v
       
         res = max(dist)
         return -1 if res == INT_MAX else res
 
-times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
+#times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
 #times = [[1,2,1],[2,3,1],[3,1,1]]
 #times = [[1, 2, 1]]
 #times = [[1,2,1],[2,3,7],[1,3,4],[2,1,2]]
+times = [[1,4,1],[4,3,1],[3,2,1]]
 obj = Solution()
-print(obj.networkDelayTime_Dijkstra(times, 3, 1))
+print(obj.networkDelayTime_Dijkstra(times, 4, 1))
