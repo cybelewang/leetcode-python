@@ -1,5 +1,5 @@
 """
-432 All O`one Data Structure
+432 All O1 Data Structure
 
 Implement a data structure supporting the following operations:
 

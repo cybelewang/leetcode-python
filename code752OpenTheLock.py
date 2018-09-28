@@ -34,6 +34,8 @@ The length of deadends will be in the range [1, 500].
 target will not be in the list deadends.
 Every string in deadends and the string target will be a string of 4 digits from the 10,000 possibilities '0000' to '9999'.
 """
+from functools import reduce
+from collections import deque
 class Solution:
     def openLock(self, deadends, target):
         """
@@ -41,4 +43,56 @@ class Solution:
         :type target: str
         :rtype: int
         """
+        def encode(s):
+            """
+            encode string represented number to a 4-digit integer
+            """
+            return reduce(lambda x, y: 10*x + y, map(lambda c: ord(c) - ord('0'), s))
         
+        def getneighbors(num):
+            """
+            get a list of neighboring numbers with only one digit has a difference of 1
+            """
+            res, factor = [], 1000
+            for _ in range(4):
+                digit = num//factor
+                remain = num - digit*factor
+
+                res.append(((digit + 1)%10)*factor + remain)
+                res.append(((digit - 1 + 10)%10)*factor + remain)
+
+                num %= factor
+                factor //= 10
+
+            return res
+
+        # main
+        deadnums = set(map(encode, deadends))
+        end = encode(target)
+        if end in deadnums:
+            return -1
+
+        visited = [False]*10000
+        q, turns = deque([0]), -1
+        while q:
+            n = len(q)
+            turns += 1
+            for _ in range(n):
+                start = q.popleft()
+                if start == end:
+                    return turns
+                elif visited[start]:
+                    continue
+
+                visited[start] = True
+                for neighbor in getneighbors(start):
+                    if neighbor in deadnums or visited[neighbor]:
+                        continue
+                    q.append(neighbor)
+        
+        return -1
+
+deadends = ["0201","0101","0102","1212","2002"]
+target = "1201"
+obj = Solution()
+print(obj.openLock(deadends, target))            

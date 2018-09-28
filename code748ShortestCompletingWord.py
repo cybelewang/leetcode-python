@@ -27,11 +27,39 @@ licensePlate will contain digits, spaces, or letters (uppercase or lowercase).
 words will have a length in the range [10, 1000].
 Every words[i] will consist of lowercase letters, and have length in range [1, 15].
 """
+# similar problems: 438 Find All Anagrams in a String
+from collections import defaultdict, Counter
 class Solution:
+    # my own solution
+    # using a 32-bit integer to encode the count match: if a letter's count in word[i] is < that letter's count in license plate
     def shortestCompletingWord(self, licensePlate, words):
         """
         :type licensePlate: str
         :type words: List[str]
         :rtype: str
         """
+        count, target = defaultdict(int), 0
+        for char in licensePlate.lower():
+            index = ord(char) - ord('a')            
+            if -1 < index < 26:
+                count[char] += 1
+                target |= (1 << index)
+
+        res = None
+        for word in words:
+            encode, count1 = target, Counter(word)
+            for letter in count:
+                if count1[letter] >= count[letter]:
+                    encode &= ~(1 << (ord(letter) - ord('a')))
+            
+            if encode == 0 and (res == None or len(word) < len(res)):
+                res = word
         
+        return res
+
+#licensePlate = "1s3 PSt"
+#words = ["step", "steps", "stripe", "stepple"]
+licensePlate = "1s3 456"
+words = ["looks", "pest", "stew", "show"]
+obj = Solution()
+print(obj.shortestCompletingWord(licensePlate, words))        
