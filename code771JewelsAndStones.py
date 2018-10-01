@@ -25,4 +25,8 @@ class Solution:
         :type S: str
         :rtype: int
         """
-        
+        return sum(map(lambda x: S.count(x), J))
+
+J = "aA"
+S = "aAAbbbb"
+print(Solution().numJewelsInStones(J, S))

@@ -30,10 +30,20 @@ Note:
 L, R will be integers L <= R in the range [1, 10^6].
 R - L will be at most 10000.
 """
+# similar problems: 191 Number of 1 Bits
 class Solution:
+    # brutal force solution
     def countPrimeSetBits(self, L, R):
         """
         :type L: int
         :type R: int
         :rtype: int
         """
+        primes = set([2, 3, 5, 7, 11, 13, 17, 19])
+        res = 0
+        for num in range(L, R+1):
+            ones = bin(num).count('1')
+            if ones in primes:
+                res += 1
+        
+        return res
