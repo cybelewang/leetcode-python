@@ -36,6 +36,45 @@ Every string in deadends and the string target will be a string of 4 digits from
 """
 from functools import reduce
 from collections import deque
+class Solution_OJBest:
+    def successors(self, src):
+        res = []
+        for i, ch in enumerate(src):
+            num = int(ch)
+            res.append(src[:i] + str((num - 1) % 10) + src[i+1:])
+            res.append(src[:i] + str((num + 1) % 10) + src[i+1:])
+        return res
+    
+    def num_moves(self, target):     
+        ans = 0
+        for c in target:
+            d = int(c)
+            ans += min(d, (10-d))
+        return ans
+    
+    def openLock(self, deadends, target):
+        """
+        :type deadends: List[str]
+        :type target: str
+        :rtype: int
+        """
+        if '0000' in deadends:
+            return -1
+        
+        endpoints = self.successors(target)
+        min_moves = self.num_moves(target)
+        impossible = True
+        
+        for p in endpoints:
+            if p not in deadends:
+                impossible = False
+                potential = self.num_moves(p)
+                if potential < min_moves:
+                    return min_moves
+        
+        return -1 if impossible else min_moves + 2
+
+# my own BFS solution
 class Solution:
     def openLock(self, deadends, target):
         """
@@ -55,13 +94,12 @@ class Solution:
             """
             res, factor = [], 1000
             for _ in range(4):
-                digit = num//factor
+                digit = num%(factor*10)//factor
                 remain = num - digit*factor
 
                 res.append(((digit + 1)%10)*factor + remain)
                 res.append(((digit - 1 + 10)%10)*factor + remain)
 
-                num %= factor
                 factor //= 10
 
             return res
@@ -69,30 +107,31 @@ class Solution:
         # main
         deadnums = set(map(encode, deadends))
         end = encode(target)
-        if end in deadnums:
+        if 0 in deadnums:
             return -1
 
         visited = [False]*10000
-        q, turns = deque([0]), -1
+        q, turns = deque([0]), 0
+        visited[0]= True
         while q:
+            #print(q)
             n = len(q)
             turns += 1
             for _ in range(n):
                 start = q.popleft()
-                if start == end:
-                    return turns
-                elif visited[start]:
-                    continue
-
-                visited[start] = True
                 for neighbor in getneighbors(start):
+                    if neighbor == end:
+                        return turns
                     if neighbor in deadnums or visited[neighbor]:
                         continue
                     q.append(neighbor)
+                    visited[neighbor] = True
         
         return -1
 
 deadends = ["0201","0101","0102","1212","2002"]
-target = "1201"
+target = "0202"
+#deadends = ["0000"]
+#target = "8888"
 obj = Solution()
 print(obj.openLock(deadends, target))            
