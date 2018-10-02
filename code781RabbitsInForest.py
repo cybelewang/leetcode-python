@@ -1,7 +1,8 @@
 """
 781 Rabbits in Forest
 
-In a forest, each rabbit has some color. Some subset of rabbits (possibly all of them) tell you how many other rabbits have the same color as them. Those answers are placed in an array.
+In a forest, each rabbit has some color. Some subset of rabbits (possibly all of them) tell you how many other rabbits have the same color as them. 
+Those answers are placed in an array.
 
 Return the minimum number of rabbits that could be in the forest.
 
@@ -26,8 +27,13 @@ answers will have length at most 1000.
 Each answers[i] will be an integer in the range [0, 999].
 """
 class Solution:
+    # my own solution
+    # check the number of unique answers
     def numRabbits(self, answers):
         """
         :type answers: List[int]
         :rtype: int
         """
+        unique = set(answers)
+
+        return sum(unique) + len(unique)

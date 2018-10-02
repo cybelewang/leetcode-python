@@ -32,8 +32,21 @@ The BST is always valid, each node's value is an integer, and each node's value 
 #         self.right = None
 
 class Solution:
+    # my own solution, similar to 98 Validate Binary Tree
     def minDiffInBST(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
+        def minDiff(root, lower_bound, upper_bound):
+            res = min(abs(root.val - lower_bound), abs(root.val - upper_bound))
+            if root.left:
+                res = min(res, minDiff(root.left, lower_bound, root.val))
+            if root.right:
+                res = min(res, minDiff(root.right, root.val, upper_bound))
+            
+            return res
+        # main
+        lower_bound, upper_bound = -float("inf"), float("inf")
+
+        return minDiff(root, lower_bound, upper_bound)

@@ -19,6 +19,7 @@ S will consist of lowercase letters and have length in range [1, 500].
 """
 # 
 from collections import Counter
+import heapq
 class Solution:
     # https://leetcode.com/problems/reorganize-string/solution/
     def reorganizeString(self, S):
@@ -31,6 +32,32 @@ class Solution:
         ans = [None] * N
         ans[::2], ans[1::2] = A[N//2:], A[:N//2]
         return "".join(ans)
+
+    # Greedy + Priority Queue
+    # put tuples of (-count, letter) into priority queue, so letters with more counts will be popped out first
+    # everytime pop out first two letters, and append to res
+    # then update their remaining count and push back to priority queue again
+    def reorganizeString2(self, S):
+        Q = [(-S.count(x), x) for x in set(S)]
+        heapq.heapify(Q)
+        res = ""
+        while len(Q) > 1:
+            cnt1, c1 = heapq.heappop(Q)
+            if -cnt1 > (len(S) + 1)//2:
+                return ""
+            cnt2, c2 = heapq.heappop(Q)
+            res += c1 + c2
+            if cnt1 + 1 < 0:
+                heapq.heappush(Q, (cnt1+1, c1))
+            if cnt2 + 1 < 0:
+                heapq.heappush(Q, (cnt2+1, c2))
+
+        if Q:
+            _, c = heapq.heappop(Q)
+            res += c
+        
+        return res
+
     # my own greedy solution by sorting the letters of by their count
     # then inserting the biggest count letters into the proper position
     def reorganizeString_WRONG(self, S):
@@ -61,4 +88,4 @@ class Solution:
         return ''.join(res)
 
 S = "tndsewnllhrtwsvxenkscbivijfqnysamckzoyfnapuotmdexzkkrpmppttficzerdndssuveompqkemtbwbodrhwsfpbmkafpwyedpcowruntvymxtyyejqtajkcjakghtdwmuygecjncxzcxezgecrxonnszmqmecgvqqkdagvaaucewelchsmebikscciegzoiamovdojrmmwgbxeygibxxltemfgpogjkhobmhwquizuwvhfaiavsxhiknysdghcawcrphaykyashchyomklvghkyabxatmrkmrfsppfhgrwywtlxebgzmevefcqquvhvgounldxkdzndwybxhtycmlybhaaqvodntsvfhwcuhvuccwcsxelafyzushjhfyklvghpfvknprfouevsxmcuhiiiewcluehpmzrjzffnrptwbuhnyahrbzqvirvmffbxvrmynfcnupnukayjghpusewdwrbkhvjnveuiionefmnfxao"
-print(Solution().reorganizeString(S))
+print(Solution().reorganizeString2(S))

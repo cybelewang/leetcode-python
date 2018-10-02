@@ -26,9 +26,31 @@ A will have length in range [1, 5000].
 The time limit for this problem has been reduced.
 """
 class Solution:
+    # http://www.cnblogs.com/grandyang/p/8983098.html
+    def isIdealPermutation_OJBest(self, A):
+        for i, num in enumerate(A):
+            if abs(num - i) > 1:
+                return False
+        
+        return True
+        
+    # my own solution, assume current number is A[i], then we need to check if there is a number in A[0, i-2] that is larger than A[i]
     def isIdealPermutation(self, A):
         """
         :type A: List[int]
         :rtype: bool
         """
+        n = len(A)
+        if n < 3:
+            return True
         
+        pre_max = A[0]
+        for i in range(2, n):
+            if pre_max > A[i]:
+                return False
+            pre_max = max(pre_max, A[i-1])
+
+        return True
+
+A = [0, 1, 4, 2, 3]
+print(Solution().isIdealPermutation(A))
