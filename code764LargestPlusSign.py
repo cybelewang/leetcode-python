@@ -61,6 +61,7 @@ mines[i] will be length 2 and consist of integers in the range [0, N-1].
 """
 # similar problems: 787 Cheapest Flights Within K Stops
 class Solution:
+    # my own solution, first calculate the left and up order, then calculate the right bottom order
     def orderOfLargestPlusSign(self, N, mines):
         """
         :type N: int

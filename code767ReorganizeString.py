@@ -20,9 +20,20 @@ S will consist of lowercase letters and have length in range [1, 500].
 # 
 from collections import Counter
 class Solution:
+    # https://leetcode.com/problems/reorganize-string/solution/
+    def reorganizeString(self, S):
+        N = len(S)
+        A = []
+        for c, x in sorted((S.count(x), x) for x in set(S)):
+            if c > (N+1)//2: return ""
+            A.extend(c * x)
+        print(A)
+        ans = [None] * N
+        ans[::2], ans[1::2] = A[N//2:], A[:N//2]
+        return "".join(ans)
     # my own greedy solution by sorting the letters of by their count
     # then inserting the biggest count letters into the proper position
-    def reorganizeString(self, S):
+    def reorganizeString_WRONG(self, S):
         """
         :type S: str
         :rtype: str
@@ -49,5 +60,5 @@ class Solution:
         
         return ''.join(res)
 
-S = "vvvlo"
+S = "tndsewnllhrtwsvxenkscbivijfqnysamckzoyfnapuotmdexzkkrpmppttficzerdndssuveompqkemtbwbodrhwsfpbmkafpwyedpcowruntvymxtyyejqtajkcjakghtdwmuygecjncxzcxezgecrxonnszmqmecgvqqkdagvaaucewelchsmebikscciegzoiamovdojrmmwgbxeygibxxltemfgpogjkhobmhwquizuwvhfaiavsxhiknysdghcawcrphaykyashchyomklvghkyabxatmrkmrfsppfhgrwywtlxebgzmevefcqquvhvgounldxkdzndwybxhtycmlybhaaqvodntsvfhwcuhvuccwcsxelafyzushjhfyklvghpfvknprfouevsxmcuhiiiewcluehpmzrjzffnrptwbuhnyahrbzqvirvmffbxvrmynfcnupnukayjghpusewdwrbkhvjnveuiionefmnfxao"
 print(Solution().reorganizeString(S))

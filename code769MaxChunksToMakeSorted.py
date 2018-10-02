@@ -39,7 +39,7 @@ class Solution:
         while start < len(arr):
             i, end = start, index[start]
             while i <= end: # iterate until all numbers' index are within [start, end]
-                end = max(end, index[arr[i]])
+                end = max(end, arr[i])  # bug fixed: end = max(end, index[arr[i]])
                 i += 1
             # update start for next chunk
             start = end + 1
@@ -47,5 +47,5 @@ class Solution:
 
         return res
 
-arr = [4,3,2,1,0]
+arr = [2, 0, 1]
 print(Solution().maxChunksToSorted(arr))
