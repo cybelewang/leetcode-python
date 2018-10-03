@@ -28,7 +28,10 @@ The graph looks like this:
 3----2
 We cannot find a way to divide the set of nodes into two independent subsets.
 """
+from collections import deque
 class Solution:
+    # DFS and BFS solutions are from http://www.cnblogs.com/grandyang/p/8519566.html
+    # use two colors (1 and -1) to paint the nodes
     def isBipartite_DFS(self, graph):
         def dfs(graph, colors, i, color):
             if colors[i] == 0:
@@ -36,17 +39,37 @@ class Solution:
                 return all(dfs(graph, colors, j, -color) for j in graph[i])
             else:
                 return colors[i] == color
-
+        # main
         N = len(graph)
         colors = [0]*N  # 0 means not colored, 1 and -1 mean two different colors
-        return dfs(graph, colors, 0, 1)
+        for i in range(N):  # bug fixed: don't forget the for loop, previously just check node 0, which was wrong
+            if colors[i] == 0 and not dfs(graph, colors, i, 1):
+                return False
 
-    #def isBipartite_BFS(self, graph):
+        return True
+
+    def isBipartite_BFS(self, graph):
+        N = len(graph)
+        colors = [0]*N  # 0 means not colored, 1 and -1 mean two different colors
+        for i in range(N):  # bug fixed: fogot the for loop, previously just check node 0
+            if colors[i] != 0:
+                continue
+            q = deque([(i, 1)])
+            colors[i] = 1
+            while q:
+                i, color = q.popleft()
+                for j in graph[i]:
+                    if colors[j] == 0:
+                        q.append((j, -color))
+                        colors[j] = -color
+                    elif colors[j] != -color:
+                        return False
         
+        return True
 
-    # my own solution using adjacent matrix, and any two rows must be either equal or complementation
+    # my own solution using adjacent matrix, and any two rows must be either equal or complementation - wrong logic
     # space O(N^2)
-    def isBipartite(self, graph):
+    def isBipartite_Wrong(self, graph):
         """
         :type graph: List[List[int]]
         :rtype: bool
@@ -56,21 +79,26 @@ class Solution:
             return False
 
         matrix = [[0]*N for _ in range(N)]  # adjacent matrix, 0 means no connection, and 1 means connection
-
-        for j in graph[0]:  # create first row
-            matrix[0][j] = 1
-
-        for i in range(1, N):   # update other rows and compare with first row, must be either equal or complementation
+        for i in range(N):   # update adjacent matrix
             for j in graph[i]:
                 matrix[i][j] = 1
-            diff = matrix[i][0] ^ matrix[0][0]
-            for j in range(N):
-                if matrix[0][j] != (matrix[i][j] ^ diff):
-                    return False
+
+        ref = None
+        for i in range(N):
+            if sum(matrix[i]) == 0: # ignore nodes without any connections
+                continue
+            elif ref is None:   # the first row that contain non-zero numbers, this will be the reference row
+                ref = i
+            else:   # check if this row is either the same as reference row, or complementation of the reference row
+                diff = matrix[i][0] ^ matrix[ref][0]
+                for j in range(N):
+                    if matrix[ref][j] != (matrix[i][j] ^ diff):
+                        return False
         
         return True
 
-#graph = [[1,2,3], [0,2], [0,1,3], [0,2]]
-#graph = [[1],[0,3],[3],[1,2]]
-graph = [[],[2,4,6],[1,4,8,9],[7,8],[1,2,8,9],[6,9],[1,5,7,8,9],[3,6,9],[2,3,4,6,9],[2,4,5,6,7,8]]
-print(Solution().isBipartite(graph))
+graph = [[1,2,3], [0,2], [0,1,3], [0,2]]    # expected False
+#graph = [[1],[0,3],[3],[1,2]]   # expected True
+#graph = [[],[2,4,6],[1,4,8,9],[7,8],[1,2,8,9],[6,9],[1,5,7,8,9],[3,6,9],[2,3,4,6,9],[2,4,5,6,7,8]]  # expected False
+print(Solution().isBipartite_BFS(graph))
+print(Solution().isBipartite_DFS(graph))

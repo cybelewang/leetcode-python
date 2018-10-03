@@ -27,9 +27,24 @@ answers will have length at most 1000.
 Each answers[i] will be an integer in the range [0, 999].
 """
 class Solution:
+    # the same-color rabbits can answer x for at most (x+1) times
+    def numRabbits(self, answers):
+        repeat, res = {}, 0
+        for ans in answers:
+            if ans not in repeat:   # answer not shown before, this is a new group
+                res += ans + 1
+                repeat[ans] = 1
+            else:
+                repeat[ans] += 1    # update repeat times of this color group
+
+            if repeat[ans] > ans + 1:   # the same-color rabbits can answer x for at most (x+1) times, otherwise it's a new color group
+                res += ans + 1
+                repeat[ans] = 1
+
+        return res
     # my own solution
     # check the number of unique answers
-    def numRabbits(self, answers):
+    def numRabbits_Wrong(self, answers):
         """
         :type answers: List[int]
         :rtype: int
@@ -40,4 +55,6 @@ class Solution:
 
         return sum(unique) + len(unique)
 
-answers = [1,0,1,0,0]   # expected 5
+#answers = [1,0,1,0,0]   # expected 5
+answers = [0, 0, 1, 1, 1]   # expected 6
+print(Solution().numRabbits(answers))
