@@ -23,8 +23,8 @@ Both start and end will only consist of characters in {'L', 'R', 'X'}.
 """
 class Solution:
     # my own solution
-    # remove all X's and compare if the remaining strings are equal
-    # the reason is because R can move to right along X, until stopped by a L
+    # remove all X's and compare if the remaining strings are equal - this is wrong, for example, we cannot make "RLX" and "XRL" equal
+    # R can move to right along X, until stopped by a L
     # L can move to left along X, until stopped by a R
     def canTransform(self, start, end):
         """
@@ -46,6 +46,6 @@ class Solution:
 
         return True
 
-start = "RXXLRXRXL"
-end = "XRLXXRRLX"
+start = "XXRXXLXXXX"
+end = "XXXXRXXLXX"
 print(Solution().canTransform(start, end))

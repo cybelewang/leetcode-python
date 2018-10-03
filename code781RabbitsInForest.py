@@ -35,5 +35,9 @@ class Solution:
         :rtype: int
         """
         unique = set(answers)
+        if 0 in unique: # bug fixed: should consider 0
+            unique.remove(0)
 
         return sum(unique) + len(unique)
+
+answers = [1,0,1,0,0]   # expected 5
