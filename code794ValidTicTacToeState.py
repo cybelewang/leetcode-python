@@ -35,9 +35,32 @@ Note:
 board is a length-3 array of strings, where each string board[i] has length 3.
 Each board[i][j] is a character in the set {" ", "X", "O"}.
 """
+
+# 1. if player 1 wins, then player 2 must not win, and count('X') == count('O') + 1
+# 2. if player 2 wins, then player 1 must not win, and count('X') == count('O')
+# 3. if no player wins, then count('X') == count('O') + 1 or count('X') == count('O')
 class Solution:
     def validTicTacToe(self, board):
         """
         :type board: List[str]
         :rtype: bool
         """
+        countX = sum(row.count('X') for row in board)
+        countO = sum(row.count('O') for row in board)
+        
+        r0, r1, r2 = board
+        states = set([r0, r1, r2, r0[0]+r1[0]+r2[0], r0[1]+r1[1]+r2[1], r0[2]+r1[2]+r2[2], r0[0]+r1[1]+r2[2], r0[2]+r1[1]+r2[0]])
+        win1 = "XXX" in states
+        win2 = "OOO" in states
+
+        if win1 and win2:
+            return False
+        elif win1:
+            return countX == countO + 1
+        elif win2:
+            return countX == countO
+        else:
+            return countX in (countO, countO + 1)
+
+board = ["O  ", "   ", " X "]
+print(Solution().validTicTacToe(board))

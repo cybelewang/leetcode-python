@@ -16,6 +16,8 @@ The length of S will be in the range of [1, 50000].
 The length of words will be in the range of [1, 5000].
 The length of words[i] will be in the range of [1, 50].
 """
+from collections import defaultdict
+from bisect import bisect_left
 class Solution:
     def numMatchingSubseq(self, S, words):
         """
@@ -23,3 +25,24 @@ class Solution:
         :type words: List[str]
         :rtype: int
         """
+        index = defaultdict(list)
+        for i, c in enumerate(S):
+            index[c].append(i)
+
+        count = 0
+        for w in words:
+            limit = 0
+            for c in w:
+                idx = bisect_left(index[c], limit)
+                if idx == len(index[c]):
+                    break
+                else:
+                    limit = index[c][idx] + 1
+            else:
+                count += 1
+        
+        return count
+
+S = "abcd"
+words = ["a", "bb", "acd", "ace"]
+print(Solution().numMatchingSubseq(S, words))

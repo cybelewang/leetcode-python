@@ -37,8 +37,32 @@ There will not be any duplicated flights or self cycles.
 """
 from collections import defaultdict, deque
 class Solution:
-    # my own BFS solution
+    # fixed BFS solution
     def findCheapestPrice_BFS(self, n, flights, src, dst, K):
+        edges = defaultdict(dict)
+        for u, v, p in flights:
+            edges[u][v] = p
+        
+        INT_MAX = 2**31 - 1
+        prices = [INT_MAX]*n
+
+        q = deque([(src, 0)])
+        while q and K > -2:
+            m = len(q)
+            for _ in range(m):
+                i, p = q.popleft()
+                if p >= prices[i]:
+                    continue
+                prices[i] = p
+                for j in edges[i]:
+                    q.append((j, p+edges[i][j]))
+            
+            K -= 1
+        
+        return -1 if prices[dst] == INT_MAX else prices[dst]
+
+    # my own BFS solution, failed on test case flights = [[0,1,1],[0,2,5],[1,2,1],[2,3,1]], n = 4, src = 0, dst = 3, K = 1
+    def findCheapestPrice_Wrong(self, n, flights, src, dst, K):
         edges = defaultdict(dict)
         for u, v, p in flights:
             edges[u][v] = p
@@ -53,7 +77,7 @@ class Solution:
             for _ in range(m):
                 i = q.popleft()
                 for j in edges[i]:
-                    if prices[i] + edges[i][j] < prices[j]:
+                    if prices[i] + edges[i][j] < prices[j]: # this is the issue. prices[i] may have been updated by other routes, see above test case. We need to save the prices of i in queue so it won't be updated by following other routes
                         prices[j] = prices[i] + edges[i][j]
                         q.append(j)
             
@@ -61,6 +85,7 @@ class Solution:
         
         return -1 if prices[dst] == INT_MAX else prices[dst]
 
+    # DFS solution, TLE
     def findCheapestPrice_DFS(self, n, flights, src, dst, K):
         """
         :type n: int
@@ -108,4 +133,4 @@ src = 0
 dst=3
 K=1
 
-print(Solution().findCheapestPrice_BFS(n, flights, src, dst, K))
+print(Solution().findCheapestPrice_DFS(n, flights, src, dst, K))

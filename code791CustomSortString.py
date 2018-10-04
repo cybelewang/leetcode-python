@@ -23,6 +23,7 @@ S has length at most 26, and no character is repeated in S.
 T has length at most 200.
 S and T consist of lowercase letters only.
 """
+from collections import Counter
 class Solution:
     def customSortString(self, S, T):
         """
@@ -30,4 +31,18 @@ class Solution:
         :type T: str
         :rtype: str
         """
+        count = Counter(T)
+        res = []
+        for c in S:
+            res.append(c*count[c])
+            count.pop(c)
         
+        # bug fixed: forgot the letters not in S
+        for c in count:
+            res.append(c*count[c])
+
+        return ''.join(res)
+
+S = "cba"
+T = "abcd"
+print(Solution().customSortString(S, T))

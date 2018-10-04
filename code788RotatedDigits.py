@@ -23,4 +23,34 @@ class Solution:
         :type N: int
         :rtype: int
         """
-        
+        f = [0]*5   # f[i] is the count of good numbers from length-0 to length-i numbers
+        f[1] = 4    # single digit good numbers are only 2, 5, 6, 9
+        for i in range(2, 5):
+            f[i] = 6*f[i-1]   # when the highest digit is 0, 1, 3, 4, 7, 8
+            f[i] += 4*(10**(i-1))   # when the highest digit is 2, 5, 6, 9, numbers are always good no matter the rest of the digits
+
+        def helper(N, f):
+            if N < 1:
+                return 0
+
+            highest = int(str(N)[0])    # highest digit
+            n = len(str(N)) # number of digits
+            res = 0
+            # calculate the previous highest digits' result, for example, N = 2345, we will figure out the result for 0XXX, and 1XXX
+            for d in range(highest-1, -1, -1):
+                if d in (2, 5, 6, 9):
+                    res += 10**(n-1)
+                else:
+                    res += f[n-1]
+            # now calculate the number with highest digit, with example N = 2345, this will calculate the result for 2XXX
+            if highest in (2, 5, 6, 9):
+                res += 1 + N % (10**(n-1))
+            else:
+                res += helper(N % (10**(n-1)), f)
+
+            return res
+
+        # main
+        return helper(N, f)
+
+print(Solution().rotatedDigits(1))
