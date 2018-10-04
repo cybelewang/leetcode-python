@@ -100,6 +100,12 @@ class Solution:
 
         return -1 if dp[K+1][dst] >= INT_MAX else dp[K+1][dst]
 
-n, src, dst, K = 3, 0, 2, 1
-flights = [[0,1,100],[1,2,100],[0,2,500]]
-print(Solution().findCheapestPrice(n, flights, src, dst, K))
+#n, src, dst, K = 3, 0, 2, 1
+#flights = [[0,1,100],[1,2,100],[0,2,500]]
+n=4
+flights = [[0,1,1],[0,2,5],[1,2,1],[2,3,1]]
+src = 0
+dst=3
+K=1
+
+print(Solution().findCheapestPrice_BFS(n, flights, src, dst, K))
