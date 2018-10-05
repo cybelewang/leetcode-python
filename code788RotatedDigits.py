@@ -53,4 +53,5 @@ class Solution:
         # main
         return helper(N, f)
 
-print(Solution().rotatedDigits(1))
+N = 857 # expected 247
+print(Solution().rotatedDigits(N))
