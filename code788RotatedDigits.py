@@ -17,8 +17,11 @@ Note:
 
 N  will be in range [1, 10000].
 """
+# if any digit is 2, 5, 6, 9, it will be a good number
+# if any digit is 3, 4, 7, it won't be a good number
 class Solution:
-    def rotatedDigits(self, N):
+    # didn't consider that 3, 4, 7 won't form good numbers
+    def rotatedDigits_WRONG(self, N):
         """
         :type N: int
         :rtype: int
@@ -52,6 +55,23 @@ class Solution:
 
         # main
         return helper(N, f)
+    
+    # brutal force solution
+    def rotatedDigits(self, N):
+        res = 0
+        good = set(['2', '5', '6', '9'])
+        bad = set(['3', '4', '7'])
+        for num in range(1, N+1):
+            s = str(num)
+            if any(c in bad for c in s):
+                continue
+            if any(c in good for c in s):
+                res += 1
+
+        return res
+
+    # DP solution http://www.cnblogs.com/grandyang/p/9154892.html
+ #   def rotatedDigits_DP(self, N):
 
 N = 857 # expected 247
 print(Solution().rotatedDigits(N))

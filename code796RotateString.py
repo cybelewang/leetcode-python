@@ -23,4 +23,7 @@ class Solution:
         :type B: str
         :rtype: bool
         """
-        
+        if len(A) != len(B):
+            return False
+
+        return (A+A).find(B) != -1

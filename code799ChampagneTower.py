@@ -30,6 +30,7 @@ poured will be in the range of [0, 10 ^ 9].
 query_glass and query_row will be in the range of [0, 99].
 """
 class Solution:
+    # my own solution
     def champagneTower(self, poured, query_row, query_glass):
         """
         :type poured: int
@@ -37,4 +38,16 @@ class Solution:
         :type query_glass: int
         :rtype: float
         """
+        glasses = [0]*100
+        glasses[0] = poured
+        for i in range(1, query_row+1):
+            left = 0.0
+            for j in range(i+1):    # bug fixed: should be range(i+1) instead of range(i)
+                right = (glasses[j] - 1.0)/2 if glasses[j] > 1.0 else 0.0
+                glasses[j] = left + right
+                left = right
         
+        return 1.0 if glasses[query_glass] > 1.0 else glasses[query_glass]
+
+poured, query_glass, query_row = 2, 1, 1
+print(Solution().champagneTower(poured, query_row, query_glass))

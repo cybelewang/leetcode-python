@@ -21,11 +21,26 @@ Note:
 A, B are arrays with the same length, and that length will be in the range [1, 1000].
 A[i], B[i] are integer values in the range [0, 2000].
 """
+# similar problems: 714 Best Time to Buy and Sell Stock with Transaction Fee
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/9311385.html
+    # DP with two arrays
     def minSwap(self, A, B):
         """
         :type A: List[int]
         :type B: List[int]
         :rtype: int
         """
-        
+        n = len(A)
+        swap, noswap = [n]*n, [n]*n
+        swap[0], noswap[0] = 1, 0
+        for i in range(1, n):
+            if A[i] > A[i-1] and B[i] > B[i-1]:
+                swap[i] = swap[i-1] + 1
+                noswap[i] = noswap[i-1]
+            
+            if A[i] > B[i-1] and B[i] > A[i-1]:
+                swap[i] = min(swap[i], noswap[i-1] + 1)
+                noswap[i] = min(noswap[i], swap[i-1]+1)
+
+        return min(swap[-1], noswap[-1])

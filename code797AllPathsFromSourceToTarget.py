@@ -25,4 +25,14 @@ class Solution:
         :type graph: List[List[int]]
         :rtype: List[List[int]]
         """
-        
+        def dfs(graph, i, N, build, res):
+            if i == N - 1:
+                res.append(build[:])
+                return
+            for j in graph[i]:
+                build.append(j)
+                dfs(graph, j, N, build, res)
+                build.pop(j)
+
+        res, N = [], len(graph)
+        dfs(graph, 0, N, [], res)

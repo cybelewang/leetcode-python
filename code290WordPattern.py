@@ -45,6 +45,23 @@ class Solution:
         
         return i >= len(str)
 
+# 2nd round solution on 10/5/2018
+class Solution2:
+    def wordPattern(self, pattern, str):
+        map = {}
+        a = str.split()
+        if len(pattern) != len(a):
+            return False
+
+        for i, p in enumerate(pattern):
+            if p in map:
+                if map[p] != a[i]:
+                    return False
+            else:
+                map[p] = a[i]
+        
+        return True
+
 obj = Solution()
 p, s = 'he', 'unit'
 print(obj.wordPattern(p, s))
