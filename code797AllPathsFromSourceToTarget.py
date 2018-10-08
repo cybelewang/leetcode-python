@@ -32,7 +32,9 @@ class Solution:
             for j in graph[i]:
                 build.append(j)
                 dfs(graph, j, N, build, res)
-                build.pop(j)
+                build.pop()
 
         res, N = [], len(graph)
-        dfs(graph, 0, N, [], res)
+        dfs(graph, 0, N, [0], res)
+
+        return res

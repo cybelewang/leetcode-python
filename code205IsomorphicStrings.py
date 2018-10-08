@@ -17,6 +17,7 @@ Given "paper", "title", return true.
 Note:
 You may assume both s and t have the same length.
 """
+# similar problems: 290 Word Pattern
 # use two maps to track mapping because no two characters map to the same character
 # note 'bao' and 'foo' should be false because 'a':'o' and 'o':'o'. It's tricky to understand "a character may map to itself", so if s[i]==t[i], it's already mapping, we cannot ignore it. see failed submission in OJ.
 class Solution:

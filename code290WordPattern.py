@@ -13,6 +13,7 @@ pattern = "abba", str = "dog dog dog dog" should return false.
 Notes:
 You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.
 """
+# similar problems: 205 Isomorphic Strings
 # use bimap, not a single direction map
 class Solution:
     def wordPattern(self, pattern, str):
@@ -46,22 +47,33 @@ class Solution:
         return i >= len(str)
 
 # 2nd round solution on 10/5/2018
+# failed on test case pattern = "abba", str = "dog dog dog dog"
 class Solution2:
     def wordPattern(self, pattern, str):
-        map = {}
+        map1, map2 = {}, {}
         a = str.split()
         if len(pattern) != len(a):
             return False
 
         for i, p in enumerate(pattern):
-            if p in map:
-                if map[p] != a[i]:
-                    return False
+            s = a[i]
+            if p in map1 and s in map2 and map1[p] == s and p == map2[s]:
+                continue
+            elif p not in map1 and s not in map2:
+                map1[p] = a[i]
+                map2[a[i]] = p
             else:
-                map[p] = a[i]
+                return False
         
         return True
 
-obj = Solution()
-p, s = 'he', 'unit'
-print(obj.wordPattern(p, s))
+    # https://leetcode.com/problems/word-pattern/discuss/73433/Short-in-Python
+    def wordPattern2(self, pattern, str):
+        p, a = pattern, str.split()
+        return list(map(p.find, p)) == list(map(a.index, a))
+
+obj = Solution2()
+p, s = "abba", "dog cat cat dog"    # expected True
+#p, s = "abba", "dog dog dog dog"    # expected False
+#p, s = 'ab', 'dog dog'  # expected False
+print(obj.wordPattern2(p, s))

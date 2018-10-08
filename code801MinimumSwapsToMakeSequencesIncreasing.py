@@ -35,12 +35,16 @@ class Solution:
         swap, noswap = [n]*n, [n]*n
         swap[0], noswap[0] = 1, 0
         for i in range(1, n):
-            if A[i] > A[i-1] and B[i] > B[i-1]:
-                swap[i] = swap[i-1] + 1
-                noswap[i] = noswap[i-1]
+            if A[i] > A[i-1] and B[i] > B[i-1]: # no need to swap
+                swap[i] = swap[i-1] + 1 # to maintain the increasing order after swap, we need to swap i-1, then swap i
+                noswap[i] = noswap[i-1] # no need to swap, so use noswap[i-1]
             
-            if A[i] > B[i-1] and B[i] > A[i-1]:
-                swap[i] = min(swap[i], noswap[i-1] + 1)
-                noswap[i] = min(noswap[i], swap[i-1]+1)
+            if A[i] > B[i-1] and B[i] > A[i-1]: # need to swap
+                swap[i] = min(swap[i], noswap[i-1] + 1) # i-1 doesn't need to swap
+                noswap[i] = min(noswap[i], swap[i-1])   # if we don't swap i, we need to swap i-1 to maintain the increasing order
 
         return min(swap[-1], noswap[-1])
+
+A = [0,3,5,8,9]
+B = [2,1,4,6,9] # expected 1
+print(Solution().minSwap(A, B))

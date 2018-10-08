@@ -30,9 +30,11 @@ class Solution:
         :type N: int
         :rtype: int
         """
-        dp, M = [0]*(N+1), 1e9+7
+        dp, M = [0]*(max(N,3)+1), 10**9+7
         dp[0], dp[1], dp[2] = 1, 1, 2
         for i in range(3, N+1):
             dp[i] = (2*dp[i-1] + dp[i-3])%M
         
         return dp[N]
+
+print(Solution().numTilings(1))

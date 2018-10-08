@@ -23,7 +23,10 @@ class Solution:
         :type B: str
         :rtype: bool
         """
-        if len(A) != len(B):
-            return False
+        return len(A) == len(B) and (A+A).find(B) != -1
 
-        return (A+A).find(B) != -1
+#A = 'abcde'
+#B = 'cdeab'
+A = ""
+B = ""
+print(Solution().rotateString(A, B))
