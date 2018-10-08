@@ -78,4 +78,4 @@ class Solution:
         return [i for i in range(n) if dfs(graph, i, color)]
 
 graph = [[1,2],[2,3],[5],[0],[5],[],[]]
-print(Solution().eventualSafeNodes(graph))
+print(Solution().eventualSafeNodes_DFS(graph))

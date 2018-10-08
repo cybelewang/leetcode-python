@@ -7,13 +7,14 @@ Serve 100 ml of soup A and 0 ml of soup B
 Serve 75 ml of soup A and 25 ml of soup B
 Serve 50 ml of soup A and 50 ml of soup B
 Serve 25 ml of soup A and 75 ml of soup B
-When we serve some soup, we give it to someone and we no longer have it.  Each turn, we will choose from the four operations with equal probability 0.25. If the remaining volume of soup is not enough to complete the operation, we will serve as much as we can.  We stop once we no longer have some quantity of both types of soup.
+When we serve some soup, we give it to someone and we no longer have it.  Each turn, we will choose from the four operations with equal probability 0.25. 
+If the remaining volume of soup is not enough to complete the operation, we will serve as much as we can.  
+We stop once we no longer have some quantity of both types of soup.
 
 Note that we do not have the operation where all 100 ml's of soup B are used first.  
 
 Return the probability that soup A will be empty first, plus half the probability that A and B become empty at the same time.
 
- 
 
 Example:
 Input: N = 50
@@ -27,9 +28,26 @@ Notes:
 Answers within 10^-6 of the true value will be accepted as correct.
 """
 class Solution:
+    # http://www.cnblogs.com/grandyang/p/9406434.html
     def soupServings(self, N):
         """
         :type N: int
         :rtype: float
         """
-        
+        def f(a, b):
+            if a <=0 and b<=0:
+                return 0.5
+            if a <=0:
+                return 1.0
+            if b <=0:
+                return 0
+            if memo[a][b] > 0:
+                return memo[a][b]
+            
+            memo[a][b] = 0.25*(f(a-4, b), f(a-3, b-1), f(a-2, b-2), f(a-1, b-3))
+
+            return memo[a][b]
+
+        # main
+        memo = [[0.0]*200 for _ in range(200)]
+        return 1.0 if N >=4800 else f((N+24)//25, (N+24)//25)

@@ -1,7 +1,8 @@
 """
 811 Subdomain Visit Count
 
-A website domain like "discuss.leetcode.com" consists of various subdomains. At the top level, we have "com", at the next level, we have "leetcode.com", and at the lowest level, "discuss.leetcode.com". When we visit a domain like "discuss.leetcode.com", we will also visit the parent domains "leetcode.com" and "com" implicitly.
+A website domain like "discuss.leetcode.com" consists of various subdomains. At the top level, we have "com", at the next level, we have "leetcode.com", and at the lowest level, "discuss.leetcode.com". 
+When we visit a domain like "discuss.leetcode.com", we will also visit the parent domains "leetcode.com" and "com" implicitly.
 
 Now, call a "count-paired domain" to be a count (representing the number of visits this domain received), followed by a space, followed by the address. An example of a count-paired domain might be "9001 discuss.leetcode.com".
 
@@ -31,10 +32,22 @@ Each address will have either 1 or 2 "." characters.
 The input count in any count-paired domain will not exceed 10000.
 The answer output can be returned in any order.
 """
+from collections import defaultdict
 class Solution:
     def subdomainVisits(self, cpdomains):
         """
         :type cpdomains: List[str]
         :rtype: List[str]
         """
+        count = defaultdict(int)
+        for cpdomain in cpdomains:
+            cnt_s, domain = cpdomain.split()    # bug fixed: the first element is a str type, not int, so we must convert it to int
+            cnt = int(cnt_s)
+            a = domain.split('.')
+            for i in range(len(a)):
+                count['.'.join(a[i:])] += cnt
         
+        return [str(count[d]) + " " + d for d in count]
+
+cpdomains = ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]
+print(Solution().subdomainVisits(cpdomains))

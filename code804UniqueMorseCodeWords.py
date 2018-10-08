@@ -22,17 +22,26 @@ The transformation of each word is:
 
 There are 2 different transformations, "--...-." and "--...--.".
  
-
 Note:
 
 The length of words will be at most 100.
 Each words[i] will have length in range [1, 12].
 words[i] will only consist of lowercase letters.
 """
+# follow up: given morse code representation (type str), find the number of possible words it can represent
+# we can use DP solution similar to 91 decode ways
 class Solution:
     def uniqueMorseRepresentations(self, words):
         """
         :type words: List[str]
         :rtype: int
         """
-        
+        table = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        morse = set()
+        for w in words:
+            code = ""
+            for c in w:
+                code += table[ord(c) - ord('a')]
+            morse.add(code)
+
+        return len(morse)

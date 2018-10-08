@@ -1,11 +1,12 @@
 """
 806 Number of Lines To Write String
 
-We are to write the letters of a given string S, from left to right into lines. Each line has maximum width 100 units, and if writing a letter would cause the width of the line to exceed 100 units, it is written on the next line. We are given an array widths, an array where widths[0] is the width of 'a', widths[1] is the width of 'b', ..., and widths[25] is the width of 'z'.
+We are to write the letters of a given string S, from left to right into lines. Each line has maximum width 100 units, 
+and if writing a letter would cause the width of the line to exceed 100 units, it is written on the next line. 
+We are given an array widths, an array where widths[0] is the width of 'a', widths[1] is the width of 'b', ..., and widths[25] is the width of 'z'.
 
-Now answer two questions: how many lines have at least one character from S, and what is the width used by the last such line? Return your answer as an integer list of length 2.
-
- 
+Now answer two questions: how many lines have at least one character from S, and what is the width used by the last such line? 
+Return your answer as an integer list of length 2.
 
 Example :
 Input: 
@@ -26,7 +27,6 @@ All letters except 'a' have the same length of 10, and
 For the last 'a', it is written on the second line because
 there is only 2 units left in the first line.
 So the answer is 2 lines, plus 4 units in the second line.
- 
 
 Note:
 
@@ -35,6 +35,8 @@ S will only contain lowercase letters.
 widths is an array of length 26.
 widths[i] will be in the range of [2, 10].
 """
+# follow up: what if there is a whitespace between every two words, and the whitespace can be neglected at the end of line?
+# we can add the first word into line, then for each word, we must add a whitespace before the word.
 class Solution:
     def numberOfLines(self, widths, S):
         """
@@ -42,4 +44,18 @@ class Solution:
         :type S: str
         :rtype: List[int]
         """
+        lines, cur = 1, 0
+        base = ord('a')
+        for c in S:
+            span = widths[ord(c) - base]
+            if cur + span > 100:
+                lines += 1
+                cur = span
+            else:
+                cur += span
         
+        return [lines, cur]
+
+widths = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]
+S = "bbbcccdddaaa"
+print(Solution().numberOfLines(widths, S))

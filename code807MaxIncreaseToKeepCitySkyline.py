@@ -1,9 +1,12 @@
 """
 807 Max Increase to Keep City Skyline
 
-In a 2 dimensional array grid, each value grid[i][j] represents the height of a building located there. We are allowed to increase the height of any number of buildings, by any amount (the amounts can be different for different buildings). Height 0 is considered to be a building as well. 
+In a 2 dimensional array grid, each value grid[i][j] represents the height of a building located there. 
+We are allowed to increase the height of any number of buildings, by any amount (the amounts can be different for different buildings). 
+Height 0 is considered to be a building as well. 
 
-At the end, the "skyline" when viewed from all four directions of the grid, i.e. top, bottom, left, and right, must be the same as the skyline of the original grid. A city's skyline is the outer contour of the rectangles formed by all the buildings when viewed from a distance. See the following example.
+At the end, the "skyline" when viewed from all four directions of the grid, i.e. top, bottom, left, and right, must be the same as the skyline of the original grid. 
+A city's skyline is the outer contour of the rectangles formed by all the buildings when viewed from a distance. See the following example.
 
 What is the maximum total sum that the height of the buildings can be increased?
 
@@ -39,4 +42,20 @@ class Solution:
         :type grid: List[List[int]]
         :rtype: int
         """
+        m, n = len(grid), len(grid[0])
+        row_max, col_max = [0]*m, [0]*n
+        for i in range(m):
+            for j in range(n):
+                row_max[i] = max(row_max[i], grid[i][j])
+                col_max[j] = max(col_max[j], grid[i][j])
         
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                diff = min(row_max[i], col_max[j]) - grid[i][j]
+                res += 0 if diff < 0 else diff
+        
+        return res
+
+grid = [[3,0,8,4],[2,4,5,7],[9,2,6,3],[0,3,1,0]]
+print(Solution().maxIncreaseKeepingSkyline(grid))
