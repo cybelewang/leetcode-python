@@ -44,7 +44,7 @@ class Solution:
             if memo[a][b] > 0:
                 return memo[a][b]
             
-            memo[a][b] = 0.25*(f(a-4, b), f(a-3, b-1), f(a-2, b-2), f(a-1, b-3))
+            memo[a][b] = 0.25*(f(a-4, b) + f(a-3, b-1) + f(a-2, b-2) + f(a-1, b-3))
 
             return memo[a][b]
 
