@@ -39,11 +39,33 @@ The value of each node will only be 0 or 1.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
     def pruneTree(self, root):
         """
         :type root: TreeNode
         :rtype: TreeNode
         """
-        
+        def hasOne(root):
+            if not root:
+                return False
+            
+            left, right = hasOne(root.left), hasOne(root.right)
+
+            if not left:
+                root.left = None
+            
+            if not right:
+                root.right = None
+
+            return root.val == 1 or left or right
+
+        # main
+        hasOne(root)
+        return root
+
+a = [1,1,0,1,1,0,1,0]
+root = ListToTree(a)
+PrintTree(root)
+root = Solution().pruneTree(root)
+PrintTree(root)

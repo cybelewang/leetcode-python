@@ -1,9 +1,11 @@
 """
 816 Ambiguous Coordinates
 
-We had some 2-dimensional coordinates, like "(1, 3)" or "(2, 0.5)".  Then, we removed all commas, decimal points, and spaces, and ended up with the string S.  Return a list of strings representing all possibilities for what our original coordinates could have been.
+We had some 2-dimensional coordinates, like "(1, 3)" or "(2, 0.5)".  Then, we removed all commas, decimal points, and spaces, and ended up with the string S.  
+Return a list of strings representing all possibilities for what our original coordinates could have been.
 
-Our original representation never had extraneous zeroes, so we never started with numbers like "00", "0.0", "0.00", "1.0", "001", "00.01", or any other number that can be represented with less digits.  Also, a decimal point within a number never occurs without at least one digit occuring before it, so we never started with numbers like ".1".
+Our original representation never had extraneous zeroes, so we never started with numbers like "00", "0.0", "0.00", "1.0", "001", "00.01", or any other number that can be represented with less digits.  
+Also, a decimal point within a number never occurs without at least one digit occuring before it, so we never started with numbers like ".1".
 
 The final answer list can be returned in any order.  Also note that all coordinates in the final answer have exactly one space between them (occurring after the comma.)
 
@@ -31,9 +33,36 @@ Note:
 S[0] = "(", S[S.length - 1] = ")", and the other elements in S are digits.
 """
 class Solution:
+    # help from http://www.cnblogs.com/grandyang/p/9563418.html
     def ambiguousCoordinates(self, S):
         """
         :type S: str
         :rtype: List[str]
         """
+        def findAll(S):
+            n = len(S)
+            if n == 0 or (n > 1 and S[0] == '0' and S[-1] == '0'):
+                return []
+            if n > 1 and S[0] == '0':
+                return ["0." + S[1:]]
+            if S[-1] == '0':
+                return [S]
+            
+            res = []
+            for i in range(1, n):
+                res.append(S[:i] + "." + S[i:])
+            
+            return res
         
+        # main
+        res, n = [], len(S)
+        for i in range(1,n):
+            A, B = findAll(S[:i]), findAll(S[i:])
+            for a in A:
+                for b in B:
+                    res.append("(" + a + ", " + b + ")")
+
+        return res
+
+S = "123"
+print(Solution().ambiguousCoordinates(S))
