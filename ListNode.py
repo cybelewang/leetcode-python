@@ -52,3 +52,19 @@ def PrintLinkedList(head):
             print("{0}->".format(head.val), end='')
             head = head.next 
         print('NULL')
+
+def CreateLinkedList(lst):
+    """
+    Construct a linked list from a list of values
+    return the head of the created linked list
+    """
+    if not lst:
+        return None
+    
+    pre = ListNode(0)
+    node = pre
+    for value in lst:
+        node.next = ListNode(value)
+        node = node.next
+
+    return pre.next

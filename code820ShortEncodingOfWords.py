@@ -20,10 +20,24 @@ Note:
 1 <= words[i].length <= 7.
 Each word has only lowercase letters.
 """
+
 class Solution:
     def minimumLengthEncoding(self, words):
         """
         :type words: List[str]
         :rtype: int
         """
+        words.sort(key = lambda w: -len(w))
+        res = len(words[0]) + 1
+        for i in range(1, len(words)):
+            for j in range(i):
+                if words[j].endswith(words[i]):
+                    break
+            else:
+                res += len(words[i]) + 1
         
+        return res
+
+words = ["time", "me", "bell"]  # expected 10
+words = ["time", "me", "e", "lime"] # expected 10
+print(Solution().minimumLengthEncoding(words))

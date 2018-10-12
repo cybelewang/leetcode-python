@@ -35,7 +35,7 @@ G is a subset of all values in the linked list.
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution:
     def numComponents(self, head, G):
         """
@@ -43,4 +43,23 @@ class Solution:
         :type G: List[int]
         :rtype: int
         """
-        
+        S, res = set(G), 0
+        pre = False
+        while head:
+            if head.val in S:
+                if head.next and head.next.val in S:
+                    res += 1
+                    pre = True
+                elif not pre:
+                    res += 1
+            else:
+                pre = False
+
+            head = head.next
+
+        return res
+
+a = [0, 1, 2, 3]
+G = [0, 1, 3]   # expected 2
+head = CreateLinkedList(a)
+print(Solution().numComponents(head, G))

@@ -1,7 +1,8 @@
 """
 819 Most Common Word
 
-Given a paragraph and a list of banned words, return the most frequent word that is not in the list of banned words.  It is guaranteed there is at least one word that isn't banned, and that the answer is unique.
+Given a paragraph and a list of banned words, return the most frequent word that is not in the list of banned words.  
+It is guaranteed there is at least one word that isn't banned, and that the answer is unique.
 
 Words in the list of banned words are given in lowercase, and free of punctuation.  Words in the paragraph are not case sensitive.  The answer is in lowercase.
 
@@ -29,6 +30,7 @@ Different words in paragraph are always separated by a space.
 There are no hyphens or hyphenated words.
 Words only consist of letters, never apostrophes or other punctuation symbols.
 """
+from collections import defaultdict
 class Solution:
     def mostCommonWord(self, paragraph, banned):
         """
@@ -36,4 +38,23 @@ class Solution:
         :type banned: List[str]
         :rtype: str
         """
+        count, max_cnt, res = defaultdict(int), 0, ''
+        S = set(banned)
+        for word in paragraph.split():
+            word = word.lower()
+            if not word[-1].isalpha():
+                word = word[:-1]
+            if word in S:
+                continue
+            else:
+                count[word] += 1
+            
+            if count[word] > max_cnt:
+                max_cnt = count[word]
+                res = word
         
+        return res
+
+paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
+banned = ["hit"]
+print(Solution().mostCommonWord(paragraph, banned))
