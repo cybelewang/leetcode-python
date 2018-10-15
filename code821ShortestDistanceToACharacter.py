@@ -16,10 +16,28 @@ C is a single character, and guaranteed to be in string S.
 All letters in S and C are lowercase.
 """
 class Solution:
+    # my own two-pass solution
     def shortestToChar(self, S, C):
         """
         :type S: str
         :type C: str
         :rtype: List[int]
         """
+        n = len(S)
+        dist, last = [n]*n, -n
+        for i in range(n):
+            if S[i] == C:
+                last = i
+            dist[i] = min(dist[i], i-last)
+
+        last = -n
+        for i in range(n-1, -1, -1):
+            if S[i] == C:
+                last = i
+            dist[i] = min(dist[i], last - i)
         
+        return dist
+
+S = "loveleetcode"
+C = 'e'
+print(Solution().shortestToChar(S, C))

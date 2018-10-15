@@ -20,7 +20,8 @@ Note:
 1 <= words[i].length <= 7.
 Each word has only lowercase letters.
 """
-
+from functools import reduce
+import collections
 class Solution:
     # Trie solution, https://leetcode.com/problems/short-encoding-of-words/solution/
     def minimumLengthEncoding(self, words):
