@@ -22,7 +22,42 @@ Each word has only lowercase letters.
 """
 
 class Solution:
+    # Trie solution, https://leetcode.com/problems/short-encoding-of-words/solution/
     def minimumLengthEncoding(self, words):
+        words = list(set(words)) #remove duplicates
+        #Trie is a nested dictionary with nodes created
+        # when fetched entries are missing
+        Trie = lambda: collections.defaultdict(Trie)
+        trie = Trie()
+
+        #reduce(..., S, trie) is trie[S[0]][S[1]][S[2]][...][S[S.length - 1]]
+        nodes = [reduce(dict.__getitem__, word[::-1], trie)
+                 for word in words]
+
+        #Add word to the answer if it's node has no neighbors
+        return sum(len(word) + 1
+                   for i, word in enumerate(words)
+                   if len(nodes[i]) == 0)
+
+    # accepted solution using set to save all suffix
+    def minimumLengthEncoding2(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        words.sort(key = lambda w: -len(w))
+        subwords, res = set(), 0
+        for word in words:
+            if word in subwords:
+                continue
+            res += len(word) + 1
+            for i in range(len(word)):
+                subwords.add(word[i:])
+        
+        return res
+
+    # first trial, TLE
+    def minimumLengthEncoding_TLE(self, words):
         """
         :type words: List[str]
         :rtype: int
@@ -38,6 +73,6 @@ class Solution:
         
         return res
 
-words = ["time", "me", "bell"]  # expected 10
+#words = ["time", "me", "bell"]  # expected 10
 words = ["time", "me", "e", "lime"] # expected 10
 print(Solution().minimumLengthEncoding(words))

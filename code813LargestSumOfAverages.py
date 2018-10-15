@@ -38,7 +38,8 @@ class Solution:
             sums[i+1] = sums[i] + A[i]
         
         dp = [[0.0]*n for _ in range(n)]    # dp[i][k] is the max average sum in range [i, n-1], up to k groups
-        dp[i][0] = (sums[n] - sums[i])/(n-i)    # no group, just calculate the average of the whole array
+        for i in range(n):
+            dp[i][0] = (sums[n] - sums[i])/(n-i)    # no group, just calculate the average of the whole array
 
         for k in range(1, K):
             for i in range(n-1):
@@ -46,3 +47,7 @@ class Solution:
                     dp[i][k] = max(dp[i][k], (sums[j] - sums[i])/ (j-i) + dp[j][k-1])
         
         return dp[0][K-1]
+
+A = [4,1,7,5,6,2,3]
+K = 4   # expected 18.16667
+print(Solution().largestSumOfAverages(A, K))

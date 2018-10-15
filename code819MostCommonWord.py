@@ -32,7 +32,8 @@ Words only consist of letters, never apostrophes or other punctuation symbols.
 """
 from collections import defaultdict
 class Solution:
-    def mostCommonWord(self, paragraph, banned):
+    # 1st trial. failed on case "a, a, a, a, b,b,b,c, c", different words may be separated by symbols like ","
+    def mostCommonWord_Wrong(self, paragraph, banned):
         """
         :type paragraph: str
         :type banned: List[str]
@@ -55,6 +56,8 @@ class Solution:
         
         return res
 
-paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
-banned = ["hit"]
+#paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
+#banned = ["hit"]
+paragraph = "a, a, a, a, b,b,b,c, c"
+banned = ["a"]  # expected "b"
 print(Solution().mostCommonWord(paragraph, banned))

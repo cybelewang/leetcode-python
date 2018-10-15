@@ -37,6 +37,8 @@ G is a subset of all values in the linked list.
 #         self.next = None
 from ListNode import *
 class Solution:
+    # my own solution
+    # only when there was no previous connection and current node value is in G, then we increase the count
     def numComponents(self, head, G):
         """
         :type head: ListNode
@@ -44,14 +46,12 @@ class Solution:
         :rtype: int
         """
         S, res = set(G), 0
-        pre = False
+        pre = False # previous connection in G
         while head:
             if head.val in S:
-                if head.next and head.next.val in S:
+                if not pre:
                     res += 1
                     pre = True
-                elif not pre:
-                    res += 1
             else:
                 pre = False
 
@@ -61,5 +61,7 @@ class Solution:
 
 a = [0, 1, 2, 3]
 G = [0, 1, 3]   # expected 2
+#a = [1,2,0,4,3]
+#G = [3,4,0,2,1] # expected 1
 head = CreateLinkedList(a)
 print(Solution().numComponents(head, G))
