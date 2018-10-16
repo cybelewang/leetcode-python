@@ -40,4 +40,15 @@ class Solution:
         :type S: str
         :rtype: str
         """
+        vowels = set(['a', 'e', 'i', 'o', 'u'])
+        a = []
+        for i, word in enumerate(S.split()):
+            if word[0] in vowels:
+                a.append(word + "ma" + "a"*(i+1))
+            else:
+                a.append(word[1:] + word[0] + "ma" + "a"*(i+1))
         
+        return " ".join(a)
+
+S = "I speak Goat Latin"
+print(Solution().toGoatLatin(S))

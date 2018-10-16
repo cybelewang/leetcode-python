@@ -34,4 +34,23 @@ class Solution:
         :type backs: List[int]
         :rtype: int
         """
-        
+        n = len(fronts)
+        same = set(fronts[i] for i in range(n) if fronts[i] == backs[i])
+
+        res = 2**31 - 1
+        for i in range(n):
+            f, b = fronts[i], backs[i]
+            if f in same and b in same:
+                continue
+            elif f in same:
+                res = min(res, b)
+            elif b in same:
+                res = min(res, f)
+            else:
+                res = min(res, f, b)
+
+        return res
+
+fronts = [1,2,4,4,7]
+backs = [1,3,4,2,3]
+print(Solution().flipgame(fronts, backs))
