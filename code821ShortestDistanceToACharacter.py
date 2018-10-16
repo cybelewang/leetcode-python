@@ -30,7 +30,7 @@ class Solution:
                 last = i
             dist[i] = min(dist[i], i-last)
 
-        last = -n
+        last = 2*n
         for i in range(n-1, -1, -1):
             if S[i] == C:
                 last = i
@@ -38,6 +38,6 @@ class Solution:
         
         return dist
 
-S = "loveleetcode"
-C = 'e'
+S = "aaba"
+C = 'b'
 print(Solution().shortestToChar(S, C))
