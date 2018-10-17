@@ -36,10 +36,35 @@ Notes:
 1 <= ages.length <= 20000.
 1 <= ages[i] <= 120.
 """
+from bisect import bisect_left
+from collections import defaultdict
 class Solution:
     def numFriendRequests(self, ages):
         """
         :type ages: List[int]
         :rtype: int
         """
+        ages.sort()
+        res, count = 0, defaultdict(int)
+
+        for i, age in enumerate(ages):
+            count[age] += 1
+
+            lower = (age ^ 1)//2 + 8    # lower age limit for B
+            start = bisect_left(ages, lower)
+            res += i - start    # excludes A self
         
+        # bug fixed: need to handle repeated ages, for example, ages = [16, 16], the above algorithm only handles the request from right to left
+        # if there are n same age in ages, then the above algorithm only calculates n*(n-1)//2, and the other n*(n-1)//2 needs to be accounted below
+        for age in count:
+            lower = (age^1)//2 + 8
+            if lower <= age:
+                res += (count[age] - 1)*(count[age])//2
+
+        return res
+        
+
+#ages = [16, 16]    # expected 2
+#ages = [16, 17, 18]    # expected 2
+ages = [20,30,100,110,120]  # expected 3
+print(Solution().numFriendRequests(ages))

@@ -35,4 +35,5 @@ class Solution:
         :type S: str
         :rtype: List[List[int]]
         """
-        
+        n, s = len(S), 0
+        s = 0

@@ -32,4 +32,25 @@ class Solution:
         :type A: List[int]
         :rtype: int
         """
+        M = 10**9 + 7
+        A.sort()
+        n, count = len(A), {}
+
+        res = 0
+        for i in range(n):
+            cnt = 1
+            for j in range(i):
+                if A[i] % A[j] == 0 and A[i]//A[j] in count:
+                    if A[j] == A[i]//A[j]:
+                        cnt += count[A[j]]
+                    else:
+                        cnt += count[A[j]] * count[A[i]//A[j]]
+            
+            count[A[i]] = cnt % M
+            res = (res + count[A[i]])%M
         
+        return res
+
+#A = [2, 4]
+A = [2, 4, 5, 10]
+print(Solution().numFactoredBinaryTrees(A))

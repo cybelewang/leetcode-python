@@ -22,6 +22,7 @@ Notes:
 1 <= worker.length <= 10000
 difficulty[i], profit[i], worker[i]  are in range [1, 10^5]
 """
+from bisect import bisect_right
 class Solution:
     def maxProfitAssignment(self, difficulty, profit, worker):
         """
@@ -30,4 +31,22 @@ class Solution:
         :type worker: List[int]
         :rtype: int
         """
+        info = sorted(zip(difficulty, profit))
+        max_profit, maxp = [], 0
+        for _, p in info:
+            maxp = max(maxp, p)
+            max_profit.append(maxp)
+        difficulty.sort()
+
+        res = 0
+        for w in worker:
+            idx = bisect_right(difficulty, w)
+            if idx > 0:
+                res += max_profit[idx-1]
         
+        return res
+
+difficulty = [2,4,6,8,10]
+profit = [10,20,30,40,50]
+worker = [4,5,6,7]
+print(Solution().maxProfitAssignment(difficulty, profit, worker))
