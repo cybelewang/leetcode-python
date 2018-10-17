@@ -49,7 +49,7 @@ class Solution:
             else:
                 res = min(res, f, b)
 
-        return res
+        return 0 if res == 2**31-1 else res
 
 fronts = [1,2,4,4,7]
 backs = [1,3,4,2,3]
