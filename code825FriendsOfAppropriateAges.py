@@ -66,5 +66,6 @@ class Solution:
 
 #ages = [16, 16]    # expected 2
 #ages = [16, 17, 18]    # expected 2
-ages = [20,30,100,110,120]  # expected 3
+#ages = [20,30,100,110,120]  # expected 3
+ages = [108,115,5,24,82]    # expected 3
 print(Solution().numFriendRequests(ages))

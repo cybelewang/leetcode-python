@@ -40,7 +40,7 @@ class Solution:
         :type S: str
         :rtype: str
         """
-        vowels = set(['a', 'e', 'i', 'o', 'u'])
+        vowels = set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'])    # bug fixed: forgot upper-case vowels
         a = []
         for i, word in enumerate(S.split()):
             if word[0] in vowels:
