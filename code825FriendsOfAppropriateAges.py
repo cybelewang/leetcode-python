@@ -39,6 +39,7 @@ Notes:
 from bisect import bisect_left
 from collections import defaultdict
 class Solution:
+    # my own solution with bug fixed
     def numFriendRequests(self, ages):
         """
         :type ages: List[int]
@@ -52,7 +53,7 @@ class Solution:
 
             lower = (age ^ 1)//2 + 8    # lower age limit for B
             start = bisect_left(ages, lower)
-            res += i - start    # excludes A self
+            res += max(0, i - start)    # excludes A self. Bug fixed: i - start may < 0, because lower may > age
         
         # bug fixed: need to handle repeated ages, for example, ages = [16, 16], the above algorithm only handles the request from right to left
         # if there are n same age in ages, then the above algorithm only calculates n*(n-1)//2, and the other n*(n-1)//2 needs to be accounted below
@@ -66,6 +67,6 @@ class Solution:
 
 #ages = [16, 16]    # expected 2
 #ages = [16, 17, 18]    # expected 2
-#ages = [20,30,100,110,120]  # expected 3
-ages = [108,115,5,24,82]    # expected 3
+ages = [20,30,100,110,120]  # expected 3
+#ages = [108,115,5,24,82]    # expected 3
 print(Solution().numFriendRequests(ages))

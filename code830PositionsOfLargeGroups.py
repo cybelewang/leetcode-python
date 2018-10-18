@@ -36,4 +36,17 @@ class Solution:
         :rtype: List[List[int]]
         """
         n, s = len(S), 0
-        s = 0
+        res = []
+        for i in range(1, n):
+            if S[i] != S[i-1]:
+                if i - s > 2:
+                    res.append([s, i-1])
+                s = i
+        
+        if n - s > 2:
+            res.append([s, n-1])
+        
+        return res
+
+S = "abcdddeeeeaabbbcd"
+print(Solution().largeGroupPositions(S))

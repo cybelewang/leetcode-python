@@ -70,4 +70,21 @@ class Solution:
         :type S: str
         :rtype: str
         """
-        
+        at = S.find("@")
+        if at != -1:
+            # email address
+            return (S[0] + "*****" + S[at-1] + "@" + S[at+1:]).lower()
+        else:
+            # phone number
+            digits = [c for c in S if c.isdigit()]
+            local = "***-***-"+''.join(digits[-4:])
+            if len(digits) > 10:
+                return '+'+'*'*(len(digits)-10)+"-"+local
+            else:
+                return local
+
+test_S = ["LeetCode@LeetCode.com", "AB@qq.com", "1(234)567-890", "86-(10)12345678"]
+obj = Solution()
+for S in test_S:
+    print(obj.maskPII(S))
+                

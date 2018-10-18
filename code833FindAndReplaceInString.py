@@ -38,4 +38,19 @@ class Solution:
         :type targets: List[str]
         :rtype: str
         """
+        a = list(S)
+        for idx in range(len(indexes)):
+            i, s, t = indexes[idx], sources[idx], targets[idx]
+            n = len(s)
+            if S[i:i+n] == s:
+                a[i] = t
+                for j in range(i+1, i+n):
+                    a[j] = ""
         
+        return ''.join(a)
+
+S = "abcd"
+indexes = [0,2]
+sources = ["a","cd"]
+targets = ["eee","ffff"]
+print(Solution().findReplaceString(S, indexes, sources, targets))
