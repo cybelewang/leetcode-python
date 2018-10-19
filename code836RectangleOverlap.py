@@ -20,6 +20,7 @@ Notes:
 Both rectangles rec1 and rec2 are lists of 4 integers.
 All coordinates in rectangles will be between -10^9 and 10^9.
 """
+# similar problems: 223 Rectangle Area
 class Solution:
     def isRectangleOverlap(self, rec1, rec2):
         """
@@ -27,4 +28,16 @@ class Solution:
         :type rec2: List[int]
         :rtype: bool
         """
-        
+        def getWH(rec):
+            return (rec[2] - rec[0], rec[3] - rec[1])
+
+        rec = [min(rec1[0], rec2[0]), min(rec1[1], rec2[1]), max(rec1[2], rec2[2]), max(rec1[3], rec2[3])]
+        w1, h1 = getWH(rec1)
+        w2, h2 = getWH(rec2)
+        w, h = getWH(rec)
+
+        return w < (w1 + w2) and h < (h1 + h2)
+
+rec1 = [0,0,2,2]
+rec2 = [1,1,3,3]
+print(Solution().isRectangleOverlap(rec1, rec2))
