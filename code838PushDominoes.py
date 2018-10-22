@@ -31,10 +31,40 @@ Note:
 0 <= N <= 10^5
 String dominoes contains only 'L', 'R' and '.'
 """
+from collections import deque
 class Solution:
+    # my own solution using a trick to append "L" at head and "R" at tail
+    # then save all letters (not '.') and their positions into a queue
+    # 
     def pushDominoes(self, dominoes):
         """
         :type dominoes: str
         :rtype: str
         """
+        dominoes = 'L' + dominoes + 'R'
+        q = deque([(d, i) for i, d in enumerate(dominoes) if d != '.'])
         
+        left = q.popleft()
+        a = [left[0]]
+        while q:    # left already filled, need to fill until right
+            right = q.popleft()
+            n = right[1] - left[1]
+            if left[0] == right[0]: # either "L.....L" or "R......R", we just fill with the same letters
+                a.extend([left[0]]*n)
+            elif left[0] == 'R':    # "R.....L", we need to fill left half with "R" and right half with "L"
+                a.extend(['R']*((n-1)//2))
+                if n & 1 == 0:
+                    a.append('.')
+                a.extend(['L']*((n+1)//2))
+            else:   # "L.........R", just fill with "."
+                a.extend(['.']*(n-1))
+                a.append('R')
+
+            left = right
+        
+        return ''.join(a[1:-1])
+
+#dominoes = ".L.R...LR..L.."
+dominoes = "RR.L"
+#dominoes = "......"
+print(Solution().pushDominoes(dominoes))
