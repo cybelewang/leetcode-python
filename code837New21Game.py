@@ -32,6 +32,7 @@ Answers will be accepted as correct if they are within 10^-5 of the correct answ
 The judging time limit has been reduced for this question.
 """
 class Solution:
+    # https://leetcode.com/articles/new-21-game/
     def new21Game(self, N, K, W):
         """
         :type N: int
@@ -39,4 +40,15 @@ class Solution:
         :type W: int
         :rtype: float
         """
-        
+        dp = [0.0] * (N + W + 1)
+        # dp[x] = the answer when Alice has x points
+        for k in range(K, N + 1):
+            dp[k] = 1.0
+
+        S = min(N - K + 1, W)
+        # S = dp[k+1] + dp[k+2] + ... + dp[k+W]
+        for k in range(K - 1, -1, -1):
+            dp[k] = S / float(W)
+            S += dp[k] - dp[k + W]
+
+        return dp[0]        
