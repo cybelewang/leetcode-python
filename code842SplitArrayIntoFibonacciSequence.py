@@ -46,4 +46,8 @@ class Solution:
         :type S: str
         :rtype: List[int]
         """
+        n = len(S)
+        if n < 3: 
+            return []
+
         

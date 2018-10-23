@@ -31,10 +31,30 @@ Note:
 0 <= rooms[i].length <= 1000
 The number of keys in all rooms combined is at most 3000.
 """
+from collections import deque
 class Solution:
+    # my own BFS solution
     def canVisitAllRooms(self, rooms):
         """
         :type rooms: List[List[int]]
         :rtype: bool
         """
+        N = len(rooms)
+        color = [0]*N   # 0: white, 1: gray, 2: black
+        color[0] = 1
+
+        q = deque([0])
+        while q:
+            u = q.popleft()
+            for v in rooms[u]:
+                if color[v] == 0:
+                    color[v] = 1
+                    q.append(v)
+            
+            color[u] = 2
         
+        return all(value == 2 for value in color)
+
+#rooms = [[1],[2],[3],[]]
+rooms = [[1,3],[3,0,1],[2],[0]]
+print(Solution().canVisitAllRooms(rooms))
