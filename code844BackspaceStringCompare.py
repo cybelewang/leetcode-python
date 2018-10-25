@@ -32,11 +32,27 @@ Follow up:
 
 Can you solve it in O(N) time and O(1) space?
 """
+import itertools
 class Solution:
+    # https://leetcode.com/problems/backspace-string-compare/
     def backspaceCompare(self, S, T):
         """
         :type S: str
         :type T: str
         :rtype: bool
         """
+        def F(s):
+            skip = 0
+            for x in reversed(s):
+                if x == '#':
+                    skip += 1
+                elif skip:
+                    skip -= 1
+                else:
+                    yield x
         
+        return all(x == y for x, y in itertools.zip_longest(F(S), F(T)))
+
+S = "a##bc"
+T = "#a#bc"
+print(Solution().backspaceCompare(S, T))
