@@ -50,4 +50,19 @@ class Solution:
         if n < 3: 
             return []
 
-        
+        def validate(start, S, build):
+            if start == len(S):
+                return True
+
+            first, second = build[-2], build[-1]
+            third = first + second
+            target = str(third)
+            end = start + len(target)
+            if end <= len(S) and S[start:end] == target:
+                build.append(third)
+                return validate(end, S, build)
+
+            return False
+
+        for i in range(n-2):
+            for j in range
