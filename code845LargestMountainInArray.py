@@ -44,7 +44,10 @@ class Solution:
         left, right, res = 0, 0, 0
         for i in range(1, n):
             if A[i] > A[i-1]:
-                left += 1
+                if right > 0:   # bug fixed: we must reset left if the increase trend just follows a decline, like "V"
+                    left = 1
+                else:
+                    left += 1
                 right = 0
             elif A[i] < A[i-1]:
                 right += 1
@@ -56,5 +59,6 @@ class Solution:
         return res
 
 #A = [2,1,4,7,3,2,5]
-A = [5, 4, 3, 2, 1]
+#A = [5, 4, 3, 2, 1]
+A = [1,2,0,2,0,2]   # expected 3
 print(Solution().longestMountain(A))
