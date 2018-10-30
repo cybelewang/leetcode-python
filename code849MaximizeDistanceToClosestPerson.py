@@ -29,10 +29,35 @@ Note:
 1 <= seats.length <= 20000
 seats contains only 0s or 1s, at least one 0, and at least one 1.
 """
+# similar problems: 475 Heaters
 class Solution:
+    # my own solution, two-pass
     def maxDistToClosest(self, seats):
         """
         :type seats: List[int]
         :rtype: int
         """
+        n = len(seats)
+        a = [n]*n
+
+        res, src = 0, -1
+        for i in range(n):
+            if seats[i]:
+                src = i
+                a[i] = 0
+            elif src != -1:
+                a[i] = i - src
+
+        src = n
+        for i in range(n-1, -1, -1):
+            if seats[i]:
+                src = i                
+            elif src != n:
+                a[i] = min(a[i], src - i)
+            
+            res = max(res, a[i])
         
+        return res
+
+seats = [1, 0, 1, 0]
+print(Solution().maxDistToClosest(seats))

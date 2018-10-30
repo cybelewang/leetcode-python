@@ -26,10 +26,22 @@ Note:
 0 <= shifts[i] <= 10 ^ 9
 """
 class Solution:
+    # my own solution by processing from end to begining
     def shiftingLetters(self, S, shifts):
         """
         :type S: str
         :type shifts: List[int]
         :rtype: str
         """
+        a, n = [], len(S)
+        times = 0
+        for i in range(n):
+            origin = ord(S[n-1-i]) - ord('a') 
+            times = (times + shifts[n-1-i])%26
+            a.append(chr((origin + times)%26 + ord('a')))
         
+        return ''.join(a[::-1])
+
+S = "abc"
+shifts = [3,5,9]
+print(Solution().shiftingLetters(S, shifts))

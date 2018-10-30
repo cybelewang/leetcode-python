@@ -41,6 +41,7 @@ Note:
 S contains only digits.
 """
 class Solution:
+    # my own DFS solution, the first two numbers determine the result, so we just iterate all combinations of first two numbers
     def splitIntoFibonacci(self, S):
         """
         :type S: str
@@ -64,5 +65,22 @@ class Solution:
 
             return False
 
-        for i in range(n-2):
-            for j in range
+        for i in range(1, n-1):
+            first = int(S[:i])
+            if str(first) != S[:i]: # convert integer back to string to filter out leading-zero numbers such as "03"
+                continue
+            for j in range(i+1, n):
+                second = int(S[i:j])
+                if str(second) != S[i:j]:
+                    continue
+                build = [first, second]
+                if validate(j, S, build):
+                    return build
+        
+        return []
+
+
+# S = "11235813" # expected [1, 1, 2, 3, 5, 8, 13]
+# S = "000" # expected [0, 0, 0]
+S = "1101111"
+print(Solution().splitIntoFibonacci(S))

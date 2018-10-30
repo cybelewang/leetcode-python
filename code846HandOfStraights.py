@@ -27,11 +27,30 @@ Note:
 0 <= hand[i] <= 10^9
 1 <= W <= hand.length
 """
+from collections import Counter
 class Solution:
+    # my own solution
     def isNStraightHand(self, hand, W):
         """
         :type hand: List[int]
         :type W: int
         :rtype: bool
         """
+        if len(hand) != W*W:
+            return False
         
+        count = Counter(hand)
+        for start in sorted(count):
+            repeat = count[start]
+            if repeat == 0:
+                continue
+            for i in range(W):
+                if count[start + i] < repeat:
+                    return False
+                count[start+i] -= repeat
+        
+        return True
+
+hand = [1,2,3,6,2,3,4,7,8]
+W = 3
+print(Solution().isNStraightHand(hand, W))
