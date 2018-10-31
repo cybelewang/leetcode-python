@@ -36,7 +36,7 @@ class Solution:
         :type W: int
         :rtype: bool
         """
-        if len(hand) != W*W:
+        if len(hand) % W != 0:
             return False
         
         count = Counter(hand)
@@ -51,6 +51,8 @@ class Solution:
         
         return True
 
-hand = [1,2,3,6,2,3,4,7,8]
-W = 3
+#hand = [1,2,3,6,2,3,4,7,8]
+#W = 3
+hand = [1,2,3,4,5,6]
+W = 2
 print(Solution().isNStraightHand(hand, W))

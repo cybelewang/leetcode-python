@@ -42,12 +42,13 @@ S contains only digits.
 """
 class Solution:
     # my own DFS solution, the first two numbers determine the result, so we just iterate all combinations of first two numbers
+    # bug fixed: must check first, second and third not exceeding MAX INTEGER
     def splitIntoFibonacci(self, S):
         """
         :type S: str
         :rtype: List[int]
         """
-        n = len(S)
+        n, MAX = len(S), 2**31 - 1
         if n < 3: 
             return []
 
@@ -57,6 +58,9 @@ class Solution:
 
             first, second = build[-2], build[-1]
             third = first + second
+            if third > MAX:
+                return False
+
             target = str(third)
             end = start + len(target)
             if end <= len(S) and S[start:end] == target:
@@ -65,13 +69,13 @@ class Solution:
 
             return False
 
-        for i in range(1, n-1):
+        for i in range(1, min(n-1, 11)):
             first = int(S[:i])
-            if str(first) != S[:i]: # convert integer back to string to filter out leading-zero numbers such as "03"
+            if str(first) != S[:i] or first > MAX: # convert integer back to string to filter out leading-zero numbers such as "03"
                 continue
-            for j in range(i+1, n):
-                second = int(S[i:j])
-                if str(second) != S[i:j]:
+            for j in range(i+1, min(n, i+11)):
+                second = int(S[i:j])                
+                if str(second) != S[i:j] or second > MAX:
                     continue
                 build = [first, second]
                 if validate(j, S, build):
@@ -82,5 +86,6 @@ class Solution:
 
 # S = "11235813" # expected [1, 1, 2, 3, 5, 8, 13]
 # S = "000" # expected [0, 0, 0]
-S = "1101111"
+# S = "1101111"
+S = "539834657215398346785398346991079669377161950407626991734534318677529701785098211336528511"
 print(Solution().splitIntoFibonacci(S))
