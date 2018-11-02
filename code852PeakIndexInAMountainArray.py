@@ -27,4 +27,11 @@ class Solution:
         :type A: List[int]
         :rtype: int
         """
+        pre = -2**31
+        for i, a in enumerate(A):
+            if a < pre:
+                return i - 1
+            else:
+                pre = a
         
+

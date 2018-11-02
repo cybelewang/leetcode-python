@@ -44,4 +44,17 @@ class Solution:
         :type speed: List[int]
         :rtype: int
         """
-        
+        cars = sorted((position[i], speed[i]) for i in range(len(position)))
+        res = 0
+        while cars:
+            res += 1
+            p, s = cars.pop()
+            t = (target - p)/s
+
+            while cars and (cars[-1][0] + cars[-1][1]*t + 1e-6) > target:
+                cars.pop()
+
+        return res
+
+target, position, speed = 12, [10,8,0,5,3], [2,4,1,1,3]
+print(Solution().carFleet(target, position, speed))
