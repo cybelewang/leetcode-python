@@ -21,6 +21,7 @@ Note:
 0 <= A[i] <= 10^6
 A is a mountain, as defined above.
 """
+# similar problems: 845 Longest Mountain in Array
 class Solution:
     def peakIndexInMountainArray(self, A):
         """

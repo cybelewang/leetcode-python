@@ -30,6 +30,7 @@ Follow up:
 Can you solve it using only one pass?
 Can you solve it in O(1) space?
 """
+# similar problems: 852 Peak Index in a Mountain Array
 class Solution:
     # my own solution by observing the counts of increasing and decreasing segments
     def longestMountain(self, A):

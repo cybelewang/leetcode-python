@@ -44,4 +44,3 @@ class Solution:
         :type quiet: List[int]
         :rtype: List[int]
         """
-        

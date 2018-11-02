@@ -37,6 +37,10 @@ Note:
 All initial positions are different.
 """
 class Solution:
+    # my own solution
+    # sort the tuple (position, speed) first
+    # for each car in the end (with closet position to target), pop the car out, and calculate the time t it requires to arrive at target
+    # then calculate each car's position with time t, if larger than target, pop it out, these popped out cars will form a fleet
     def carFleet(self, target, position, speed):
         """
         :type target: int
@@ -51,7 +55,7 @@ class Solution:
             p, s = cars.pop()
             t = (target - p)/s
 
-            while cars and (cars[-1][0] + cars[-1][1]*t + 1e-6) > target:
+            while cars and (cars[-1][0] + cars[-1][1]*t + 1e-6) > target:   # add 1e-6 for float comparison
                 cars.pop()
 
         return res
