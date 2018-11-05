@@ -38,9 +38,31 @@ richer[i]'s are all different.
 The observations in richer are all logically consistent.
 """
 class Solution:
+    # help from https://leetcode.com/problems/loud-and-rich/
     def loudAndRich(self, richer, quiet):
         """
         :type richer: List[List[int]]
         :type quiet: List[int]
         :rtype: List[int]
         """
+        N = len(quiet)
+        graph = [[] for _ in range(N)]
+        for u, v in richer:
+            graph[v].append(u)
+
+        answer = [None]*N
+        def dfs(node):
+            if answer[node] is None:
+                answer[node] = node # intially set to itself
+                for child in graph[node]:
+                    cand = dfs(child)
+                    if quiet[cand] < quiet[answer[node]]:   # relay the result
+                        answer[node] = cand
+            
+            return answer[node]
+
+        return list(map(dfs, range(N)))
+
+richer = [[1,0],[2,1],[3,1],[3,7],[4,3],[5,3],[6,3]]
+quiet = [3,2,5,4,6,1,7,0]
+print(Solution().loudAndRich(richer, quiet))
