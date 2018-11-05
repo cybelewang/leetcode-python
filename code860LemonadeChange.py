@@ -52,4 +52,24 @@ class Solution:
         :type bills: List[int]
         :rtype: bool
         """
-        
+        five, ten = 0, 0
+        for b in bills:
+            if b == 5:
+                five += 1
+            elif b == 10:
+                five -= 1
+                ten += 1
+            else:   # 20
+                if ten > 0: # use $10 first
+                    ten -= 1
+                    five -= 1
+                else:
+                    five -= 3
+            
+            if five < 0:
+                return False
+            
+        return True
+
+bills = [5,5,5,10,20]
+print(Solution().lemonadeChange(bills))

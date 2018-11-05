@@ -37,4 +37,21 @@ class Solution:
         :type S: str
         :rtype: int
         """
+        if not S:
+            return 0.5
         
+        start, count, res = 0, 0, 0
+        for i, c in enumerate(S):
+            if c == '(':
+                count += 1
+            else:
+                count -= 1
+            
+            if count == 0:
+                res += 2*self.scoreOfParentheses(S[start+1:i])
+                start = i + 1
+        
+        return int(res)
+
+S = "()()"
+print(Solution().scoreOfParentheses(S))
