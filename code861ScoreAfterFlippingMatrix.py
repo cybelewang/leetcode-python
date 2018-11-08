@@ -32,4 +32,4 @@ class Solution:
         :type A: List[List[int]]
         :rtype: int
         """
-        
+        m, n = len(A), len(A[0])
