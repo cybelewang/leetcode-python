@@ -22,6 +22,17 @@ Note:
 1 <= p <= 1000
 0 <= q <= p
 """
+"""
+Instead of modelling the ray as a bouncing line, model it as a straight line through reflections of the room.
+
+For example, if p = 2, q = 1, then we can reflect the room horizontally, and draw a straight line from (0, 0) to (4, 2). The ray meets the receptor 2, which was reflected from (0, 2) to (4, 2).
+
+In general, the ray goes to the first integer point (kp, kq) where k is an integer, and kp and kq are multiples of p. Thus, the goal is just to find the smallest k for which kq is a multiple of p.
+
+The mathematical answer is k = p / gcd(p, q).
+"""
+
+from fractions import gcd
 class Solution:
     def mirrorReflection(self, p, q):
         """
@@ -29,4 +40,9 @@ class Solution:
         :type q: int
         :rtype: int
         """
+        g = gcd(p, q)
+        p = (p // g) % 2
+        q = (q // g) % 2
+
+        return 1 if p and q else 0 if p else 2
         
