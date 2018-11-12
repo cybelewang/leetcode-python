@@ -55,20 +55,21 @@ class Solution:
                 return
 
             if dist == 0:
-                res.append(root)
+                res.append(root.val)
                 return
 
             q = deque([root.left if dir == 0 else root.right])
             for _ in range(dist-1):
                 n = len(q)
                 for _ in range(n):
+
                     node = q.popleft()
-                    if node.left:
-                        q.append(node.left)
-                    if node.right:
-                        q.append(node.right)
+                    if not node:
+                        continue
+                    q.append(node.left)
+                    q.append(node.right)
             
-            res.extend(q)
+            res.extend(node.val for node in q if node)
 
 
         def dfs(root, target):
@@ -103,7 +104,7 @@ class Solution:
         return res
 
 null = None
-root = ListToTree([3,5,1,6,2,0,8,null,null,7,4])
-target = root.left
-K = 4
+root = ListToTree([1])
+target = root
+K = 3
 print(Solution().distanceK(root, target, K))
