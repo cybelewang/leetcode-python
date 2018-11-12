@@ -31,17 +31,69 @@ Note:
 The number of nodes in the tree will be between 1 and 500.
 The values of each node are unique.
 """
+# similar problems: 104 Maximum Depth of Binary Tree; 236 Lowest Common Ancestor of a Binary Tree
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
+    # my own solution: 1. find all deepest nodes and put in a set. 2. Up-merge these nodes to a common ancestor
     def subtreeWithAllDeepest(self, root):
         """
         :type root: TreeNode
         :rtype: TreeNode
         """
+        # first get a set of deepest nodes
+        self.deepest = set()
+        self.maxDepth = -1
+        def find(root, depth):
+            """
+            find the deepest nodes and put them in a set
+            """
+            if not root:
+                return
+
+            if depth >= self.maxDepth:
+                if depth > self.maxDepth:
+                    self.deepest.clear()
+                    self.maxDepth = depth
+                self.deepest.add(root)
+            
+            find(root.left, 1 + depth)
+            find(root.right, 1 + depth)
         
+        # now find the lowest common ancestor of these nodes
+        def merge(root):
+            """
+            up-merge to find the lowest common ancestor of the deepest nodes
+            """
+            if not root or len(self.deepest) == 1:
+                return
+
+            # if left or right child in deepest nodes, replace them using the parent node
+            bFound = False
+            if root.left in self.deepest:
+                self.deepest.remove(root.left)
+                bFound = True
+            if root.right in self.deepest:
+                self.deepest.remove(root.right)
+                bFound = True
+            
+            if bFound:
+                self.deepest.add(root)
+            
+            merge(root.left)
+            merge(root.right)
+
+        # main
+        find(root, 0)
+        merge(root)
+
+        return self.deepest.pop()
+
+root = ListToTree([3,5,1,6,2,0,8,None,None,7,4])
+print(Solution().subtreeWithAllDeepest(root))
