@@ -95,5 +95,8 @@ class Solution:
 
         return self.deepest.pop()
 
-root = ListToTree([3,5,1,6,2,0,8,None,None,7,4])
-print(Solution().subtreeWithAllDeepest(root))
+null = None
+root = ListToTree([0,3,1,4,null,2,null,null,6,null,5])
+PrintTree(root)
+result = Solution().subtreeWithAllDeepest(root)
+PrintTree(result)
