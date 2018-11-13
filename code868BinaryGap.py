@@ -5,8 +5,6 @@ Given a positive integer N, find and return the longest distance between two con
 
 If there aren't two consecutive 1's, return 0.
 
- 
-
 Example 1:
 
 Input: 22
@@ -48,4 +46,16 @@ class Solution:
         :type N: int
         :rtype: int
         """
+        res, last = 0, None
+        b = bin(N)[2:]
+        for i, bit in enumerate(b):
+            if bit == '1':
+                if last is not None:
+                    res = max(res, i - last)
+                last = i
         
+        return res
+
+test_N = [22, 5, 6, 8]
+for N in test_N:
+    print(Solution().binaryGap(N))

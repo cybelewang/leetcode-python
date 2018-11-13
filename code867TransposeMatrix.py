@@ -23,9 +23,20 @@ Note:
 1 <= A[0].length <= 1000
 """
 class Solution:
+    # my own solution by trying different size matrix
     def transpose(self, A):
         """
         :type A: List[List[int]]
         :rtype: List[List[int]]
         """
-        
+        m, n = len(A), len(A[0])
+        for i in range(m):
+            for j in range(i, n):
+                x = min(m-1, j)
+                y = i + j - x
+                A[i][j], A[x][y] = A[x][y], A[i][j]
+
+        return A
+
+A = [[1,2,3,4]]
+print(Solution().transpose(A))

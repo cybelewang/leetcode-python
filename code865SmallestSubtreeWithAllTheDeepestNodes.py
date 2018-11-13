@@ -71,7 +71,13 @@ class Solution:
             """
             up-merge to find the lowest common ancestor of the deepest nodes
             """
-            if not root or len(self.deepest) == 1:
+            if not root:
+                return
+
+            merge(root.left)
+            merge(root.right)
+
+            if len(self.deepest) == 1:
                 return
 
             # if left or right child in deepest nodes, replace them using the parent node
@@ -86,8 +92,8 @@ class Solution:
             if bFound:
                 self.deepest.add(root)
             
-            merge(root.left)
-            merge(root.right)
+            # merge(root.left)
+            # merge(root.right)
 
         # main
         find(root, 0)
@@ -96,7 +102,8 @@ class Solution:
         return self.deepest.pop()
 
 null = None
-root = ListToTree([0,3,1,4,null,2,null,null,6,null,5])
+#root = ListToTree([3,5,1,6,2,0,8,null,null,7,4])    # expected 2
+root = ListToTree([0,3,1,4,null,2,null,null,6,null,5])  # expected 0
 PrintTree(root)
 result = Solution().subtreeWithAllDeepest(root)
 PrintTree(result)
