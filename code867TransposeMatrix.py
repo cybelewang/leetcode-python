@@ -23,8 +23,21 @@ Note:
 1 <= A[0].length <= 1000
 """
 class Solution:
-    # my own solution by trying different size matrix
     def transpose(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        m, n = len(A), len(A[0])
+        B = [[0]*m for _ in range(n)]
+        for i in range(n):
+            for j in range(m):
+                B[i][j] = A[j][i]
+
+        return B
+
+    # my own solution by trying different size matrix
+    def transpose_Wrong(self, A):
         """
         :type A: List[List[int]]
         :rtype: List[List[int]]
