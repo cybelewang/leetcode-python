@@ -9,8 +9,6 @@ Given a strictly increasing array A of positive integers forming a sequence, fin
 
 (Recall that a subsequence is derived from another sequence A by deleting any number of elements (including none) from A, without changing the order of the remaining elements.  For example, [3, 5, 8] is a subsequence of [3, 4, 5, 6, 7, 8].)
 
- 
-
 Example 1:
 
 Input: [1,2,3,4,5,6,7,8]

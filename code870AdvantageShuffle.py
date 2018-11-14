@@ -20,6 +20,7 @@ Note:
 0 <= A[i] <= 10^9
 0 <= B[i] <= 10^9
 """
+# see C++ solution using std::map
 class Solution:
     def advantageCount(self, A, B):
         """
