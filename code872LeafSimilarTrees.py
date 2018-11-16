@@ -53,9 +53,24 @@ class Solution(object):
                         stack.append(node)
                         node = node.left
 
+        def G(node):
+            """
+            Generator to generate all leaves in the tree
+            Similar to recursive in-order traversal
+            """
+            if node:
+                yield from G(node.left)
+                if not node.left and not node.right:
+                    yield node
+                yield from G(node.right)            
+
         #print(list(F(root1)))    
         #print(list(F(root2)))
-        return all(a and b and a.val==b.val for a, b in zip_longest(F(root1), F(root2)))
+        #return all(a and b and a.val==b.val for a, b in zip_longest(F(root1), F(root2)))
+        print(list(G(root1)))    
+        print(list(G(root2)))
+        return all(a and b and a.val==b.val for a, b in zip_longest(G(root1), G(root2)))
+
 
 null = None
 root1 = ListToTree([3,5,1,6,2,0,8,null,null,7,4])

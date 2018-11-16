@@ -30,10 +30,33 @@ Note:
 1 <= A[0] < A[1] < ... < A[A.length - 1] <= 10^9
 (The time limit has been reduced by 50% for submissions in Java, C, and C++.)
 """
+from collections import defaultdict
 class Solution(object):
+    # my own O(N^2) solution, first two numbers determine the f sequence length
     def lenLongestFibSubseq(self, A):
         """
         :type A: List[int]
         :rtype: int
         """
+        n, nums = len(A), set(A)
+        link = defaultdict(set) # for a fibonacci sequence a->b->c->d->e, there will be link[a] = {b}, link[b] = {c}, link[c] = {d}, link[d] = {e}
+
+        res = 0
+        for i in range(n-1):
+            for j in range(i+1, n):
+                a, b = A[i], A[j]
+                if b in link[a]:    # check if the sequence starting from a, b has been processed previously
+                    continue
+                count = 2
+                link[a].add(b)
+                while a + b in nums:
+                    count += 1
+                    a, b = b, a+b
+                    link[a].add(b)
+                if count > 2:
+                    res = max(res, count)
         
+        return res
+
+A = [1,3,7,11,12,14,18]
+print(Solution().lenLongestFibSubseq(A))

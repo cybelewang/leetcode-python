@@ -78,11 +78,23 @@ class Solution(object):
             self._recursive(root.left, res)
             self._recursive(root.right, res)
 
+    def _generator(self, root):
+        """
+        Generator solution
+        """
+        def G(node):
+            if node:
+                yield node.val
+                yield from G(node.left)
+                yield from G(node.right)
+        
+        return list(G(root))
+
 null = None
 test_case =  [1,null,2,3]
 root = ListToTree(test_case)
 PrintTree(root)
 
 obj = Solution()
-res = obj.preorderTraversal(root)
+res = obj._generator(root)
 print(res)
