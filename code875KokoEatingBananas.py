@@ -9,8 +9,6 @@ Koko likes to eat slowly, but still wants to finish eating all the bananas befor
 
 Return the minimum integer K such that she can eat all the bananas within H hours.
 
- 
-
 Example 1:
 
 Input: piles = [3,6,7,11], H = 8
@@ -23,7 +21,6 @@ Example 3:
 
 Input: piles = [30,11,23,4,20], H = 6
 Output: 23
- 
 
 Note:
 
@@ -32,10 +29,25 @@ piles.length <= H <= 10^9
 1 <= piles[i] <= 10^9
 """
 class Solution(object):
+    # binary search solution https://leetcode.com/problems/koko-eating-bananas/solution/
     def minEatingSpeed(self, piles, H):
         """
         :type piles: List[int]
         :type H: int
         :rtype: int
         """
+        def possible(K):
+            return sum((p-1)//K + 1 for p in piles) <= H
+
+        lo, hi = 1, max(piles)
+        while lo < hi:
+            mi = (lo + hi)//2
+            if not possible(mi):
+                lo = mi + 1
+            else:
+                hi = mi
         
+        return lo
+
+piles, H = [3,6,7,11], 8
+print(Solution().minEatingSpeed(piles, H))

@@ -32,8 +32,28 @@ Note:
 """
 from collections import defaultdict
 class Solution(object):
-    # my own O(N^2) solution, first two numbers determine the f sequence length
+    # DP solution, O(N^2)
+    # if ...->i->j->k->... is f subsequence, then longest[(i, j)] + 1 = longest[(j, k)]
     def lenLongestFibSubseq(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        index = {a:i for i, a in enumerate(A)}
+        longest = defaultdict(lambda:2)
+
+        ans = 0
+        for k, z in enumerate(A):
+            for j in range(k):
+                i = index.get(z - A[j], None)
+                if i is not None and i < j: # bug fixed: must check i < j because z - A[j] may > A[j]
+                    cand = longest[j, k] = longest[i, j] + 1
+                    ans = max(ans, cand)
+        
+        return ans if ans > 2 else 0
+
+    # my own O(N^2*logM) TLE solution, first two numbers determine the f sequence length
+    def lenLongestFibSubseq2(self, A):
         """
         :type A: List[int]
         :rtype: int

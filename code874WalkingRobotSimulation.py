@@ -34,10 +34,33 @@ Note:
 The answer is guaranteed to be less than 2 ^ 31.
 """
 class Solution(object):
+    # brutal force solution
     def robotSim(self, commands, obstacles):
         """
         :type commands: List[int]
         :type obstacles: List[List[int]]
         :rtype: int
-        """
-        
+        """ 
+        dirs = ((0, 1), (1, 0), (0, -1), (-1, 0))   # up, right, down, left
+        obstacleSet = set(map(tuple, obstacles))
+
+        res, d, x, y = 0, 0, 0, 0
+        for cmd in commands:
+            if cmd == -2:
+                d = (d + 3)%4
+            elif cmd == -1:
+                d = (d + 1)%4
+            else:
+                for k in range(cmd):
+                    if (x + dirs[d][0], y + dirs[d][1]) not in obstacleSet:
+                        x += dirs[d][0]
+                        y += dirs[d][1]
+                        res = max(res, x*x + y*y)
+                    else:
+                        break
+            
+        return res
+
+commands = [4,-1,4,-2,4]
+obstacles = [[2,4]]
+print(Solution().robotSim(commands, obstacles))
