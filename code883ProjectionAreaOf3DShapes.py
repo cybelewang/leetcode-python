@@ -46,9 +46,25 @@ Note:
 0 <= grid[i][j] <= 50
 """
 class Solution:
+    # my own one-pass solution
     def projectionArea(self, grid):
         """
         :type grid: List[List[int]]
         :rtype: int
         """
+        m, n = len(grid), len(grid[0])
+        top = 0 
+        front = [0]*n
+        for i in range(m):
+            side = 0
+            for j in range(n):
+                if grid[i][j] > 0:
+                    top += 1
+                side = max(side, grid[i][j])
+                front[j] = max(front[j], grid[i][j])
+            top += side
         
+        return top + sum(front)
+
+grid = [[1,2],[3,4]]
+print(Solution().projectionArea(grid))

@@ -39,10 +39,32 @@ S starts with a letter.
 The decoded string is guaranteed to have less than 2^63 letters.
 """
 class Solution:
+    # https://leetcode.com/problems/decoded-string-at-index/solution/
     def decodeAtIndex(self, S, K):
         """
         :type S: str
         :type K: int
         :rtype: str
         """
+        # step 1: get the total size of the decoded string
+        size = 0
+        for c in S:
+            if c.isdigit():
+                size *= int(c)
+            else:
+                size += 1
         
+        # step 2: decode character in reverse way
+        for c in reversed(S):
+            K %= size
+            if K == 0 and c.isalpha():
+                return c
+
+            if c.isdigit():
+                size //= int(c)
+            else:
+                size -= 1
+            
+S = "ha22"
+K = 5
+print(Solution().decodeAtIndex(S, K))
