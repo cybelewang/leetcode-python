@@ -34,4 +34,8 @@ class Solution:
         :type B: str
         :rtype: List[str]
         """
-        
+        return list(set(A.split()) ^ set(B.split()))
+
+A = "this apple is sweet"
+B = "this apple is sour"
+print(Solution().uncommonFromSentences(A, B))
