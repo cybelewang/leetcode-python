@@ -39,9 +39,9 @@ class Solution:
         N = len(piles)
 
         dp = [[0]*(N+2) for _ in range(N+2)]    # dp[i+1][j+1] = the value of the game [piles[i], ..., piles[j]].
-        for size in range(1, N+1):
-            for i in range(N-size+1):
-                j = i + size - 1
+        for size in range(1, N+1):  # size from 1 to N
+            for i in range(N-size+1):   # the upper including limit of i is (N - size), considering i + size == N
+                j = i + size - 1    # j - i + 1 == size
                 parity = (j + i + N) % 2    # 1 for Alex
                 if parity == 1:
                     dp[i+1][j+1] = max(piles[i] + dp[i+2][j+1], piles[j] + dp[i+1][j])
