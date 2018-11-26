@@ -34,11 +34,39 @@ Note:
 dislikes[i][0] < dislikes[i][1]
 There does not exist i != j for which dislikes[i] == dislikes[j].
 """
+# similar problems: 785 Is Graph Bipartite
+from collections import defaultdict, deque
 class Solution:
+    # BFS solution using two colors (1 and -1 are two different groups, 0 means not grouped), similar to problem 785's solution
     def possibleBipartition(self, N, dislikes):
         """
         :type N: int
         :type dislikes: List[List[int]]
         :rtype: bool
         """
+        colors = [0]*(N+1)
+        graph = defaultdict(list)
+
+        for a, b in dislikes:
+            graph[a].append(b)
         
+        for i in range(1, N+1):
+            if colors[i] == 0:
+                # BFS to color all nodes linked to node i
+                colors[i] = 1
+                q = deque([i])
+                while q:
+                    a = q.popleft()
+                    for b in graph[a]:
+                        if colors[b] == colors[a]:
+                            return False
+                        else:
+                            colors[b] = - colors[a]
+                            q.append(b)
+        
+        return True
+
+#N, dislikes = 3, [[1,2],[1,3],[2,3]]
+#N, dislikes = 5, [[1,2],[2,3],[3,4],[4,5],[1,5]]
+N, dislikes = 4, [[1,2],[1,3],[2,4]]
+print(Solution().possibleBipartition(N, dislikes))

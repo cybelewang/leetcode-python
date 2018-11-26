@@ -38,8 +38,26 @@ class Solution:
 
         return (1 + max(leftDepth, rightDepth), leftBalanced and rightBalanced and (-2 < (leftDepth - rightDepth) < 2))
 
+    # 2nd round solution on 11/26/2018
+    def isBalanced2(self, root):
+        def maxdepth(node):
+            """
+            get max depth of the subtree with node as the root
+            return -1 if two subtrees have depth difference > 1
+            """
+            if not node:
+                return 0
+            
+            leftdepth, rightdepth = maxdepth(node.left), maxdepth(node.right)
+            if leftdepth == -1 or rightdepth == -1 or abs(leftdepth - rightdepth) > 1:
+                return -1
+            else:
+                return 1 + max(leftdepth, rightdepth)
+        
+        return maxdepth(root) > -1
+
 obj = Solution()
 null = None
 test_case = [1, 2]
 test_tree = ListToTree(test_case)
-print(obj.isBalanced(test_tree))        
+print(obj.isBalanced2(test_tree))        

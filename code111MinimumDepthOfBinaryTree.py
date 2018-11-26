@@ -15,6 +15,9 @@ The minimum depth is the number of nodes along the shortest path from the root n
 
 # Key is the definition of leaf node: it must be have both left and right child == None
 class Solution:
+    def __init__(self):
+        self.MAX_INT = 2**31 - 1
+
     def _isLeaf(self, root):
         return root is not None and root.left is None and root.right is None
 
@@ -44,9 +47,25 @@ class Solution:
         
         return minDepth
 
+    # 2nd round solution on 11/26/2018
+    def minDepth2(self, root):
+        def depth(root):
+            if not root:
+                return self.MAX_INT
+            
+            lvalue, rvalue = depth(root.left), depth(root.right)
+
+            if lvalue == self.MAX_INT and rvalue == self.MAX_INT:
+                return 1
+            else:
+                return 1 + min(lvalue, rvalue)
+
+        d = depth(root)
+        return 0 if d == self.MAX_INT else d
+
 obj = Solution()
 null = None
 test_case = [1,2]
 test_tree = ListToTree(test_case)
-print(obj.minDepth(test_tree))        
+print(obj.minDepth2(test_tree))        
         
