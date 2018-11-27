@@ -39,3 +39,13 @@ class Solution:
 A = "this apple is sweet"
 B = "this apple is sour"
 print(Solution().uncommonFromSentences(A, B))
+
+"""
+Input
+"apple apple"
+"banana"
+Output
+["apple","banana"]
+Expected
+["banana"]
+"""
