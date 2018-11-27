@@ -9,8 +9,6 @@ Return a list of all uncommon words.
 
 You may return the list in any order.
 
- 
-
 Example 1:
 
 Input: A = "this apple is sweet", B = "this apple is sour"
@@ -19,7 +17,6 @@ Example 2:
 
 Input: A = "apple apple", B = "banana"
 Output: ["banana"]
- 
 
 Note:
 
@@ -27,17 +24,31 @@ Note:
 0 <= B.length <= 200
 A and B both contain only spaces and lowercase letters.
 """
+from collections import Counter
 class Solution:
+    # understand the problem correctly: appears exactly once, so remove those appear more than once
     def uncommonFromSentences(self, A, B):
         """
         :type A: str
         :type B: str
         :rtype: List[str]
         """
-        return list(set(A.split()) ^ set(B.split()))
+        def G(S):
+            # generator to yield word that appears only once in string S
+            count = Counter(S.split())
+            for word in count:
+                if count[word] == 1:
+                    yield word
+        
+        return list(set(G(A)) ^ set(G(B)))
+        
+        # original wrong solution
+        #return list(set(A.split()) ^ set(B.split()))
 
-A = "this apple is sweet"
-B = "this apple is sour"
+#A = "this apple is sweet"
+#B = "this apple is sour"
+A = "apple apple"
+B = "banana"
 print(Solution().uncommonFromSentences(A, B))
 
 """

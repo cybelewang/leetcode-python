@@ -39,4 +39,24 @@ class Solution:
         :type c0: int
         :rtype: List[List[int]]
         """
+        dirs = ((0, 1), (1, 0), (0, -1), (-1, 0))   # directions: east, south, west, north
+        count = 1   # number of points collected
+        r, c = r0, c0
+        res = [[r0, c0]]
+        d, length = 0, 1
+        while count < R*C:
+            for _ in range(2):
+                for _ in range(length):
+                    r, c = r + dirs[d][0], c + dirs[d][1]
+                    if -1 < r < R and -1 < c < C:
+                        res.append([r, c])
+                        count += 1
+                d = (d + 1)%4   # loop direction
+
+            length += 1 # increase the edge length
         
+        return res
+
+
+R, C, r0, c0 = 5, 6, 1, 4
+print(Solution().spiralMatrixIII(R, C, r0, c0))

@@ -1,9 +1,5 @@
 """
-890. Find and Replace Pattern
-Medium
-199
-18
-
+890 Find and Replace Pattern
 
 You have a list of words and a pattern, and you want to know which words in words matches the pattern.
 
@@ -15,8 +11,6 @@ Return a list of the words in words that match the given pattern.
 
 You may return the answer in any order.
 
- 
-
 Example 1:
 
 Input: words = ["abc","deq","mee","aqq","dkd","ccc"], pattern = "abb"
@@ -24,7 +18,6 @@ Output: ["mee","aqq"]
 Explanation: "mee" matches the pattern because there is a permutation {a -> m, b -> e, ...}. 
 "ccc" does not match the pattern because {a -> c, b -> c, ...} is not a permutation,
 since a and b map to the same letter.
- 
 
 Note:
 
