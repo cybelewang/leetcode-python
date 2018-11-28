@@ -1,9 +1,5 @@
 """
 894. All Possible Full Binary Trees
-Medium
-219
-21
-
 
 A full binary tree is a binary tree where each node has exactly 0 or 2 children.
 
@@ -13,23 +9,16 @@ Each node of each tree in the answer must have node.val = 0.
 
 You may return the final list of trees in any order.
 
- 
-
 Example 1:
 
 Input: 7
 Output: [[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]
 Explanation:
-
  
 
 Note:
 
 1 <= N <= 20
-Accepted
-8,511
-Submissions
-12,833
 """
 # Definition for a binary tree node.
 # class TreeNode:

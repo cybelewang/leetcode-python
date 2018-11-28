@@ -39,6 +39,9 @@ class Solution:
             a, b: start and end index of pre
             c, d: start and end index of post
             """
+            if a > b or c > d:  # bug fixed: always check the index
+                return None
+
             root = TreeNode(pre[a])
             if a < b:
                 i = index[pre[a+1]]

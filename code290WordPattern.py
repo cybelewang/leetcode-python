@@ -13,7 +13,7 @@ pattern = "abba", str = "dog dog dog dog" should return false.
 Notes:
 You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.
 """
-# similar problems: 205 Isomorphic Strings
+# similar problems: 205 Isomorphic Strings, 890 Find and Replace Pattern
 # use bimap, not a single direction map
 class Solution:
     def wordPattern(self, pattern, str):

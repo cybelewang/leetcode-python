@@ -1,9 +1,5 @@
 """
 893. Groups of Special-Equivalent Strings
-Easy
-98
-276
-
 
 You are given an array A of strings.
 
@@ -14,8 +10,6 @@ A move consists of choosing two indices i and j with i % 2 == j % 2, and swappin
 Now, a group of special-equivalent strings from A is a non-empty subset S of A such that any string not in S is not special-equivalent with any string in S.
 
 Return the number of groups of special-equivalent strings from A.
-
- 
 
 Example 1:
 
@@ -37,7 +31,6 @@ Example 4:
 Input: ["abcd","cdab","adcb","cbad"]
 Output: 1
 Explanation: 1 group ["abcd","cdab","adcb","cbad"]
- 
 
 Note:
 

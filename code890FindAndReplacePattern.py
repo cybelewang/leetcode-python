@@ -24,6 +24,7 @@ Note:
 1 <= words.length <= 50
 1 <= pattern.length = words[i].length <= 20
 """
+# similar problems: 205 Isomorphic Strings, 290 word pattern
 class Solution:
     def findAndReplacePattern(self, words, pattern):
         """
@@ -31,4 +32,17 @@ class Solution:
         :type pattern: str
         :rtype: List[str]
         """
+        def match(word, pattern):
+            return all(map(lambda w: word.find(w[0]) == pattern.find(w[1]), zip(word, pattern)))  # becareful of lambda, it should take one argument, instead of two
+            # for i, a in enumerate(word):
+            #     b = pattern[i]
+            #     if pattern.index(b) != word.index(a):
+            #         return False
+
+            # return True
         
+        return [word for word in words if match(word, pattern)]
+
+
+words, pattern = ["abc","deq","mee","aqq","dkd","ccc"], "abb"
+print(Solution().findAndReplacePattern(words, pattern))
