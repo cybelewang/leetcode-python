@@ -49,5 +49,6 @@ class Solution:
         
         return helper(0, len(pre)-1, 0, len(post)-1)
 
-pre, post = [1,2,4,5,3,6,7], [4,5,2,6,7,3,1]
+#pre, post = [1,2,4,5,3,6,7], [4,5,2,6,7,3,1]
+pre, post = [2, 1], [1, 2]
 PrintTree(Solution().constructFromPrePost(pre, post))
