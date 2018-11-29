@@ -1,5 +1,5 @@
 """
-892. Surface Area of 3D Shapes
+892 Surface Area of 3D Shapes
 
 On a N * N grid, we place some 1 * 1 * 1 cubes.
 

@@ -1,5 +1,5 @@
 """
-893. Groups of Special-Equivalent Strings
+893 Groups of Special-Equivalent Strings
 
 You are given an array A of strings.
 
@@ -45,4 +45,10 @@ class Solution:
         :type A: List[str]
         :rtype: int
         """
-        
+        def encode(S):
+            return ''.join(sorted(S[0::2]) + sorted(S[1::2]))
+
+        return len(set(map(encode, A)))
+
+A = ["abc","acb","bac","bca","cab","cba"]
+print(Solution().numSpecialEquivGroups(A))
