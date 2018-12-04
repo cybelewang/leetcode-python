@@ -26,10 +26,18 @@ Note:
 #         self.left = None
 #         self.right = None
 
+from TreeNode import *
+from collections import defaultdict
 class Solution:
     def allPossibleFBT(self, N):
         """
         :type N: int
         :rtype: List[TreeNode]
         """
+        if N < 1 or N & 0x01 == 0:
+            return []
         
+        fbt = defaultdict(list)
+        fbt[1].append(TreeNode(0))
+        for i in range(3, N+1, 2):
+            

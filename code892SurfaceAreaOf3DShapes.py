@@ -43,9 +43,7 @@ class Solution:
         ans = 0
         for i in range(N):
             for j in range(N):
-                if grid[i][j] == 0:
-                    ans += 1
-                else:
+                if grid[i][j] > 0:
                     # top and bottom
                     ans += 2
                     # north surfaces
@@ -72,4 +70,5 @@ class Solution:
         return ans
 
 grid = [[1,2],[3,4]]
+#grid = [[1,0],[0,2]]    # expected 16
 print(Solution().surfaceArea(grid))
