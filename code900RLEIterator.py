@@ -7,8 +7,6 @@ The iterator supports one function: next(int n), which exhausts the next n eleme
 
 For example, we start with A = [3,8,0,9,2,5], which is a run-length encoding of the sequence [8,8,8,5,5].  This is because the sequence can be read as "three eights, zero nines, two fives".
 
- 
-
 Example 1:
 
 Input: ["RLEIterator","next","next","next","next"], [[[3,8,0,9,2,5]],[2],[1],[1],[2]]
@@ -41,13 +39,28 @@ class RLEIterator:
         """
         :type A: List[int]
         """
-        
+        self.A = A
+        self.cur = 0    # current index of A
+        self.used = 0   # number of exhausted A[self.cur + 1]
 
     def next(self, n):
         """
         :type n: int
         :rtype: int
         """
+        if self.cur >= len(self.A):
+            return -1
+        
+        start = 0
+        target = self.used + n
+        while self.cur < len(self.A) and start + A[self.cur] < target:
+            start += A[self.cur]
+            self.cur += 2
+            
+        if self.cur >= len(self.A):
+            return -1
+        else:
+
         
 
 
