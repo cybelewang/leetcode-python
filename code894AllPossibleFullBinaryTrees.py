@@ -39,5 +39,16 @@ class Solution:
         
         fbt = defaultdict(list)
         fbt[1].append(TreeNode(0))
-        for i in range(3, N+1, 2):
-            
+        for n in range(3, N+1, 2):
+            # n - 1 is the remaining nodes
+            for i in range(1, n-1, 2):
+                j = n - 1 - i
+                for left in fbt[i]:
+                    for right in fbt[j]:
+                        root = TreeNode(0)
+                        root.left = left
+                        root.right = right
+                        fbt[n].append(root)
+        
+        return fbt[N]
+

@@ -5,8 +5,6 @@ An array A is monotone increasing if for all i <= j, A[i] <= A[j].  An array A i
 
 Return true if and only if the given array A is monotonic.
 
- 
-
 Example 1:
 
 Input: [1,2,2,3]
@@ -40,4 +38,16 @@ class Solution:
         :type A: List[int]
         :rtype: bool
         """
+        n = len(A)
+        if n < 2:
+            return True
+
+        pos, neg = 1, -1
+        for i in range(1, n):
+            if A[i] - A[i-1] > 0:
+                neg = 1
+            elif A[i] - A[i-1] < 0:
+                pos = -1
         
+        return pos*neg == 1
+
