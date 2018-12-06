@@ -45,10 +45,23 @@ class Solution:
         
         return leftHasSum or rightHasSum
 
+    # 2nd round solution on 12/6/2018
+    def hasPathSum2(self, root, sum):
+        def helper(root, a):
+            if not root.left and not root.right:
+                return a + root.val == sum
+
+            left = root.left and helper(root.left, a + root.val)
+            right = root.right and helper(root.right, a + root.val)
+            
+            return left or right
+
+        # main
+        return root and helper(root, 0)
 
 obj = Solution()
 null = None
 test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]
 test_tree = ListToTree(test_case)
-print(obj.hasPathSum(test_tree, 23))        
+print(obj.hasPathSum2(test_tree, 23))        
         

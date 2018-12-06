@@ -39,15 +39,14 @@ class Solution:
         :rtype: bool
         """
         n = len(A)
-        if n < 2:
-            return True
-
-        pos, neg = 1, -1
+        pos, neg = 0, 0
         for i in range(1, n):
             if A[i] - A[i-1] > 0:
-                neg = 1
+                pos += 1
             elif A[i] - A[i-1] < 0:
-                pos = -1
+                neg += 1
         
-        return pos*neg == 1
+        return pos*neg == 0 # at least one of them must be 0
 
+A = [1, 1, 1]
+print(Solution().isMonotonic(A))

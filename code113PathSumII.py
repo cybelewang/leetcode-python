@@ -58,8 +58,26 @@ class Solution:
 
         build.pop()
 
+    # 2nd round solution on 12/6/2018
+    def pathSum2(self, root, sum):
+        self.res = []
+        def helper(root, build, a):
+            build.append(root.val)
+            if not root.left and not root.right and a + root.val == sum:
+                self.res.append(build[:])
+            else:
+                root.left and helper(root.left, build, a + root.val)
+                root.right and helper(root.right, build, a + root.val)
+            
+            build.pop()
+        
+        # main
+        root and helper(root, [], 0)
+        return self.res
+
 obj = Solution()
 null = None
-test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]
+test_case = []
+#test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]
 test_tree = ListToTree(test_case)
 print(obj.pathSum(test_tree, 22))          

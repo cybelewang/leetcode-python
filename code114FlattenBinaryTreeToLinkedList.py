@@ -41,6 +41,7 @@ If you notice carefully in the flattened tree, each node's right child points to
 # 2. if node.left is not None, find the most right leaf node in the left branch, and link its right pointer to node.right. 
 #    Then assign node.right to node.left and make node.left as None 
 
+# similar problems: 897 Increasing Order Search Tree
 class Solution:
     def flatten(self, root):
         """

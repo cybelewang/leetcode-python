@@ -5,7 +5,7 @@ The iterator is initialized by RLEIterator(int[] A), where A is a run-length enc
 
 The iterator supports one function: next(int n), which exhausts the next n elements (n >= 1) and returns the last element exhausted in this way.  If there is no element left to exhaust, next returns -1 instead.
 
-For example, we start with A = [3,8,0,9,2,5], which is a run-length encoding of the sequence [8,8,8,5,5].  This is because the sequence can be read as "three eights, zero nines, two fives".
+For example, we count with A = [3,8,0,9,2,5], which is a run-length encoding of the sequence [8,8,8,5,5].  This is because the sequence can be read as "three eights, zero nines, two fives".
 
 Example 1:
 
@@ -40,29 +40,30 @@ class RLEIterator:
         :type A: List[int]
         """
         self.A = A
-        self.cur = 0    # current index of A
-        self.used = 0   # number of exhausted A[self.cur + 1]
+        self.index = 0    # current even index of A
+        self.used = 0   # number of exhausted A[self.index + 1]
 
     def next(self, n):
         """
         :type n: int
         :rtype: int
         """
-        if self.cur >= len(self.A):
-            return -1
-        
-        start = 0
-        target = self.used + n
-        while self.cur < len(self.A) and start + A[self.cur] < target:
-            start += A[self.cur]
-            self.cur += 2
+        count = 0   # count of exhausted elements
+        target = self.used + n  # target count of exhausted elements
+        while self.index < len(self.A) and count + self.A[self.index] < target:
+            count += self.A[self.index]
+            self.index += 2
             
-        if self.cur >= len(self.A):
+        if self.index >= len(self.A):
             return -1
         else:
+            self.used = target - count
+            return self.A[self.index + 1]
 
-        
-
+A, B = [3,8,0,9,2,5], [2, 1, 1, 2, 1e9]
+obj = RLEIterator(A)
+for n in B:
+    print(obj.next(n))
 
 # Your RLEIterator object will be instantiated and called as such:
 # obj = RLEIterator(A)

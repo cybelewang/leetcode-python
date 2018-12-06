@@ -44,6 +44,8 @@ Each node will have a unique integer value from 0 to 1000.
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
+# similar problems: 114 Flatten Binary Tree to Linked List
 from TreeNode import *
 class Solution:
     # my own recursive solution by tracking the head and tail of the result subtree

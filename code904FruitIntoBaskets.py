@@ -1,9 +1,5 @@
 """
-904. Fruit Into Baskets
-Medium
-196
-185
-
+904 Fruit Into Baskets
 
 In a row of trees, the i-th tree produces fruit with type tree[i].
 

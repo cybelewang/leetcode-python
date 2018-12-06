@@ -47,12 +47,11 @@ class Solution:
 
         for i in range(N):
             for j in range(i+1):
-                num = dp[j] | A[i]
-                if dp[j] != num:
-                    dp[j] = num
-                    unique.add(num)
+                dp[j] |= A[i]
+                unique.add(dp[j])
         
         return len(unique)
 
-A = [1, 2, 4]
+#A = [0] # expect 1
+A = [1,1,2] # expect 3
 print(Solution().subarrayBitwiseORs(A))
