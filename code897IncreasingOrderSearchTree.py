@@ -1,9 +1,5 @@
 """
-897. Increasing Order Search Tree
-Easy
-122
-149
-
+897 Increasing Order Search Tree
 
 Given a tree, rearrange the tree in in-order so that the leftmost node in the tree is now the root of the tree, and every node has no left child and only 1 right child.
 
@@ -48,11 +44,35 @@ Each node will have a unique integer value from 0 to 1000.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
+    # my own recursive solution by tracking the head and tail of the result subtree
     def increasingBST(self, root):
         """
         :type root: TreeNode
         :rtype: TreeNode
         """
-        
+        def helper(root):
+            if not root:
+                return (None, None)
+
+            head1, tail1 = helper(root.left)
+            if tail1:
+                root.left = None
+                tail1.right = root
+            head2, tail2 = helper(root.right)
+            root.right = head2
+
+            return (head1 or root, tail2 or root)
+
+        # main
+        head, _ = helper(root)
+        return head
+
+null = None
+#root = ListToTree([5,3,6,2,4,null,8,1,null,null,null,7,9])
+#root = ListToTree([1, null, 2, null, 3])
+root = ListToTree([1, 2, null, 3])
+PrintTree(root)
+root1 = Solution().increasingBST(root)
+PrintTree(root1)
