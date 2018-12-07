@@ -36,7 +36,7 @@ Note:
 0 <= A[i] <= 10^9
 """
 class Solution:
-    def subarrayBitwiseORs(self, A):
+    def subarrayBitwiseORs_TLE(self, A):
         """
         :type A: List[int]
         :rtype: int
@@ -51,7 +51,13 @@ class Solution:
                 unique.add(dp[j])
         
         return len(unique)
-
+    def subarrayBitwiseORs(self, A):
+        ans = set()
+        cur = {0}
+        for x in A:
+            cur = {x | y for y in cur} | {x}
+            ans |= cur
+        return len(ans)
 #A = [0] # expect 1
 A = [1,1,2] # expect 3
 print(Solution().subarrayBitwiseORs(A))

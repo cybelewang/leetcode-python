@@ -58,6 +58,7 @@ class Solution:
 
         # main
         return root and helper(root, 0)
+        # failed on test case [], 0, [1,2], 0
 
 obj = Solution()
 null = None
