@@ -51,18 +51,20 @@ class Solution:
             if not root.left and not root.right:
                 return a + root.val == sum
 
-            left = root.left and helper(root.left, a + root.val)
-            right = root.right and helper(root.right, a + root.val)
+            left = root.left is not None and helper(root.left, a + root.val)
+            right = root.right is not None and helper(root.right, a + root.val)
             
             return left or right
 
         # main
-        return root and helper(root, 0)
+        return root is not None and helper(root, 0)
         # failed on test case [], 0, [1,2], 0
 
 obj = Solution()
 null = None
-test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]
+#test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]
+test_case = [1, 2]
+#test_case = []
 test_tree = ListToTree(test_case)
-print(obj.hasPathSum2(test_tree, 23))        
+print(obj.hasPathSum2(test_tree, 0))        
         
