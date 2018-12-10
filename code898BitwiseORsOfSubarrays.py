@@ -51,6 +51,7 @@ class Solution:
                 unique.add(dp[j])
         
         return len(unique)
+    # https://leetcode.com/problems/bitwise-ors-of-subarrays/solution/
     def subarrayBitwiseORs(self, A):
         ans = set()
         cur = {0}
@@ -61,3 +62,18 @@ class Solution:
 #A = [0] # expect 1
 A = [1,1,2] # expect 3
 print(Solution().subarrayBitwiseORs(A))
+"""
+Intuition
+
+Let's try to speed up a brute force answer. Evidently, the brute force approach is to calculate every result result(i, j) = A[i] | A[i+1] | ... | A[j]. We can speed this up by taking note of the fact that result(i, j+1) = result(i, j) | A[j+1]. Naively, this approach has time complexity O(N^2)O(N 
+2
+ ), where NN is the length of the array.
+
+Actually, this approach can be better than that. At the kth step, say we have all the result(i, k) in some set cur. Then we can find the next cur set (for k -> k+1) by using result(i, k+1) = result(i, k) | A[k+1].
+
+However, the number of unique values in this set cur is at most 32, since the list result(k, k), result(k-1, k), result(k-2, k), ... is monotone increasing, and any subsequent values that are different must have more 1s in it's binary representation (to a maximum of 32 ones).
+
+Algorithm
+
+In the kth step, we'll maintain cur: the set of results A[i] | ... | A[k] for all i. These results will be included in our final answer set.
+"""
