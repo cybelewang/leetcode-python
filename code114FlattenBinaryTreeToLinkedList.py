@@ -68,10 +68,33 @@ class Solution:
             
             node = node.right
 
+    # 2nd round solution on 12/9/2018
+    # similar solution as 897
+    def flatten2(self, root):
+        def helper(root):
+            if not root:
+                return (None, None)
+            head1, tail1 = helper(root.left)
+            head2, tail2 = helper(root.right)
+            node = root
+            if head1:
+                node.left = None
+                node.right = head1
+                node = tail1
+            if head2:
+                node.left = None
+                node.right = head2
+                node = tail2
+
+            return (root, node)
+        
+        # main
+        helper(root)
+
 obj = Solution()
 null = None
 test_case = [1, 2, 5, null, 3, null, null, 4]
 test_tree = ListToTree(test_case)
 PrintTree(test_tree)
-obj.flatten(test_tree)
+obj.flatten2(test_tree)
 PrintTree(test_tree)          

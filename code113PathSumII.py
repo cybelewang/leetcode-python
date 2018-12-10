@@ -75,9 +75,29 @@ class Solution:
         root and helper(root, [], 0)
         return self.res
 
+    # 3rd round solution on 12/8/2018
+    def pathSum3(self, root, sum):
+        res = []
+        def helper(root, build, a):
+            if not root:
+                return
+            build.append(root.val)
+            a -= root.val
+            if root.left is None and root.right is None:
+                if a == 0:
+                    res.append(build[:])
+            else:    
+                helper(root.left, build, a)
+                helper(root.right, build, a)
+            build.pop()
+        
+        # main
+        helper(root, [], sum)
+        return res
+
 obj = Solution()
 null = None
-test_case = []
-#test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]
+#test_case = []
+test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]
 test_tree = ListToTree(test_case)
-print(obj.pathSum(test_tree, 22))          
+print(obj.pathSum3(test_tree, 22))          

@@ -60,6 +60,17 @@ class Solution:
         return root is not None and helper(root, 0)
         # failed on test case [], 0, [1,2], 0
 
+    # OJ solution on 12/7/2018
+    def hasPathSum_OJ(self, root, sum):
+        if not root:
+            return False
+
+        sum -= root.val
+        if root.left is None and root.right is None:
+            return sum == 0
+        
+        return self.hasPathSum_OJ(root.left, sum) or self.hasPathSum_OJ(root.right, sum)
+
 obj = Solution()
 null = None
 #test_case = [5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1]
