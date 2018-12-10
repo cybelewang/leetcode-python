@@ -36,6 +36,7 @@ Note:
 0 <= A[i] <= 10^9
 """
 class Solution:
+    # my own solution, TLE
     def subarrayBitwiseORs_TLE(self, A):
         """
         :type A: List[int]
@@ -65,9 +66,7 @@ print(Solution().subarrayBitwiseORs(A))
 """
 Intuition
 
-Let's try to speed up a brute force answer. Evidently, the brute force approach is to calculate every result result(i, j) = A[i] | A[i+1] | ... | A[j]. We can speed this up by taking note of the fact that result(i, j+1) = result(i, j) | A[j+1]. Naively, this approach has time complexity O(N^2)O(N 
-2
- ), where NN is the length of the array.
+Let's try to speed up a brute force answer. Evidently, the brute force approach is to calculate every result result(i, j) = A[i] | A[i+1] | ... | A[j]. We can speed this up by taking note of the fact that result(i, j+1) = result(i, j) | A[j+1]. Naively, this approach has time complexity O(N^2), where N is the length of the array.
 
 Actually, this approach can be better than that. At the kth step, say we have all the result(i, k) in some set cur. Then we can find the next cur set (for k -> k+1) by using result(i, k+1) = result(i, k) | A[k+1].
 
