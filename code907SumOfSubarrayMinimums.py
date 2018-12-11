@@ -18,7 +18,7 @@ Note:
 1 <= A[i] <= 30000
 """
 class Solution:
-    def sumSubarrayMins(self, A):
+    def sumSubarrayMins_TLE(self, A):
         """
         :type A: List[int]
         :rtype: int
