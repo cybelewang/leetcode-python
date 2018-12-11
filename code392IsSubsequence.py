@@ -24,14 +24,26 @@ Credits:
 Special thanks to @pbrother for adding this problem and creating all test cases.
 
 """
+# similar problems: 115 Distinct Subsequences
 from bisect import bisect_left
 class Solution:
+    # two pointers, O(n+m) solution
     def isSubsequence(self, s, t):
         """
         :type s: str
         :type t: str
         :rtype: bool
         """
+        i, j = 0, 0
+        while i < len(s) and j < len(t):
+            if s[i] == t[j]:
+                i += 1
+            j += 1
+        
+        return i == len(s)
+        
+    # O(n*m) solution
+    def isSubsequence2(self, s, t):
         i = 0
         for c in s:
             i = t.find(c, i)
@@ -43,11 +55,6 @@ class Solution:
         return True
     # solution for follow-up questions
     def isSubsequence3(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
         pos = [[] for _ in range(26)]
         for i, c in enumerate(t):
             pos[ord(c) - ord('a')].append(i)

@@ -36,7 +36,7 @@ Note:
 0 <= A[i] <= 10^9
 """
 class Solution:
-    # my own solution, TLE
+    # my own solution, O(N^2), TLE
     def subarrayBitwiseORs_TLE(self, A):
         """
         :type A: List[int]
@@ -53,6 +53,7 @@ class Solution:
         
         return len(unique)
     # https://leetcode.com/problems/bitwise-ors-of-subarrays/solution/
+    # O(NlogW), where W is the size of all numbers because OR will only make number bigger
     def subarrayBitwiseORs(self, A):
         ans = set()
         cur = {0}

@@ -10,6 +10,8 @@ S = "rabbbit", T = "rabbit"
 
 Return 3.
 """
+# similar problems: 392 Is Subsequence
+# discussion: different from 392, which can use two-pointer method with O(n+m) time complexity, constant space to check if s is a subsequence of t. This problem needs a number, so we have to use DP with space complexity O(n*m)
 class Solution:
     def numDistinct(self, s, t):
         """

@@ -66,7 +66,8 @@ class Solution2:
                 return False
         
         return True
-
+    
+    # best solution
     # https://leetcode.com/problems/word-pattern/discuss/73433/Short-in-Python
     def wordPattern2(self, pattern, str):
         p, a = pattern, str.split()

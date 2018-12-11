@@ -45,6 +45,21 @@ class Solution:
                     res = min(res, triangle[i][j])
         
         return res
+    
+    # 2nd round solution on 12/11/2018
+    # back-adding method similar to 119's method
+    def minimumTotal2(self, triangle):
+        nRows = len(triangle)
+        helper = [0]*nRows  # cache array
+        for i in range(nRows):
+            for j in range(i, -1, -1):
+                if j == 0:  # no left above, choose the above
+                    helper[j] += triangle[i][0]
+                elif j == i:    # no above, choose the left above
+                    helper[j] = helper[j-1] + triangle[i][j]
+                else:   # choose the smaller one from left above and above, then add to triangle[i][j]
+                    helper[j] = min(helper[j], helper[j-1]) + triangle[i][j]
+        return min(helper)
 
 obj = Solution()
 test_case = [
@@ -53,4 +68,4 @@ test_case = [
    [6,5,7],
   [4,1,8,3]
 ]
-print(obj.minimumTotal(test_case))
+print(obj.minimumTotal2(test_case))
