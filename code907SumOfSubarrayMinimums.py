@@ -18,11 +18,23 @@ Note:
 1 <= A[i] <= 30000
 """
 class Solution:
-    def sumSubarrayMins_TLE(self, A):
+    # help from https://leetcode.com/problems/sum-of-subarray-minimums/discuss/170750/C++JavaPython-Stack-Solution
+    def sumSubarrayMins(self, A):
         """
         :type A: List[int]
         :rtype: int
         """
+        s, res = [], 0
+        A = [0] + A + [0]   # leading 0 serves as the lower limit, and trailing 0 will force to clean the stack finally
+        for i, x in enumerate(A):
+            while s and A[s[-1]] > x:   # maintain an increasing stack
+                j = s.pop()
+                k = s[-1]
+                res += A[j] * (i - j) * (j - k)
+            s.append(i)
+        return res % (10**9 + 7)
+
+    def sumSubarrayMins_TLE(self, A):
         ans, M, N = 0, 1000000007, len(A)
         dp = [30001]*N
 

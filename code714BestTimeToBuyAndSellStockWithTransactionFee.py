@@ -1,7 +1,8 @@
 """
 714 Best Time to Buy and Sell Stock with Transaction Fee
 
-Your are given an array of integers prices, for which the i-th element is the price of a given stock on day i; and a non-negative integer fee representing a transaction fee.
+Your are given an array of integers prices, for which the i-th element is the price of a given stock on day i; 
+and a non-negative integer fee representing a transaction fee.
 
 You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction. 
 You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
@@ -56,5 +57,16 @@ class Solution:
         
         return dp[-1]
 
+    # 2nd round solution on 12/13/2018
+    def maxProfit2(self, prices, fee):
+        n = len(prices)
+        sell, buy = [0]*n, [0]*n    # see onenote
+        sell[0], buy[0] = 0, -prices[0]
+        for i in range(1, n):
+            buy[i] = max(buy[i-1], sell[i-1]-prices[i]) # no buy or buy
+            sell[i] = max(sell[i-1], prices[i] + buy[i-1] - fee)    # no sell or sell
+
+        return sell[-1]
+
 prices, fee = [1, 3, 2, 8, 4, 9], 2
-print(Solution().maxProfit(prices, fee))
+print(Solution().maxProfit2(prices, fee))
