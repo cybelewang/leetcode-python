@@ -28,8 +28,8 @@ class Solution:
         A = [0] + A + [0]   # leading 0 serves as the lower limit, and trailing 0 will force to clean the stack finally
         for i, x in enumerate(A):
             while s and A[s[-1]] > x:   # maintain an increasing stack
-                j = s.pop()
-                k = s[-1]
+                j = s.pop() # A[j] is the strict smallest element between A[j+1] and A[i-1]
+                k = s[-1]   # A[k] is the nearest element which is <= A[j]
                 res += A[j] * (i - j) * (j - k)
             s.append(i)
         return res % (10**9 + 7)

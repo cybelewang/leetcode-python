@@ -38,10 +38,58 @@ board[i][j] is between 1 and N*N or is equal to -1.
 The board square with number 1 has no snake or ladder.
 The board square with number N*N has no snake or ladder.
 """
+from collections import defaultdict
 class Solution:
+    # my own solution with graph and shortest path algorithm
     def snakesAndLadders(self, board):
         """
         :type board: List[List[int]]
         :rtype: int
         """
+        def index(n):
+            """
+            decode the index of square n to (i, j) in board
+            """
+            i = N - 1 - (n//N)
+            j = N-1-(n-1)%N if (n//N) & 1 else (n-1)%N
+
+            return (i, j)
+
+        # construct the adjacency graph
+        N, edges = len(board), defaultdict(list)
+        for src in range(1, N*N+1):
+            i, j = index(src)
+            if board[i][j] == -1:
+                for dst in range(src+1, min(src+7, N*N+1)):
+                    p, q = index(dst)
+                    if board[p][q] == -1:
+                        edges[src].append(dst)
+                    else:
+                        edges[src].append(board[p][q])
         
+        # Dijkstra's shortest path algorithm
+        dist = [2**31]*(N*N+1)
+        dist[1] = 0
+        Q = set(range(1, N*N+1))
+        while Q:
+            # find node in Q with minimum dist
+            u = None
+            for node in Q:
+                if u == None or dist[node] < dist[u]:
+                    u = node
+            
+            Q.discard(u)
+            for v in edges[u]:
+                dist[v] = min(dist[v], dist[u] + 1)
+
+        return dist[N*N]
+
+board = [
+[-1,-1,-1,-1,-1,-1],
+[-1,-1,-1,-1,-1,-1],
+[-1,-1,-1,-1,-1,-1],
+[-1,35,-1,-1,13,-1],
+[-1,-1,-1,-1,-1,-1],
+[-1,15,-1,-1,-1,-1]]
+
+print(Solution().snakesAndLadders(board))
