@@ -34,8 +34,35 @@ class Solution(object):
         
         return res
 
+    # 2nd round solution on 12/17/2018
+    # first put all numbers into a set
+    # then for each number in nums, search for all consecutive numbers in left and right directions, if exists, remove it from set
+    def longestConsecutive2(self, nums):
+        num_set = set(nums)
+        res = 0
+        for num in nums:
+            if num in num_set:
+                count = 1
+                num_set.discard(num)
+                # search left
+                i = num - 1
+                while i in num_set:
+                    count += 1
+                    num_set.discard(i)
+                    i -= 1
+                # search right
+                j = num + 1
+                while j in num_set:
+                    count += 1
+                    num_set.discard(j)
+                    j += 1
+                # update result
+                res = max(res, count)
+        
+        return res
+
 obj = Solution()
 test_cases = [[], [1], [1, 3], [1, 2], [100, 4, 200, 1, 3, 2]]
 
 for case in test_cases:
-    print(obj.longestConsecutive(case))
+    print(obj.longestConsecutive2(case))
