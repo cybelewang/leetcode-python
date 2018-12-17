@@ -50,22 +50,24 @@ class Solution:
             """
             decode the index of square n to (i, j) in board
             """
-            i = N - 1 - (n//N)
-            j = N-1-(n-1)%N if (n//N) & 1 else (n-1)%N
+            i = N - 1 - ((n-1)//N)
+            j = N-1-(n-1)%N if ((n-1)//N) & 1 else (n-1)%N
 
             return (i, j)
 
         # construct the adjacency graph
-        N, edges = len(board), defaultdict(list)
+        N, edges = len(board), defaultdict(set)
         for src in range(1, N*N+1):
             i, j = index(src)
+            #print(src, end = '->')
+            #print(i, j)
             if board[i][j] == -1:
                 for dst in range(src+1, min(src+7, N*N+1)):
                     p, q = index(dst)
                     if board[p][q] == -1:
-                        edges[src].append(dst)
+                        edges[src].add(dst)
                     else:
-                        edges[src].append(board[p][q])
+                        edges[src].add(board[p][q])
         
         # Dijkstra's shortest path algorithm
         dist = [2**31]*(N*N+1)
@@ -82,8 +84,8 @@ class Solution:
             for v in edges[u]:
                 dist[v] = min(dist[v], dist[u] + 1)
 
-        return dist[N*N]
-
+        return dist[N*N] if dist[N*N] != 2**31 else -1
+"""
 board = [
 [-1,-1,-1,-1,-1,-1],
 [-1,-1,-1,-1,-1,-1],
@@ -91,5 +93,8 @@ board = [
 [-1,35,-1,-1,13,-1],
 [-1,-1,-1,-1,-1,-1],
 [-1,15,-1,-1,-1,-1]]
-
+"""
+#board = [[-1,-1],[-1,3]]    # expected 1
+#board = [[1,1,-1],[1,1,1],[-1,1,1]] # expected -1
+board = [[-1,1,2,-1],[2,13,15,-1],[-1,10,-1,-1],[-1,6,2,8]] # expected 2
 print(Solution().snakesAndLadders(board))
