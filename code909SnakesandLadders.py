@@ -38,7 +38,7 @@ board[i][j] is between 1 and NS or is equal to -1.
 The board square with number 1 has no snake or ladder.
 The board square with number NS has no snake or ladder.
 """
-from collections import defaultdict
+from collections import defaultdict, deque
 class Solution:
     # my own solution with graph and shortest path algorithm
     def snakesAndLadders(self, board):
@@ -86,6 +86,38 @@ class Solution:
                 dist[v] = min(dist[v], dist[u] + 1)
 
         return dist[NS] if dist[NS] != MAX_INT else -1
+    
+    # BFS version solution without constructing a graph
+    def snakesAndLadders_BFS(self, board):
+        def index(n):
+            """
+            decode the index of square n to (i, j) in board
+            """
+            i = N - 1 - ((n-1)//N)
+            j = N-1-(n-1)%N if ((n-1)//N) & 1 else (n-1)%N
+
+            return (i, j)
+        
+        N, NS = len(board), len(board)**2
+        color, dist = [0]*(NS+1), [2**31]*(NS+1)
+        Q = deque([1])
+        color[1], dist[1] = 1, 0
+        while Q:
+            src = Q.popleft()
+            if src == NS:
+                break
+            for dst in range(src+1, min(src+7, NS+1)):
+                i, j = index(dst)
+                if board[i][j] != -1:   # bug fixed: must use ladder or snake here, instead of in the below "if color[dst] == 0" statements
+                    dst = board[i][j]                    
+                if color[dst] == 0:
+                    Q.append(dst)   # previous mistake: didn't use ladder or snake in above statement but use ladder or snake here
+                    dist[dst] = dist[src] + 1
+                    color[dst] = 1
+            
+            color[src] = 2
+
+        return -1 if dist[NS] == 2**31 else dist[NS]
 """
 board = [
 [-1,-1,-1,-1,-1,-1],
@@ -98,4 +130,4 @@ board = [
 #board = [[-1,-1],[-1,3]]    # expected 1
 #board = [[1,1,-1],[1,1,1],[-1,1,1]] # expected -1
 board = [[-1,1,2,-1],[2,13,15,-1],[-1,10,-1,-1],[-1,6,2,8]] # expected 2
-print(Solution().snakesAndLadders(board))
+print(Solution().snakesAndLadders_BFS(board))
