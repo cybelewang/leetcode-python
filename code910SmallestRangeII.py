@@ -30,10 +30,21 @@ Note:
 0 <= K <= 10000
 """
 class Solution:
+    # help from https://leetcode.com/articles/smallest-range-ii/
     def smallestRangeII(self, A, K):
         """
         :type A: List[int]
         :type K: int
         :rtype: int
         """
+        A.sort()
+        mi, ma = A[0], A[-1]
+        ans = ma - mi
+        for i in range(len(A)-1):
+            a, b = A[i], A[i+1]
+            ans = min(ans, max(a+K, ma-K) - min(b-K, mi+K))
         
+        return ans
+        
+A, K = [1, 3, 6], 3
+print(Solution().smallestRangeII(A, K))

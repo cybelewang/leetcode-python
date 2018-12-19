@@ -1,17 +1,11 @@
 """
-911. Online Election
-Medium
-90
-45
-
+911 Online Election
 
 In an election, the i-th vote was cast for persons[i] at time times[i].
 
 Now, we would like to implement the following query function: TopVotedCandidate.q(int t) will return the number of the person that was leading the election at time t.  
 
 Votes cast at time t will count towards our query.  In the case of a tie, the most recent vote (among tied candidates) wins.
-
- 
 
 Example 1:
 
@@ -22,7 +16,6 @@ At time 3, the votes are [0], and 0 is leading.
 At time 12, the votes are [0,1,1], and 1 is leading.
 At time 25, the votes are [0,1,1,0,0,1], and 1 is leading (as ties go to the most recent vote.)
 This continues for 3 more queries at time 15, 24, and 8.
- 
 
 Note:
 
