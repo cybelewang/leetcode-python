@@ -18,6 +18,7 @@ The root-to-leaf path 1->3 represents the number 13.
 
 Return the sum = 12 + 13 = 25.
 """
+# similar problems: 112 Path Sum; 113 Path Sum II
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -50,10 +51,27 @@ class Solution:
         else:
             return self._sum(carry*10 + root.val, root.right) + self._sum(carry*10 + root.val, root.left)
 
+    # 2nd round solution on 12/20/2018
+    def sumNumbers2(self, root):
+        self.res = 0
+        def helper(preSum, node):
+            if not node:
+                return
+            
+            preSum = 10*preSum + node.val
+            if not node.left and not node.right:
+                self.res += preSum
+            else:
+                helper(preSum, node.left)
+                helper(preSum, node.right)
+
+        # main
+        helper(0, root)
+        return self.res            
 
 obj = Solution()
 null = None
 test_case = [1, 2, 5, 6, 3, null, null, 4]
 test_tree = ListToTree(test_case)
 PrintTree(test_tree)
-print(obj.sumNumbers(test_tree))
+print(obj.sumNumbers2(test_tree))

@@ -1,9 +1,5 @@
 """
-913. Cat and Mouse
-Hard
-107
-16
-
+913 Cat and Mouse
 
 A game on an undirected graph is played by two players, Mouse and Cat, who alternate turns.
 

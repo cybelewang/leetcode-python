@@ -52,7 +52,24 @@ class Solution:
                 build.append(s[start:end+1])
                 self._dfs(s, end+1, P, build, res)
                 build.pop()
+
+    # 2nd round solution on 12/20/2018, but has duplicated results
+    def partition2(self, s):
+        n, res = len(s), []
+        if s == s[::-1]:
+            res.append([s])
+
+        for i in range(1, n):
+            for l in self.partition2(s[:i]):
+                for r in self.partition2(s[i:]):
+                    res.append(l + r)
+        
+        return res
+
+    # 3rd round solution on 12/20/2018
+    def partition3(self, s):
+        pass
         
 obj = Solution()
-test_case = ''
+test_case = 'aaaa'
 print(obj.partition(test_case))
