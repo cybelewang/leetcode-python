@@ -54,6 +54,7 @@ class Solution:
                 build.pop()
 
     # 2nd round solution on 12/20/2018, but has duplicated results
+    # to avoid duplicated solutions, we must not partition s[:i], see the below 3rd round solution
     def partition2(self, s):
         n, res = len(s), []
         if s == s[::-1]:
@@ -66,10 +67,20 @@ class Solution:
         
         return res
 
-    # 3rd round solution on 12/20/2018
+    # 3rd round solution on 12/21/2018
     def partition3(self, s):
-        pass
+        res = []
+        for i in range(1, len(s)):
+            s1, s2 = s[:i], s[i:]
+            if s1 == s1[::-1]:
+                for right in self.partition3(s2):
+                    res.append([s1] + right)
+
+        if s == s[::-1]:
+            res.append([s])
+
+        return res
         
 obj = Solution()
 test_case = 'aaaa'
-print(obj.partition(test_case))
+print(obj.partition3(test_case))

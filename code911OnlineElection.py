@@ -26,6 +26,7 @@ TopVotedCandidate.q is called at most 10000 times per test case.
 TopVotedCandidate.q(int t) is always called with t >= times[0].
 """
 from bisect import bisect
+# my own solution using max-heap
 class TopVotedCandidate:
 
     def __init__(self, persons, times):
@@ -67,9 +68,33 @@ class TopVotedCandidate:
         i = bisect(self.times, t)   # binary search to find the last vote time
         return self.persons[i-1]
 
+# best solution from https://blog.csdn.net/fuxuemingzhu/article/details/82833704
+class TopVotedCandidate2:
+    
+    def __init__(self, persons, times):
+        """
+        :type persons: List[int]
+        :type times: List[int]
+        """
+        self.leads, self.times, count = [], times, {}
+        lead = -1
+        for p, t in zip(persons, times):
+            count[p] = count.get(p, 0) + 1
+            if count.get(lead, 0) <= count[p]:
+                lead = p
+            self.leads.append(lead)
+
+    def q(self, t):
+        """
+        :type t: int
+        :rtype: int
+        """
+        i = bisect(self.times, t)   # binary search to find the last vote time
+        return self.leads[i-1]
+
 #persons, times, query = [0,1,1,0,0,1,0], [0,5,10,15,20,25,30], [3,12,25,15,24,8]
 persons, times, query = [0, 1, 2, 3, 4, 5], [0, 5, 10, 15, 20, 25], [3, 12, 25, 15, 24, 2**31-1, 10]
-obj = TopVotedCandidate(persons, times)
+obj = TopVotedCandidate2(persons, times)
 for t in query:
     print(obj.q(t))
 

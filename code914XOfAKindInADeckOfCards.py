@@ -1,9 +1,5 @@
 """
-914. X of a Kind in a Deck of Cards
-Easy
-109
-23
-
+914 X of a Kind in a Deck of Cards
 
 In a deck of cards, each card has an integer written on it.
 
@@ -44,10 +40,19 @@ Note:
 1 <= deck.length <= 10000
 0 <= deck[i] < 10000
 """
+from collections import Counter
+from math import gcd
+from functools import reduce
 class Solution:
     def hasGroupsSizeX(self, deck):
         """
         :type deck: List[int]
         :rtype: bool
         """
-        
+        #if len(deck) < 2:
+        #    return False
+        #print(reduce(gcd, Counter(deck).values()))
+        return reduce(gcd, Counter(deck).values()) > 1
+
+test = [1]
+print(Solution().hasGroupsSizeX(test))

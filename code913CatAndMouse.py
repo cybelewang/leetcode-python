@@ -18,8 +18,6 @@ If ever the Mouse reaches the Hole, the Mouse wins.
 If ever a position is repeated (ie. the players are in the same position as a previous turn, and it is the same player's turn to move), the game is a draw.
 Given a graph, and assuming both players play optimally, return 1 if the game is won by Mouse, 2 if the game is won by Cat, and 0 if the game is a draw.
 
- 
-
 Example 1:
 
 Input: [[2,5],[3],[0,4,5],[1,4,5],[2,3],[0,2,3]]
@@ -30,7 +28,6 @@ Explanation:
 2---5
  \ /
   0
- 
 
 Note:
 
