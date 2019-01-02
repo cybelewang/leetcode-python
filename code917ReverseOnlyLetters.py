@@ -1,17 +1,7 @@
 """
-917. Reverse Only Letters
-Easy
+917 Reverse Only Letters
 
-130
-
-16
-
-Favorite
-
-Share
 Given a string S, return the "reversed" string where all characters that are not a letter stay in the same place, and all letters reverse their positions.
-
- 
 
 Example 1:
 
@@ -25,7 +15,6 @@ Example 3:
 
 Input: "Test1ng-Leet=code-Q!"
 Output: "Qedo1ct-eeLg=ntse-T!"
- 
 
 Note:
 
@@ -39,4 +28,18 @@ class Solution:
         :type S: str
         :rtype: str
         """
+        a, j = [], len(S)-1
+        for i in range(len(S)):
+            if S[i].isalpha():
+                while not S[j].isalpha():
+                    j -= 1
+                a.append(S[j])
+                j -= 1
+            else:
+                a.append(S[i])
         
+        return ''.join(a)
+
+#S = "Test1ng-Leet=code-Q!"
+S = "aaaaa---------------------------"
+print(Solution().reverseOnlyLetters(S))

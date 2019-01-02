@@ -1,14 +1,6 @@
 """
-919. Complete Binary Tree Inserter
-Medium
+919 Complete Binary Tree Inserter
 
-77
-
-20
-
-Favorite
-
-Share
 A complete binary tree is a binary tree in which every level, except possibly the last, is completely filled, and all nodes are as far left as possible.
 
 Write a data structure CBTInserter that is initialized with a complete binary tree and supports the following operations:
@@ -16,7 +8,6 @@ Write a data structure CBTInserter that is initialized with a complete binary tr
 CBTInserter(TreeNode root) initializes the data structure on a given tree with head node root;
 CBTInserter.insert(int v) will insert a TreeNode into the tree with value node.val = v so that the tree remains complete, and returns the value of the parent of the inserted TreeNode;
 CBTInserter.get_root() will return the head node of the tree.
- 
 
 Example 1:
 
@@ -26,7 +17,6 @@ Example 2:
 
 Input: inputs = ["CBTInserter","insert","insert","get_root"], inputs = [[[1,2,3,4,5,6]],[7],[8],[]]
 Output: [null,3,4,[1,2,3,4,5,6,7,8]]
- 
 
 Note:
 
