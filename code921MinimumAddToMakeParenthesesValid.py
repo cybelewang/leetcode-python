@@ -1,15 +1,8 @@
 """
-921. Minimum Add to Make Parentheses Valid
-Medium
+921 Minimum Add to Make Parentheses Valid
 
-139
-
-13
-
-Favorite
-
-Share
-Given a string S of '(' and ')' parentheses, we add the minimum number of parentheses ( '(' or ')', and in any positions ) so that the resulting parentheses string is valid.
+Given a string S of '(' and ')' parentheses, we add the minimum number of parentheses ( '(' or ')', and in any positions ) 
+so that the resulting parentheses string is valid.
 
 Formally, a parentheses string is valid if and only if:
 
@@ -17,8 +10,6 @@ It is the empty string, or
 It can be written as AB (A concatenated with B), where A and B are valid strings, or
 It can be written as (A), where A is a valid string.
 Given a parentheses string, return the minimum number of parentheses we must add to make the resulting string valid.
-
- 
 
 Example 1:
 
@@ -36,7 +27,6 @@ Example 4:
 
 Input: "()))(("
 Output: 4
- 
 
 Note:
 
@@ -44,9 +34,20 @@ S.length <= 1000
 S only consists of '(' and ')' characters.
 """
 class Solution:
+    # my own solution by tracking the left and right parentheses counts
     def minAddToMakeValid(self, S):
         """
         :type S: str
         :rtype: int
         """
+        left, right = 0, 0
+        for c in S:
+            if c == '(':
+                left += 1
+            else:
+                if left > 0:
+                    left -= 1
+                else:
+                    right += 1
         
+        return left + right

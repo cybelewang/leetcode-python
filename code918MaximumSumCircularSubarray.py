@@ -36,15 +36,43 @@ Note:
 -30000 <= A[i] <= 30000
 1 <= A.length <= 30000
 """
+# similar problems: 53 Maximum Subarray
 class Solution:
-    # 1st trial, wrong solution
     # the final result could be from (1) a subarray of A, or (2) a subarray with the end and first element
-    # this solution considers only one case of (2) by re-arranging two halves of A, but we need to consider all scenarios 
+    # (1) can be solved with problem 53's method
+    # (2) can be solved by finding the max of the sum of two lists: left_most and right_most
     def maxSubarraySumCircular(self, A):
         """
         :type A: List[int]
         :rtype: int
         """
+        # find the max sum of a subarray of A
+        # same method as 53 Maximum Subarray
+        pre, res, n = A[0], A[0], len(A)
+        left_most, left = [0, A[0]], A[0]   # left_most[i] is the most sum for subarray starting with A[0] and length <= i
+        right_most, right = [0, A[-1]], A[-1]   # right_most[i] is the most sum for subarray ending with A[-1] and length <= i
+        for i in range(1, n):
+            if pre < 0:
+                pre = A[i]
+            else:
+                pre += A[i]
+            res = max(res, pre)
+            # update the left_most
+            left += A[i]
+            left_most.append(max(left_most[-1], left))
+            # update the right_most
+            right += A[n-i-1]
+            right_most.append(max(right_most[-1], right))
+
+        for i in range(1, n):
+            res = max(res, right_most[i] + left_most[n-i])
+        
+        return res      
+
+    # 1st trial, wrong solution
+    # the final result could be from (1) a subarray of A, or (2) a subarray with the end and first element
+    # this solution considers only one case of (2) by re-arranging two halves of A, but we need to consider all scenarios, a test case is [2,-2,2,7,8,0]
+    def maxSubarraySumCircular2(self, A):
         def maxSum(A):
             pre, res = A[0], A[0]
             for i in range(1, len(A)):
@@ -60,21 +88,6 @@ class Solution:
         N = len(A)
         return max(maxSum(A), maxSum(A[N//2:]+A[:N//2]))
 
-    def maxSubarraySumCircular2(self, A):
-        """
-        :type A: List[int]
-        :rtype: int
-        """
-        # max sum of subarray of A
-        pre, res1 = A[0], A[0]
-        for i in range(1, len(A)):
-            if pre < 0:
-                pre = A[i]
-            else:
-                pre += A[i]
-            res1 = max(res1, pre)
-
-        # 
 
 #A = [3,-1,2,-1]
 #A = [1, 2, 3, 4]

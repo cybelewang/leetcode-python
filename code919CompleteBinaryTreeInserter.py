@@ -31,13 +31,26 @@ Every value of a given or inserted node is between 0 and 5000.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
+from collections import deque
+# my own solution using an auxilary array similar to binary heap implementation
+# parent's index is p, then children's index is 2*p and 2*p+1
+# root's index is always 1
 class CBTInserter:
 
     def __init__(self, root):
         """
         :type root: TreeNode
         """
+        self.array = [None]
+        Q = deque([root])
+        while Q:
+            node = Q.popleft()
+            self.array.append(node)
+            if node.left:
+                Q.append(node.left)
+            if node.right:
+                Q.append(node.right)
         
 
     def insert(self, v):
@@ -45,14 +58,27 @@ class CBTInserter:
         :type v: int
         :rtype: int
         """
-        
+        parent = self.array[len(self.array)//2]
+        node = TreeNode(v)
+        if not parent.left:
+            parent.left = node
+        else:
+            parent.right = node
+        self.array.append(node)
+
+        return parent.val
 
     def get_root(self):
         """
         :rtype: TreeNode
         """
-        
+        return self.array[1]
 
+root = ListToTree([1,2,3,4,5,6])
+obj = CBTInserter(root)
+print(obj.insert(7))
+print(obj.insert(8))
+PrintTree(obj.get_root())
 
 # Your CBTInserter object will be instantiated and called as such:
 # obj = CBTInserter(root)
