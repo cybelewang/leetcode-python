@@ -1,19 +1,9 @@
 """
-923. 3Sum With Multiplicity
-Medium
+923 3Sum With Multiplicity
 
-113
-
-13
-
-Favorite
-
-Share
 Given an integer array A, and an integer target, return the number of tuples i, j, k  such that i < j < k and A[i] + A[j] + A[k] == target.
 
 As the answer can be very large, return it modulo 10^9 + 7.
-
- 
 
 Example 1:
 
@@ -33,7 +23,6 @@ Explanation:
 A[i] = 1, A[j] = A[k] = 2 occurs 12 times:
 We choose one 1 from [1,1] in 2 ways,
 and two 2s from [2,2,2,2] in 6 ways.
- 
 
 Note:
 

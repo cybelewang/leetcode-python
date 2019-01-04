@@ -74,8 +74,39 @@ class CBTInserter:
         """
         return self.array[1]
 
+import collections
+# better solution from OJ with less space (O(logN))
+# BFS based solution with a deque which has: from the first non-complete nodes to the end
+class CBTInserter_OJ(object):
+    def __init__(self, root):
+        self.deque = collections.deque()
+        self.root = root
+        q = collections.deque([root])
+        while q:
+            node = q.popleft()
+            if not node.left or not node.right:
+                self.deque.append(node)
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+
+    def insert(self, v):
+        node = self.deque[0]
+        self.deque.append(TreeNode(v))
+        if not node.left:
+            node.left = self.deque[-1]
+        else:
+            node.right = self.deque[-1]
+            self.deque.popleft()
+        return node.val
+
+    def get_root(self):
+        return self.root
+
 root = ListToTree([1,2,3,4,5,6])
-obj = CBTInserter(root)
+#obj = CBTInserter(root)
+obj = CBTInserter_OJ(root)
 print(obj.insert(7))
 print(obj.insert(8))
 PrintTree(obj.get_root())

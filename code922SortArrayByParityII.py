@@ -25,4 +25,17 @@ class Solution:
         :type A: List[int]
         :rtype: List[int]
         """
+        def G(A, start, check):
+            # generate the index whose value % 2 doesn't equal to check
+            for i in range(start, len(A), 2):
+                if A[i]%2 != check:
+                    yield i
         
+        for i, j in zip(G(A, 0, 0), G(A, 1, 1)):
+            A[i], A[j] = A[j], A[i]
+        
+        return A
+
+#A = [1, 2]
+A = [1,1,1,2,2,2]
+print(Solution().sortArrayByParityII(A))
