@@ -69,34 +69,6 @@ class Solution:
         
         return res      
 
-    # https://www.geeksforgeeks.org/maximum-contiguous-circular-sum/
-    # a trick to find above (2)'s result is to invert the signs of the array A, say -A, and then find the max sum of subarray in -A, then sum(A) + maxSum(-A) is the result of (2)
-    def maxSubarraySumCircular2(self, A):
-        # same as 53 Maximum Subarray
-        def maxSum(A):
-            pre, res = A[0], A[0]
-            for i in range(1, len(A)):
-                if pre < 0:
-                    pre = A[i]
-                else:
-                    pre += A[i]
-                res = max(res, pre)
-
-            return res
-        
-        # main
-        # get (1) result
-        res1 = maxSum(A)
-        # get total and invert A
-        total = 0
-        for i, a in enumerate(A):
-            total += a
-            A[i] *= -1
-        # get (2) result
-        res2 = total + maxSum(A)
-
-        return max(res1, res2)
-
     # 1st trial, wrong solution
     # the final result could be from (1) a subarray of A, or (2) a subarray with the end and first element
     # this solution considers only one case of (2) by re-arranging two halves of A, but we need to consider all scenarios, a test case is [2,-2,2,7,8,0]
@@ -121,5 +93,6 @@ class Solution:
 #A = [1, 2, 3, 4]
 #A = [-3000]
 #A = [1,-2,3,-2]
-A = [2,-2,2,7,8,0]  #expected 19
+#A = [2,-2,2,7,8,0]  #expected 19
+A = [-2, -3, -1]
 print(Solution().maxSubarraySumCircular2(A))
