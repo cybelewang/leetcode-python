@@ -1,17 +1,7 @@
 """
-930. Binary Subarrays With Sum
-Medium
+930 Binary Subarrays With Sum
 
-135
-
-9
-
-Favorite
-
-Share
 In an array A of 0s and 1s, how many non-empty subarrays have sum S?
-
- 
 
 Example 1:
 
@@ -23,7 +13,6 @@ The 4 subarrays are bolded below:
 [1,0,1,0,1]
 [1,0,1,0,1]
 [1,0,1,0,1]
- 
 
 Note:
 

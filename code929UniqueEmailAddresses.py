@@ -1,14 +1,6 @@
 """
-929. Unique Email Addresses
-Easy
+929 Unique Email Addresses
 
-224
-
-66
-
-Favorite
-
-Share
 Every email consists of a local name and a domain name, separated by the @ sign.
 
 For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name.
@@ -23,14 +15,11 @@ It is possible to use both of these rules at the same time.
 
 Given a list of emails, we send one email to each address in the list.  How many different addresses actually receive mails? 
 
- 
-
 Example 1:
 
 Input: ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
 Output: 2
 Explanation: "testemail@leetcode.com" and "testemail@lee.tcode.com" actually receive mails
- 
 
 Note:
 
@@ -44,4 +33,17 @@ class Solution:
         :type emails: List[str]
         :rtype: int
         """
-        
+        unique = set()
+        for email in emails:
+            at = email.find('@')
+            local, domain = email[:at], email[at+1:]
+            plus = local.find('+')
+            if plus != -1:
+                local = local[:plus]
+            local = ''.join(filter(lambda x: x!= '.', local))
+            unique.add(local + "@" + domain)
+        #print(unique)
+        return len(unique)
+
+emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+print(Solution().numUniqueEmails(emails))
