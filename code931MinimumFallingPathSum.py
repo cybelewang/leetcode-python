@@ -1,19 +1,9 @@
 """
-931. Minimum Falling Path Sum
-Medium
+931 Minimum Falling Path Sum
 
-143
-
-13
-
-Favorite
-
-Share
 Given a square array of integers A, we want the minimum sum of a falling path through A.
 
 A falling path starts at any element in the first row, and chooses one element from each row.  The next row's choice must be in a column that is different from the previous row's column by at most one.
-
- 
 
 Example 1:
 
@@ -26,17 +16,28 @@ The possible falling paths are:
 [3,5,7], [3,5,8], [3,5,9], [3,6,8], [3,6,9]
 The falling path with the smallest sum is [1,4,7], so the answer is 12.
 
- 
-
 Note:
 
 1 <= A.length == A[0].length <= 100
 -100 <= A[i][j] <= 100
 """
+# similar problems: 120 Triangle
 class Solution:
     def minFallingPathSum(self, A):
         """
         :type A: List[List[int]]
         :rtype: int
         """
+        m, n, ans = len(A), len(A[0]), 2**31 - 1
+        for i in range(1, m):
+            for j in range(n):
+                lo, hi = max(0, j-1), min(j+2, n)
+                A[i][j] += min(A[i-1][lo:hi])
+                if i == m - 1:
+                    ans = min(ans, A[i][j])
         
+        return ans
+
+#A = [[1,2,3],[4,5,6],[7,8,9]]
+A = [[2, 1, -3], [-10, 10, 7], [-1, 10, -4]]
+print(Solution().minFallingPathSum(A))

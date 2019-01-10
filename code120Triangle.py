@@ -16,7 +16,7 @@ Note:
 Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.
 
 """
-
+# similar problems: 931 Minimum Falling Path Sum
 # Use backward adding method: curr = curr + min(upleft, upright)
 class Solution:
     def minimumTotal(self, triangle):

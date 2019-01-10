@@ -21,6 +21,7 @@ A.length <= 30000
 A[i] is either 0 or 1.
 """
 class Solution:
+    # my own solution by calculating the leading and trailing zeros of S 1s
     def numSubarraysWithSum(self, A, S):
         """
         :type A: List[int]
@@ -28,26 +29,25 @@ class Solution:
         :rtype: int
         """
         ones = [i for i, a in enumerate(A) if a == 1]   # indices in A where the value is 1
-        N, ans = len(ones), 0
-        # S == 0
+        N, ans, pre = len(ones), 0, -1
+        # S == 0, need to calculate number of subarrays with all 0s, and these subarrays exist between two 1s        
         if S == 0:
-            left = -1
+            pre = -1   # virtual 1 on index -1
             for i in range(N):
-                if ones[i] > left + 1:
-                    ans += 1
-                left = ones[i]
-            if N > left + 1:
-                ans += 1
+                ans += (ones[i]-pre-1)*(ones[i]-pre)//2   # if index i and j have 1s, then there are n = (j-i-1) zeros between them, and there are n*(n+1)//2 non-empty subarrays
+                pre = ones[i]
+            ans += (len(A)-pre-1)*(len(A)-pre)//2 # don't forget the trailing zeros
+
             return ans
 
-        # S > 0
+        # S > 0, need to calculate the leading zeros and trailing zeros of the subarray
         for i in range(N-S+1):
             if i == 0:
                 left = ones[i] + 1
             else:
-                left = ones[i] - ones[i-1]
+                left = ones[i] -ones[i-1]   # # there are (ones[i]-ones[i-1]-1) zeros, but we have (ones[i]-ones[i-1]-1+1) = (ones[i]-ones[i-1]) selections, including the case of no zeros
             
-            j = i + S
+            j = i + S   # trailing zeros are between j-1 and j
             if j == N:
                 right = len(A) - ones[j-1]
             else:
@@ -57,6 +57,6 @@ class Solution:
 
         return ans
 
-#A, S = [1,0,1,0,1], 1
-A, S = [0, 0, 0, 0], 0
+A, S = [1,0,1,0,1], 1
+#A, S = [0, 0, 0, 0], 0
 print(Solution().numSubarraysWithSum(A, S))
