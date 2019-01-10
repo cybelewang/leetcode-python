@@ -35,12 +35,18 @@ class Solution:
         """
         unique = set()
         for email in emails:
+            local, domain = email.split('@')
+            if '+' in local:
+                local = local[:local.index('+')]
+            local = local.replace('.', '')
+            """ original code
             at = email.find('@')
             local, domain = email[:at], email[at+1:]
             plus = local.find('+')
             if plus != -1:
                 local = local[:plus]
             local = ''.join(filter(lambda x: x!= '.', local))
+            """
             unique.add(local + "@" + domain)
         #print(unique)
         return len(unique)
