@@ -36,6 +36,16 @@ class Solution:
         :type N: int
         :rtype: int
         """
-        ans, M = 0, 10**9 + 7
+        M = 10**9 + 7
         moves = [(4,6), (6,8), (7,9), (4,8), (0,3,9), (), (0,1,7), (2,6), (1,3), (2,4)] # moves[i] are the next dialing numbers moving from i
+        pre, cur = [1]*10, [0]*10
+        for _ in range(N-1):
+            for dst in range(10):
+                cur[dst] = 0
+                for src in moves[dst]:
+                    cur[dst] = (cur[dst] + pre[src])%M
+            pre = cur
         
+        return sum(pre)%M
+
+print(Solution().knightDialer(2))
