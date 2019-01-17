@@ -1,19 +1,9 @@
 """
-939. Minimum Area Rectangle
-Medium
+939 Minimum Area Rectangle
 
-110
-
-26
-
-Favorite
-
-Share
 Given a set of points in the xy-plane, determine the minimum area of a rectangle formed from these points, with sides parallel to the x and y axes.
 
 If there isn't any rectangle, return 0.
-
- 
 
 Example 1:
 
@@ -23,7 +13,6 @@ Example 2:
 
 Input: [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]]
 Output: 2
- 
 
 Note:
 

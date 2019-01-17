@@ -31,4 +31,19 @@ class Solution:
         :type logs: List[str]
         :rtype: List[str]
         """
+        indices = {log:i for i, log in enumerate(logs)}
+
+        def order(log):
+            # logs invisible in the subfunction
+            a = log.split()
+            if a[1].isalpha():
+                return (0, ''.join(a[1:]))
+            else:
+                return (1, indices[log])
         
+        logs.sort(key = order)
+
+        return logs
+
+logs = ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"]
+print(Solution().reorderLogFiles(logs))
