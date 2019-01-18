@@ -37,7 +37,7 @@ class Solution:
             # logs invisible in the subfunction
             a = log.split()
             if a[1].isalpha():
-                return (0, ''.join(a[1:]))
+                return (0, ' '.join(a[1:]))
             else:
                 return (1, indices[log])
         
