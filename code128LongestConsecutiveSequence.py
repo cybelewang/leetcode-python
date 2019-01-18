@@ -65,4 +65,4 @@ obj = Solution()
 test_cases = [[], [1], [1, 3], [1, 2], [100, 4, 200, 1, 3, 2]]
 
 for case in test_cases:
-    print(obj.longestConsecutive2(case))
+    print(obj.longestConsecutive(case))
