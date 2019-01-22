@@ -1,14 +1,6 @@
 """
-944. Delete Columns to Make Sorted
-Easy
+944 Delete Columns to Make Sorted
 
-29
-
-447
-
-Favorite
-
-Share
 We are given an array A of N lowercase letter strings, all of the same length.
 
 Now, we may choose any set of deletion indices, and for each string, we delete all the characters in those indices.
@@ -18,8 +10,6 @@ For example, if we have an array A = ["abcdef","uvwxyz"] and deletion indices {0
 Suppose we chose a set of deletion indices D such that after deletions, each remaining column in A is in non-decreasing sorted order.
 
 Return the minimum possible value of D.length.
-
- 
 
 Example 1:
 
@@ -38,7 +28,6 @@ Example 3:
 Input: ["zyx","wvu","tsr"]
 Output: 3
 Explanation: D = {0, 1, 2}
- 
 
 Note:
 
@@ -51,4 +40,22 @@ class Solution:
         :type A: List[str]
         :rtype: int
         """
+        def increasing(t):
+            # subfunction check if the sequence of t is in non-decreasing order
+            N = len(t)
+            for i in range(1, N):
+                if t[i] < t[i-1]:
+                    return False
+            return True
         
+        ans = 0
+        for t in zip(*A):
+            if not increasing(t):
+                ans += 1
+        
+        return ans
+
+#A = ["a"]
+#A = ["a", "b"]
+A = ["zyx", "wuv", "tsr"]
+print(Solution().minDeletionSize(A))

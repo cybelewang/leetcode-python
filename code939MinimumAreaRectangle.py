@@ -21,10 +21,33 @@ Note:
 0 <= points[i][1] <= 40000
 All points are distinct.
 """
+from collections import defaultdict
 class Solution:
+    # help from https://leetcode.com/problems/minimum-area-rectangle/solution/
     def minAreaRect(self, points):
         """
         :type points: List[List[int]]
         :rtype: int
         """
+        columns = defaultdict(list)
+        for x, y in points:
+            columns[x].append(y)
         
+        lastx = {}
+        ans = float('inf')
+        for x in sorted(columns):
+            column = sorted(columns[x]) # must sort each column too
+            for i, y1 in enumerate(column):
+                for j in range(i):
+                    y2 = column[j]
+                    if (y1, y2) in lastx:
+                        ans = min(ans, (x - lastx[(y1, y2)])*(y1-y2))
+                    lastx[(y1, y2)] = x
+        
+        #print(ans)
+        return 0 if ans == float('inf') else ans
+
+#points = [[1,1],[1,3],[3,1],[3,3],[2,2]]
+#points = [[1,1]]
+points = [[3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]]
+print(Solution().minAreaRect(points))

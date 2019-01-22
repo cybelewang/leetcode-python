@@ -1,21 +1,12 @@
 """
-942. DI String Match
-Easy
+942 DI String Match
 
-190
-
-52
-
-Favorite
-
-Share
 Given a string S that only contains "I" (increase) or "D" (decrease), let N = S.length.
 
 Return any permutation A of [0, 1, ..., N] such that for all i = 0, ..., N-1:
 
 If S[i] == "I", then A[i] < A[i+1]
 If S[i] == "D", then A[i] > A[i+1]
- 
 
 Example 1:
 
@@ -29,7 +20,6 @@ Example 3:
 
 Input: "DDI"
 Output: [3,2,0,1]
- 
 
 Note:
 
@@ -37,9 +27,36 @@ Note:
 S only contains characters "I" or "D".
 """
 class Solution:
+    # my own solution 
+    # for 'I', just increase from 0
+    # for 'D', just decrease fron N
     def diStringMatch(self, S):
         """
         :type S: str
         :rtype: List[int]
         """
+        N = len(S)
+        i, j = 0, N
+        ans = []
+        for c in S:
+            if c == 'I':
+                ans.append(i)
+                i += 1
+            else:
+                ans.append(j)
+                j -= 1
         
+        if S[-1] == 'I':
+            ans.append(i)
+        else:
+            ans.append(j)
+
+        return ans
+
+#S = 'I'
+#S = 'D'
+#S='IDID'
+#S = 'IIII'
+#S = 'DDDD'
+S = 'IDI'
+print(Solution().diStringMatch(S))
