@@ -84,7 +84,7 @@ class Solution:
     # 1 line solution from https://leetcode.com/problems/palindrome-partitioning/discuss/42025/1-liner-Python-Ruby
     def partition4(self, s):
         return [[s[:i]] + rest
-                for i in xrange(1, len(s)+1)
+                for i in range(1, len(s)+1)
                 if s[:i] == s[i-1::-1]
                 for rest in self.partition4(s[i:])] or [[]]
         

@@ -18,6 +18,7 @@ class Solution(object):
     # delta = gas - cost
     # if cannot circulate once for any start, the sum of the delta array must < 0, in this case, return -1
     # otherwise, there must be a start to complete the circuit, the last start with subarray's sum >=0 will meet this requirement
+    # why last start meets the requirement? Because (1) sum of delta >0 (2) sum of delta[:start] must be the smallest negative (3) sum of delta[start:] > 0, and must be the biggest positive
     def canCompleteCircuit(self, gas, cost):
         """
         :type gas: List[int]
