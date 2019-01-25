@@ -47,6 +47,24 @@ class Solution(object):
         
         return -1
 
+    # 3rd solution on 1/25/2019
+    def findMin3(self, nums):
+        i, j = 0, len(nums) - 1
+        while i <= j:
+            if nums[i] <= nums[j]:
+                return nums[i]
+            else:
+                m = (i + j)//2
+                if nums[m] < nums[j]:
+                    j = m
+                else:
+                    i = m + 1
+        
+
+
 test_case = [ 3, 4, 0, 1, 2]
+#test_case = [2, 0, 1]
+#test_case = [2, 1]
+#test_case = [0, 1, 2]
 obj = Solution()
-print(obj.findMin(test_case))
+print(obj.findMin3(test_case))
