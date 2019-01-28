@@ -55,12 +55,10 @@ class Solution(object):
                 return nums[i]
             else:
                 m = (i + j)//2
-                if nums[m] < nums[j]:
-                    j = m
-                else:
+                if nums[m] > nums[j]:   # the minimum must be in right side and should not be [m], so we excludes m, example: [2, 3, 4, 1]
                     i = m + 1
-        
-
+                else:   # the minimum must be in left but could be [m] itself, so we need to include m, example: [2, 0, 1]
+                    j = m
 
 test_case = [ 3, 4, 0, 1, 2]
 #test_case = [2, 0, 1]
