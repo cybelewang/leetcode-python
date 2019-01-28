@@ -42,7 +42,23 @@ class Solution:
         # https://py.checkio.org/blog/how-did-python3-lose-cmd-sorted/
         return ''.join(map(str, sorted(nums, key = cmp_to_key(lambda x, y: compare(x, y)))))
 
+    # 2nd round solution on 1/28/2019 with simplified compare function
+    def largestNumber2(self, nums):
+        if not any(nums):
+            return '0'
+        
+        def compare(x, y):
+            xy, yx = str(x)+str(y), str(y)+str(x)
+            if xy < yx:
+                return 1
+            elif xy > yx:
+                return -1   # we want bigger element comes first
+            else:
+                return 0
+        
+        return ''.join(map(str, sorted(nums, key=cmp_to_key(lambda x, y: compare(x, y)))))
+
 obj = Solution()
 test_cases = [[0],[0, 0], [1, 0], [1], [0, 10, 100, 1000], [19, 199], [39, 3], [33, 3], [32, 3], [31, 311], [3, 30, 34, 5, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]]
 for case in test_cases:
-    print(obj.largestNumber(case))
+    print(obj.largestNumber2(case))
