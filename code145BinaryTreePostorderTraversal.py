@@ -58,9 +58,9 @@ class Solution(object):
         """
         def G(node):
             if node:
+                yield from G(node.left)
                 yield from G(node.right)
                 yield node.val
-                yield from G(node.left)
 
         return list(G(root))      
 

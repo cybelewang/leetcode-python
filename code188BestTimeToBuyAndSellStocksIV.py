@@ -24,7 +24,7 @@ class Solution:
 
         t = [[0 for j in range(n)] for i in range(k+1)] # t[i][j] means the max profit up to ith transactions and up to jth day 
         for i in range(1, k+1):
-            tempMin = prices[0] - 0 # tempMin = cost - previous profit, or current transaction's overall cost
+            tempMin = prices[0] - 0 # tempMin = cost - previous profit, or current transaction's overall cost. Must reset tempMin to prices[0] for each i loop. 
             for j in range(1, n):
                 t[i][j] = max(t[i][j-1], prices[j] - tempMin)   # option 1: no sell transaction on day j, option 2: sell transaction on day j. Selling action is part of current transaction, so we don't need to increase i
                 tempMin = min(tempMin, prices[j] - t[i-1][j-1]) # option 1: no buy transaction on day j, option 2: buy transaction on day j. Buying action is a start of a transaction, so it must be based on previous transaction, that's why we use t[i-1][j-1]
