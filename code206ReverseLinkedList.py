@@ -10,6 +10,7 @@ Reverse a singly linked list.
 #         self.next = None
 from ListNode import *
 class Solution:
+    # use a dummy node
     def reverseList(self, head):
         """
         :type head: ListNode
@@ -23,3 +24,14 @@ class Solution:
             head = node
         
         return pre.next
+
+    # 2nd round solution on 2/1/2019, without using a dummy node
+    def reverseList2(self, head):
+        node, head = head, None
+        while node:
+            _next = node.next
+            node.next = head
+            head = node
+            node = _next
+        
+        return head
