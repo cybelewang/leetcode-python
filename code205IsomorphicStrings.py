@@ -42,7 +42,11 @@ class Solution:
         
         return True
 
+    # 2nd round solution on 2/4/2019
+    def isIsomorphic2(self, s, t):
+        return all(a == b for a, b in zip(map(s.find, s), map(t.find, t)))
+
 test_cases = [('egg', 'add'), ('foo', 'bar'), ('foo', 'bao'), ('paper', 'title'), ('pae', 'too'), ('ab', 'aa')]
 obj = Solution()
 for case in test_cases:
-    print(obj.isIsomorphic(case[0], case[1]))
+    print(obj.isIsomorphic2(case[0], case[1]))

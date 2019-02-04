@@ -23,6 +23,7 @@ You may assume that there are no duplicate edges in the input prerequisites.
 """
 from collections import deque
 class Solution:
+    # use the similar code as in 207 Course Schedule with minor changes, see OneNote
     def findOrder(self, numCourses, prerequisites):
         """
         :type numCourses: int
