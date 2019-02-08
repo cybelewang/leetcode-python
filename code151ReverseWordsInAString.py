@@ -20,7 +20,8 @@ Yes. However, your reversed string should not contain leading or trailing spaces
 How about multiple spaces between two words?
 Reduce them to a single space in the reversed string.
 """
-
+# similar problems: 189 Rotate Array
+# For C programmers, use 189 Rotate Array's method: reverse the whole string first, then reverse each individual word.
 # be sure to be familiar with str.split() method: without arguments, using whitespace as separator and remove any empty results
 class Solution(object):
     def reverseWords(self, s):

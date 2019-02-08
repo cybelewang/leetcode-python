@@ -45,10 +45,37 @@ class Solution:
                 node = node.left
 
         return None
-           
+
+    # 2nd round recursive solution on 2/8/2019, with help from http://www.cnblogs.com/grandyang/p/4620012.html
+    def kthSmallest(self, root, k):
+        def search(root, remain):
+            """
+            remain is a list with one element, which is the number of remaining nodes to count
+            return the corresponding node's value
+            """
+            if not root:
+                return -1
+
+            val = search(root.left, remain) # search left, and remain[0] will decrease
+            # check remain[0] after searching left
+            if remain[0] == 0:
+                return val
+            # decrease remain[0] by counting root
+            remain[0] -= 1
+
+            # check remain[0] again after counting root
+            if remain[0] == 0:
+                return root.val
+
+            # if remain[0] still > 0, search right    
+            return search(root.right, remain)
+        
+        #main
+        return search(root, [k])
+
 null = None
 test_case =  [4, 2, 6, 1, 3, 5, 7]
 root = ListToTree(test_case)
 obj = Solution()
-res = obj.kthSmallest2(root,3)
+res = obj.kthSmallest(root,3)
 print(res)

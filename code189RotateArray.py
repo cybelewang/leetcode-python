@@ -10,8 +10,9 @@ Try to come up as many solutions as you can, there are at least 3 different ways
 
 [show hint]
 
-Related problem: Reverse Words in a String II
+Related problem: 151 Reverse Words in a String II
 """
+# similar problems: 151 Reverse Words in a String
 class Solution:
     # two pass. Reverse the whole array, then reverse the first k subarray, then reverse the remaining n-k subarray
     def rotate(self, nums, k):
