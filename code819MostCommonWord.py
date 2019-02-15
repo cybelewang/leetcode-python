@@ -55,6 +55,24 @@ class Solution:
                 res = word
         
         return res
+    
+    # 2nd round solution on 2/13/2019, replace non-alpha characters with ' ', then use split()
+    def mostCommonWord(self, paragraph, banned):
+        cnt = defaultdict(int)
+        s = ""
+        for c in paragraph:
+            if not c.isalpha():
+                s += ' '
+            else:
+                s += c
+        
+        maxCnt, res = 0, ""
+        for word in s.split():
+            cnt[word] += 1
+            if cnt[word] > maxCnt:
+                res = word
+        
+        return res
 
 #paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
 #banned = ["hit"]
