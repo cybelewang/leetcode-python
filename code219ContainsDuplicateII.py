@@ -34,6 +34,20 @@ class Solution:
 
         return False
 
+    # 2nd round solution on 2/20/2019
+    def containsNearbyDuplicate2(self, nums, k):
+        if len(nums) < 2 or k < 1:
+            return False
+
+        index = {}
+        for i, num in enumerate(nums):
+            if num in index:
+                if i - index[num] > k:
+                    return False
+            index[num] = i
+        
+        return True
+
 test_case = [1, 2, 1]
 obj = Solution()
-print(obj.containsNearbyDuplicate(test_case, 2**31-1))    
+print(obj.containsNearbyDuplicate2(test_case, 2**31-1))    

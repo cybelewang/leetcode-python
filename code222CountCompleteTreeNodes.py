@@ -1,7 +1,6 @@
 """
 222 Count Complete Tree Nodes
 
-Given a complete binary tree, count the number of nodes.
 
 Definition of a complete binary tree from Wikipedia:
 In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
@@ -32,7 +31,6 @@ class Solution:
 
         lowest = [0]
         def find1stEmptyLeaf(node, h, H, lowest):
-            # this function will recursively count the leaf nodes, and will early return True if the first empty leaf node is seen
             if h == H:
                 if node is None:
                     return True
@@ -71,8 +69,28 @@ class Solution:
         
         return res
 
+    # 2nd round solution on 2/20/2019
+    # iterally and recursively check if binary tree is a perfect binary tree
+    def countNodes3(self, root):        
+        l, node = 0, root
+        while node:
+            l += 1
+            node = node.left
+        
+        r, node = 0, root
+        while node:
+            r += 1
+            node = node.right
+
+        if l == r:
+            return 2**l - 1
+        else:
+            self.countNodes3(root.left) + self.countNodes3(root.right) + 1
+            
+
 obj = Solution()
 test_case = [1, 2, 3, 4, 5, 6, 7]
 PrintTree(ListToTree(test_case))
 print(obj.countNodes(ListToTree(test_case)))
 print(obj.countNodes2(ListToTree(test_case)))
+print(obj.countNodes3(ListToTree(test_case)))

@@ -11,6 +11,8 @@ For example, given the following matrix:
 1 0 0 1 0
 Return 4.
 """
+# similar problems: 84 Largest Rectangle in Histogram, 85 Maximal Rectangle
+# DP, assume dp[i][j] is the max square's size with (i, j) as bottom right corner, then dp[i][j] = min(dp[i-1][j-1], dp[i][j-1], dp[i-1][j]) + 1
 class Solution:
     def maximalSquare(self, matrix):
         """
@@ -55,8 +57,32 @@ class Solution:
 
         return res
 
+    # 2nd round solution on 2/20/2019, using 1D dp array
+    def maximalSquare2(self, matrix):
+        m = len(matrix)
+        if m < 1:   return 0
+        n = len(matrix[0])
+        if n < 1:   return 0
+        
+        maxSize = 0
+        dp = [0]*n
+        for i in range(m):
+            pre = dp[0] # pre is like dp[i-1][j-1]
+            dp[0] = 1 if matrix[i][0] == '1' else 0
+            maxSize = max(maxSize, 1)
+            for j in range(1, n):
+                temp = dp[j]    # temporarily save the value before update
+                if matrix[i][j] == '1':
+                    dp[j] = min(pre, dp[j-1], dp[j]) + 1
+                    maxSize = max(maxSize, dp[j])
+                else:
+                    dp[j] = 0
+                pre = temp  # assign temp to pre
+        
+        return maxSize*maxSize
+
 obj = Solution()
-#test_matrix = [['1', '0', '1', '0', '0'],['1', '0', '1', '1', '1'],['1', '1', '1', '1', '1'],['1', '0', '0', '1', '0']]
+test_matrix = [['1', '0', '1', '0', '0'],['1', '0', '1', '1', '1'],['1', '1', '1', '1', '1'],['1', '0', '0', '1', '0']]
 #test_matrix = [["1","0","1","0"],["1","0","1","1"],["1","0","1","1"],["1","1","1","1"]]
-test_matrix = [['1']]
-print(obj.maximalSquare(test_matrix))
+#test_matrix = [['1']]
+print(obj.maximalSquare2(test_matrix))
