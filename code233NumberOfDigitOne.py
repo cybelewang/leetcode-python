@@ -25,15 +25,11 @@ class Solution:
             num = 10 * full_range_ones[-1] + 10**(i-1) # how to get value of 0-999 from 0-99? We add one digit 0-9, which means 10 times of previous value, add 0-99 times of starting "1"
             full_range_ones.append(num)
         
-        #print(full_range_ones)
         # full_range_ones = [0, 1, 20, 300, 4000, 50000, 600000, 7000000, 80000000, 900000000, 10000000000]
         # This means from 0-9 there is 1 digit One, and 0-99 there are 20 digit Ones, and 0-999 there are 300 digit Ones...
 
         def _dfs(n, full_range_ones):
-            k, m = 0, n # k is length of n
-            while m > 0:
-                m = m//10
-                k += 1
+            k = len(str(n))# k is length of n
 
             if n == 0:
                 return 0
@@ -41,13 +37,23 @@ class Solution:
                 highest, remain = divmod(n, 10**(k-1))
  
                 res = highest*full_range_ones[k-1]
-                res += remain + 1 if highest == 1 else 10**(k-1) 
+                res += (remain + 1) if highest == 1 else 10**(k-1) # need to count highest 1 (remain + 1 times if highest == 1, otherwise 10**(k-1) times)
                 res += _dfs(remain, full_range_ones)
 
                 return res
 
-
         return _dfs(n, full_range_ones)
 
+    # http://www.cnblogs.com/grandyang/p/4629032.html
+    def countDigitOne2(self, n):
+        res, a, b = 0, 1, 1
+        while n > 0:
+            res += (n+8)//10*a + (n%10 == 1)*b
+            b += n%10*a
+            a *= 10
+            n //=10
+        
+        return res
+
 obj = Solution()
-print(obj.countDigitOne(34567))
+print(obj.countDigitOne2(34567))

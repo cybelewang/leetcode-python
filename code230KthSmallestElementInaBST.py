@@ -73,9 +73,57 @@ class Solution:
         #main
         return search(root, [k])
 
+    # 3rd round recursive solution on 2/21/2019
+    def kthSmallest3(self, root, k):
+        def count(root, k):
+            """
+            k is remaining
+            return tuple(number of nodes in this subtree, result node)
+            """
+            if not root:
+                return (0, None)
+            left_cnt, left_res = count(root.left, k)
+            if left_res:
+                return (k, left_res)
+            if left_cnt + 1 == k:
+                return (k, root)
+            right_cnt, right_res = count(root.right, k - left_cnt - 1)
+            if right_res:
+                return (left_cnt + right_cnt + 1, right_res)
+            else:
+                return (left_cnt + right_cnt + 1, None)
+        
+        # main
+        return count(root, k)[1].val
+    
+    # 4th round recursive solution on 2/21/2019
+    def kthSmallest4(self, root, k):
+        """
+        k is remaining
+        use a global variable self.res
+        """
+        self.res = None
+        def count(root, k):
+            if not root:
+                return 0
+            left_cnt = count(root.left, k)
+            if left_cnt >= k:
+                return k
+            elif left_cnt + 1 == k:
+                self.res = root
+                return k
+            else:
+                right_cnt = count(root.right, k - left_cnt - 1)
+                return left_cnt + right_cnt + 1
+
+        # main
+        count(root, k)
+        return self.res.val;
+
 null = None
 test_case =  [4, 2, 6, 1, 3, 5, 7]
 root = ListToTree(test_case)
+PrintTree(root)
 obj = Solution()
-res = obj.kthSmallest(root,3)
+res = obj.kthSmallest4(root,3)
 print(res)
