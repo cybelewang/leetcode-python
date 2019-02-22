@@ -21,9 +21,11 @@ Given target = 5, return true.
 Given target = 20, return false.
 
 """
+# similar problems: 74 Search a 2D Matrix
+
 # From Java solution: treat the bottom left element as root or binary search tree
-# if current < target, we search right
-# if current > target, we search up
+# if current < target, we search right because all above numbers < current. why not search down? because we already considered them in previous steps
+# if current > target, we search up because all right number > current. why not search left? because we already considered them in previous steps
 # if current == target, we find it
 
 class Solution:

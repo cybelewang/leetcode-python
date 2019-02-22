@@ -22,6 +22,8 @@ You may assume k is always valid, ie: 1 ≤ k ≤ input array's size for non-emp
 Follow up:
 Could you solve it in linear time?
 """
+# similar problems: 480 Sliding Window Median
+# follow up: Sliding Window Minimum
 from math import log2, ceil
 from collections import deque
 class Solution:

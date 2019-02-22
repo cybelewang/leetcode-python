@@ -43,3 +43,21 @@ class Solution(object):
             return left_result
         else:
             return root
+    
+    # 2nd round solution on 2/22/2019
+    def lowestCommonAncestor2(self, root, p, q):
+        if root in (p, q, None):
+            return root
+        
+        left = self.lowestCommonAncestor2(root.left, p, q)
+        # optimization when we already found LCA for p and q, removing below two lines will not affect the result
+        if left and left not in (p, q):
+            return left
+
+        right = self.lowestCommonAncestor2(root.right, p, q)
+
+        # list a truth table for left, right and result
+        if left and right:
+            return root
+        else:
+            return left or right
