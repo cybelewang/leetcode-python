@@ -14,6 +14,10 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
          7   4
 For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
 
+Note:
+
+All of the nodes' values will be unique.
+p and q are different and both values will exist in the binary tree.
 """
 # Definition for a binary tree node.
 # class TreeNode(object):
@@ -21,7 +25,7 @@ For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another exa
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution(object):
     # recursive solution
     def lowestCommonAncestor(self, root, p, q):
@@ -31,16 +35,18 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        if root == None or root == p or root == q:
+        if root in (None, p, q):
             return root
 
-        left_result = self.lowestCommonAncestor(root.left, p, q)
-        right_result = self.lowestCommonAncestor(root.right, p, q)
+        left = self.lowestCommonAncestor(root.left, p, q)
+        # below is the trick: left is not None, and left is not p or q, this means we have found the LCA of p and q, so return early
+        if left not in (None, p, q):
+            return left
 
-        if left_result is None:
-            return right_result
-        elif right_result is None:
-            return left_result
+        right = self.lowestCommonAncestor(root.right, p, q)
+
+        if left and right:
+            return root
         else:
             return root
     

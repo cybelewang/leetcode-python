@@ -69,7 +69,7 @@ class Solution:
         for i in range(m):
             pre = dp[0] # pre is like dp[i-1][j-1]
             dp[0] = 1 if matrix[i][0] == '1' else 0
-            maxSize = max(maxSize, 1)
+            maxSize = max(maxSize, dp[0])
             for j in range(1, n):
                 temp = dp[j]    # temporarily save the value before update
                 if matrix[i][j] == '1':
@@ -82,7 +82,8 @@ class Solution:
         return maxSize*maxSize
 
 obj = Solution()
-test_matrix = [['1', '0', '1', '0', '0'],['1', '0', '1', '1', '1'],['1', '1', '1', '1', '1'],['1', '0', '0', '1', '0']]
+#test_matrix = [['1', '0', '1', '0', '0'],['1', '0', '1', '1', '1'],['1', '1', '1', '1', '1'],['1', '0', '0', '1', '0']]
 #test_matrix = [["1","0","1","0"],["1","0","1","1"],["1","0","1","1"],["1","1","1","1"]]
 #test_matrix = [['1']]
+test_matrix = [["0"]]
 print(obj.maximalSquare2(test_matrix))

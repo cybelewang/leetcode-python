@@ -101,4 +101,4 @@ class Solution:
 test_case = '100-(-(2-34)+6 -(9))'
 obj = Solution()
 print(obj.calculate(test_case))
-print(obj.calculate2(test_case))
+#print(obj.calculate2(test_case))
