@@ -28,6 +28,27 @@ If M[i][j] = 1, then M[j][i] = 1.
 """
 from collections import deque
 class Solution:
+    # union find solution
+    def findCircleNum_uf(self, M):
+        N = len(M)
+        root, res = [-1]*N, N
+
+        # union find function
+        def find(root, i):
+            while -1 != root[i]:
+                i = root[i]
+            return i
+        
+        for i in range(N):
+            for j in range(i+1, N):
+                if M[i][j]:
+                    p, q = find(root, i), find(root, j)
+                    if p != q:
+                        root[p] = q
+                        res -= 1
+        
+        return res
+
     # my 2nd trial
     # create a set to store students not processed
     # iterate all students, for each student in the set, use BFS to process all friends, and remove friends from the set
@@ -81,4 +102,4 @@ class Solution:
         return circle - 1
 
 M = [[1,0,0,1],[0,1,1,0],[0,1,1,1],[1,0,1,1]]
-print(Solution().findCircleNum(M))
+print(Solution().findCircleNum_uf(M))
