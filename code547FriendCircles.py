@@ -28,7 +28,7 @@ If M[i][j] = 1, then M[j][i] = 1.
 """
 from collections import deque
 class Solution:
-    # union find solution
+    # union find solution on 3/5/2019
     def findCircleNum_uf(self, M):
         N = len(M)
         root, res = [-1]*N, N
@@ -48,6 +48,47 @@ class Solution:
                         res -= 1
         
         return res
+
+    # DFS solution on 3/6/2019
+    def findCircleNum_dfs(self, M):
+        def dfs(M, i, visited):
+            """
+            DFS search for connected friends and mark them as visited
+            """
+            visited[i] = True
+            for j in range(len(M)):
+                if M[i][j] and not visited[j]:  # no need to check if j != i because if j == i, visited[j] will be True and it can't pass the "not visited[j]" check
+                    dfs(M, j, visited)
+
+        # main
+        N, circles = len(M), 0
+        visited = [False]*N
+        for i in range(N):
+            if not visited[i]:
+                dfs(M, i, visited)
+                circles += 1
+        
+        return circles
+
+    # BFS solution on 3/6/2019
+    def findCircleNum_bfs(self, M):
+        N, circles = len(M), 0
+        visited = [False]*N
+        for i in range(N):
+            if visited[i]:
+                continue
+            q = deque([i])
+            visited[i] = True
+            while q:
+                i = q.popleft()
+                for j in range(N):
+                    if M[i][j] and not visited[j]:
+                        q.append(j)
+                        visited[j] = True
+            
+            circles += 1
+        
+        return circles
 
     # my 2nd trial
     # create a set to store students not processed
@@ -102,4 +143,4 @@ class Solution:
         return circle - 1
 
 M = [[1,0,0,1],[0,1,1,0],[0,1,1,1],[1,0,1,1]]
-print(Solution().findCircleNum_uf(M))
+print(Solution().findCircleNum_bfs(M))
