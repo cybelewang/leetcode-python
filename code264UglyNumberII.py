@@ -7,7 +7,9 @@ Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For 
 
 Note that 1 is typically treated as an ugly number, and n does not exceed 1690.
 """
-# a competition algorithm, the minimun of current number times with 2, 3, 5 will be the next number
+# a competition algorithm, the minimun of previous ugly number times with 2, 3, 5 will be the next number
+# every ugly number needs to time 2, 3, 5 and contributes to next ugly number
+# see excel for detailed explanation
 class Solution:
     def nthUglyNumber(self, n):
         """
@@ -18,7 +20,7 @@ class Solution:
             raise ValueError
         
         k = [1]*n
-        t2, t3, t5 = 0, 0, 0
+        t2, t3, t5 = 0, 0, 0    # t2: available ugly number's index which can time 2 and possibly contribute to next ugly number
         for i in range(1, n):
             k[i] = min(k[t2]*2, k[t3]*3, k[t5]*5)
             if k[i] == k[t2]*2:
