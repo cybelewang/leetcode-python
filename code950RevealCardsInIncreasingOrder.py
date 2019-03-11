@@ -1,14 +1,6 @@
 """
-950. Reveal Cards In Increasing Order
-Medium
+950 Reveal Cards In Increasing Order
 
-156
-
-31
-
-Favorite
-
-Share
 In a deck of cards, every card has a unique integer.  You can order the deck in any order you want.
 
 Initially, all the cards start face down (unrevealed) in one deck.
@@ -21,8 +13,6 @@ If there are still unrevealed cards, go back to step 1.  Otherwise, stop.
 Return an ordering of the deck that would reveal the cards in increasing order.
 
 The first entry in the answer is considered to be the top of the deck.
-
- 
 
 Example 1:
 
@@ -39,7 +29,6 @@ We reveal 11, and move 17 to the bottom.  The deck is now [13,17].
 We reveal 13, and move 17 to the bottom.  The deck is now [17].
 We reveal 17.
 Since all the cards revealed are in increasing order, the answer is correct.
- 
 
 Note:
 

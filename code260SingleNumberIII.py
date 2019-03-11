@@ -12,6 +12,11 @@ The order of the result is not important. So in the above example, [5, 3] is als
 Your algorithm should run in linear runtime complexity. Could you implement it using only constant space complexity?
 """
 # https://leetcode.com/problems/single-number-iii/discuss/68900/Accepted-C++Java-O(n)-time-O(1)-space-Easy-Solution-with-Detail-Explanations
+# first xor all numbers, and the result is diff
+# then take any isolated bit 1 from diff and form a "signature" number
+# use that "signature" number to distinguish nums into two groups: one group with all numbers has that bit 1, one group with all numbers with that bit 0
+# The same numbers must fall into one group, only the two result numbers are in two different group
+# xor the two groups and we will get the final result
 class Solution:
     def singleNumber(self, nums):
         """
