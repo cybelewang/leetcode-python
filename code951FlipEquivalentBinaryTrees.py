@@ -26,6 +26,7 @@ Each value in each tree will be a unique integer in the range [0, 99].
 #         self.left = None
 #         self.right = None
 
+from TreeNode import *
 class Solution:
     def flipEquiv(self, root1, root2):
         """
@@ -33,4 +34,15 @@ class Solution:
         :type root2: TreeNode
         :rtype: bool
         """
-        
+        if not root1 and not root2:
+            return True
+        if root1 and root2 and root1.val == root2.val:
+            return (self.flipEquiv(root1.left, root2.left) and self.flipEquiv(root1.right, root2.right)) or (self.flipEquiv(root1.right, root2.left) and self.flipEquiv(root1.left, root2.right))
+        return False
+
+null = None
+#root1 = ListToTree([1,2,3,4,5,6,null,null,null,7,8])
+#root2 = ListToTree([1,3,2,null,6,4,5,null,null,null,null,8,7])
+root1 = ListToTree([1,2])
+root2 = ListToTree([1,null,2])
+print(Solution().flipEquiv(root1, root2))

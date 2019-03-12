@@ -28,6 +28,8 @@ Note:
 """
 class Solution:
     # https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/discuss/197668/Count-the-Number-of-Islands-O(N)
+    # tricks: inverse bits of y, then put x and y into root map
+    # problem becomes union find coordinates
     """
     When we search on points,
     we alternately change our view on a row and on a col.
