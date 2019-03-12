@@ -36,10 +36,23 @@ Note:
 1 <= A[i] <= 10^6
 A[i] != A[j] for all i != j
 """
+from collections import deque
 class Solution:
+    # my own solution using deque
+    # reversely reconstruct the final list
     def deckRevealedIncreasing(self, deck):
         """
         :type deck: List[int]
         :rtype: List[int]
         """
+        deck.sort(reverse = True)
+        q = deque([deck[0]])
+        for i in range(1, len(deck)):
+            last = q.pop()
+            q.appendleft(last)
+            q.appendleft(deck[i])
         
+        return list(q)
+
+deck = [17,13,11,2,3,5]
+print(Solution().deckRevealedIncreasing(deck))
