@@ -27,7 +27,7 @@ Note:
 A.length is even
 -100000 <= A[i] <= 100000
 """
-from collections import Counter
+from collections import Counter, defaultdict
 class Solution:
     def canReorderDoubled(self, A):
         count = Counter(A)
