@@ -1,14 +1,6 @@
 """
-955. Delete Columns to Make Sorted II
-Medium
+955 Delete Columns to Make Sorted II
 
-67
-
-12
-
-Favorite
-
-Share
 We are given an array A of N lowercase letter strings, all of the same length.
 
 Now, we may choose any set of deletion indices, and for each string, we delete all the characters in those indices.
@@ -18,8 +10,6 @@ For example, if we have an array A = ["abcdef","uvwxyz"] and deletion indices {0
 Suppose we chose a set of deletion indices D such that after deletions, the final array has its elements in lexicographic order (A[0] <= A[1] <= A[2] ... <= A[A.length - 1]).
 
 Return the minimum possible value of D.length.
-
- 
 
 Example 1:
 
@@ -43,7 +33,6 @@ Input: ["zyx","wvu","tsr"]
 Output: 3
 Explanation: 
 We have to delete every column.
- 
 
 Note:
 
@@ -52,8 +41,30 @@ Note:
 """
 class Solution:
     def minDeletionSize(self, A):
+        pass
+    
+    # wrong solution on A = ["xga","xfb","yfa"]
+    def minDeletionSize_WRONG(self, A):
         """
         :type A: List[str]
         :rtype: int
         """
+        n, m, res = len(A), len(A[0]), 0
+        for j in range(m):
+            large, small = 0, 0
+            for i in range(1, n):
+                if A[i][j] > A[i-1][j]:
+                    large += 1
+                elif A[i][j] < A[i-1][j]:
+                    small += 1
+
+            if small > 0:
+                res += 1
+            elif large > 0:
+                return res
         
+        return res
+
+A = ["xga","xfb","yfa"]
+#A = ["xc","yb","za"]
+print(Solution().minDeletionSize(A))

@@ -37,16 +37,21 @@ class Solution:
         :rtype: bool
         """
         mirror = {a:chr(i + ord('a')) for i, a in enumerate(order)}
-        def decode(s):
-            return ''.join(map(lambda x: mirror[x], s))
-        
-        restore = list(map(decode, words))
-        for i in range(1, len(restore)-1):
-            if restore[i] < restore[i-1]:
-                return False
+
+        for i in range(len(words) - 1):
+            length = min(len(words[i]), len(words[i+1]))
+            for j in range(length):
+                c1, c2 = mirror[words[i][j]], mirror[words[i+1][j]]
+                if c1 > c2:
+                    return False
+                elif c1 < c2:
+                    break
+            else:
+                if len(words[i]) > len(words[i+1]):
+                    return False
         
         return True
 
-words = ["hello","leetcode"]
-order = "hlabcdefgijkmnopqrstuvwxyz"
+words = ["apple","app"]
+order = "abcdefghijklmnopqrstuvwxyz"
 print(Solution().isAlienSorted(words, order))

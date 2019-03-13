@@ -27,10 +27,38 @@ Note:
 A.length is even
 -100000 <= A[i] <= 100000
 """
+from collections import Counter
 class Solution:
     def canReorderDoubled(self, A):
+        count = Counter(A)
+        for a in sorted(A, key = abs):
+            if count[a] == 0:
+                continue
+            if count[2*a] == 0:
+                return False
+
+            count[a] -= 1
+            count[2*a] -= 1
+        
+        return True
+            
+    # wrong solution, cannot pass A = [-1,4,6,8,-4,6,-6,3,-2,3,-3,-8], expect true
+    def canReorderDoubled_WRONG(self, A):
         """
         :type A: List[int]
         :rtype: bool
         """
-        
+        count = defaultdict(int)
+        for a in A:
+            if count[a*2] > 0:
+                count[a*2] -= 1
+            elif a%2 == 0 and count[a//2] > 0:
+                count[a//2] -= 1
+            else:
+                count[a] += 1
+        print(count)
+        return all(count[key] == 0 for key in count)
+
+#A = [2,1,2,1,1,1,2,2]   # expect true
+A = [-1,4,6,8,-4,6,-6,3,-2,3,-3,-8] # expect true
+print(Solution().canReorderDoubled(A))
