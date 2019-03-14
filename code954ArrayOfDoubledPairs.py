@@ -29,6 +29,7 @@ A.length is even
 """
 from collections import Counter, defaultdict
 class Solution:
+    # sort A first, then start from the smallest number a, find 2*a
     def canReorderDoubled(self, A):
         count = Counter(A)
         for a in sorted(A, key = abs):
@@ -42,7 +43,7 @@ class Solution:
         
         return True
             
-    # wrong solution, cannot pass A = [-1,4,6,8,-4,6,-6,3,-2,3,-3,-8], expect true
+    # wrong solution, cannot pass A = [1, 4, 2, 8], expect true
     def canReorderDoubled_WRONG(self, A):
         """
         :type A: List[int]
@@ -56,9 +57,9 @@ class Solution:
                 count[a//2] -= 1
             else:
                 count[a] += 1
-        print(count)
+        #print(count)
         return all(count[key] == 0 for key in count)
 
 #A = [2,1,2,1,1,1,2,2]   # expect true
-A = [-1,4,6,8,-4,6,-6,3,-2,3,-3,-8] # expect true
-print(Solution().canReorderDoubled(A))
+A = [1, 4, 2, 8] # expect true
+print(Solution().canReorderDoubled_WRONG(A))
