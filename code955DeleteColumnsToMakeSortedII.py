@@ -41,8 +41,18 @@ Note:
 """
 class Solution:
     def minDeletionSize(self, A):
-        ignore = [False]*len(A) # ignore[i] is "do we need to check Col[i] <= Col[i+1]"
+        ignore = [False]*(len(A)-1) # ignore[i] is "do we need to check Col[i] <= Col[i+1]"
         
+        res = 0
+        for col in zip(*A):
+            if all(ignore[i] or col[i] <= col[i+1] for i in range(len(col)-1)):
+                for i in range(len(col)-1):
+                    if col[i] < col[i+1]:
+                        ignore[i] = True
+            else:
+                res += 1
+        
+        return res
 
     # O(N*W^2) time, add a column letter each time and check if they are sorted
     def minDeletionSize2(self, A):

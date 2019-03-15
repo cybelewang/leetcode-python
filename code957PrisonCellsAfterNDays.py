@@ -40,10 +40,47 @@ cells[i] is in {0, 1}
 1 <= N <= 10^9
 """
 class Solution:
+    # there are at most 256 bit states, use a map to cache the value and day
     def prisonAfterNDays(self, cells, N):
         """
         :type cells: List[int]
         :type N: int
         :rtype: List[int]
         """
+        def to_int(A):
+            res = 0
+            for a in A:
+                res = res*2 + a
+            return res
         
+        def to_list(v):
+            A = [0]*8
+            for i in range(7, -1, -1):
+                A[i] = v % 2
+                v //= 2
+            return A
+        
+        value = to_int(cells)
+        mem = {value:0}
+        record = [value]
+        cur = [0]*8
+        for day in range(1, N+1):
+            #print(day-1, end=" : ")
+            #print(cells)
+            for i in range(1, 7):
+                cur[i] = 1 - cells[i-1]^cells[i+1]
+            cur[0], cur[7] = 0, 0
+            value = to_int(cur)
+            if value in mem:
+                period = day - mem[value]
+                cells = to_list(record[N%period])
+                break
+            mem[value] = day
+            record.append(value)
+            cells, cur = cur, cells
+        
+        return cells
+
+cells = [1,0,0,1,0,0,1,0]
+N = 10*9
+print(Solution().prisonAfterNDays(cells, N))
