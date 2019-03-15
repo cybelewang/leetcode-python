@@ -41,7 +41,26 @@ Note:
 """
 class Solution:
     def minDeletionSize(self, A):
-        pass
+        ignore = [False]*len(A) # ignore[i] is "do we need to check Col[i] <= Col[i+1]"
+        
+
+    # O(N*W^2) time, add a column letter each time and check if they are sorted
+    def minDeletionSize2(self, A):
+        def is_sorted(A):
+            return all(A[i] <= A[i+1] for i in range(len(A) - 1))
+        
+        cur = [""]*len(A)
+        res = 0
+        for col in zip(*A):
+            cur2 = cur[:]
+            for i, letter in enumerate(col):
+                cur2[i] += letter
+            if is_sorted(cur2):
+                cur = cur2
+            else:
+                res += 1
+        
+        return res
     
     # wrong solution on A = ["xga","xfb","yfa"]
     def minDeletionSize_WRONG(self, A):
