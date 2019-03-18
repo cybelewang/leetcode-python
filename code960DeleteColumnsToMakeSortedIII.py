@@ -37,9 +37,17 @@ Note:
 1 <= A[i].length <= 100
 """
 class Solution:
+    # https://leetcode.com/problems/delete-columns-to-make-sorted-iii/solution/
     def minDeletionSize(self, A):
         """
         :type A: List[str]
         :rtype: int
         """
-        
+        W = len(A[0])
+        dp = [1]*W  # dp[i] be the number of columns that are kept in answering the question for input [row[i:] for row in A]
+        for i in range(W-2, -1, -1):
+            for j in range(i+1, W):
+                if all(row[i] <= row[j] for row in A):
+                    dp[i] = max(dp[i], 1 + dp[j])
+
+        return W-max(dp)
