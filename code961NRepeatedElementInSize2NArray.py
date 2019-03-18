@@ -25,8 +25,23 @@ Note:
 A.length is even
 """
 class Solution:
+    # Moore majority algorithm
     def repeatedNTimes(self, A):
         """
         A: list[int]
         rtype: int
         """
+        cnt, e = 0, 0
+        for a in A:
+            if cnt == 0:
+                cnt, e = 1, a
+            elif a == e:
+                cnt += 1
+            else:
+                cnt -= 1
+        
+        return e
+
+A = [5,5,5,5,1,2,3,4]
+print(Solution().repeatedNTimes(A))
+        

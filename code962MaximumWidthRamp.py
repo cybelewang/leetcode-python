@@ -1,19 +1,9 @@
 """
-962. Maximum Width Ramp
-Medium
+962 Maximum Width Ramp
 
-188
-
-7
-
-Favorite
-
-Share
 Given an array A of integers, a ramp is a tuple (i, j) for which i < j and A[i] <= A[j].  The width of such a ramp is j - i.
 
 Find the maximum width of a ramp in A.  If one doesn't exist, return 0.
-
- 
 
 Example 1:
 
@@ -27,7 +17,6 @@ Input: [9,8,1,0,1,9,4,0,4,1]
 Output: 7
 Explanation: 
 The maximum width ramp is achieved at (i, j) = (2, 9): A[2] = 1 and A[9] = 1.
- 
 
 Note:
 
@@ -36,4 +25,6 @@ Note:
  """
 class Solution:
     def maxWidthRamp(self, A):
-        
+        stack, res = [], 0
+        for j, a in enumerate(A):
+            
