@@ -40,6 +40,7 @@ Note:
 1 <= A[i].length <= 100
 """
 class Solution:
+    # O(N*W) time
     def minDeletionSize(self, A):
         ignore = [False]*(len(A)-1) # ignore[i] is "do we need to check Col[i] <= Col[i+1]"
         

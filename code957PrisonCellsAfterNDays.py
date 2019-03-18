@@ -48,14 +48,15 @@ class Solution:
         :rtype: List[int]
         """
         def to_int(A):
-            res = 0
+            res, factor = 0, 1
             for a in A:
-                res = res*2 + a
+                res += a*factor
+                factor *= 2
             return res
         
         def to_list(v):
             A = [0]*8
-            for i in range(7, -1, -1):
+            for i in range(8):
                 A[i] = v % 2
                 v //= 2
             return A
@@ -73,7 +74,7 @@ class Solution:
             value = to_int(cur)
             if value in mem:
                 period = day - mem[value]
-                cells = to_list(record[N%period])
+                cells = to_list(record[(N-mem[value])%period+mem[value]])
                 break
             mem[value] = day
             record.append(value)
@@ -81,6 +82,12 @@ class Solution:
         
         return cells
 
-cells = [1,0,0,1,0,0,1,0]
-N = 10*9
+    def nextday(self, cells):
+        return [int(i > 0 and i < 7 and cells[i-1] == cells[i+1]) for i in range(8)]
+cells = [1, 1, 0, 1, 1, 0, 1, 1]
+N = 6
 print(Solution().prisonAfterNDays(cells, N))
+for day in range(N):
+    print(day, end = " : ")
+    print(cells)
+    cells = Solution().nextday(cells)
