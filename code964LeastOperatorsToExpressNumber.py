@@ -1,14 +1,6 @@
 """
-964. Least Operators to Express Number
-Hard
+964 Least Operators to Express Number
 
-55
-
-18
-
-Favorite
-
-Share
 Given a single positive integer x, we will write an expression of the form x (op1) x (op2) x (op3) x ... where each operator op1, op2, etc. is either addition, subtraction, multiplication, or division (+, -, *, or /).  For example, with x = 3, we might write 3 * 3 / 3 + 3 - 3 which is a value of 3.
 
 When writing such an expression, we adhere to the following conventions:
@@ -18,8 +10,6 @@ There are no parentheses placed anywhere.
 We use the usual order of operations: multiplication and division happens before addition and subtraction.
 It's not allowed to use the unary negation operator (-).  For example, "x - x" is a valid expression as it only uses subtraction, but "-x + x" is not because it uses negation.
 We would like to write an expression with the least number of operators such that the expression equals the given target.  Return the least number of operators used.
-
- 
 
 Example 1:
 
@@ -36,7 +26,6 @@ Example 3:
 Input: x = 100, target = 100000000
 Output: 3
 Explanation: 100 * 100 * 100 * 100.  The expression contains 3 operations.
- 
 
 Note:
 
@@ -44,5 +33,12 @@ Note:
 1 <= target <= 2 * 10^8
  """
 class Solution:
-    def leastOpsExpressTarget(self, x: int, target: int) -> int:
+    # https://leetcode.com/articles/least-operators-to-express-number/
+    # https://zhanghuimeng.github.io/post/leetcode-964-least-operators-to-express-number/
+    def leastOpsExpressTarget(self, x, target):
+        """
+        :type x: int
+        :type target: int
+        :rtype: int
+        """
         

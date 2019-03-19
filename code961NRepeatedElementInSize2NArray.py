@@ -25,8 +25,19 @@ Note:
 A.length is even
 """
 class Solution:
-    # Moore majority algorithm
+    # use a set, O(N) space
     def repeatedNTimes(self, A):
+        seen = set()
+        for a in A:
+            if a in seen:
+                return a
+            else:
+                seen.add(a)
+        
+
+    # wrong solution, cannot use Moore majority algorithm, which is only to find element with count > n/2
+    # A = [2,1,2,4,3,2]   # expect 2
+    def repeatedNTimes_WRONG(self, A):
         """
         A: list[int]
         rtype: int
@@ -42,6 +53,6 @@ class Solution:
         
         return e
 
-A = [5,5,5,5,1,2,3,4]
+A = [2,1,2,4,3,2]   # expect 2
 print(Solution().repeatedNTimes(A))
         
