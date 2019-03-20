@@ -43,13 +43,13 @@ class Solution:
         :rtype: list[str]
         """
         def replaceA(s):
-            return ''.join('a' if c in ('a', 'e', 'i', 'o', 'u') else c for c in lower)
+            return ''.join('a' if c in 'aeiou' else c for c in lower)   # don't use c in ('a', 'e', 'i', 'o', 'u')
 
         origin, capital, vowel = set(), {}, {}
-        for i in range(len(wordlist)-1, -1, -1):
+        for i in range(len(wordlist)-1, -1, -1):    # the other option is to iterate from left to right and use dict's setdefault method, which will only set the value once
             origin.add(wordlist[i])
             lower = wordlist[i].lower()
-            capital[wordlist[i].lower] = i
+            capital[lower] = i
             vowel[replaceA(lower)] = i
 
         res = []
