@@ -27,4 +27,35 @@ class Solution:
         :type K: int
         :rtype: List[int]
         """
+        def num(build):
+            ans, factor = 0, 1
+            for i in range(len(build)-1, -1, -1):
+                ans += factor*build[i]
+                factor *= 10
+
+            return ans
+
+        def dfs(build, K, remain, res):
+            if remain == 0:
+                res.append(num(build))
+                return
+            last = build[-1]
+            if last + K < 10:
+                build.append(last + K)
+                dfs(build, K, remain - 1, res)
+                build.pop()
+            if K != 0 and last - K > -1:
+                build.append(last - K)
+                dfs(build, K, remain-1, res)            
+                build.pop()
+
+        # main
+        build, res = [], []
+        for x in range(1, 10):
+            build.append(x)
+            dfs(build, K, N-1, res)
+            build.pop()
         
+        return res
+
+print(Solution().numsSameConsecDiff(2, 1))
