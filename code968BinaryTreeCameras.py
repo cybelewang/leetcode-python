@@ -1,24 +1,11 @@
 """
-968. Binary Tree Cameras
-Hard
+968 Binary Tree Cameras
 
-184
-
-9
-
-Favorite
-
-Share
 Given a binary tree, we install cameras on the nodes of the tree. 
-
 Each camera at a node can monitor its parent, itself, and its immediate children.
-
 Calculate the minimum number of cameras needed to monitor all nodes of the tree.
 
- 
-
 Example 1:
-
 
 Input: [0,0,null,0,0]
 Output: 1
@@ -43,5 +30,9 @@ Every node has value 0.
 #         self.right = None
 
 class Solution:
-    def minCameraCover(self, root: TreeNode) -> int:
+    def minCameraCover(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
         
