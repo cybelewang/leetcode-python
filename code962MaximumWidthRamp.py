@@ -24,17 +24,23 @@ Note:
 0 <= A[i] <= 50000
  """
 class Solution:
+    # O(N) time complexity
+    # https://zxi.mytechroad.com/blog/stack/leetcode-962-maximum-width-ramp/
     def maxWidthRamp(self, A):
         stack = []
         for i, a in enumerate(A):
-            if not stack or a < stack[-1]:
+            if not stack or a < A[stack[-1]]:
                 stack.append(i)
 
         res = 0
         for j in range(len(A)-1, -1, -1):
-            
+            while stack and A[j] >= A[stack[-1]]:
+                res = max(res, j - stack.pop())
+                print(res)
+        
+        return res
 
-    # my own solution
+    # my own solution, O(NlogN) time complexity
     def maxWidthRamp2(self, A):
         # binary search on a decreasing index array (A[down_index[i]] > A[down_index[i+1]])
         # find and return the smallest index i such that A[down_index[i]] <= x
