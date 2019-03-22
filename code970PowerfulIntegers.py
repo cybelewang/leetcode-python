@@ -1,21 +1,11 @@
 """
-970. Powerful Integers
-Easy
+970 Powerful Integers
 
-47
-
-92
-
-Favorite
-
-Share
 Given two positive integers x and y, an integer is powerful if it is equal to x^i + y^j for some integers i >= 0 and j >= 0.
 
 Return a list of all powerful integers that have value less than or equal to bound.
 
 You may return the answer in any order.  In your answer, each value should occur at most once.
-
- 
 
 Example 1:
 
@@ -33,7 +23,6 @@ Example 2:
 
 Input: x = 3, y = 5, bound = 15
 Output: [2,4,6,8,10,14]
- 
 
 Note:
 
@@ -42,4 +31,19 @@ Note:
 0 <= bound <= 10^6
 """
 class Solution:
-    def powerfulIntegers(self, x: int, y: int, bound: int) -> List[int]:
+    def powerfulIntegers(self, x, y, bound):
+        """
+        :type x, y, bound: int
+        :rtype: list[int]
+        """
+        xs, ys = [1], [1]
+        while xs[-1] < x*xs[-1] <= bound:
+            xs.append(x*xs[-1])
+        
+        while ys[-1] < y*ys[-1] <= bound:
+            ys.append(y*ys[-1])
+        
+        i, j, res = 0, 0, []
+        while xs[i] + ys[j] <= bound:
+            res.append(xs[i] + ys[j])
+            

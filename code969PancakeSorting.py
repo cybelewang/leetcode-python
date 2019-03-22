@@ -30,9 +30,41 @@ Note:
 A[i] is a permutation of [1, 2, ..., A.length]
 """
 class Solution:
+    # for length i subarray A[:i], we find the index max_pos which has maximum value in A[:i], then we rotate A[max_pos] with A[0], then rotate first i elements in A to put A[max_pos] in A[i-1]
+    # need to handle when max_pos == 0
     def pancakeSort(self, A):
         """
         :type A: list[int]
         :rtype: list[int]
         """
-        
+        def rotateK(A, K, res):
+            """
+            rotate first K elements in A
+            also record K to result list
+            """
+            if K < 2:   # bug fixed: we should not rotate first 0 and first 1 elements
+                return
+            res.append(K)
+            left, right = 0, K-1
+            while left < right:
+                A[left], A[right] = A[right], A[left]
+                left += 1
+                right -= 1
+
+        # main
+        N, res = len(A), []
+        for i in range(N, 1, -1):
+            # find the index with max value in A[:i]
+            max_pos = 0
+            for j in range(1, i):
+                if A[j] > A[max_pos]:
+                    max_pos = j
+
+            rotateK(A, max_pos + 1, res)    # rotate A[max_pos] to A[0]
+            rotateK(A, i, res)  # rotate A[0] to A[i-1]
+
+        # print(A)
+        return res
+
+A = [3, 2, 4, 1]
+print(Solution().pancakeSort(A))
