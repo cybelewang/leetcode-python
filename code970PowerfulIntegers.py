@@ -42,8 +42,16 @@ class Solution:
         
         while ys[-1] < y*ys[-1] <= bound:
             ys.append(y*ys[-1])
-        
-        i, j, res = 0, 0, []
-        while xs[i] + ys[j] <= bound:
-            res.append(xs[i] + ys[j])
-            
+
+        unique = set()
+        for a in xs:
+            if a > bound:
+                break
+            for b in ys:
+                if a + b > bound:
+                    break
+                unique.add(a + b)
+
+        return list(unique) 
+
+print(Solution().powerfulIntegers(3, 5, 15))

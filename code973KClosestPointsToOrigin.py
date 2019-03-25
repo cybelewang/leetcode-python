@@ -28,6 +28,7 @@ Note:
 -10000 < points[i][0] < 10000
 -10000 < points[i][1] < 10000
 """
+from heapq import heappop, heappush
 class Solution:
     def kClosest(self, points, K):
         """
@@ -35,3 +36,18 @@ class Solution:
         :type K: int
         :rtype: List[List[int]]
         """
+        h = []
+        for i, (x, y) in enumerate(points):
+            heappush(h, (-x*x - y*y, i))
+            if len(h) > K:
+                heappop(h)
+        
+        res = []
+        for _, i in h:
+            res.append(points[i])
+        
+        return res
+
+points = [[3,3],[5,-1],[-2,4]]
+K = 2
+print(Solution().kClosest(points, K))

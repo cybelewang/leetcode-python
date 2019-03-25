@@ -1,14 +1,6 @@
 """
-972. Equal Rational Numbers
-Hard
+972 Equal Rational Numbers
 
-15
-
-78
-
-Favorite
-
-Share
 Given two strings S and T, each of which represents a non-negative rational number, return True if and only if they represent the same number. The strings may use parentheses to denote the repeating part of the rational number.
 
 In general a rational number can be represented using up to three parts: an integer part, a non-repeating part, and a repeating part. The number will be represented in one of the following three ways:
@@ -21,8 +13,6 @@ The repeating portion of a decimal expansion is conventionally denoted within a 
 1 / 6 = 0.16666666... = 0.1(6) = 0.1666(6) = 0.166(66)
 
 Both 0.1(6) or 0.1666(6) or 0.166(66) are correct representations of 1 / 6.
-
- 
 
 Example 1:
 
@@ -42,7 +32,6 @@ Explanation:
 "0.9(9)" represents 0.999999999... repeated forever, which equals 1.  [See this link for an explanation.]
 "1." represents the number 1, which is formed correctly: (IntegerPart) = "1" and (NonRepeatingPart) = "".
  
-
 Note:
 
 Each part consists only of digits.
