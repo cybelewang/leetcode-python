@@ -51,13 +51,15 @@ class Solution:
         # we need to find the longest interlacing "1, -1, 1, -1, ...", or "-1, 1, -1, 1"
         i, res = 0, 1
         for j in range(1, len(A)):
-            if A[j] == 0 or A[j] == A[j-1]:
+            if A[j] == 0:
                 i = j
+            elif A[j] == A[j-1]:
+                i = j - 1
             res = max(res, j - i + 1)
 
         return res
 
-#A = [1, 2, 1, 2, 1, 2]  # expect 6
+A = [1, 2, 1, 2, 1, 2]  # expect 6
 #A = [0, 0, 0]   # expect 1
-A = [9,4,2,10,7,8,8,1,9]    # expect 5
+#A = [9,4,2,10,7,8,8,1,9]    # expect 5
 print(Solution().maxTurbulenceSize(A))
