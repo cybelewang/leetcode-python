@@ -1,15 +1,8 @@
 """
-983. Minimum Cost For Tickets
-Medium
+983 Minimum Cost For Tickets
 
-268
-
-4
-
-Favorite
-
-Share
-In a country popular for train travel, you have planned some train travelling one year in advance.  The days of the year that you will travel is given as an array days.  Each day is an integer from 1 to 365.
+In a country popular for train travel, you have planned some train travelling one year in advance.  
+The days of the year that you will travel is given as an array days.  Each day is an integer from 1 to 365.
 
 Train tickets are sold in 3 different ways:
 
@@ -19,8 +12,6 @@ a 30-day pass is sold for costs[2] dollars.
 The passes allow that many days of consecutive travel.  For example, if we get a 7-day pass on day 2, then we can travel for 7 days: day 2, 3, 4, 5, 6, 7, and 8.
 
 Return the minimum number of dollars you need to travel every day in the given list of days.
-
- 
 
 Example 1:
 
@@ -41,7 +32,6 @@ For example, here is one way to buy passes that lets you travel your travel plan
 On day 1, you bought a 30-day pass for costs[2] = $15 which covered days 1, 2, ..., 30.
 On day 31, you bought a 1-day pass for costs[0] = $2 which covered day 31.
 In total you spent $17 and covered all the days of your travel.
- 
 
 Note:
 
@@ -52,5 +42,10 @@ costs.length == 3
 1 <= costs[i] <= 1000
 """
 class Solution:
-    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
-        
+    def mincostTickets(self, days, costs):
+        """
+        :type days: list[int]
+        :type costs: list[int]
+        :rtype: int
+        """
+        dp = [0]*366

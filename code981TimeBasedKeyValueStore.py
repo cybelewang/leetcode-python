@@ -1,14 +1,6 @@
 """
-981. Time Based Key-Value Store
-Medium
+981 Time Based Key-Value Store
 
-105
-
-17
-
-Favorite
-
-Share
 Create a timebased key-value store class TimeMap, that supports two operations.
 
 1. set(string key, string value, int timestamp)
@@ -48,6 +40,7 @@ The timestamps for all TimeMap.set operations are strictly increasing.
 1 <= timestamp <= 10^7
 TimeMap.set and TimeMap.get functions will be called a total of 120000 times (combined) per test case.
 """
+# see C++ solution
 class TimeMap:
 
     def __init__(self):
@@ -56,10 +49,21 @@ class TimeMap:
         """
         
 
-    def set(self, key: str, value: str, timestamp: int) -> None:
+    def set(self, key, value, timestamp):
+        """
+        :type key: str
+        :type value: str
+        :type timestamp: int
+        :rtype: void
+        """
         
 
-    def get(self, key: str, timestamp: int) -> str:
+    def get(self, key, timestamp):
+        """
+        :type key: str
+        :type timestamp: int
+        :rtype: str
+        """
         
 
 
