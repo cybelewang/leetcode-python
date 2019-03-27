@@ -43,6 +43,7 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
+        self.moves = 0
         def dfs(node):
             """
             return the number of coins need to move to parent
@@ -50,5 +51,19 @@ class Solution:
             if the result is negative, this means this subtree needs that amount of coins from parent
             """ 
             if not node:
-               return 0
+                return 0
             
+            move = dfs(node.left) + dfs(node.right) + node.val - 1
+            self.moves += abs(move)
+            return move
+        
+        # main
+        dfs(root)
+        return self.moves
+
+#tree = [3, 0, 0]    # expect 2
+#tree = [1]  # expect 0
+#tree= [0, 3, 0] # expect 3
+tree = [1, 0, 2] # expect 2
+root = ListToTree(tree)
+print(Solution().distributeCoins(root))

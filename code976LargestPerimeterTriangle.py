@@ -44,7 +44,7 @@ class Solution:
         
         return res
         
-    # brutal force solution
+    # brutal force solution, TLE
     # O(N^3)
     def largestPerimeter2(self, A):
         """
