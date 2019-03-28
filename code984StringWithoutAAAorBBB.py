@@ -1,20 +1,11 @@
 """
-984. String Without AAA or BBB
-Medium
+984 String Without AAA or BBB
 
-78
-
-143
-
-Favorite
-
-Share
 Given two integers A and B, return any string S such that:
 
 S has length A + B and contains exactly A 'a' letters, and exactly B 'b' letters;
 The substring 'aaa' does not occur in S;
 The substring 'bbb' does not occur in S.
- 
 
 Example 1:
 
@@ -25,7 +16,6 @@ Example 2:
 
 Input: A = 4, B = 1
 Output: "aabaa"
- 
 
 Note:
 
@@ -35,4 +25,5 @@ It is guaranteed such an S exists for the given A and B.
 """
 class Solution:
     def strWithout3a3b(self, A: int, B: int) -> str:
+        pass
         

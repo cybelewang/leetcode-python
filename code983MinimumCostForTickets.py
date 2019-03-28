@@ -42,6 +42,7 @@ costs.length == 3
 1 <= costs[i] <= 1000
 """
 class Solution:
+    # my own solution
     def mincostTickets(self, days, costs):
         """
         :type days: list[int]
@@ -49,3 +50,19 @@ class Solution:
         :rtype: int
         """
         dp = [0]*366
+        j = 0
+        for i in range(1, days[-1]+1):
+            if i == days[j]:
+                dp[i] = dp[i-1] + costs[0]  # total cost of purchasing single day pass for day i (or days[j])
+                dp[i] = min(dp[i], min(dp[max(0, i-7):i]) + costs[1])  # total cost of purchasing 7-day pass for day i, bug fixed: previously was dp[i] = min(dp[i], dp[i-7] + costs[1])
+                dp[i] = min(dp[i], min(dp[max(0, i-30):i]) + costs[2]) # total cost of purchasing 30-day pass for day i, bug fixed: previously was dp[i] = min(dp[i], dp[i-30] + costs[2])
+                j += 1
+            else:
+                dp[i] = dp[i-1]
+        
+        return dp[days[-1]]
+
+days = [1,2,3,4,5,6,7,8,9,10,30,31]
+#costs = [60,30,15]  # expect 30
+costs = [2, 7, 15]
+print(Solution().mincostTickets(days, costs))
