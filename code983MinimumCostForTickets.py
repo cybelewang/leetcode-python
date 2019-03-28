@@ -41,6 +41,7 @@ days is in strictly increasing order.
 costs.length == 3
 1 <= costs[i] <= 1000
 """
+# tag: greedy
 class Solution:
     # my own solution
     def mincostTickets(self, days, costs):

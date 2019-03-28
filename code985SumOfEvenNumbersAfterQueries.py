@@ -1,14 +1,6 @@
 """
-985. Sum of Even Numbers After Queries
-Easy
+985 Sum of Even Numbers After Queries
 
-95
-
-33
-
-Favorite
-
-Share
 We have an array A of integers, and an array queries of queries.
 
 For the i-th query val = queries[i][0], index = queries[i][1], we add val to A[index].  Then, the answer to the i-th query is the sum of the even values of A.
@@ -16,8 +8,6 @@ For the i-th query val = queries[i][0], index = queries[i][1], we add val to A[i
 (Here, the given index = queries[i][1] is a 0-based index, and each query permanently modifies the array A.)
 
 Return the answer to all queries.  Your answer array should have answer[i] as the answer to the i-th query.
-
- 
 
 Example 1:
 
@@ -29,7 +19,6 @@ After adding 1 to A[0], the array is [2,2,3,4], and the sum of even values is 2 
 After adding -3 to A[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.
 After adding -4 to A[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.
 After adding 2 to A[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.
- 
 
 Note:
 
@@ -40,5 +29,26 @@ Note:
 0 <= queries[i][1] < A.length
 """
 class Solution:
-    def sumEvenAfterQueries(self, A: List[int], queries: List[List[int]]) -> List[int]:
+    # my own solution
+    # use a truth table to find the actions based on odd/even properties of A[i] and val
+    def sumEvenAfterQueries(self, A, queries):
+        """
+        :type A: list[int]
+        :type queries: list[list[int]]
+        :rtype: list[int]
+        """
+        pre = sum(a for a in A if a % 2 == 0)
+        ans = []
+        for val, i in queries:
+            use_origin = (1 if A[i] % 2 != 0 else -1) if (val % 2 != 0) else 0
+            use_add = 1 if ((A[i] % 2) == (val % 2)) else 0
+            pre += use_origin*A[i] + use_add*val
+
+            ans.append(pre)
+            A[i] += val
         
+        return ans
+
+A = [1,2,3,4]
+queries = [[1,0],[-3,1],[-4,0],[2,3]]
+print(Solution().sumEvenAfterQueries(A, queries))

@@ -23,7 +23,39 @@ Note:
 0 <= B <= 100
 It is guaranteed such an S exists for the given A and B.
 """
+# tag: greedy
 class Solution:
-    def strWithout3a3b(self, A: int, B: int) -> str:
-        pass
+    # my own solution
+    def strWithout3a3b(self, A, B):
+        """
+        :type A: int
+        :type B: int
+        :rtype: str
+        """
+        if A < B:
+            res = self.strWithout3a3b(B, A)
+            res = res.replace('a', 'c')
+            res = res.replace('b', 'a')
+            res = res.replace('c', 'b')
+            return res
         
+        res = ""
+        # append "aab" to consume A twice faster than B
+        while A > B > 0:
+            res += "aab"
+            A -= 2
+            B -= 1
+        
+        # now either B has all been consumed or A <= B, append "a" then "b"
+        while A > 0 or B > 0:
+            if A > 0:
+                res += 'a'
+                A -= 1
+            if B > 0:
+                res += 'b'
+                B -= 1
+        
+        return res
+
+A, B = 12, 20
+print(Solution().strWithout3a3b(A, B))
