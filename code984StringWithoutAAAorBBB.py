@@ -57,5 +57,5 @@ class Solution:
         
         return res
 
-A, B = 12, 20
+A, B = 1, 2
 print(Solution().strWithout3a3b(A, B))
