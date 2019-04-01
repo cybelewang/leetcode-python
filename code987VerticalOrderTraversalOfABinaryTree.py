@@ -1,14 +1,6 @@
 """
-987. Vertical Order Traversal of a Binary Tree
-Medium
+987 Vertical Order Traversal of a Binary Tree
 
-67
-
-135
-
-Favorite
-
-Share
 Given a binary tree, return the vertical order traversal of its nodes values.
 
 For each node at position (X, Y), its left and right children respectively will be at positions (X-1, Y-1) and (X+1, Y-1).
@@ -19,12 +11,7 @@ If two nodes have the same position, then the value of the node that is reported
 
 Return an list of non-empty reports in order of X coordinate.  Every report will have a list of values of nodes.
 
- 
-
 Example 1:
-
-
-
 Input: [3,9,20,null,null,15,7]
 Output: [[9],[3,15],[20],[7]]
 Explanation: 
@@ -33,16 +20,13 @@ Then, the node with value 9 occurs at position (-1, -1);
 The nodes with values 3 and 15 occur at positions (0, 0) and (0, -2);
 The node with value 20 occurs at position (1, -1);
 The node with value 7 occurs at position (2, -2).
+
 Example 2:
-
-
-
 Input: [1,2,3,4,5,6,7]
 Output: [[4],[2],[1,5,6],[3],[7]]
 Explanation: 
 The node with value 5 and the node with value 6 have the same position according to the given scheme.
 However, in the report "[1,5,6]", the node value of 5 comes first since 5 is smaller than 6.
- 
 
 Note:
 
@@ -56,6 +40,39 @@ Each node's value will be between 0 and 1000.
 #         self.left = None
 #         self.right = None
 
+from TreeNode import *
+from collections import defaultdict
 class Solution:
-    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+    # use nested defaultdict to store node values at x, y
+    # then sort x and y in dict and append result list
+    def verticalTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: list[list[int]]
+        """
+        record = defaultdict(lambda: defaultdict(list))
+        def dfs(node, x, y):
+            """
+            (x, y) is the coordinate of node
+            put node value into record[x][y]
+            """
+            if not node:
+                return
+            record[x][y].append(node.val)
+            dfs(node.left, x-1, y+1)
+            dfs(node.right, x+1, y+1)
         
+        # main
+        dfs(root, 0, 0)
+        res = []
+        for x in sorted(record):
+            vertical = []
+            for y in sorted(record[x]):
+                vertical += sorted(record[x][y])
+            res.append(vertical)
+
+        return res
+
+null = None
+root = ListToTree([1,2,3,4,5,6,7])
+print(Solution().verticalTraversal(root))
