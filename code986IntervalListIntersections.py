@@ -23,11 +23,56 @@ class Interval:
     def __init__(self, s=0, e=0):
         self.start = s
         self.end = e
+    def __repr__(self):
+        return "[{}, {}]".format(self.start, self.end)
 
 class Solution:
-    def intervalIntersection(self, A: List[Interval], B: List[Interval]) -> List[Interval]:
+    # https://leetcode.com/problems/interval-list-intersections/solution/
+    # better to understand
+    def intervalIntersection(self, A, B):    
+        ans = []
+        i = j = 0
+
+        while i < len(A) and j < len(B):
+            # Let's check if A[i] intersects B[j].
+            # lo - the startpoint of the intersection
+            # hi - the endpoint of the intersection
+            lo = max(A[i].start, B[j].start)
+            hi = min(A[i].end, B[j].end)
+            if lo <= hi:
+                ans.append(Interval(lo, hi))
+
+            # Remove the interval with the smallest endpoint
+            if A[i].end < B[j].end:
+                i += 1
+            else:
+                j += 1
+
+        return ans
+    # my own solution, accepted
+    def intervalIntersection2(self, A, B):
         """
         :type A: list[Interval]
         :type B: list[Interval]
         :rtype: list[Interval]
         """
+        res, j = [], 0
+        for a in A:
+            # skip those ahead of interval a
+            while j < len(B) and B[j].end < a.start:
+                j += 1
+            
+            # get intersections
+            k = j
+            while k < len(B) and B[k].start <= a.end:
+                res.append(Interval(max(a.start, B[k].start), min(a.end, B[k].end)))
+                k += 1
+        
+        return res
+
+#A, B = [], []   # expect []
+#A, B = [], [Interval(1, 1)] # expect []
+#A, B = [Interval(1, 1)], [] # expect []
+#A, B = [Interval(1, 2), Interval(3, 5)], [Interval(0, 4)]   # expect [[1, 2], [3, 4]]
+A, B = [Interval(0,2),Interval(5,10),Interval(13,23),Interval(24,25)], [Interval(1,5),Interval(8,12),Interval(15,24),Interval(25,26)]
+print(Solution().intervalIntersection(A, B))
