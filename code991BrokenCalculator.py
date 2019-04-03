@@ -34,11 +34,23 @@ Note:
 1 <= X <= 10^9
 1 <= Y <= 10^9
 """
+# tag: greedy, recursion
 class Solution:
+    # https://leetcode.com/articles/broken-calculator/
+    """
+    If Y is even, then if we perform 2 additions and one division, we could instead perform one division and one addition for less operations [(Y+2) / 2 vs Y/2 + 1].
+    If Y is odd, then if we perform 3 additions and one division, we could instead perform 1 addition, 1 division, and 1 addition for less operations [(Y+3) / 2 vs (Y+1) / 2 + 1].
+    """
     def brokenCalc(self, X, Y):
         """
         :type X: int
         :type Y: int
         :rtype: int
         """
-        
+        ans = 0
+        while Y > X:
+            ans += 1
+            if Y%2: Y += 1
+            else: Y //= 2
+
+        return ans + X-Y

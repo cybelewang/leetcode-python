@@ -1,14 +1,6 @@
 """
-993. Cousins in Binary Tree
-Easy
+993 Cousins in Binary Tree
 
-98
-
-6
-
-Favorite
-
-Share
 In a binary tree, the root node is at depth 0, and children of each depth k node are at depth k+1.
 
 Two nodes of a binary tree are cousins if they have the same depth, but have different parents.
@@ -22,7 +14,6 @@ Input: root = [1,2,3,4], x = 4, y = 3
 Output: false
 Example 2:
 
-
 Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
 Output: true
 Example 3:
@@ -30,7 +21,6 @@ Example 3:
 Input: root = [1,2,3,null,4], x = 2, y = 3
 Output: false
  
-
 Note:
 
 The number of nodes in the tree will be between 2 and 100.
@@ -42,7 +32,26 @@ Each node has a unique integer value from 1 to 100.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
-    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+    def isCousins(self, root, x, y):
+        """
+        :type root: TreeNode
+        :type x, y: int
+        :rtype: bool
+        """
+        self.x_depth, self.x_parent = -1, -2
+        self.y_depth, self.y_parent = -3, -4
+        def dfs(parent, node, depth, x, y):
+            if node:
+                if node.val == x:
+                    self.x_depth = depth
+                    self.x_parent = parent
+                elif node.val == y:
+                    self.y_depth = depth
+                    self.y_parent = parent
+                dfs(node, node.left, depth+1, x, y)
+                dfs(node, node.right, depth+1, x, y)
         
+        return self.x_depth == self.y_depth and self.x_parent != self.y_parent
+                    
