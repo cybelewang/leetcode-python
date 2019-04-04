@@ -53,5 +53,6 @@ class Solution:
                 dfs(node, node.left, depth+1, x, y)
                 dfs(node, node.right, depth+1, x, y)
         
+        dfs(-5, root, 0, x, y)
         return self.x_depth == self.y_depth and self.x_parent != self.y_parent
                     
