@@ -38,6 +38,9 @@ class Solution:
         :rtype: int
         """
         m, n = len(grid), len(grid[0])
+        if all(grid[i][j] == 0 for i in range(m) for j in range(n)):
+            return 0
+
         q = deque([(i, j) for i in range(m) for j in range(n) if grid[i][j] == 2])
         dirs = [(-1, 0), (0, -1), (1, 0), (0, 1)]
       
@@ -58,8 +61,8 @@ class Solution:
         else:
             return t-1
 
-grid =[[0]]     # expect 0
+#grid =[[0]]     # expect 0
 #grid = [[1]]    # expect -1
 #grid = [[2]]    # expect 0
-#grid = [[2,1,1],[1,1,0],[0,1,1]]    # expect 4
+grid = [[2,1,1],[1,1,0],[0,1,1]]    # expect 4
 print(Solution().orangesRotting(grid))
