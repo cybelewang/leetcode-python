@@ -37,7 +37,7 @@ Explanation: A = [2,1,5,3], B = [2,1,5,3,4]
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
     def insertIntoMaxTree(self, root, val):
         """
@@ -45,4 +45,8 @@ class Solution:
         :type val: int
         :rtype: TreeNode
         """
+        if not root or root.val < val:
+            node = TreeNode(val)
+            node.left = node
+            return node
         
