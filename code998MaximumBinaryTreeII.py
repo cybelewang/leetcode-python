@@ -39,6 +39,10 @@ Explanation: A = [2,1,5,3], B = [2,1,5,3,4]
 #         self.right = None
 from TreeNode import *
 class Solution:
+    # val is appended at the end of A, so TreeNode(val) must be at the most right side
+    # case 1: root.val < val, set root as the left subtree of TreeNode(val)
+    # case 2: root.val > val, search along the most right nodes, stop at (1) current node's right child is null (2) current node's right child's val < val. 
+    # For both conditions (1) and (2), we insert TreeNode(val) as current node's right child, and set previous right child as TreeNode(val) 's left child
     def insertIntoMaxTree(self, root, val):
         """
         :type root: TreeNode
@@ -50,3 +54,17 @@ class Solution:
             node.left = node
             return node
         
+        node = root
+        while node.right and node.right.val > val:
+            node = node.right
+        
+        subtree = node.right
+        new_node = TreeNode(val)
+        node.right = new_node
+        new_node.left = subtree
+
+        return root
+
+null = None
+root = ListToTree([5,2,3,null,1])
+PrintTree(Solution().insertIntoMaxTree(root, 4))
