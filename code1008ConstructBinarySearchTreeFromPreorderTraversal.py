@@ -1,26 +1,12 @@
 """
-1008. Construct Binary Search Tree from Preorder Traversal
-Medium
+1008 Construct Binary Search Tree from Preorder Traversal
 
-115
-
-6
-
-Favorite
-
-Share
 Return the root node of a binary search tree that matches the given preorder traversal.
-
 (Recall that a binary search tree is a binary tree where for every node, any descendant of node.left has a value < node.val, and any descendant of node.right has a value > node.val.  Also recall that a preorder traversal displays the value of the node first, then traverses node.left, then traverses node.right.)
 
- 
-
 Example 1:
-
 Input: [8,5,1,7,10,12]
 Output: [8,5,10,1,7,null,12]
-
- 
 
 Note: 
 
@@ -33,7 +19,24 @@ The values of preorder are distinct.
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
+from TreeNode import *
 class Solution:
-    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
-        
+    def bstFromPreorder(self, preorder):
+        """
+        :type preorder: list[int]
+        :rtype: TreeNode
+        """
+        def dfs(preorder, start, end):
+            if start > end:
+                return None
+            root = TreeNode(preorder[start])
+            i = start + 1
+            while i <= end and preorder[i] < preorder[start]:
+                i += 1
+            root.left = dfs(preorder, start+1, i-1)
+            root.right = dfs(preorder, i, end)
+
+            return root
+
+        # main
+        return dfs(preorder, 0, len(preorder) - 1)
