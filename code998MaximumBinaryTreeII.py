@@ -51,7 +51,7 @@ class Solution:
         """
         if not root or root.val < val:
             node = TreeNode(val)
-            node.left = node
+            node.left = root
             return node
         
         node = root
@@ -66,5 +66,5 @@ class Solution:
         return root
 
 null = None
-root = ListToTree([5,2,3,null,1])
-PrintTree(Solution().insertIntoMaxTree(root, 4))
+root = ListToTree([4,1,3,null,null,2])
+PrintTree(Solution().insertIntoMaxTree(root, 5))
