@@ -27,10 +27,32 @@ Note:
 2 <= A.length == B.length <= 20000
 """
 class Solution:
+    # my own solution
+    # count each number (1 to 6)'s appearance on top, on bottom and on both
+    # then go through each number and calculate the min rotations
     def minDominoRotations(self, A, B):
         """
         :type A: list[int]
         :type B: list[int]
         :rtype: int
         """
+        N = len(A)
+        top, bottom, both = [0]*7, [0]*7, [0]*7
+        for i in range(N):
+            top[A[i]] += 1
+            bottom[B[i]] += 1
+            if A[i] == B[i]:
+                both[A[i]] += 1
         
+        res = 20001
+        for i in range(1, 7):
+            if top[i] + bottom[i] - both[i] >= N:
+                res = min(res, N - max(top[i], bottom[i]))    # bug fixed: previously was N - both[i] - max(top[i], bottom[i])
+        
+        return -1 if res == 20001 else res
+
+#A, B = [1, 1], [2, 2]   # expect 0
+#A, B = [1, 2, 1], [1, 1, 3] # expect 1
+#A, B = [1, 1, 3], [1, 2, 2] # expect -1
+A, B = [1, 1, 1, 1, 2, 2, 2], [2, 2, 2, 2, 1, 1, 1] # expect 3
+print(Solution().minDominoRotations(A, B))
