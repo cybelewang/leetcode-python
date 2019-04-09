@@ -31,4 +31,13 @@ class Solution:
         :type time: list[int]
         :rtype: int
         """
+        count = [0]*60
+        for t in time:
+            count[t%60] += 1
         
+        res = count[0]*(count[0]-1)//2
+        for t in range(1, 30):
+            res += count[t]*count[60-t]
+        res += count[30]*(count[30]-1)//2
+
+        return res

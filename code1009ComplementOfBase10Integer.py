@@ -30,6 +30,8 @@ class Solution:
         :type N: int
         :rtype: int
         """
+        if N == 0:  # bug fixed: forgot 0
+            return 1
         res, factor = 0, 1
         while N:
             res += factor*(1 - N%2)

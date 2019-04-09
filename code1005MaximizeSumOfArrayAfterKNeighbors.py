@@ -28,6 +28,15 @@ Note:
 -100 <= A[i] <= 100
 """
 class Solution:
+    # https://leetcode.com/problems/maximize-sum-of-array-after-k-negations/discuss/252254/C%2B%2BPython-Sort
+    def largestSumAfterKNegations_OJ(self, A, K):
+        A.sort()
+        i = 0
+        while i < len(A) and i < K and A[i] < 0:
+            A[i] = -A[i]
+            i += 1
+        return sum(A) - (K - i) % 2 * min(A) * 2
+    # my own solution
     # distribute K with below priorities
     # 1. negative numbers from smallest to biggest, if K is not engough to cover all these negative numbers, return
     # 2. if A has 0, we can put all remaining K to 0, return

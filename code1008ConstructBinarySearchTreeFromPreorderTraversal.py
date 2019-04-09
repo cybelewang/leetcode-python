@@ -21,6 +21,18 @@ The values of preorder are distinct.
 #         self.right = None
 from TreeNode import *
 class Solution:
+    # https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/discuss/252232/JavaC%2B%2BPython-O(N)-Solution
+    # O(N) solution
+    self.i = 0
+    def bstFromPreorder(self, A, bound=float('inf')):
+        if self.i == len(A) or A[self.i] > bound:
+            return None
+        root = TreeNode(A[self.i])
+        self.i += 1
+        root.left = self.bstFromPreorder(A, root.val)
+        root.right = self.bstFromPreorder(A, bound)
+        return root
+    # my own solution (O(N^2))
     def bstFromPreorder(self, preorder):
         """
         :type preorder: list[int]

@@ -26,6 +26,17 @@ Note:
 A[i] is 0 or 1 
 """
 class Solution:
+    # https://leetcode.com/problems/max-consecutive-ones-iii/discuss/247564/JavaC%2B%2BPython-Sliding-Window
+    # we don't need to reduce the the size of sliding window.
+    # as we want to find the maximum window.
+    def longestOnes_OJ(self, A, K):
+        i = 0
+        for j in range(len(A)):
+            K -= 1 - A[j]
+            if K < 0:
+                K += 1 - A[i]
+                i += 1
+        return j - i + 1
     # sliding window from OJ discuss
     def longestOnes(self, A, K):
         """
