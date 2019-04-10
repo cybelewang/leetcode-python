@@ -47,6 +47,7 @@ Note:
 """
 from math import ceil, floor
 class Solution:
+    # my own binary search solution with bug fixed
     def shipWithinDays(self, weights, D):
         """
         :type weights: list[int]
@@ -68,8 +69,10 @@ class Solution:
 
             return days
 
-        low = floor(sum(weights)/D)
-        high = ceil(max(weights)*len(weights)/D) + 1
+        # main
+        max_weight = max(weights)
+        low = max(floor(sum(weights)/D), max_weight)  # bug fixed: previously was low = floor(sum(weights)/D)
+        high = ceil(max_weight*len(weights)/D) + 1
         while low < high:
             mid = (low + high)//2
             if getDays(weights, mid) > D:
@@ -79,7 +82,7 @@ class Solution:
         
         return low
 
-weights, D = [3,2,2,4,1,4], 3   # expect 6
-weights, D = [3], 1
-weights, D = [1,2,3,1,1], 4
+#weights, D = [3,2,2,4,1,4], 3   # expect 6
+#weights, D = [3], 1
+weights, D = [1,2,3,1,1], 4 # expect 3
 print(Solution().shipWithinDays(weights, D))

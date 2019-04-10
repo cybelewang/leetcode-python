@@ -1,28 +1,16 @@
 """
-1014. Best Sightseeing Pair
-Medium
+1014 Best Sightseeing Pair
 
-128
-
-10
-
-Favorite
-
-Share
 Given an array A of positive integers, A[i] represents the value of the i-th sightseeing spot, and two sightseeing spots i and j have distance j - i between them.
-
 The score of a pair (i < j) of sightseeing spots is (A[i] + A[j] + i - j) : the sum of the values of the sightseeing spots, minus the distance between them.
 
 Return the maximum score of a pair of sightseeing spots.
-
- 
 
 Example 1:
 
 Input: [8,1,5,2,6]
 Output: 11
 Explanation: i = 0, j = 2, A[i] + A[j] + i - j = 8 + 5 + 0 - 2 = 11
- 
 
 Note:
 
@@ -30,4 +18,35 @@ Note:
 1 <= A[i] <= 1000
 """
 class Solution:
-    def maxScoreSightseeingPair(self, A: List[int]) -> int:
+    # my own solution
+    # the idea is to separate the result to two parts A[i] + i and A[j] - j
+    # we can get A[i] + i by iterate A, but for each position i, we need to know largest A[j] - j with j > i
+    # we can preprocess A[j] - j by iterating j from right to left. When A[j] - j becomes larger, we push j into stack.
+    # then we iterate i from left to right, for each i, if i is in stack's top, we pop it so stack exposes the index j for largest A[j] - j
+    def maxScoreSightseeingPair(self, A):
+        """
+        :type A: list[int]
+        :rtype: int
+        """
+        # cache max(A[j] - j)
+        # then iterate A and update max of A[i] + i + A[j] - j, where j > i
+        N = len(A)
+        stack = [N-1]   # stack saves the index j, where for any k > j, A[k] - k < A[j] - j
+        for j in range(N-2, 0, -1): # iterate from right to left
+            last = stack[-1]    # last index k in stack which has biggest A[k] - k
+            if A[j] - j > A[last] - last:
+                stack.append(j)
+        
+        res = -2**31
+        for i in range(N-1):
+            if i == stack[-1]:  # expose the biggest A[j] - j for j > i
+                stack.pop()
+            j = stack[-1]
+            res = max(res, A[i] + i + A[j] - j)
+        
+        return res
+
+A = [1, 1]  # expect 1
+A = [3, 2, 1, 5] # expect 5
+A = [8,1,5,2,6] # expect 11
+print(Solution().maxScoreSightseeingPair(A))

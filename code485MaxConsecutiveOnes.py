@@ -13,6 +13,7 @@ Note:
 The input array will only contain 0 and 1.
 The length of input array is a positive integer and will not exceed 10,000
 """
+# similar problems: 1004 Max Consecutive Ones III
 class Solution:
     def findMaxConsecutiveOnes(self, nums):
         """

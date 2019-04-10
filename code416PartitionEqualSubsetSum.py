@@ -21,6 +21,7 @@ Output: false
 
 Explanation: The array cannot be partitioned into equal sum subsets.
 """
+# similar problems: 1013 Partition Array Into Three Parts With Equal Sum
 from bisect import bisect_left
 class Solution:
     # Knapsack algorithm, see OneNote under Sum related
