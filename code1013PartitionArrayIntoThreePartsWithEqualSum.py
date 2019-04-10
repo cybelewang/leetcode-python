@@ -1,19 +1,8 @@
 """
-1013. Partition Array Into Three Parts With Equal Sum
-Easy
+1013 Partition Array Into Three Parts With Equal Sum
 
-67
-
-12
-
-Favorite
-
-Share
 Given an array A of integers, return true if and only if we can partition the array into three non-empty parts with equal sums.
-
 Formally, we can partition the array if we can find indexes i+1 < j with (A[0] + A[1] + ... + A[i] == A[i+1] + A[i+2] + ... + A[j-1] == A[j] + A[j-1] + ... + A[A.length - 1])
-
- 
 
 Example 1:
 
@@ -37,4 +26,9 @@ Note:
 -10000 <= A[i] <= 10000
 """
 class Solution:
-    def canThreePartsEqualSum(self, A: List[int]) -> bool:
+    def canThreePartsEqualSum(self, A):
+        """
+        :type A: list[int]
+        :rtype: bool
+        """
+        

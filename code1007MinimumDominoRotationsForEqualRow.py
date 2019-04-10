@@ -27,6 +27,16 @@ Note:
 2 <= A.length == B.length <= 20000
 """
 class Solution:
+    # Find intersection set s of {A[i], B[i]}
+    # s.size = 0, no possible result.
+    # s.size = 1, one and only one result.
+    # s.size = 2, it means all dominoes are [a,b] or [b,a], try either one.
+    # s.size > 2, impossible.
+    def minDominoRotations_OJ(self, A, B):
+        s = reduce(set.__and__, [set(d) for d in zip(A, B)])
+        if not s: return -1
+        x = s.pop()
+        return min(len(A) - A.count(x), len(B) - B.count(x))
     # my own solution
     # count each number (1 to 6)'s appearance on top, on bottom and on both
     # then go through each number and calculate the min rotations

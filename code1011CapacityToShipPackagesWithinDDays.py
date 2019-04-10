@@ -69,8 +69,17 @@ class Solution:
             return days
 
         low = floor(sum(weights)/D)
-        high = ceil(max(weights)*len(weights)/D)
+        high = ceil(max(weights)*len(weights)/D) + 1
         while low < high:
             mid = (low + high)//2
             if getDays(weights, mid) > D:
-                low = mid
+                low = mid + 1
+            else:
+                high = mid
+        
+        return low
+
+weights, D = [3,2,2,4,1,4], 3   # expect 6
+weights, D = [3], 1
+weights, D = [1,2,3,1,1], 4
+print(Solution().shipWithinDays(weights, D))
