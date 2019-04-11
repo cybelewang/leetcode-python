@@ -27,6 +27,22 @@ Note:
 # similar problems: 416 Partition Equal Subset Sum
 from collections import defaultdict
 class Solution:
+    # O(1) space
+    def canThreePartsEqualSum_Best(self, A):    
+        total = sum(A)
+        if total % 3:
+            return False
+
+        _sum, parts = 0, 0
+        for a in A:
+            _sum += a
+            if _sum == total//3:
+                parts += 1
+                _sum = 0
+        
+        return parts > 2
+
+    # O(N) space, O(N) time
     # my own solution by using defaultdict to store the index i of each accumuation A[:i+1]
     def canThreePartsEqualSum(self, A):
         """
@@ -44,14 +60,14 @@ class Solution:
         _sum = _sum//3
         return len(index[_sum]) > 0 and len(index[2*_sum]) > 0 and min(index[_sum]) < max(index[2*_sum])
 
-# A = [0, 0, 0]   # test if sum is 0, expect True
+A = [0, 0, 0, 0, 0]   # test if sum is 0, expect True
 # A = [1, -1, 0, 1, -1] # test if sum is 0, expect True
 # A = [1, -1, 3] # normal test, expect False
-A = [1, 3, -2, 4]   # test when 2*_sum appears before _sum, expect False
+# A = [1, 3, -2, 4]   # test when 2*_sum appears before _sum, expect False
 # A = [0,2,1,-6,6,-7,9,1,2,0,1]   # expect True
 # A = [0,2,1,-6,6,7,9,-1,2,0,1]   # expect False
 # A = [3,3,6,5,-2,2,5,1,-9,4] # expect True
-print(Solution().canThreePartsEqualSum(A))
+print(Solution().canThreePartsEqualSum_Best(A))
 
 """
 # O(1) space solution

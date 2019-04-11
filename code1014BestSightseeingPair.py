@@ -20,8 +20,8 @@ Note:
 from functools import reduce
 class Solution:
     # https://leetcode.com/problems/best-sightseeing-pair/discuss/260850/JavaC%2B%2BPython-One-Pass
-    def maxScoreSightseeingPair_oneline(self, A):
-        return reduce(lambda (r, c), a: [max(r, c + a), max(c, a) - 1], A, [0, 0])[0]
+    # def maxScoreSightseeingPair_oneline(self, A):
+    #     return reduce(lambda (r, c), a: [max(r, c + a), max(c, a) - 1], A, [0, 0])[0]
     
     """
     O(1) space, O(N) time
@@ -37,13 +37,17 @@ class Solution:
     So for the next sightseeing spot cur = Math.max(cur, a) **- 1**
 
     It's kinds of like, "A near neighbor is better than a distant cousin."
-    """    
+    """
+    # two parts: A[i] - (j - i) and A[j]
+    # below "cur" is the current max of A[i] - (j-i), as j iterates, every time minus 1
+    # below "res" is the current max of A[j] + cur
     def maxScoreSightseeingPair_OJ(self, A):
         cur = res = 0
         for a in A:
             res = max(res, cur + a)
             cur = max(cur, a) - 1
         return res
+
     # my own solution
     # the idea is to separate the result to two parts A[i] + i and A[j] - j
     # we can get A[i] + i by iterate A, but for each position i, we need to know largest A[j] - j with j > i
@@ -75,4 +79,4 @@ class Solution:
 A = [1, 1]  # expect 1
 A = [3, 2, 1, 5] # expect 5
 A = [8,1,5,2,6] # expect 11
-print(Solution().maxScoreSightseeingPair(A))
+print(Solution().maxScoreSightseeingPair_OJ(A))
