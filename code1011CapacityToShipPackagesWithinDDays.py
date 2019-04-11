@@ -70,9 +70,12 @@ class Solution:
             return days
 
         # main
-        max_weight = max(weights)
-        low = max(floor(sum(weights)/D), max_weight)  # bug fixed: previously was low = floor(sum(weights)/D)
-        high = ceil(max_weight*len(weights)/D) + 1
+        # original limits
+        #max_weight = max(weights)
+        #low = max(floor(sum(weights)/D), max_weight)  # bug fixed: previously was low = floor(sum(weights)/D)
+        #high = ceil(max_weight*len(weights)/D) + 1
+        low = max(weights)
+        high = sum(weights)
         while low < high:
             mid = (low + high)//2
             if getDays(weights, mid) > D:

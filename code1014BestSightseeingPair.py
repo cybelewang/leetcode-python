@@ -17,7 +17,33 @@ Note:
 2 <= A.length <= 50000
 1 <= A[i] <= 1000
 """
+from functools import reduce
 class Solution:
+    # https://leetcode.com/problems/best-sightseeing-pair/discuss/260850/JavaC%2B%2BPython-One-Pass
+    def maxScoreSightseeingPair_oneline(self, A):
+        return reduce(lambda (r, c), a: [max(r, c + a), max(c, a) - 1], A, [0, 0])[0]
+    
+    """
+    O(1) space, O(N) time
+    Explanation
+    cur will record the best score that we have met.
+    We iterate each value a in the array A,
+    update res by max(res, cur + a)
+
+    Also we can update cur by max(cur, a).
+    Note that when we move forward,
+    all sightseeing spot we have seen will be 1 distance further.
+
+    So for the next sightseeing spot cur = Math.max(cur, a) **- 1**
+
+    It's kinds of like, "A near neighbor is better than a distant cousin."
+    """    
+    def maxScoreSightseeingPair_OJ(self, A):
+        cur = res = 0
+        for a in A:
+            res = max(res, cur + a)
+            cur = max(cur, a) - 1
+        return res
     # my own solution
     # the idea is to separate the result to two parts A[i] + i and A[j] - j
     # we can get A[i] + i by iterate A, but for each position i, we need to know largest A[j] - j with j > i

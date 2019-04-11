@@ -52,3 +52,17 @@ A = [1, 3, -2, 4]   # test when 2*_sum appears before _sum, expect False
 # A = [0,2,1,-6,6,7,9,-1,2,0,1]   # expect False
 # A = [3,3,6,5,-2,2,5,1,-9,4] # expect True
 print(Solution().canThreePartsEqualSum(A))
+
+"""
+# O(1) space solution
+# https://leetcode.com/problems/partition-array-into-three-parts-with-equal-sum/discuss/260885/C%2B%2B-6-lines-O(n)-target-sum
+bool canThreePartsEqualSum(vector<int>& A, int parts = 0) {
+  auto total = accumulate(begin(A), end(A), 0);
+  if (total % 3 != 0) return false;
+  for (auto i = 0, sum = 0; i < A.size() && parts < (total != 0 ? 2 : 3); ++i) {
+    sum += A[i];
+    if (sum == total / 3) ++parts, sum = 0;
+  }
+  return parts == (total != 0 ? 2 : 3);
+}
+"""
