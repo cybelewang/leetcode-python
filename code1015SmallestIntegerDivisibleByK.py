@@ -25,27 +25,27 @@ Note:
 """
 # 1. ask for length, not the integer
 # 2. integer here has no 32-bit limit
+# tag: number theory
 class Solution:
-    # my own solution
-    # divide N to sum of 10^x, for example, 111 = 100 + 10 + 1. Then for each 10^x, module with K and add them to check if divisible by K
+    # https://leetcode.com/problems/smallest-integer-divisible-by-k/discuss/273080/Java-iterative
     def smallestRepunitDivByK(self, K):
         """
         :type K: int
         :rtype: int
         """
-        if K&1 == 0:
+        if K%2 == 0 or K%5 == 0:
             return -1
 
-        remain, factor, appeared = 0, 1, set()
-        for i in range(1, 11):
-            remain = (remain + factor%K)%K
-            if remain == 0:
-                return i
-            else:
-                factor *= 10
+        i, count = 0, 0
+        while i <= K:
+            i = (i*10 + 1)%K
+            count += 1
+
+            if i == 0:
+                return count
         
         return -1
 
-test_K = [1, 2, 3, 5, 11, 9999]
+test_K = [1, 2, 3, 5, 11, 17, 9999]
 obj = Solution()
 print(list(map(obj.smallestRepunitDivByK, test_K)))

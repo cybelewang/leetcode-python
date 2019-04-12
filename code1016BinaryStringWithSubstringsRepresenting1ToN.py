@@ -26,7 +26,11 @@ class Solution:
         :type N: int
         :rtype: bool
         """
-
+        for i in range(1, N+1):
+            if format(i, 'b') not in S:
+                return False
+        
+        return True
 
 S, N = "1000", 7
 print(Solution().queryString(S, N))
