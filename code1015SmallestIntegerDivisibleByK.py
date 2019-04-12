@@ -23,6 +23,8 @@ Note:
 
 1 <= K <= 10^5
 """
+# 1. ask for length, not the integer
+# 2. integer here has no 32-bit limit
 class Solution:
     # my own solution
     # divide N to sum of 10^x, for example, 111 = 100 + 10 + 1. Then for each 10^x, module with K and add them to check if divisible by K
@@ -34,12 +36,11 @@ class Solution:
         if K&1 == 0:
             return -1
 
-        N, remain, factor = 0, 0, 1
-        for _ in range(9):
-            N += factor
+        remain, factor, appeared = 0, 1, set()
+        for i in range(1, 11):
             remain = (remain + factor%K)%K
             if remain == 0:
-                return N
+                return i
             else:
                 factor *= 10
         
