@@ -27,6 +27,7 @@ If the first player choose 1, the second player can only choose integers from 2 
 The second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.
 Same with other integers chosen by the first player, the second player will always win.
 """
+# tag: game theory
 class Solution:
     # http://www.cnblogs.com/grandyang/p/6103525.html
     # tricks better than my solution: 1. use remaining, 2. "used" can represent all scenarios, so "used" can be the key in cache, no need to use tuple(sum_, next choose number)

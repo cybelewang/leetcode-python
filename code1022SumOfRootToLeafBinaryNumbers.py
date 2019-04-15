@@ -29,4 +29,23 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
+        self.ans = 0
+        def dfs(node, pre):
+            """
+            node: the root of this subtree
+            pre: value from previous binary numbers
+            """
+            if not node.left and not node.right:
+                self.ans += pre + node.val
+                return
+            if node.left:
+                dfs(node.left, 2*(pre + node.val))
+            if node.right:
+                dfs(node.right, 2*(pre + node.val))
         
+        # main
+        dfs(root, 0)
+        return self.ans
+
+root = ListToTree([1,0,1,0,1,0,1])
+print(Solution().sumRootToLeaf(root))
