@@ -24,9 +24,27 @@ Note:
 0 <= N <= 10^9
 """
 class Solution:
+    # my own solution, similar to base 2
     def baseNeg2(self, N):
         """
         :type N: int
         :rtype: str
         """
+        digits = []
+        while N:
+            if N%(-2) != 0:
+                digits.append(1)
+                N -= 1
+            else:
+                digits.append(0)
+            
+            N //= -2
         
+        while digits and digits[-1] == 0:
+            digits.pop()
+        
+        return ''.join(map(str, digits[::-1])) or '0'
+
+N = 0   # expect '0'
+#N = 15  # expect '10011'
+print(Solution().baseNeg2(N))
