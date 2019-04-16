@@ -35,9 +35,9 @@ class Solution:
         if len(A) < 3:
             return 0
 
-        i, res = 2, 0
+        res = 0
         local, count, diff = 0, 0, A[1]-A[0]
-        while i < len(A):
+        for i in range(2, len(A)):
             if A[i] - A[i-1] == diff:
                 count += 1
                 local += count
@@ -45,8 +45,6 @@ class Solution:
                 diff = A[i] - A[i-1]
                 res += local
                 count, local = 0, 0
-            
-            i += 1
 
         res += local
 
