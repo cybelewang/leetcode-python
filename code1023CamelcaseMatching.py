@@ -32,7 +32,12 @@ Note:
 1 <= pattern.length <= 100
 All strings consists only of lower and upper case English letters.
 """
+import re
 class Solution:
+    # regular expression solution
+    def camelMatch_regex(self, qs, p):
+        return [re.match("^[a-z]*" + "[a-z]*".join(p) + "[a-z]*$", q) != None for q in qs]
+
     # my own solution using two pointers
     # space O(1)
     # time O(Q*M*N), Q is the length of list queries, M is the average length of query, N is the length of pattern
@@ -78,4 +83,4 @@ class Solution:
         return [check(query, pattern) for query in queries]
 
 queries, pattern = ["FooBar","FooBarTest","FootBall","FrameBuffer","ForceFeedBack"], "FB"
-print(Solution().camelMatch2(queries, pattern))
+print(Solution().camelMatch_regex(queries, pattern))

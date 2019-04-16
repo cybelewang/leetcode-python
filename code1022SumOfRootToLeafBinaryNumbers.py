@@ -24,6 +24,14 @@ The answer will not exceed 2^31 - 1.
 #         self.right = None
 from TreeNode import *
 class Solution:
+    # similar but concise solution
+    # https://leetcode.com/problems/sum-of-root-to-leaf-binary-numbers/discuss/270025/JavaC%2B%2BPython-Recursive-Solution
+    def sumRootToLeaf_OJ(self, root, val=0):
+        if not root: return 0
+        val = val * 2 + root.val
+        if root.left == root.right: return val
+        return self.sumRootToLeaf(root.left, val) + self.sumRootToLeaf(root.right, val)
+    # my own recursive solution
     def sumRootToLeaf(self, root):
         """
         :type root: TreeNode
