@@ -30,7 +30,14 @@ Note:
 """
 from collections import defaultdict
 class Solution:
-    # use method from 446 Arithmetic Slices II - Subsequence
+    # 1D DP
+    def longestArithSeqLength_OJ(self, A):
+        dp = {}
+        for i in range(len(A)):
+            for j in range(i + 1, len(A)):
+                dp[j, A[j] - A[i]] = dp.get((i, A[j] - A[i]), 1) + 1
+        return max(dp.values())
+    # my own solution using method from 446 Arithmetic Slices II - Subsequence
     # O(N^2) time, O(N^2) space
     def longestArithSeqLength(self, A):
         """

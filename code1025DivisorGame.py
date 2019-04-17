@@ -52,4 +52,5 @@ class Solution:
         cache = {0:False, 1:False, 2:True}
         return win(N, cache)
 
-print(Solution().divisorGame_DFS(3))
+N = 4
+print(Solution().divisorGame_DFS(N))
