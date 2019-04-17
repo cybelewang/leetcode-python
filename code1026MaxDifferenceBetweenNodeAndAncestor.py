@@ -31,9 +31,10 @@ from TreeNode import *
 class Solution:
     # https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/discuss/274610/JavaC%2B%2BPython-Top-Down
     def maxAncestorDiff_singleline(self, root, mn=100000, mx=0):
-        return max(self.maxAncestorDiff(root.left, min(mn, root.val), max(mx, root.val)), \
-            self.maxAncestorDiff(root.right, min(mn, root.val), max(mx, root.val))) \
+        return max(self.maxAncestorDiff_singleline(root.left, min(mn, root.val), max(mx, root.val)), \
+            self.maxAncestorDiff_singleline(root.right, min(mn, root.val), max(mx, root.val))) \
             if root else mx - mn
+            
     # my own DFS solution, tracking the pair of (min, max) for subtree
     def maxAncestorDiff(self, root):
         """
