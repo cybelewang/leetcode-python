@@ -21,6 +21,40 @@ You may assume k is always valid, 1 ≤ k ≤ n^2.
 # similar problems: 373 Find K Pairs With Smallest Sums; 668 Kth Smallest Number in Multiplication Table
 from heapq import *
 class Solution:
+    def kthSmallest3(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        def search(matrix, target):
+            """
+            count elements <= target in matrix
+            """
+            n = len(matrix)
+            i, j, res = n-1, 0, 0
+            while i > -1 and j < n:
+                if matrix[i][j] <= target:
+                    # matrix[0][j] to matrix[i][j] are all <= target
+                    res += i + 1
+                    j += 1
+                else:
+                    i -= 1
+            return res
+        
+        # main
+        # binary search
+        left, right = matrix[0][0], matrix[-1][-1]
+        while left < right:
+            mid = (left + right)//2
+            cnt = search(matrix, mid)
+            if cnt < k:
+                left = mid + 1
+            else:
+                right = mid
+        
+        return left
+
     # binary search solution
     # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173/Share-my-thoughts-and-Clean-Java-Code
     def kthSmallest(self, matrix, k):
