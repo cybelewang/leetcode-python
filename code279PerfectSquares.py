@@ -9,6 +9,20 @@ For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return
 from math import sqrt, floor
 from collections import deque
 class Solution:
+    # Lagrange's four-square theorem
+    # https://www.cnblogs.com/grandyang/p/4800552.html
+    def numSquares_math(self, n):
+        while n%4 == 0: n//=4
+        if n%8 == 7: return 4
+        a = 0
+        while a*a <= n:
+            b = floor(sqrt(n - a*a))
+            if a*a + b*b == n:
+                return (a>0)*1 + (b>0)*1
+            a += 1
+        
+        return 3
+
     # BFS solution, https://leetcode.com/problems/perfect-squares/discuss/71475/Short-Python-solution-using-BFS
     def numSquares(self, n):
         """
@@ -39,7 +53,6 @@ class Solution:
                         break
         
         return level
-
 
     # DP solution, TLE
     def numSquares2(self, n):
@@ -79,4 +92,4 @@ test_cases = [1, 2, 3, 4, 7, 12, 13, 15, 16]
 obj = Solution()
 for case in test_cases:
     print(case, end = '->')
-    print(obj.numSquares(case))
+    print(obj.numSquares_math(case))
