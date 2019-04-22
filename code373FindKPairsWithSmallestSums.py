@@ -31,6 +31,22 @@ All possible pairs are returned from the sequence:
 """
 from heapq import *
 class Solution:
+    # https://www.cnblogs.com/grandyang/p/5653127.html
+    def kSmallestPairs3(self, nums1, nums2, k):
+        m, n = len(nums1), len(nums2)
+        res, idx = [], [0]*m
+        for _ in range(min(k, m*n)):
+            cur, _sum = 0, 2**31-1
+            for i in range(m):
+                if idx[i] < n and _sum >= nums1[i] + nums2[idx[i]]:
+                    cur = i
+                    _sum = nums1[i] + nums2[idx[i]]
+            
+            res.append((nums1[cur], nums2[idx[cur]]))
+            idx[cur] += 1
+
+        return res
+
     # https://leetcode.com/problems/find-k-pairs-with-smallest-sums/discuss/84551/simple-Java-O(KlogK)-solution-with-explanation
     def kSmallestPairs(self, nums1, nums2, k):
         """
@@ -97,4 +113,4 @@ class Solution:
 obj = Solution()
 nums1 = [1,1, 2]
 nums2 = [1,2,3]
-print(obj.kSmallestPairs(nums1, nums2, 9))
+print(obj.kSmallestPairs3(nums1, nums2, 9))
