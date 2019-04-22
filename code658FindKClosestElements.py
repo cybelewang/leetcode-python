@@ -18,9 +18,11 @@ UPDATE (2017/9/19):
 The arr parameter had been changed to an array of integers (instead of a list of integers). Please reload the code definition to get the latest changes.
 """
 # similar problems: 719 Find K-th Smallest Pair Distance
+# tag: greedy
 from bisect import bisect
 class Solution:
     # my own solution using binary search and two pointers
+    # log(n) + K
     def findClosestElements(self, arr, k, x):
         """
         :type arr: List[int]
@@ -32,7 +34,7 @@ class Solution:
         idx = bisect(arr, x)
 
         i, j = idx - 1, idx
-        for _ in range(k):
+        for _ in range(k):  # bidirectly expands from idx
             if i < 0:
                 j += 1
             elif j > n - 1:
@@ -45,7 +47,19 @@ class Solution:
         
         return arr[i+1:j]
 
+    # 2nd visit on 4/22/2019
+    # two pointers and greedy, O(n-k)
+    def findClosestElements2(self, arr, k, x):
+        i = 0   # start index of the result array
+        for j in range(k, len(arr)):
+            if abs(arr[j] - x) < abs(arr[i] - x):
+                i += 1
+            else:
+                break
+        
+        return arr[i:min(i+k, len(arr))]
+
 arr = [1,3,7,9,11]
 k = 4
 x = 6
-print(Solution().findClosestElements(arr, k, x))
+print(Solution().findClosestElements2(arr, k, x))
