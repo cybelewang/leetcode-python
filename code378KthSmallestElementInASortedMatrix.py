@@ -18,7 +18,7 @@ return 13.
 Note: 
 You may assume k is always valid, 1 ≤ k ≤ n^2.
 """
-# similar problems: 373 Find K Pairs With Smallest Sums; 668 Kth Smallest Number in Multiplication Table
+# similar problems: 373 Find K Pairs With Smallest Sums; 668 Kth Smallest Number in Multiplication Table; 786 K-th Smallest Prime Fraction
 from heapq import *
 class Solution:
     def kthSmallest3(self, matrix, k):

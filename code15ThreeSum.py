@@ -44,6 +44,7 @@ def threeSum(nums):
     return result
 
 # 2nd round solution on 9/16/2018
+# time O(N^2), space O(N)
 def threeSum2(nums):
     nums.sort()
     n, res = len(nums), []
@@ -61,5 +62,31 @@ def threeSum2(nums):
 
     return res
 
+# 3rd round solution on 4/23/2019
+# time O(NlogN), space O(1)
+def threeSum3(nums):
+    nums.sort()
+    res = []
+    for k, c in enumerate(nums):
+        if k > 0 and nums[k] == nums[k-1]:
+            continue
+        i, j = k+1, len(nums)-1
+        while i < j:
+            if nums[i] + nums[j] + c == 0:
+                res.append([nums[i], nums[j], c])
+                i += 1
+                j -= 1
+                # need to think duplicated elements
+                while i < j and nums[i] == nums[i-1]:
+                    i += 1
+                while i < j and nums[j] == nums[j+1]:
+                    j -= 1
+            elif nums[i] + nums[j] + c > 0:
+                j -= 1
+            else:
+                i += 1
+        
+    return res
+
 test_case = [-2,0,0,2,2]
-print(threeSum2(test_case))
+print(threeSum3(test_case))
