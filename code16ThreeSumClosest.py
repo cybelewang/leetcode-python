@@ -40,5 +40,25 @@ def threeSumClosest(nums, target):
 
     return result
 
+# 2nd visit on 4/24/2019
+def threeSumClosest2(nums, target):
+    nums.sort()
+    res = sum(nums[:3])
+    for i, a in enumerate(nums):
+        if i > 0 and a == nums[i-1]:
+            continue
+        j, k = i+1, len(nums)-1
+        while j < k:
+            s = a + nums[j] + nums[k]
+            if abs(s-target) < abs(res-target):
+                res = s
+            if s < target:
+                j += 1
+            else:
+                k -= 1
+    
+    return res
+
+
 test_case = [-1, 2, 1, -4]
-print(threeSumClosest(test_case, 1))
+print(threeSumClosest2(test_case, 1))

@@ -37,6 +37,7 @@ Note:
 1 <= A.length <= 30000
 """
 # similar problems: 53 Maximum Subarray
+from collections import deque
 class Solution:
     # the final result could be from (1) a subarray of A, or (2) a subarray with the end and first element
     # (1) can be solved with problem 53's method
@@ -69,9 +70,34 @@ class Solution:
         
         return res      
 
+    # https://leetcode.com/problems/maximum-sum-circular-subarray/solution/
+    # method 2, time O(N), space O(N)
+    # mono-queue solution, by constructing a new list B = A + A
+    # Assume P[i] is the sum of B[:i]
+    # the result will be max of all P[j] - P[i] with j - i <= len(A)
+    # we can maintain a mono-queue with ascending P value
+    def maxSubarraySumCircular2(self, A):
+        P = [0]
+        for _ in range(2):
+            for a in A:
+                P.append(P[-1] + a)
+        
+        q = deque([0])
+        res = A[0]
+        for j in range(1, len(P)):
+            if j - q[0] > len(A):
+                q.popleft()
+            res = max(res, P[j] - P[q[0]])
+            while q and P[q[-1]] >= P[j]:
+                q.pop()
+            
+            q.append(j)
+        
+        return res
+
     # 1st trial, wrong solution
     # the final result could be from (1) a subarray of A, or (2) a subarray with the end and first element
-    # this solution considers only one case of (2) by re-arranging two halves of A, but we need to consider all scenarios, a test case is [2,-2,2,7,8,0]
+    # this solution considers only one case of (2) by re-arranging two halves of A, but we need to consider other scenarios where the two parts have different length, a test case is [2,-2,2,7,8,0]
     def maxSubarraySumCircular3(self, A):
         def maxSum(A):
             pre, res = A[0], A[0]
@@ -88,6 +114,22 @@ class Solution:
         N = len(A)
         return max(maxSum(A), maxSum(A[N//2:]+A[:N//2]))
 
+    # https://leetcode.com/problems/maximum-sum-circular-subarray/solution/
+    # method 3, time O(N), space O(1)
+    def maxSubarraySumCircular4(self, A):
+        def kadane(gen):
+            ans = cur = -2**31
+            for x in gen:
+                cur = x + max(cur, 0)
+                ans = max(ans, cur)
+            return ans
+        
+        S = sum(A)
+        ans1 = kadane(iter(A))
+        ans2 = S + kadane(-A[i] for i in range(1, len(A)))  # without the 1st element
+        ans3 = S + kadane(-A[i] for i in range(len(A)-1))   # without the last element
+
+        return max(ans1, ans2, ans3)
 
 #A = [3,-1,2,-1]
 #A = [1, 2, 3, 4]
@@ -95,4 +137,4 @@ class Solution:
 #A = [1,-2,3,-2]
 #A = [2,-2,2,7,8,0]  #expected 19
 A = [-2, -3, -1]
-print(Solution().maxSubarraySumCircular2(A))
+print(Solution().maxSubarraySumCircular4(A))

@@ -43,8 +43,16 @@ class Solution2:
 
         return res
 
+    # more concise kandane solution
+    def maxSubArray2(self, nums):
+        ans = cur = -2**31
+        for x in nums:
+            cur = x + max(cur, 0)
+            ans = max(ans, cur)
+        return ans
+
 obj = Solution2()
 test_cases = [[], [-199], [-1,-2,-3,-4,-5], [-2,1,-3,4,-1,2,1,-5,4]]
 for case in test_cases:
     print(case, end = ' => ')
-    print(obj.maxSubArray(case))
+    print(obj.maxSubArray2(case))
