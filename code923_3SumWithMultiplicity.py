@@ -31,6 +31,7 @@ Note:
 0 <= target <= 300
 """
 # similar problems: 167 Two Sum II - Input array is sorted; 15 3Sum, three sum
+from collections import Counter
 class Solution:
     # similar to problem 15's solution
     # first sort A
@@ -73,6 +74,41 @@ class Solution:
         
         return ans
 
+    # category different cases
+    def threeSumMulti2(self, A, target):
+        count= [0]*101
+        for a in A:
+            count[a] += 1
+
+        ans, M = 0, 10**9+7
+
+        # case 1, a < b < c
+        for a in range(101):
+            for b in range(a+1, 101):
+                c = target-a-b
+                if b < c < 101:
+                    ans = (ans + count[a]*count[b]*count[c])%M
+        
+        # case 2, a == b < c
+        for a in range(101):
+            c = target - 2*a
+            if a < c < 101:
+                ans = (ans + (count[a]-1)*count[a]*count[c]//2)%M
+        
+        # case 3, a < b == c
+        for a in range(101):
+            if (target - a)%2 == 0:
+                b = (target - a)//2
+                if a < b < 101:
+                    ans = (ans + count[a]*(count[b]-1)*count[b]//2)%M
+        
+        # case 4, a == b == c
+        if target%3 == 0:
+            a = target//3
+            ans = (ans + count[a]*(count[a]-1)*(count[a]-2)//6)%M
+        
+        return ans
+
 A, target = [1,1,2,2,3,3,4,4,5,5], 8
 #A, target = [1,1,2,2,2,2], 5
-print(Solution().threeSumMulti(A, target))
+print(Solution().threeSumMulti2(A, target))
