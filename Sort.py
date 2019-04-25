@@ -11,7 +11,7 @@ class Sort:
             for j in range(start, end):
                 if nums[j] < pivot:
                     nums[i], nums[j] = nums[j], nums[i]
-                    i += 1
+                    i += 1   # before swap, nums[i] >= pivot, so after swap, there is no need to process nums[j] again
             nums[i], nums[end] = nums[end], nums[i]
             return i
         
