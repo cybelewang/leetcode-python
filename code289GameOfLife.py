@@ -19,6 +19,7 @@ In this question, we represent the board using a 2D array. In principle, the boa
 # encode the next live state, current live state into the integer, such as |next live state|current live state|
 # 2nd round just keep the next live state
 # caution: this solution simply add all 8 neighbors, if you want to cache bottom neighbors for next row's top use, be careful of the corner neighbors since they may be added twice
+# follow-up: https://segmentfault.com/a/1190000003819277
 class Solution:
     def gameOfLife(self, board):
         """
