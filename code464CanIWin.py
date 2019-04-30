@@ -108,5 +108,27 @@ class Solution:
 
         return dfs(0, default_used, {})
 
+    # 2nd visit on 4/29/2019, need help from solution 1
+    def canIWin3(self, maxChoosableInteger, desiredTotal):
+        if (maxChoosableInteger >= desiredTotal): return True
+        if desiredTotal > sum(range(1, maxChoosableInteger + 1)): return False
+        def canWin(remain, used, mem):
+            if used in mem:
+                return mem[used]
+            for i in range(maxChoosableInteger):
+                mask = 1 << i
+                if (used & mask) == 0 and (remain <= i + 1 or not canWin(remain - i-1, used | mask, mem)):   # don't forget remain <= i+1 condition
+                    mem[used] = True
+                    return True
+            
+            mem[used] = False
+            return False
+
+        return canWin(desiredTotal, 0, {})
+
 obj = Solution()
-print(obj.canIWin2(10, 40))
+a, b = 10, 40 # expect False
+a, b = 10, 0  # expect True  
+a, b = 4, 6 # expect True 
+a, b = 5, 50
+print(obj.canIWin3(a, b))

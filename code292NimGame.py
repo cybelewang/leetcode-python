@@ -28,3 +28,8 @@ class Solution:
 obj = Solution()
 for i in range(10):
     print(i, obj.canWinNim(i), sep = '->')
+
+"""
+generalize一下这道题，当可以拿1～n个石子时，那么个数为(n+1)的整数倍时一定会输
+http://www.cnblogs.com/grandyang/p/4873248.html
+"""
