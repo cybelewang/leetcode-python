@@ -126,9 +126,34 @@ class Solution:
 
         return canWin(desiredTotal, 0, {})
 
+    # 3rd try on 4/30/2019, do not use precheck and more similar to typical DFS
+    def canIWin4(self, maxChoosableInteger, desiredTotal):
+        def canWin(remain, used, mem):
+            # check cache
+            if used in mem:
+                return mem[used]
+            # check if all integers have been used
+            limit = (1 << maxChoosableInteger) - 1 # upper reachable limit of variable "used"
+            if used == limit:
+                return remain > 0   # note we cannot use remain <= 0, because if all bits have been used and remain <= 0, other player has won
+            # now try to use an integer
+            res = False
+            for i in range(maxChoosableInteger):
+                mask = 1 << i
+                if used & mask == 0 and not canWin(remain - i - 1, used | mask, mem):
+                    res = True
+                    break
+            
+            mem[used] = res
+            return res
+        
+        # main
+        return canWin(desiredTotal, 0, {})
+
+
 obj = Solution()
 a, b = 10, 40 # expect False
 a, b = 10, 0  # expect True  
 a, b = 4, 6 # expect True 
-a, b = 5, 50
-print(obj.canIWin3(a, b))
+a, b = 1, 50
+print(obj.canIWin4(a, b))

@@ -24,8 +24,9 @@ Any scores in the given array are non-negative integers and will not exceed 10,0
 If the scores of both players are equal, then player 1 is still the winner.
 """
 # similar problems: 375, 464
-# http://www.cnblogs.com/grandyang/p/6369688.html
+from collections import deque
 class Solution:
+    # http://www.cnblogs.com/grandyang/p/6369688.html
     # DP, The dp[i][j] saves how much more scores that the first-in-action player will get from i to j than the second player. 
     def PredictTheWinner(self, nums):
         """
@@ -113,6 +114,11 @@ class Solution:
             return True
         else:
             return CanWin(nums, 0, len(nums)-1, 0, 0, 1)
+
+    # 2nd round solution on 4/30/2019
+    def PredictTheWinner4(self, nums):
+        q = deque(nums)
+        
 
 #nums = [1, 5, 7, 6]
 nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]

@@ -56,7 +56,11 @@ class Solution:
             for k in range(n):  # here n is different from the description's n
                 if k & bit: cnt1 += 1
                 if nums[k] & bit: cnt2 += 1
-            
+            # have difficulty understanding below code
+            # it's easier to understand when cnt2 > cnt1, the bit is 1
+            # but why when cnt2 <= cnt1, the bit must be 0? Assume x is the duplicate number, and its ith bit is 1, we can find other number y, with its ith bit also 1
+            # after replacing y with x, we can keep the count of ith bit unchanged. Why this is not true?
+            # the reason is that 0 does not exist in nums, so the result duplicate number must also replace 0. Even x's and y's ith bit are 1, cnt2 must > cnt1 because x replaces 0
             if cnt2 > cnt1:
                 res += bit
         
