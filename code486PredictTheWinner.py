@@ -27,7 +27,7 @@ If the scores of both players are equal, then player 1 is still the winner.
 from collections import deque
 class Solution:
     # http://www.cnblogs.com/grandyang/p/6369688.html
-    # DP, The dp[i][j] saves how much more scores that the first-in-action player will get from i to j than the second player. 
+    # DP, The dp[i][j] saves how much more scores that the current active player will get from i to j than the other player. 
     def PredictTheWinner(self, nums):
         """
         :type nums: List[int]
@@ -36,20 +36,26 @@ class Solution:
         n = len(nums)
         if n < 3: return True
         dp = [[-1]*n for _ in range(n)]
-        for i in range(n):
+
+        for i in range(n-1, -1, -1):
             dp[i][i] = nums[i]
+            for j in range(i+1, n):
+                dp[i][j] = max(nums[i] - dp[i+1][j], nums[j] - dp[i][j-1])
         
-        for len_ in range(1, n):
-            i, j = 0, len_
-            while j < n:
-                dp[i][j] = max(nums[i]-dp[i+1][j], nums[j]-dp[i][j-1])
-                i += 1
-                j += 1
+        # for i in range(n):
+        #     dp[i][i] = nums[i]
+        
+        # for right in range(1, n):
+        #     i, j = 0, right
+        #     while j < n:
+        #         dp[i][j] = max(nums[i]-dp[i+1][j], nums[j]-dp[i][j-1])
+        #         i += 1
+        #         j += 1
         
         return dp[0][n-1] >= 0
 
     # recursive + DP
-    # the idea is if player 1 can win, then player1's score will >= half of the sum of nums
+    # easier to understand
     def PredictTheWinner2(self, nums):
         """
         :type nums: List[int]
@@ -157,4 +163,4 @@ class Solution:
 #nums = [1, 5, 2]    # expect false
 #nums = [1, 5, 7, 6] # expect true
 nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]    # expect true
-print(Solution().PredictTheWinner3(nums))
+print(Solution().PredictTheWinner(nums))
