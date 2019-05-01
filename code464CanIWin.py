@@ -110,6 +110,7 @@ class Solution:
 
     # 2nd visit on 4/29/2019, need help from solution 1
     def canIWin3(self, maxChoosableInteger, desiredTotal):
+        # precheck
         if (maxChoosableInteger >= desiredTotal): return True
         if desiredTotal > sum(range(1, maxChoosableInteger + 1)): return False
         def canWin(remain, used, mem):
@@ -127,6 +128,7 @@ class Solution:
         return canWin(desiredTotal, 0, {})
 
     # 3rd try on 4/30/2019, do not use precheck and more similar to typical DFS
+    # cannot pass test case (10, 0), must do precheck
     def canIWin4(self, maxChoosableInteger, desiredTotal):
         def canWin(remain, used, mem):
             # check cache
@@ -152,8 +154,8 @@ class Solution:
 
 
 obj = Solution()
-a, b = 10, 40 # expect False
+#a, b = 10, 40 # expect False
 a, b = 10, 0  # expect True  
-a, b = 4, 6 # expect True 
-a, b = 1, 50
+#a, b = 4, 6 # expect True 
+#a, b = 1, 50
 print(obj.canIWin4(a, b))

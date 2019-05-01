@@ -115,11 +115,46 @@ class Solution:
         else:
             return CanWin(nums, 0, len(nums)-1, 0, 0, 1)
 
-    # 2nd round solution on 4/30/2019
+    # 2nd round recursive solution on 4/30/2019
+    # TLE
     def PredictTheWinner4(self, nums):
-        q = deque(nums)
-        
+        def canWin(q, scores, player):
+            """
+            q: deque of remaining numbers
+            scores: [player 1's score, player 2's score]
+            player: 0 represents player 1, 1 represents player 2            
+            """
+            if len(q) == 0: # this handles the case when input nums is empty
+                return scores[0] >= scores[1]
+            elif len(q) == 1:   # this is the normal convergence condition
+                if player == 0:
+                    return scores[0] + q[0] >= scores[1]
+                else:
+                    return scores[1] + q[0] > scores[0]
+            
+            # pick up the front number
+            cur = q.popleft()
+            scores[player] += cur
+            res1 = not canWin(q, scores, player^1)
+            # restore the front number
+            scores[player] -= cur
+            q.appendleft(cur)
 
-#nums = [1, 5, 7, 6]
-nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            # pick up the back number
+            cur = q.pop()
+            scores[player] += cur
+            res2 = not canWin(q, scores, player^1)
+            # restore the back number
+            scores[player] -= cur
+            q.append(cur)
+
+            return res1 or res2
+
+        # main
+        q = deque(nums)
+        return canWin(q, [0, 0], 0)    
+
+#nums = [1, 5, 2]    # expect false
+#nums = [1, 5, 7, 6] # expect true
+nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]    # expect true
 print(Solution().PredictTheWinner3(nums))
