@@ -32,4 +32,4 @@ def isValid(s):
 test_cases = ["","()", "()[]{}", "][()", "(]", "([)]", "((((())[])){})"]
 
 for test_case in test_cases:
-    print(isValid(test_case))
+    print(isValid2(test_case))

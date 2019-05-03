@@ -53,8 +53,25 @@ def longestValidParentheses2(s):
 
     return length
 
+# 2nd round solution on 5/3/2019
+def longestValidParentheses3(s):
+    index = {0:-1}
+    diff, res = 0, 0
+    for i, c in enumerate(s):
+        if c == '(':
+            diff += 1
+        else:
+            diff -= 1
+            if diff >= 0:
+                res = max(res, i - index.setdefault(diff, i))
+            else:
+                diff = 0
+                index = {0:i}
+    
+    return res
+
 test_cases = ["", "(", ")", "()", "(((", ")()())", "()()))((", "())()()()" ]
 for s in test_cases:
     print(s, end='')
     print(' -> ', end='')
-    print(longestValidParentheses(s))
+    print(longestValidParentheses3(s))

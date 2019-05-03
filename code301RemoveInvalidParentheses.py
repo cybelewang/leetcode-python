@@ -42,22 +42,21 @@ class Solution:
                 else:
                     res.append(reversed)
 
+        # main
         res = []
         remove(s, res, 0, 0, ['(', ')'])
 
         return res
 
-
-    # DFS, remove all possible extras, easier to understand
+    # https://www.cnblogs.com/grandyang/p/4944875.html
+    # DFS, track numbers of extra '(' and ')'
+    # remove all possible extras, easier to understand
     def removeInvalidParentheses2(self, s):
         """
         :type s: str
         :rtype: List[str]
         """
         def isValid(s):
-            """
-            check if a given string s has valid parentheses
-            """
             count = 0
             for c in s:
                 if c == '(':
@@ -71,16 +70,13 @@ class Solution:
             return count == 0
 
         def helper(s, start, cnt1, cnt2, res):
-            """
-            recursive subfunction
-            """
             if cnt1 == 0 and cnt2 == 0:
                 if isValid(s):
                     res.append(s)
                 return
             
             for i in range(start, len(s)):
-                if i != start and s[i] == s[i-1]:   # negnect continuous same character from the second one, such as '(((' and ')))', we only process the first '(' or ')'
+                if i != start and s[i] == s[i-1]:   # negnect continuous same character from the second one, such as '(((' and ')))', we only process the first '(' or ')', same trick as permutations with duplicates
                     continue
                 
                 if cnt1 > 0 and s[i] == '(':
@@ -89,6 +85,7 @@ class Solution:
                 if cnt2 > 0 and s[i] == ')':
                     helper(s[:i] + s[i+1:], i, cnt1, cnt2 - 1, res)
 
+        # main
         # cnt1 : number of extra '('
         # cnt2 : number of extra ')'
         cnt1, cnt2 = 0, 0
