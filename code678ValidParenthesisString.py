@@ -79,7 +79,37 @@ class Solution:
         else:
             return dfs(s, 0, 0)
 
+    # stack solution
+    # use two stacks: "left" holds the index of '(', and "star" holds the index of ')'
+    # two pass, first pass treat '*' as '(', but we try to use existing '(' first, then '*'
+    # second pass we try to use '*' as ')' to pair remaining '(', the goal is to eliminate all remaining '('
+    def checkValidString3(self, s):
+        left, star = [], []
+        for i, c in enumerate(s):
+            if c == '(':
+                left.append(i)
+            elif c == '*':
+                star.append(i)
+            else:
+                # c == ')', consume '(' first, '*' second
+                if not left and not star:
+                    return False
+                if left:
+                    left.pop()
+                else:
+                    star.pop()
+        
+        # now '*' must be ')' or '', try to pair them
+        while left and star:
+            if left[-1] < star[-1]:
+                left.pop()
+                star.pop()
+            else:
+                break
+        
+        return len(left) == 0
+
 test_cases = ['', '(', ')', '*', '()', '(*)', '(*()', '((*)', ')*)', '*)*)']
 for s in test_cases:
     print(s, end = ' -> ')
-    print(Solution().checkValidString(s))
+    print(Solution().checkValidString3(s))

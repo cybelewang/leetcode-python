@@ -53,24 +53,23 @@ def longestValidParentheses2(s):
 
     return length
 
-# 2nd round solution on 5/3/2019
+# 2nd round stack solution on 5/4/2019
 def longestValidParentheses3(s):
-    index = {0:-1}
-    diff, res = 0, 0
+    stack, res = [-1], 0
     for i, c in enumerate(s):
         if c == '(':
-            diff += 1
+            stack.append(i)
         else:
-            diff -= 1
-            if diff >= 0:
-                res = max(res, i - index.setdefault(diff, i))
+            if stack and stack[-1] > -1 and s[stack[-1]] == '(':    # the reason that we need to check stack[-1] != -1 is for case like "())("
+            #if s[stack[-1]] == '(':    # wrong for case "())("
+                stack.pop()
+                res = max(res, i - stack[-1])
             else:
-                diff = 0
-                index = {0:i}
+                stack.append(i)
     
-    return res
+    return res            
 
-test_cases = ["", "(", ")", "()", "(((", ")()())", "()()))((", "())()()()" ]
+test_cases = ["", "(", ")", "()", "(((", "(()", ")()())", "()(()()", "()()))((", "())()()()" ]
 for s in test_cases:
     print(s, end='')
     print(' -> ', end='')
