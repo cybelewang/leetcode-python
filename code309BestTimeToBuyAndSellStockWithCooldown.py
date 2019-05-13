@@ -13,11 +13,12 @@ prices = [1, 2, 3, 0, 2]
 maxProfit = 3
 transactions = [buy, sell, cooldown, buy, sell]
 """
-# https://soulmachine.gitbooks.io/algorithm-essentials/java/dp/best-time-to-buy-and-sell-stock-with-cooldown.html
-# two dp arrays
-# sell[i] is the max profit when there is no stock on the ith day
-# buy[i] is the max profit when there is stock on the ith day
+
 class Solution:
+    # https://soulmachine.gitbooks.io/algorithm-essentials/java/dp/best-time-to-buy-and-sell-stock-with-cooldown.html
+    # two dp arrays
+    # sell[i] is the max profit when the last trasaction is sell on the ith day
+    # buy[i] is the max profit when the last transaction is buy on the ith day
     def maxProfit(self, prices):
         """
         :type prices: List[int]
@@ -35,7 +36,6 @@ class Solution:
             buy[i] = max(buy[i-1], sell[i-2] - prices[i])
 
         return sell[-1]
-
 
 test_case = [1, 101, 99, 102]
 obj = Solution()

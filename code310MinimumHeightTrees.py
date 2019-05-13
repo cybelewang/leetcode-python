@@ -38,6 +38,7 @@ Note:
 
 (2) The height of a rooted tree is the number of edges on the longest downward path between the root and a leaf.
 """
+from collections import deque
 class Solution:
     # BFS, start from all leaves in a queue, put their connected nodes into the next level queue and disconnect them. Keep doing BFS if there are nodes with more than 1 connection
     # Finally, one or two nodes (connected) are what we want
@@ -76,6 +77,34 @@ class Solution:
 
         return leaves
 
+    # 2nd round solution on 5/13/2019
+    def findMinHeightTrees2(self, n, edges):
+        graph = [set() for _ in range(n)]   # graph[i] contains all nodes connected to node i
+        for i, j in edges:
+            graph[i].add(j)
+            graph[j].add(i)
+        
+        q = deque(i for i in range(n) if len(graph[i])==1)
+        while len(q) > 1:
+            m = len(q)
+            if m == 2:
+                # check if the two nodes are connected, if so, the two nodes are what we want
+                i, j = q[0], q[1]
+                if i in graph[j] and j in graph[i]:
+                    break
+
+            for _ in range(m):
+                i = q.popleft()
+                for j in graph[i]:
+                    #graph[i].remove(j) # should not modify a set during iteration
+                    graph[j].remove(i)
+                    if len(graph[j]) == 1:
+                        q.append(j)
+                graph[i].clear()
+        
+        return list(q)
+
 obj = Solution()
-edges = [[0,1],[1,2],[2,3],[0,4],[4,5],[4,6],[6,7]]
-print(obj.findMinHeightTrees(8, edges))
+n, edges = 8, [[0,1],[1,2],[2,3],[0,4],[4,5],[4,6],[6,7]]
+n, edges = 3, [[0, 1], [1, 2]]
+print(obj.findMinHeightTrees2(n, edges))
