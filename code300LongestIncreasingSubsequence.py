@@ -14,7 +14,7 @@ Follow up: Could you improve it to O(n log n) time complexity?
 from collections import deque
 from bisect import *
 class Solution:
-    # dp solution, time O(nlogn)
+    # binary search solution, time O(nlogn)
     # https://leetcode.com/problems/longest-increasing-subsequence/solution/
     def lengthOfLIS(self, nums):
         """

@@ -15,7 +15,7 @@ Note: Do not use the eval built-in library function.
 
 """
 class Solution:
-    # stack solution, when see a '(', push previous result and sign into stack, then start evaluating the expression within '()'.
+    # stack solution, when see a '(', push previous result and the sign before '('into stack, then evaluate the expression within '()'.
     # when seeing a ')', pop the previous result and sign out of stack, and continue evaluate the result
     # Be careful if a number is left in stack
     def calculate(self, s):

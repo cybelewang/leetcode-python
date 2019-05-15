@@ -20,13 +20,13 @@ class Solution:
         :rtype: str
         """
         rindex = {c: i for i, c in enumerate(s)}
-        result = ''
+        A = []
         for i, c in enumerate(s):
-            if c not in result:
-                while c < result[-1:] and i < rindex[result[-1]]:
-                    result = result[:-1]    # remove last result letter because it will appear in later position
-                result += c
-        return result        
+            if c not in A:
+                while A and c < A[-1] and i < rindex[A[-1]]:
+                    A.pop()    # remove last letter in A because it will appear in later position
+                A.append(c)
+        return ''.join(A)        
 
     # my own solution, in alphabet order, check if current letter's min position is <= remaining letters' most right positions, if yes, append this letter
     def __init__(self):
@@ -66,7 +66,7 @@ class Solution:
         
         return res
 
-test_cases = ['', 'a', 'aa', 'dcba', 'bcabc', 'cbacdcbc']
+test_cases = ['', 'a', 'aa', 'dcba', 'bcabc', 'cbacdcbc', 'zzddez']
 obj = Solution()
 for case in test_cases:
     print(case, end = ' -> ')
