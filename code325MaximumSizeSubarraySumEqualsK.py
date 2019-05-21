@@ -15,5 +15,19 @@ Follow Up:
 Can you do it in O(n) time?
 """
 class Solution:
-    def maxSubArrayLen(nums, k):
-        pass
+    # solution 2 from https://www.cnblogs.com/grandyang/p/5336668.html
+    # we don't need an accumulation list
+    # we don't need to iterate nums twice
+    def maxSubArrayLen(self, nums, k):
+        mem, res = {0:-1}, 0
+        _sum = 0
+        for i, num in enumerate(nums):
+            _sum += num
+            if _sum - k in mem:
+                res = max(res, i - mem[_sum-k])
+            mem.setdefault(_sum, i)
+        
+        return res
+
+nums, k = [1, -1, 5, -2, 3], 0
+print(Solution().maxSubArrayLen(nums, k))
