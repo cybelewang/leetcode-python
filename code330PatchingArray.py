@@ -23,19 +23,21 @@ Return 0.
 """
 class Solution:
     #https://leetcode.com/problems/patching-array/discuss/78488/Solution-+-explanation
+    # Let [0, upper) represents what we can get, then if we see a num <= upper, we should be able to reach [0, upper+num), 
+    # because we can get [upper, upper+num) by adding num to [upper-num, upper).
     def minPatches(self, nums, n):
         """
         :type nums: List[int]
         :type n: int
         :rtype: int
         """
-        miss, res, i = 1, 0, 0
-        while miss <= n:
-            if i < len(nums) and nums[i] <= miss:
-                miss += nums[i]
+        upper, res, i = 1, 0, 0
+        while upper <= n:
+            if i < len(nums) and nums[i] <= upper:
+                upper += nums[i]
                 i += 1
             else:
-                miss += miss
+                upper += upper
                 res += 1
         
         return res

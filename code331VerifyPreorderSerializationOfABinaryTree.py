@@ -31,10 +31,25 @@ Example 3:
 Return false
 """
 class Solution:
+    # similar to validating parentheses
+    # if using a stack, we push numbers to stack, when seeing a '#', then each '#' will pop its parent if '#' is left child, or one ancestor if '#' is right child. In summary, a '#' pops a number.
+    # so we don't need a stack, we can use a counter to track the unmatched '#' and numbers
+    def isValidSerialization(self, preorder):
+        A = preorder.split(',')
+        cnt = 0
+        for i in range(len(A)-1):
+            if A[i] == '#':
+                if cnt == 0:    return False
+                cnt -= 1
+            else:
+                cnt += 1
+        
+        return cnt == 0 and A[-1] == '#'
+
     # stack solution
     # push all values as False into stack, when the value is '#', we check if the last second is True, 
     # if so, we will pop last three to remove both left and right children, then append True
-    def isValidSerialization(self, preorder):
+    def isValidSerialization2(self, preorder):
         """
         :type preorder: str
         :rtype: bool

@@ -17,42 +17,42 @@ Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it
 """
 # TO DO: a better algorithm in https://leetcode.com/problems/reconstruct-itinerary/discuss/78768/Short-Ruby-Python-Java-C++
 
-
 # is there any duplicated travel. yes
 # this problem requires to use all the tickets' iteinerary
 # use DFS to find the itinerary and then return early
-from bisect import insort
+# better to use C++'s unordered_map<multiset<string>> to solve this problem. See C++'s solution
+from collections import defaultdict
 class Solution:
     def findItinerary(self, tickets):
         """
         :type tickets: List[List[str]]
         :rtype: List[str]
         """
-        def _dfs(dep_dst, need, res):
+        def dfs(graph, need, res):
             if need == 0:
                 return True
+            src = res[-1]
+            size = len(graph[src])  # because we modify the list, so we need to pre-calculate the number of loops
+            for dst in range(size):
+                dst = graph[src].pop(0)
+                res.append(dst)
+                if dfs(graph, need-1, res):
+                    return True
+                graph[src].append(dst)
+                res.pop()
+            
+            return False
 
-            start = res[-1]
-            if start in dep_dst and len(dep_dst[start]) > 0:
-                for dst in dep_dst[start]:
-                    res.append(dst)
-                    dep_dst[start].remove(dst)
-                    if _dfs(dep_dst, need-1, res):
-                        return True
-                    else:                        
-                        insort(dep_dst[start], res.pop())
-
-            return False                       
-
-        dep_dst = {}    # departure -> destination
-        for _from, _to in tickets:
-            if _from in dep_dst:
-                insort(dep_dst[_from], _to)
-            else:
-                dep_dst[_from] = [_to]
+        # main
+        graph = defaultdict(list)
+        for src, dst in tickets:
+            graph[src].append(dst)
+        
+        for src in graph:
+            graph[src].sort()
 
         res = ["JFK"]
-        _dfs(dep_dst, len(tickets), res)
+        dfs(graph, len(tickets), res) # if n = len(tickets), there are n + 1 nodes in res, and res already have 1
 
         return res
 
