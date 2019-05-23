@@ -16,7 +16,7 @@ Return ["JFK","ATL","JFK","SFO","ATL","SFO"].
 Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it is larger in lexical order.
 """
 # TO DO: a better algorithm in https://leetcode.com/problems/reconstruct-itinerary/discuss/78768/Short-Ruby-Python-Java-C++
-
+# don't understand solutions in https://www.cnblogs.com/grandyang/p/5183210.html
 # is there any duplicated travel. yes
 # this problem requires to use all the tickets' iteinerary
 # use DFS to find the itinerary and then return early
