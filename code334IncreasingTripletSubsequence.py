@@ -41,6 +41,18 @@ class Solution:
 
         return False
 
+    # wrong solution, cannot use stack to keep all increasing subsequence numbers
+    def increasingTriplet2(self, nums):
+        stack = []
+        for num in nums:
+            while stack and stack[-1] >= num:
+                stack.pop()
+            stack.append(num)
+            if len(stack) > 2:
+                return True
+        
+        return False
+
 test_case = [1, 2, 0, 0, 3]
 obj = Solution()
 print(obj.increasingTriplet(test_case))
