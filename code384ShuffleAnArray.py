@@ -20,7 +20,7 @@ solution.shuffle();
 """
 # Fisher–Yates shuffle Algorithm
 # https://www.geeksforgeeks.org/shuffle-a-given-array/
-from random import randint
+from random import randrange
 class Solution:
 
     def __init__(self, nums):
@@ -46,7 +46,7 @@ class Solution:
         o = self.output
         n = len(o)
         for i in range(n-1):
-            j = randint(i, n-1)
+            j = randrange(i, n)
             o[i], o[j] = o[j], o[i]
 
         return o

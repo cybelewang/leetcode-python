@@ -24,21 +24,32 @@ Explanation of Input Syntax:
 
 The input is two lists: the subroutines called and their arguments. Solution's constructor has one argument, the array w. pickIndex has no arguments. Arguments are always wrapped with a list, even if there aren't any.
 """
+from random import randrange
+from bisect import bisect_right
 class Solution:
 
     def __init__(self, w):
         """
         :type w: List[int]
         """
-        
+        self.board = []
+        self.upper = 0
+        for val in w:
+            self.upper += val
+            self.board.append(self.upper)
 
     def pickIndex(self):
         """
         :rtype: int
         """
-        
-
+        i = randrange(0, self.upper)    # randrange(a, b) will generate integer in range [a, b), excluding b
+        return bisect_right(self.board, i)
 
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(w)
 # param_1 = obj.pickIndex()
+obj = Solution([1, 3, 2])
+probability = [0, 0, 0]
+for i in range(10000):
+    probability[obj.pickIndex()] += 1
+print(probability)
