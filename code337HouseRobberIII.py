@@ -39,13 +39,13 @@ class Solution:
         :rtype: int
         """
         def _rob(root):
-            res = [0, 0]
+            res = [0, 0]    # res[0] means root not robbed, res[1] means root robbed
             if not root:
                 return res
 
             left, right = _rob(root.left), _rob(root.right)
-            res[0] = max(left) + max(right)
-            res[1] = root.val + left[0] + right[0]
+            res[0] = max(left) + max(right) # root not robbed, so add left child's max and right child's max, pitfall: should not be res[0] = left[1] + right[1]
+            res[1] = root.val + left[0] + right[0]  # root is robbed, so must add left child's not robbed result and right child's not robbed result
 
             return res
 

@@ -22,19 +22,19 @@ class Solution:
         if len(words) < 2:
             return res
         
-        word_index = {word:i for i, word in enumerate(words)}
+        index = {word:i for i, word in enumerate(words)}
         for i, word in enumerate(words):
             for j in range(len(word) + 1):
-                str1, str2 = word[:j], word[j:]
-                if self.isPalindrome(str1):
-                    rev_str2 = str2[::-1]
-                    if rev_str2 in word_index and word_index[rev_str2] != i:
-                        res.append([word_index[rev_str2], i])
+                left, right = word[:j], word[j:]
+                if self.isPalindrome(left):
+                    rev_right = right[::-1]
+                    if rev_right in index and index[rev_right] != i:
+                        res.append([index[rev_right], i])
                 
-                if len(str2) != 0 and self.isPalindrome(str2):  # pitfall here: check str2 != '' to avoid duplicates
-                    rev_str1 = str1[::-1]
-                    if rev_str1 in word_index and word_index[rev_str1] != i:
-                        res.append([i, word_index[rev_str1]])
+                if len(right) != 0 and self.isPalindrome(right):  # pitfall here: check right != '' to avoid duplicates
+                    rev_left = left[::-1]
+                    if rev_left in index and index[rev_left] != i:
+                        res.append([i, index[rev_left]])
 
         return res
 
