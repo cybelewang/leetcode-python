@@ -26,6 +26,7 @@ Target = 28
 
 Output: False
 """
+from TreeNode import *
 class Solution:
     # my solution, similar to two-pointer solution for a sorted array
     def findTarget(self, root, k):
@@ -95,3 +96,40 @@ class Solution:
             return left or right
 
         return helper(root, set(), k)
+
+    # 2nd round solution on 5/29/2019, use generator
+    def findTarget3(self, root, k):
+        def F(root):
+            """
+            in order generator, min to max
+            """
+            if root:
+                yield from F(root.left)
+                yield root
+                yield from F(root.right)
+        
+        def G(root):
+            """
+            reverse order generator, max to min
+            """
+            if root:
+                yield from G(root.right)
+                yield root
+                yield from G(root.left)
+
+        f, g = F(root), G(root)
+        left, right = next(f, None), next(g, None)
+        while left and right and left != right:
+            sum = left.val + right.val
+            if sum == k:
+                return True
+            elif sum < k:
+                left = next(f, None)
+            else:
+                right = next(g, None)
+        
+        return False
+
+root, k = ListToTree([5, 3, 6, 2, 4, None, 7]), 3
+PrintTree(root)
+print(Solution().findTarget3(root, k))
