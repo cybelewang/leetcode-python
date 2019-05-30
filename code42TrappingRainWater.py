@@ -46,6 +46,7 @@ def trap2(height):
     return result
 
 # 2nd round solution on 9/18/2018
+# Two pointers solution
 def trap3(height):
     if len(height) < 3:
         return 0
@@ -63,7 +64,19 @@ def trap3(height):
     
     return res
 
+# 3rd Stack solution on 5/30/2019
+def trap4(height):
+    stack, res = [], 0
+    for i, h in enumerate(height):
+        while stack and height[stack[-1]] <= h:
+            low = height[stack.pop()]
+            if stack:
+                res += (min(height[stack[-1]], h)-low)*(i-stack[-1]-1)
+        stack.append(i)
+    
+    return res
+
 test_cases = [[], [0, 1, 2, 3], [4, 3, 2, 1], [0, 0, 1, 0, 0], [0,1,0,2,1,0,1,3,2,1,2,1], [1, 2, 3, 4, 5, 0 ,2, 1, 6]]  
 for case in test_cases:
     print(case, end = ' -> ')
-    print(trap3(case))                                      
+    print(trap4(case))                                      
