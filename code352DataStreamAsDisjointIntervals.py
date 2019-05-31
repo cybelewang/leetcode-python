@@ -96,9 +96,41 @@ class SummaryRanges:
         """
         return self.intervals
 
+# 2nd round solution on 5/31/2019
+class SummaryRanges2:
+    def __init__(self):
+        self.data = []
+    
+    def addNum(self, val):
+        # find the insert position using binary search
+        i, j = 0, len(self.data)        
+        while i < j:
+            mid = (i + j)//2
+            if self.data[mid].end <= val:
+                i = mid + 1
+            else:
+                j = mid
 
-obj = SummaryRanges()
-test_list = [1, 0, 3, 7, 2, 6]
+        # insert new interval at position j
+        self.data.insert(j, Interval(val, val))
+
+        # merge interval j-1 and j, we consider only the merge scenario, and ignore the non-merge scenario because inserted interval will remain in j
+        if j > 0 and self.data[j-1].end + 1 >= val:
+            self.data[j-1].end = val
+            self.data.pop(j)
+            j -= 1
+
+        # merge interval j and j+1
+        if j + 1 < len(self.data) and val + 1 >= self.data[j+1].start:
+            self.data[j].end = self.data[j+1].end
+            self.data.pop(j+1)
+
+
+    def getIntervals(self):
+        return self.data
+
+obj = SummaryRanges2()
+test_list = [1, 0, 3, 7, 2, 6, 6]
 for num in test_list:
     obj.addNum(num)
     print(obj.getIntervals())
