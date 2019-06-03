@@ -13,17 +13,7 @@ Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10
 
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 """
-class Interval(object):
-    def __init__(self, s=0, e=0):
-        self.start = s
-        self.end = e
-
-    def __str__(self): # __str__ for printing single object
-        return '[' + str(self.start) + ', '+str(self.end) + ']'
-    
-    def __repr__(self): # __repr__ for printing this object in a iterable container
-        return self.__str__()
-
+from Interval import *
 class Solution(object):
     def insert(self, intervals, newInterval):
         """
@@ -63,11 +53,46 @@ class Solution(object):
                     newInterval.end = max(newInterval.end, e.end)
                     
         return res
+    # 2nd round solution on 6/2/2019
+    def insert2(self, intervals, newInterval):
+        # binary search to find the insert position
+        i, j = 0, len(intervals)
+        while i < j:
+            mid = (i + j)//2
+            if intervals[mid].start <= newInterval.start:
+                i = mid + 1
+            else:
+                j = mid
+        
+        # insert newInterval at position j
+        intervals.insert(j, newInterval)
 
+        # merge intervals[j-1] and intervals[j]
+        if j > 0 and intervals[j-1].end >= newInterval.start:
+            intervals[j-1].end = max(intervals[j-1].end, newInterval.end)
+            intervals.pop(j)
+            j -= 1
+        
+        # merge intervals[j] and intervals[j+1]
+        if j+1 < len(intervals) and intervals[j].end >= intervals[j+1].start:
+            intervals[j].end = max(intervals[j].end, intervals[j+1].end)
+            intervals.pop(j+1)
+
+        return intervals
 obj = Solution()
 case = [[1,2],[5,6],[8,10]]
 intervals = []
 for element in case:
-    intervals.append(Interval(element[0],element[1]))
+    intervals.append(Interval(*element))
 
-print(obj.insert(intervals, Interval(2,6)))
+print(obj.insert2(intervals, Interval(2,6)))
+
+"""
+Input
+[[1,2],[3,5],[6,7],[8,10],[12,16]]
+[4,8]
+Output
+[[1,2],[3,8],[8,10],[12,16]]
+Expected
+[[1,2],[3,10],[12,16]]
+"""

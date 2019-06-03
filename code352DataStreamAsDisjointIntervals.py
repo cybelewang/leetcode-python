@@ -97,6 +97,7 @@ class SummaryRanges:
         return self.intervals
 
 # 2nd round solution on 5/31/2019
+# wrong solution
 class SummaryRanges2:
     def __init__(self):
         self.data = []
@@ -106,7 +107,7 @@ class SummaryRanges2:
         i, j = 0, len(self.data)        
         while i < j:
             mid = (i + j)//2
-            if self.data[mid].end <= val:
+            if self.data[mid].start <= val:
                 i = mid + 1
             else:
                 j = mid
@@ -116,7 +117,7 @@ class SummaryRanges2:
 
         # merge interval j-1 and j, we consider only the merge scenario, and ignore the non-merge scenario because inserted interval will remain in j
         if j > 0 and self.data[j-1].end + 1 >= val:
-            self.data[j-1].end = val
+            self.data[j-1].end = max(val, self.data[j-1].end)
             self.data.pop(j)
             j -= 1
 
@@ -130,8 +131,9 @@ class SummaryRanges2:
         return self.data
 
 obj = SummaryRanges2()
-test_list = [1, 0, 3, 7, 2, 6, 6]
+test_list = [6,6,0,4,8,7,6,4,7,5]
 for num in test_list:
+    print(num, end = ' -> ')
     obj.addNum(num)
     print(obj.getIntervals())
 
