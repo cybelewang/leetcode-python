@@ -36,6 +36,54 @@ class Solution:
         
         return shots
 
+    # 2nd round solution on 6/3/2019
+    def findMinArrowShots2(self, points):
+        if not points:
+            return 0
+        # sort points based on end positions
+        points.sort(key = lambda x: x[1])
+        end, res = points[0][1], 1
+        for i in range(1, len(points)):
+            if points[i][0] > end:
+                end = points[i][1]
+                res += 1
+        
+        return res
+
+    # 3rd round solution on 6/3/2019, easier to understand
+    def findMinArrowShots3(self, points):
+        if not points:
+            return 0
+        points.sort()
+        s, e = points[0]    # s and e are the current arrow's shoot range
+        res = 1
+        for i in range(1, len(points)):
+            if points[i][0] <= e:
+                # save an arrow
+                s = max(s, points[i][0])
+                e = min(e, points[i][1])
+            else:
+                s, e = points[i]
+                res += 1
+        
+        return res
+
+    # from above solution we can see "s" is unused, so we just use single variable to track arrow's end
+    # also see https://www.cnblogs.com/grandyang/p/6050562.html
+    def findMinArrowShots4(self, points):
+        if not points:
+            return 0
+        points.sort()
+        end, res = points[0][1], 1
+        for i in range(1, len(points)):
+            if points[i][0] <= end:
+                end = min(end, points[i][1])
+            else:
+                res += 1
+                end = points[i][1]
+        
+        return res
+
 points = [[10,16], [2,8], [1,6], [7,12]]
 obj = Solution()
-print(obj.findMinArrowShots(points))
+print(obj.findMinArrowShots3(points))

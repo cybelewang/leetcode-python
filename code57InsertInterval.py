@@ -53,6 +53,7 @@ class Solution(object):
                     newInterval.end = max(newInterval.end, e.end)
                     
         return res
+
     # 2nd round solution on 6/2/2019
     def insert2(self, intervals, newInterval):
         # binary search to find the insert position
@@ -67,32 +68,20 @@ class Solution(object):
         # insert newInterval at position j
         intervals.insert(j, newInterval)
 
-        # merge intervals[j-1] and intervals[j]
-        if j > 0 and intervals[j-1].end >= newInterval.start:
-            intervals[j-1].end = max(intervals[j-1].end, newInterval.end)
-            intervals.pop(j)
-            j -= 1
-        
-        # merge intervals[j] and intervals[j+1]
-        if j+1 < len(intervals) and intervals[j].end >= intervals[j+1].start:
-            intervals[j].end = max(intervals[j].end, intervals[j+1].end)
-            intervals.pop(j+1)
+        # merge intervals, starting from j-1
+        i = j - 1 if j > 0 else 0   # corner case when the newInterval was inserted at the beginning of intervals
+        # merge until no overlap detected
+        while i + 1 < len(intervals) and intervals[i].end >= intervals[i+1].start:
+            intervals[i].end = max(intervals[i].end, intervals[i+1].end)
+            intervals.pop(i+1)
 
         return intervals
 obj = Solution()
-case = [[1,2],[5,6],[8,10]]
+case, new = [[1,2],[3,5],[6,7],[8,10],[12,16]], Interval(4,8)
+case, new = [[3, 5], [6,7], [8, 10], [12, 16]], Interval(1,6)
+case, new = [], Interval(1,3)
 intervals = []
 for element in case:
     intervals.append(Interval(*element))
 
-print(obj.insert2(intervals, Interval(2,6)))
-
-"""
-Input
-[[1,2],[3,5],[6,7],[8,10],[12,16]]
-[4,8]
-Output
-[[1,2],[3,8],[8,10],[12,16]]
-Expected
-[[1,2],[3,10],[12,16]]
-"""
+print(obj.insert2(intervals, new))

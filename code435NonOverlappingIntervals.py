@@ -54,10 +54,26 @@ class Solution:
 
         return res
 
+    # 2nd round solution on 6/3/2019, using a variable "end" to track currently selected end
+    def eraseOverlapIntervals2(self, intervals):
+        if not intervals:
+            return 0
+        
+        intervals.sort(key = lambda x: x.start)
+        end, res = intervals[0].end, 0
+        for i in range(1, len(intervals)):
+            if end > intervals[i].start:
+                end = min(end, intervals[i].end)
+                res += 1
+            else:
+                end = intervals[i].end
+        
+        return res
+
 #input = [[1,4],[2,3],[3,4]]
 #input = [ [1,2], [2,3], [3,4], [1,3] ]
 input = [ [1,2], [1,2], [1,2] ]
 intervals = [Interval(s, e) for (s, e) in input]
 
 obj = Solution()
-print(obj.eraseOverlapIntervals(intervals))
+print(obj.eraseOverlapIntervals2(intervals))
