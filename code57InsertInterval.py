@@ -68,18 +68,23 @@ class Solution(object):
         # insert newInterval at position j
         intervals.insert(j, newInterval)
 
-        # merge intervals, starting from j-1
-        i = j - 1 if j > 0 else 0   # corner case when the newInterval was inserted at the beginning of intervals
-        # merge until no overlap detected
-        while i + 1 < len(intervals) and intervals[i].end >= intervals[i+1].start:
-            intervals[i].end = max(intervals[i].end, intervals[i+1].end)
-            intervals.pop(i+1)
+        # merge j-1 and j if they overlap
+        if j > 0 and intervals[j-1].end >= intervals[j].start:
+            intervals[j-1].end = max(intervals[j-1].end, intervals[j].end)
+            intervals.pop(j)
+            j -= 1
+        
+        # continue merging until no overlap detected
+        while j + 1 < len(intervals) and intervals[j].end >= intervals[j+1].start:
+            intervals[j].end = max(intervals[j].end, intervals[j+1].end)
+            intervals.pop(j+1)
 
         return intervals
 obj = Solution()
 case, new = [[1,2],[3,5],[6,7],[8,10],[12,16]], Interval(4,8)
 case, new = [[3, 5], [6,7], [8, 10], [12, 16]], Interval(1,6)
 case, new = [], Interval(1,3)
+case, new = [[0,5],[9,12]], Interval(7,16)  # expect [[0, 5], [7, 16]]
 intervals = []
 for element in case:
     intervals.append(Interval(*element))
