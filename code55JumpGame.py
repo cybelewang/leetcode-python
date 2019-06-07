@@ -35,13 +35,18 @@ class Solution(object):
         
         return True
     def canJump2(self, nums):
+        # pre_end: the max achievable index in last leap
+        # end: the max achievable index in current leap
         pre_end, end, N = 0, 0, len(nums)-1
         i = 0
         while end < N:
+            # try all possible leaps to extend "end"
             while i <= pre_end:
                 end = max(end, i+nums[i])
                 i += 1
+            # check if end > pre_end
             if end == pre_end:
+                # we cannot go further
                 return False
             else:
                 pre_end = end
