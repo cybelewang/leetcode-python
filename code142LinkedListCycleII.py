@@ -45,7 +45,26 @@ class Solution(object):
 
         return slow
 
+    # 2nd round solution on 6/11/2019
+    def detectCycle2(self, head):
+        fast, slow = head, head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if fast == slow:
+                break
+        
+        if fast is None or fast.next is None:
+            return None
+        
+        fast = head
+        while fast != slow:
+            fast = fast.next
+            slow = slow.next
+        
+        return slow
+
 obj = Solution()
 l1 = ListNode(0)
 l1.fromList([1])
-obj.detectCycle(l1)
+print(obj.detectCycle2(l1))

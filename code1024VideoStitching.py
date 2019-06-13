@@ -64,7 +64,31 @@ class Solution:
         
         return -1
 
+    # easier to understand logic (onenote)
+    def videoStitching2(self, clips, T):
+        pre, t, count = 0, 0, 0
+        for s, e in sorted(clips):
+            if s <= pre:
+                # overlap with last selected clip
+                t = max(t, e)   # extend t as much as possible
+                if t >= T:
+                    return count + 1
+            else:
+                # not overlap with last selected clip
+                if s <= t:  # check if t was extended enough to reach s
+                    # update pre and count
+                    pre = t
+                    count += 1
+                    # need to process this clip
+                    t = max(t, e)
+                    if t >= T:
+                        return count + 1
+                else:
+                    return -1
+
+        return -1
+
 clips, T = [[0, 0]], 0  # expect 1
 clips, T = [[0,1],[1,2]], 5 # expect -1
 clips, T = [[0,1],[6,8],[0,2],[5,6],[0,4],[0,3],[6,7],[1,3],[4,7],[1,4],[2,5],[2,6],[3,4],[4,5],[5,7],[6,9]], 9 # expect 3
-print(Solution().videoStitching(clips, T))
+print(Solution().videoStitching2(clips, T))

@@ -64,20 +64,21 @@ def isMatch(s, p):
 
     for i in range(1, m+1):
         for j in range(1, n+1):
-            if p[j-1] != "." and p[j-1] != "*":
-                match[i][j] = match[i-1][j-1] and (s[i-1] == p[j-1])
-            elif p[j-1] == ".":
+            if p[j-1] == ".":
                 match[i][j] = match[i-1][j-1]
-            else:
+            elif p[j-1] == '*':
                 if j >= 2:  
-                    matchZeroOccurance = match[i][j-2]                  
+                    match0 = match[i][j-2]                  
                     if p[j-2] == ".":
-                        matchOnceOccurance = match[i][j-1]
-                        matchMultiOccurance = match[i-1][j] # "ab" matches ".*"
+                        match1 = match[i-1][j-2]
+                        matchN = match[i-1][j]
                     else:
-                        matchOnceOccurance = match[i][j-1] and (s[i-1] == p[j-2])
-                        matchMultiOccurance = match[i-1][j] and (s[i-1] == p[j-2])
-                    match[i][j] = matchZeroOccurance or matchOnceOccurance or matchMultiOccurance
+                        match1 = match[i-1][j-2] and (s[i-1] == p[j-2])
+                        matchN = match[i-1][j] and (s[i-1] == p[j-2])
+                    match[i][j] = match0 or match1 or matchN
+            else:
+                # normal character
+                match[i][j] = match[i-1][j-1] and (s[i-1] == p[j-1])
 
     return match[m][n]  
             

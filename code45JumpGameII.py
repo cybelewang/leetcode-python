@@ -37,8 +37,25 @@ def jump(nums):
 
     return steps + 1 # bug fixed: use steps + 1 otherwise we missed the last step because t >= n - 1
 
+# 2nd round solution on 6/7/2019, similar to 55 Jump Game
+def jump2(nums):
+    pre_end, end, N = 0, 0, len(nums)-1
+    i, steps = 0, 0
+    while end < N:
+        while i <= pre_end:
+            end = max(end, i + nums[i])
+            i += 1
+        
+        if end == pre_end:
+            return -1
+        else:
+            pre_end = end
+            steps += 1
+    
+    return steps
+
 test_cases = [[],[1],[1,1,1,1],[5, 1, 1, 3, 9, 11],[1,1,0],[2,3,1,1,4]]
 
 for case in test_cases:
     print(case, end = ' -> ')
-    print(jump(case))
+    print(jump2(case))

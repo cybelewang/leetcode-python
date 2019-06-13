@@ -34,9 +34,27 @@ class Solution(object):
                 max_s = temp
         
         return True
+    def canJump2(self, nums):
+        # pre_end: the max achievable index in last leap
+        # end: the max achievable index in current leap
+        pre_end, end, N = 0, 0, len(nums)-1
+        i = 0
+        while end < N:
+            # try all possible leaps to extend "end"
+            while i <= pre_end:
+                end = max(end, i+nums[i])
+                i += 1
+            # check if end > pre_end
+            if end == pre_end:
+                # we cannot go further
+                return False
+            else:
+                pre_end = end
+        
+        return True
 
 test_cases = [[],[0],[1],[2,3,1,1,4],[3, 2, 1, 0, 4],[1,1,1,1,0],[1,0,3,2],[5,0,0,0,0,0]]
 obj = Solution()
 for case in test_cases:
     print(case, end = ' -> ')
-    print(obj.canJump(case))
+    print(obj.canJump2(case))

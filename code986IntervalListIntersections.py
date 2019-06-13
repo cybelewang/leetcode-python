@@ -18,14 +18,7 @@ Note:
 0 <= B.length < 1000
 0 <= A[i].start, A[i].end, B[i].start, B[i].end < 10^9
 """
-# Definition for an interval.
-class Interval:
-    def __init__(self, s=0, e=0):
-        self.start = s
-        self.end = e
-    def __repr__(self):
-        return "[{}, {}]".format(self.start, self.end)
-
+from Interval import *
 class Solution:
     # https://leetcode.com/problems/interval-list-intersections/solution/
     # better to understand

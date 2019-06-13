@@ -12,7 +12,7 @@ Can you solve it without using extra space?
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
+from ListNode import *
 class Solution(object):
     def hasCycle(self, head):
         """
@@ -37,7 +37,18 @@ class Solution(object):
 
         return False
 
+    # 2nd round solution on 6/10/2019
+    def hasCycle2(self, head):
+        fast, slow = head, head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if fast == slow:
+                return True
+        
+        return False
+
 obj = Solution()
-l1 = ListNode(0)
-l1.fromList([1])
-print(obj.hasCycle(l1))
+l1 = CreateLinkedList([1, 2])
+#l1.fromList([1])
+print(obj.hasCycle2(l1))
