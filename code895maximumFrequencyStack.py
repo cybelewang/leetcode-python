@@ -61,3 +61,9 @@ class FreqStack(object):
             self.maxfreq -= 1
         
         return x
+
+obj = FreqStack()
+for x in [5, 7, 5, 7, 4, 5]:
+    obj.push(x)
+for _ in range(6):
+    print(obj.pop())
