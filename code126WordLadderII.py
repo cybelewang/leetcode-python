@@ -111,6 +111,19 @@ class Solution2:
         wordSet = set(wordList)
         q = deque([beginWord])
         build = []
+        pre = {}
+        while q:
+            n = len(q)
+            for _ in range(n):
+                src = q.popleft()
+                a = list(src)
+                for i in range(len(a)):
+                    for c in letters:
+                        a[i] = c
+                        s = ''.join(a)
+                        if s != src and s in wordSet:
+                            
+
         
 
 obj = Solution()
