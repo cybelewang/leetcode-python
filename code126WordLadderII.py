@@ -26,11 +26,8 @@ UPDATE (2017/1/20):
 The wordList parameter had been changed to a list of strings (instead of a set of strings). Please reload the code definition to get the latest changes.
 """
 # shortest parth problem of a graph
+from collections import deque, defaultdict
 class Solution(object):
-    def __init__(self):
-        self.link = {}   # current node: parent node
-        self.res = []
-        self.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     def findLadders(self, beginWord, endWord, wordList):
         """
         :type beginWord: str
@@ -38,93 +35,64 @@ class Solution(object):
         :type wordList: List[str]
         :rtype: List[List[str]]
         """
-        # initially set all graphic nodes' steps to MAX_INT
         MAX_INT = 2**31 - 1
-        minSteps = MAX_INT
+        alphabet = list(map(chr, range(ord('a'), ord('z')+1)))    # a to z
 
+        res, link = [], defaultdict(list)
         ladder = {} # cache each node's steps
+        minSteps = MAX_INT
 
         # initialize all nodes' steps to MAX_INT except the begin word
         for word in wordList:
             ladder[word] = MAX_INT
         ladder[beginWord] = 0
 
-        queue = [beginWord]
-        while len(queue) > 0:
-            print(queue)
-            new_queue = []      # queue for next level
-            for word in queue:  # iterate all words in current level queue           
+        # BFS
+        queue = deque([beginWord])
+        while queue:
+            n = len(queue)
+            for _ in range(n):
+                word = queue.popleft()
                 steps = ladder[word] + 1    # steps of strings which are next level neighbors of word
 
                 if steps > minSteps:    # exit BFS if the endWord has already been found, in this case, do not loop to next level 
+                    queue.clear()
                     break
                 
                 for i in range(len(word)):
-                    array = list(word)
-                    for letter in self.alphabet:
+                    for letter in alphabet:
+                        array = list(word)
                         array[i] = letter
                         new_word = ''.join(array)   # generate the new word by replacing one letter of the word each time
-                        if new_word in ladder:
-                            if steps > ladder[new_word]:
-                                continue
-                            elif steps < ladder[new_word]:
-                                new_queue.append(new_word)  # always use the shortest path new_word
-                                ladder[new_word] = steps    # always use the least steps
+                        if new_word in ladder and ladder[new_word] > steps:
+                            queue.append(new_word)  # always use the shortest path new_word
+                            ladder[new_word] = steps    # always use the least steps
                             
                             # link child node with parent node by using a map
-                            if new_word in self.link:
-                                self.link[new_word].append(word)
-                            else:
-                                new_list = [word]
-                                self.link[new_word] = new_list
+                            link[new_word].append(word)
                             
                             # this is the result in word ladder I
                             if new_word == endWord:
                                 minSteps = steps
-            # update queue to next level queue
-            queue = new_queue
 
-        # build list by back tracking self.link
+        # build list by back tracking link
         build = []
-        self.backTrace(endWord, beginWord, build)
+        self.backTrace(endWord, beginWord, link, build, res)
 
-        return self.res
+        return res
 
 
-    def backTrace(self, word, beginWord, build):
+    def backTrace(self, word, beginWord, link, build, res):
         if word == beginWord:
             build.insert(0, beginWord)
-            self.res.append(build[:])
+            res.append(build[:])
             build.remove(beginWord)
             return
         build.insert(0, word)
-        if word in self.link:
-            for s in self.link[word]:
-                self.backTrace(s, beginWord, build)
+        if word in link:
+            for s in link[word]:
+                self.backTrace(s, beginWord, link, build, res)
         build.remove(word)
-
-# 2nd round solution on 9/14/2018
-from collections import deque
-class Solution2:
-    letters = map(chr, range(ord('a'), ord('z')+1))
-    def findLadders(self, beginWord, endWord, wordList):
-        wordSet = set(wordList)
-        q = deque([beginWord])
-        build = []
-        pre = {}
-        while q:
-            n = len(q)
-            for _ in range(n):
-                src = q.popleft()
-                a = list(src)
-                for i in range(len(a)):
-                    for c in letters:
-                        a[i] = c
-                        s = ''.join(a)
-                        if s != src and s in wordSet:
-                            
-
-        
 
 obj = Solution()
 beginWord = "rat"
