@@ -25,9 +25,6 @@ class Solution:
             i += 1
 
         res = sum(1 for x in prime[2:] if x)
-        # for i in range(2, n):
-        #     if prime[i]:
-        #         res += 1
 
         return res
 

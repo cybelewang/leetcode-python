@@ -47,6 +47,14 @@ class Solution(object):
             ladder[word] = MAX_INT
         ladder[beginWord] = 0
 
+        # generator for next word
+        def G(word):
+            for i in range(len(word)):
+                for letter in alphabet:
+                    array = list(word)
+                    array[i] = letter
+                    yield ''.join(array)   # generate the new word by replacing one letter of the word each time
+
         # BFS
         queue = deque([beginWord])
         while queue:
@@ -59,25 +67,32 @@ class Solution(object):
                     queue.clear()
                     break
                 
-                for i in range(len(word)):
-                    for letter in alphabet:
-                        array = list(word)
-                        array[i] = letter
-                        new_word = ''.join(array)   # generate the new word by replacing one letter of the word each time
-                        if new_word in ladder and ladder[new_word] > steps:
-                            queue.append(new_word)  # always use the shortest path new_word
-                            ladder[new_word] = steps    # always use the least steps
-                            
-                            # link child node with parent node by using a map
-                            link[new_word].append(word)
-                            
-                            # this is the result in word ladder I
-                            if new_word == endWord:
-                                minSteps = steps
+                for new_word in G(word):
+                    if new_word in ladder and ladder[new_word] > steps:
+                        queue.append(new_word)  # always use the shortest path new_word
+                        ladder[new_word] = steps    # always use the least steps
+                        
+                        # link child node with parent node by using a map
+                        link[new_word].append(word)
+                        
+                        # this is the result in word ladder I
+                        if new_word == endWord:
+                            minSteps = steps
+
+        # DFS to backtrack the word ladder
+        def dfs(build, startWord, link, res):
+            word = build[-1]
+            if word == startWord:
+                res.append(build[::-1])
+                return
+            for neighbor in link[word]:
+                build.append(neighbor)
+                dfs(build, startWord, link, res)
+                build.pop()
 
         # build list by back tracking link
-        build = []
-        self.backTrace(endWord, beginWord, link, build, res)
+        build = [endWord]
+        dfs(build, beginWord, link, res)
 
         return res
 
