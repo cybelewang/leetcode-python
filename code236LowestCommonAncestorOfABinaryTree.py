@@ -28,6 +28,7 @@ p and q are different and both values will exist in the binary tree.
 from TreeNode import *
 class Solution(object):
     # recursive solution
+    # https://www.cnblogs.com/grandyang/p/4641968.html
     def lowestCommonAncestor(self, root, p, q):
         """
         :type root: TreeNode
@@ -48,7 +49,7 @@ class Solution(object):
         if left and right:
             return root
         else:
-            return root
+            return left or right
     
     # 2nd round solution on 2/22/2019
     def lowestCommonAncestor2(self, root, p, q):

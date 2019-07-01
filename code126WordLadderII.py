@@ -28,7 +28,55 @@ The wordList parameter had been changed to a list of strings (instead of a set o
 # shortest parth problem of a graph
 from collections import deque, defaultdict
 class Solution(object):
+    # https://www.cnblogs.com/grandyang/p/4548184.html
+    # https://leetcode.com/problems/word-ladder-ii/discuss/40434/C%2B%2B-solution-using-standard-BFS-method-no-DFS-or-backtracking
     def findLadders(self, beginWord, endWord, wordList):
+        MAX_INT = 2**31 - 1
+        alphabet = list(map(chr, range(ord('a'), ord('z')+1)))    # a to z
+
+        # generator for next word
+        def G(word):
+            for i in range(len(word)):
+                for letter in alphabet:
+                    array = list(word)
+                    array[i] = letter
+                    yield ''.join(array)   # generate the new word by replacing one letter of the word each time
+
+        res, wordDict, p = [], set(wordList), [beginWord]
+        paths = deque([p])
+
+        level, minLevel = 1, MAX_INT
+        words = set()
+
+        # BFS, but queue paths instead of words
+        while paths:
+            t = paths.popleft()
+
+            if len(t) > level:
+                for w in words:
+                    wordDict.remove(w)
+                words.clear()
+                level = len(t)
+                if level > minLevel:
+                    break
+            
+            last = t[-1]
+            for newLast in G(last):
+                if newLast not in wordDict:
+                    continue
+                words.add(newLast)
+                nextPath = t[:]
+                nextPath.append(newLast)
+
+                if newLast == endWord:
+                    res.append(nextPath)
+                    minLevel = level
+                else:
+                    paths.append(nextPath)
+
+        return res
+
+    def findLadders_WRONG(self, beginWord, endWord, wordList):
         """
         :type beginWord: str
         :type endWord: str
@@ -68,7 +116,7 @@ class Solution(object):
                     break
                 
                 for new_word in G(word):
-                    if new_word in ladder and ladder[new_word] > steps:
+                    if new_word in ladder and ladder[new_word] >= steps:
                         queue.append(new_word)  # always use the shortest path new_word
                         ladder[new_word] = steps    # always use the least steps
                         
@@ -97,20 +145,10 @@ class Solution(object):
         return res
 
 
-    def backTrace(self, word, beginWord, link, build, res):
-        if word == beginWord:
-            build.insert(0, beginWord)
-            res.append(build[:])
-            build.remove(beginWord)
-            return
-        build.insert(0, word)
-        if word in link:
-            for s in link[word]:
-                self.backTrace(s, beginWord, link, build, res)
-        build.remove(word)
-
 obj = Solution()
-beginWord = "rat"
-endWord = "pen"
-wordList = ["rat","pen","pan","pet","pat","ran"]
+beginWord, endWord, wordList = "hit", "cog", ["hot","dot","dog","lot","log","cog"]
+#beginWord = "rat"
+#endWord = "pen"
+#wordList = ["rat","pen","pan","pet","pat","ran"]
+#beginWord, endWord, wordList = "red", "tax", ["ted","tex","red","tax","tad","den","rex","pee"]
 print(obj.findLadders(beginWord,endWord, wordList))
