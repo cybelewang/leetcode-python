@@ -29,6 +29,12 @@ class Solution:
         
         return -1
 
+# alternative solution in C++, one pass
+# use a LRUCache-like data strucutre, a dict maps character to a doubly-linked list node
+# when a new character is seen, append it to the tail of linked list
+# when an existing character is seen, remove it from linked list, and set map value to NULL
+# the result will be the begin node in the linked list
+
 test_cases = ['leetcode', 'loveleetcode']
 for case in test_cases:
     print(Solution().firstUniqChar(case))

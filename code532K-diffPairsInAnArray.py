@@ -22,6 +22,7 @@ The pairs (i, j) and (j, i) count as the same pair.
 The length of the array won't exceed 10,000.
 All the integers in the given input belong to the range: [-1e7, 1e7].
 """
+import unittest
 from collections import Counter
 class Solution:
     # my own solution: (fixed a bug: there is a test case of k = -1)
@@ -42,7 +43,36 @@ class Solution:
             res = len([x for x in count if count[x] > 1])
         
         return res
+    
+    # 2nd round solution on 7/1/2019
+    def findPairs2(self, nums, k):
+        if not nums or k < 0:
+            return 0
+        
+        count, res = {}, 0
+        for num in nums:
+            res += count.get(num + k, 0)
+            if k > 0:
+                res += count.get(num - k, 0)
+            count[num] = count.get(num, 0) + 1
+        
+        return res
+
+class Test532(unittest.TestCase):
+    def __init__(self):
+        self.obj = Solution()
+
+    def test_empty(self):
+        self.assertEqual(self.obj.findPairs2([], 0), 0)
+        self.assertEqual(self.obj.findPairs2([], -1), 0)
+        self.assertEqual(self.obj.findPairs2([], -1), 0)
+        self.assertEqual(self.obj.findPairs2([1, 2], -1), 0)
+
+
+# run unit test
+if __name__ == '__main__':
+    unittest.main()
 
 nums = [1, 2, 3, 4, 5]
-k = -1
-print(Solution().findPairs(nums, k))
+k = 2
+print(Solution().findPairs2(nums, k))
