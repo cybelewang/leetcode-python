@@ -27,6 +27,7 @@ Input: "x=x+2"
 Output: "No solution"
 """
 # similar problems: 224, 227 calculator
+import re
 class Solution:
     def solveEquation_OJBest(self, equation):
         """
