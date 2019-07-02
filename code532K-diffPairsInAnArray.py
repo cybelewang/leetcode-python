@@ -45,6 +45,7 @@ class Solution:
         return res
     
     # 2nd round solution on 7/1/2019
+    # wrong because the problem requires "unique" diff-k pairs
     def findPairs2(self, nums, k):
         if not nums or k < 0:
             return 0
@@ -58,21 +59,24 @@ class Solution:
         
         return res
 
-class Test532(unittest.TestCase):
-    def __init__(self):
-        self.obj = Solution()
-
+class Test(unittest.TestCase):
     def test_empty(self):
-        self.assertEqual(self.obj.findPairs2([], 0), 0)
-        self.assertEqual(self.obj.findPairs2([], -1), 0)
-        self.assertEqual(self.obj.findPairs2([], -1), 0)
-        self.assertEqual(self.obj.findPairs2([1, 2], -1), 0)
+        obj = Solution()
+        self.assertEqual(obj.findPairs([], 0), 0)
+        self.assertEqual(obj.findPairs([], -1), 0)
+        self.assertEqual(obj.findPairs([], -1), 0)
+        self.assertEqual(obj.findPairs([1, 2], -1), 0)
 
+    def test_small(self):
+        obj = Solution()
+        self.assertEqual(obj.findPairs([1, 2, 3, 4, 5], 1), 4)
+        self.assertEqual(obj.findPairs([1,2,3,4,5], 2), 3)
+        self.assertEqual(obj.findPairs([3,1,4,1,5],2), 2)
+
+    def test_k0(self):
+        obj = Solution()
+        self.assertEqual(obj.findPairs([1, 3, 1, 2, 5], 0), 1)
 
 # run unit test
 if __name__ == '__main__':
     unittest.main()
-
-nums = [1, 2, 3, 4, 5]
-k = 2
-print(Solution().findPairs2(nums, k))
