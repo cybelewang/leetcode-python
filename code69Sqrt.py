@@ -7,6 +7,7 @@ Compute and return the square root of x.
 
 """
 # Ask cases: -1, not n^2
+import unittest
 class Solution(object):
     def mySqrt(self, x):
         """
@@ -28,6 +29,38 @@ class Solution(object):
                 i = mid + 1
         
         return mid if mid**2 < x else mid - 1
+
+# 2nd round solution on 7/3/2019
+class Solution2(object):
+    def mySqrt(self, x):
+        if x < 0:
+            return x
+        
+        left, right = 0, x+1
+        while left < right:
+            mid = (left + right)//2
+            if mid*mid < x:
+                left = mid + 1
+            else:
+                right = mid
+        
+        return right if right*right == x else 'NA'
+
+obj = Solution2()
+class Test(unittest.TestCase):
+    def test_negative(self):
+        self.assertEqual(obj.mySqrt(-1), -1)
+
+    def test_zero(self):
+        self.assertEqual(obj.mySqrt(0), 0)
+
+    def test_positive(self):
+        self.assertEqual(obj.mySqrt(1), 1)
+        self.assertEqual(obj.mySqrt(3), 'NA')
+        self.assertEqual(obj.mySqrt(4), 2)
+
+if __name__ == '__main__':
+    unittest.main(exit=False)
 
 test_cases = [0, 1, 4, 9, 37, 144]
 obj = Solution()

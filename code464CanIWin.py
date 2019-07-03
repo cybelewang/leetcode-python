@@ -53,7 +53,7 @@ class Solution:
             for i in range(0, maxChoosableInteger):
                 cur = 1 << i
                 if (cur & used) == 0:
-                    # i has not been used
+                    # i+1 has not been used
                     if remain <= i+1 or not dfs(remain-i-1, used | cur, mem):
                         mem[used] = True
                         return True

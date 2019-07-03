@@ -84,6 +84,7 @@ class Solution(object):
         def dfs(node, leaves):
             if node:
                 if not node.left and not node.right:
+                    # check if this leaf appeared in left or right arrays
                     if (left and node == left[-1]) or (right and node == right[-1]):
                         pass
                     else:

@@ -110,7 +110,7 @@ class Solution:
         row, col = 0, 0
         steps = 0
         for h, i, j in trees:
-            cnt = self.bfs_OJ(forest, row, col, i, j)
+            cnt = self.bfs(forest, row, col, i, j)
             if cnt == -1:
                 return -1
             else:
@@ -152,4 +152,4 @@ class Solution:
 
 
 forest = [ [1,2,3], [0,0,4], [7,6,5] ]
-print(Solution().cutOffTree_OJAccepted(forest))
+print(Solution().cutOffTree(forest))
