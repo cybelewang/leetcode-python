@@ -36,7 +36,7 @@ Output: 1
 class Solution(object):
     # help from http://www.cnblogs.com/grandyang/p/7669088.html
     # dp[i] is number of combinations for amount i
-    # first iterate coin, then for each coin add all possible amount
+    # first iterate coin, then for each coin add all possible amount, this results an increasing sequence of coins, such as 1 + 1 + 2 + 2 + 5, and avoid duplicated combinations such as 2 + 1 + 5 + 1 + 2
     # for loop sequence is different from 1st trial
     # this is a 1-D space DP solution, it can be derived from knapsack method, which uses 2-D space:
     # https://leetcode.com/problems/coin-change-2/discuss/99212/Knapsack-problem-Java-solution-with-thinking-process-O(nm)-Time-and-O(m)-Space
@@ -55,7 +55,7 @@ class Solution(object):
 
         return dp[amount]
         
-    # 1st trial, wrong solution, overlapping cases
+    # 1st trial, wrong solution, overlapping cases, for example, 1+2, 2+1 should be treated as one combination
     def change_Wrong(self, amount, coins):
         """
         :type amount: int
@@ -76,4 +76,4 @@ class Solution(object):
 
 amount = 5
 coins = [1, 2, 5]
-print(Solution().change(amount, coins))
+print(Solution().change_Wrong(amount, coins))
