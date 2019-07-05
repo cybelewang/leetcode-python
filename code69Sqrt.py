@@ -44,7 +44,7 @@ class Solution2(object):
             else:
                 right = mid
         
-        return right if right*right == x else 'NA'
+        return right if right*right == x else right-1
 
 obj = Solution2()
 class Test(unittest.TestCase):
@@ -56,7 +56,7 @@ class Test(unittest.TestCase):
 
     def test_positive(self):
         self.assertEqual(obj.mySqrt(1), 1)
-        self.assertEqual(obj.mySqrt(3), 'NA')
+        self.assertEqual(obj.mySqrt(8), 2)
         self.assertEqual(obj.mySqrt(4), 2)
 
 if __name__ == '__main__':
