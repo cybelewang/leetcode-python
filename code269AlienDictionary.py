@@ -43,6 +43,7 @@ You may assume that if a is a prefix of b, then a must appear before b in the gi
 If the order is invalid, return an empty string.
 There may be multiple valid order of letters, return any one of them is fine.
 """
+import unittest
 from collections import defaultdict, deque
 class Solution:
     # my own solution using lexicorgraphical comparison and topological order
@@ -83,8 +84,17 @@ class Solution:
         else:
             return ''.join(order)
 
-words = [] # expect ''
-words = ['z', 'x', 'z'] # expect ''
-words = ['a', 'ac', 'acb']  # expect any order of 'abc'
-words = ["wrt", "wrf", "er", "ett", "rftt"] # expect 'wertf'
-print(Solution().alienOrder(words))
+obj = Solution()
+class Test(unittest.TestCase):
+    def test_empty(self):
+        self.assertEqual(obj.alienOrder([]), '')
+    
+    def test_invalid(self):
+        self.assertEqual(obj.alienOrder(['z', 'x', 'z']), '')
+
+    def test_smallsets(self):
+        self.assertEqual(sorted(obj.alienOrder(['a', 'ac', 'acb'])), sorted('acb')) # expect any order of "abc"
+        self.assertEqual(obj.alienOrder(["wrt", "wrf", "er", "ett", "rftt"]), 'wertf')
+
+if __name__ == '__main__':
+    unittest.main(exit = False)

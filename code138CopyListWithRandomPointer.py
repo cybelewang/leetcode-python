@@ -25,28 +25,24 @@ class Solution(object):
         res = copy
 
         origin = head
-        link = {origin: copy}
+        link = {origin: copy, None:None}
 
         while origin:
             # copy "next"
             if origin.next in link:
                 copy.next = link[origin.next]
-            elif origin.next is not None:
+            else:
                 new_node = RandomListNode(origin.next.label)
                 copy.next = new_node
                 link[origin.next] = new_node
-            else:
-                copy.next = None
 
             # copy "random"
             if origin.random in link:
                 copy.random = link[origin.random]
-            elif origin.random is not None:
+            else:
                 new_node = RandomListNode(origin.random.label)
                 copy.random = new_node
                 link[origin.random] = new_node
-            else:
-                copy.random = None
 
             # advance iterators
             origin = origin.next
