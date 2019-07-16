@@ -43,22 +43,20 @@ Output: -2147483648
 Explanation: The number "-91283472332" is out of the range of a 32-bit signed integer.
              Thefore INT_MIN (−231) is returned.
 """
+import unittest
 def myAtoi(str):
     """
     :type str: str
     :rtype: int
     """
+    # trim white spaces
+    str = str.strip()
+    
     l = len(str)
-    i, j = 0, 0
-    # skip the leading white spaces
-    while i < l:
-        if str[i] == ' ':
-            i += 1
-        else:
-            break
-    # all white spaces
-    if i == l:
+    if l == 0:
         return 0
+
+    i = 0
     # parse the sign
     # there may be multiple signs, like "+--"
     Is_Negative = False
@@ -68,7 +66,7 @@ def myAtoi(str):
     elif str[i] == "+":
         Is_Negative = False
         i += 1
-    elif str[i] >= "0" and str[i] <= "9":
+    elif str[i].isdigit():
         Is_Negative = False
     else:
         return 0    
@@ -78,7 +76,7 @@ def myAtoi(str):
     result = 0
     # next parse the numbers
     while i < l:
-        if str[i] >= '0' and str[i] <= '9':
+        if str[i].isdigit():
             result = result * 10 + ord(str[i]) - ord('0');
             if Is_Negative and result > MAX_NEGATIVE_INTEGER:
                 return -MAX_NEGATIVE_INTEGER # exceed the 32-bit negative integer limit, return the most negative integer
@@ -94,7 +92,23 @@ def myAtoi(str):
     
     return result
 
+class Test(unittest.TestCase):
+    def test_1(self):
+        self.assertEqual(myAtoi(''), 0)
+        self.assertEqual(myAtoi('abc'), 0)
+        self.assertEqual(myAtoi('+0'), 0)
+        self.assertEqual(myAtoi('-0'), 0)
+        self.assertEqual(myAtoi('-12 34'), -12)
+        self.assertEqual(myAtoi('-0012'), -12)
+        self.assertEqual(myAtoi('123'), 123)
+        self.assertEqual(myAtoi('2147483648'), 2147483647)
+        self.assertEqual(myAtoi('2147483647'), 2147483647)
+        self.assertEqual(myAtoi('-2147483648'), -2147483648)
+        self.assertEqual(myAtoi( "-91283472332"), -2147483648)
+        self.assertEqual(myAtoi('+-2'), 0)
+        self.assertEqual(myAtoi('  2  '), 2)
+        self.assertEqual(myAtoi("4193 with words"), 4193)
+        self.assertEqual(myAtoi("words and 987"), 0)
 
-test_case = ["", "abc", "+0", "-0", "-12 34", "-0012" ,"123","2147483648","2147483647","-2147483648", "+-2"]
-for s in test_case:
-    print(myAtoi(s))
+if __name__ == '__main__':
+    unittest.main(exit = False)
