@@ -20,9 +20,37 @@ Answer: "abacabcd"
 Another possible answer is: "abcabcda"
 The same letters are at least distance 2 from each other.
 """
+from collections import Counter
+from heapq import heappush, heappop
 class Solution:
     def rearrangeString(self, s, k):
         """
         rtype: str
         """
+        if k == 0:
+            return s
         
+        m, n = Counter(s), len(s)
+        heap = []
+        for char in m:
+            heappush(heap, [-m[char], char])
+        
+        res = ''
+        while heap:
+            v, cnt = [], min(k, n)
+            for i in range(cnt):
+                if not heap:
+                    return ""
+                t = heappop(heap)
+                res += t[1]
+                t[0] += 1
+                if t[0] < 0:
+                    v.append(t)
+                n -= 1
+            for a in v:
+                heappush(heap, a)
+
+        return res
+
+s, k = "aabbcc", 3        
+print(Solution().rearrangeString(s, k))
