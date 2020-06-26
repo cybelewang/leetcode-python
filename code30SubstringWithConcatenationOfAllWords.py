@@ -20,6 +20,8 @@ For each series, we just need to check if there exist a range [l, r) where the o
 
 collections.Counter class may save a bit of code on updating the counts of the dictionary. However plain dict wins on the speed.
 """
+import unittest
+from collections import Counter
 def _findSubstring(l, r, n, k, t, s, req, ans):
     curr = {}
     while r + k <= n:
@@ -90,41 +92,36 @@ def findSubstring4(l, n , k, t, s, req, ans):
         l += k
         r = l + t
 
-# TLE solution
+# revisited on 1/10/2020
 def findSubstring2(s, words):
     """
     :type s: str
     :type words: List[str]
     :rtype: List[int]
     """
-    result = []
+    if not s or not words:
+        return []
 
-    if len(words) == 0:
-        return result
-
-    standard = {}
-    for word in words:
-        if word in standard:
-            oldValue = standard[word]
-            standard[word] = oldValue + 1
-        else:
-            standard[word] = 1
+    count, res = Counter(words), []
     m = len(words[0])
-    l = m*len(words)
-    for i in range(len(s) - l + 1):
-        my_dict = {}
-        for j in range(i, i + l, m):
-            sub = s[j:j+m]
-            if sub in my_dict:
-                oldValue = my_dict[sub]
-                my_dict[sub] = oldValue + 1
-            else:
-                my_dict[sub] = 1
-        if my_dict == standard:
-            result.append(i)
+    n = m*len(words)
+    for i in range(len(s) - n + 1):
+        subCnt = Counter()
+        for j in range(i, i + n, m):
+            ss = s[j:j+m]
+            subCnt[ss] += 1
+            if subCnt[ss] > count[ss]:
+                break
+        else:
+            res.append(i)
     
-    return result
+    return res
 
-s = "wordgoodgoodgoodbestword"
-words = ["word","good","best","good"]            
-print(findSubstring3(s, words))
+class Test(unittest.TestCase):
+    def test_1(self):
+        s = "wordgoodgoodgoodbestword"
+        words = ["word","good","best","good"]
+        self.assertEqual(findSubstring2(s, words), [8])
+
+if __name__ == "__main__":
+    unittest.main(exit = False)

@@ -96,11 +96,11 @@ class Solution(object):
             elif nums[j] == 2:
                 nums[j], nums[k] = nums[k], nums[j]
                 k -= 1
-                j -= 1  # need to check nums[j] in next while loop because nums[j] could be 0 after swap
+                j -= 1  # trick: need to check nums[j] in next while loop because nums[j] could be 0 after swap
             
             j += 1
 
-    # smart solution!
+    # smart solution! Can be extended to N colors (N is a limited number)
     def sortColors_OJBest(self, nums):
         """
         :type nums: List[int]

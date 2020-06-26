@@ -20,6 +20,7 @@ nums2 = [3, 4]
 
 The median is (2 + 3)/2 = 2.5
 """
+import unittest
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -65,6 +66,9 @@ class Solution(object):
                 
                 return (max_left + min_right)/2.0
     # 2nd round solution on 6/15/2019, easier to understand
+    # Generalized to the problem of finding Kth element of two sorted arrays
+    # compares middle values of nums1 and nums2: nums1[i + k//2 - 1] and nums2[j + k//2 -1], 
+    # where i, j are start indices and kth element is the one we are looking for
     # solution 1 from https://www.cnblogs.com/grandyang/p/4465932.html
     def findMedianSortedArrays2(self, nums1, nums2):
         INT_MAX = 2**31
@@ -84,6 +88,10 @@ class Solution(object):
         left, right = (m+n+1)//2, (m+n+2)//2
         return (findKth(nums1, 0, nums2, 0, left) + findKth(nums1, 0, nums2, 0, right))/2.0
 
-            
-nums1, nums2 = [1, 3], [2]
-print(Solution().findMedianSortedArrays2(nums1, nums2))
+class Test(unittest.TestCase):
+    def test_1(self):
+        nums1, nums2 = [1, 3], [2]
+        self.assertEquals(2, Solution().findMedianSortedArrays2(nums1, nums2))
+
+if __name__ == "__main__":            
+    unittest.main(exit = False)

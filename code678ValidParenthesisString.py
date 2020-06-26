@@ -80,7 +80,7 @@ class Solution:
             return dfs(s, 0, 0)
 
     # stack solution
-    # use two stacks: "left" holds the index of '(', and "star" holds the index of ')'
+    # use two stacks: "left" holds the index of '(', and "star" holds the index of '*'
     # two pass, first pass treat '*' as '(', but we try to use existing '(' first, then '*'
     # second pass we try to use '*' as ')' to pair remaining '(', the goal is to eliminate all remaining '('
     def checkValidString3(self, s):
