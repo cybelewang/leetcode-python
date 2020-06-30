@@ -55,6 +55,27 @@ class Solution:
 
         return False
 
+    # 2nd round solution on 6/29/2020
+    def validPalindrome2(self, s):
+        def helper(s, i, j, deleted):
+            """
+            i, j are start and end indices (inclusive)
+            deleted (boolean) marked if one character has already been deleted
+            """
+            while i < j:
+                if s[i] == s[j]:
+                    i += 1
+                    j -= 1
+                else:
+                    if deleted:
+                        return False
+                    else:
+                        return helper(s, i+1, j, True) or helper(s, i, j-1, True)
+            
+            return True
+        
+        return helper(s, 0, len(s)-1, False)
+
 test_cases = ['', 'a', 'ac', 'aa', 'aba', 'caba', 'abbca', 'abc']
 obj = Solution()
 for s in test_cases:

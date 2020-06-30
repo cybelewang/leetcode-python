@@ -18,21 +18,21 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        l = len(s)
-        if l < 2:
+        N = len(s)
+        if N < 2:
             return s
         i = j = 0
         maxLen = 1
-        isPalindrome = [[True for x in range(l)] for y in range(l)]
-        for x in range(l-2, -1, -1):
-            for y in range(x+1, l):
-                isPalindrome[x][y] = isPalindrome[x+1][y-1] and (s[x] == s[y])
-                if isPalindrome[x][y]:
-                    if (y - x + 1) > maxLen:
-                        maxLen = y - x + 1
-                        i, j = x, y
+        P = [[True]*N for _ in range(N)]
+        for i in range(N-2, -1, -1):
+            for j in range(i+1, N):
+                P[i][j] = P[i+1][j-1] and (s[i] == s[j])
+                if P[i][j]:
+                    if (j - i + 1) > maxLen:
+                        maxLen = j - i + 1
+                        start, end = i, j+1
         
-        return s[i: j+1]
+        return s[start:end]
 
     # Manacher Algorithm, https://www.cnblogs.com/grandyang/p/4475985.html
     # 6/24/2019

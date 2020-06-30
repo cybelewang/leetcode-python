@@ -10,7 +10,7 @@ Given "aacecaaa", return "aaacecaaa".
 Given "abcd", return "dcbabcd".
 """
 class Solution:
-    # reverse s and get t, then use KMP's partial match table algorithm to find the longest prefix == suffix in (s + t)
+    # get t by reversing s, then use KMP's partial match table algorithm to find the longest prefix == suffix in (s + t)
     def shortestPalindrome(self, s):
         """
         :type s: str
@@ -19,7 +19,7 @@ class Solution:
         if len(s) < 2:
             return s
         
-        ss = s + '#' + s[::-1]  # note the tricky of inserting '#' to avoid mixing the two 's', producing wrong answer. Example is s='aabba'
+        ss = s + '#' + s[::-1]  # note the tricky of inserting '#' to avoid mixing the two 's'. Without '#', it may produce wrong answer. Example is s='aabba'
 
         # KMP algorithm to generate the partial match table
         length, M = 0, len(ss)

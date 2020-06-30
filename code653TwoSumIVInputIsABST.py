@@ -74,7 +74,7 @@ class Solution:
         return False
             
 
-    # my recursive solution, O(n) space
+    # my recursive solution, O(n) space, O(n) time
     def findTarget2(self, root, k):
         """
         :type root: TreeNode
@@ -97,7 +97,7 @@ class Solution:
 
         return helper(root, set(), k)
 
-    # 2nd round solution on 5/29/2019, use generator
+    # 2nd round solution on 5/29/2019, use generator, O(n) time, O(1) space
     def findTarget3(self, root, k):
         def F(root):
             """

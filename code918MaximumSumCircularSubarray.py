@@ -77,6 +77,7 @@ class Solution:
     # the result will be max of all P[j] - P[i] with j - i <= len(A)
     # we can maintain a mono-queue with ascending P value
     def maxSubarraySumCircular2(self, A):
+        # trick to get the sum list
         P = [0]
         for _ in range(2):
             for a in A:

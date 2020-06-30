@@ -63,7 +63,7 @@ def threeSum2(nums):
     return res
 
 # 3rd round solution on 4/23/2019
-# time O(NlogN), space O(1)
+# time O(N^2), space O(1)
 def threeSum3(nums):
     nums.sort()
     res = []
@@ -77,9 +77,9 @@ def threeSum3(nums):
                 i += 1
                 j -= 1
                 # need to think duplicated elements
-                while i < j and nums[i] == nums[i-1]:
+                while i < j and nums[i] == nums[i-1]:# need to think nums[i] == nums[i-1], or nums[i] == nums[i+1]
                     i += 1
-                while i < j and nums[j] == nums[j+1]:
+                while i < j and nums[j] == nums[j+1]:# need to think nums[j] == nums[j+1], or nums[j] == nums[j-1]
                     j -= 1
             elif nums[i] + nums[j] + c > 0:
                 j -= 1

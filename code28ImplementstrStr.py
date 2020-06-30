@@ -23,7 +23,7 @@ class Solution:
         
         def computeLPS(pat):
             """
-            Compute the longest prefix which is also suffix for each substring pat[0:i-1] with length i
+            Compute the longest prefix which is also suffix for each substring pat[0:i] with length i
             """
             length = 0 # length of previous longest prefix suffix
             i, M = 1, len(pat)
@@ -44,6 +44,7 @@ class Solution:
             return lps
         
         lps = computeLPS(needle)
+        # print(lps)
         i, j = 0, 0
         while i < len(haystack):
             if haystack[i] == needle[j]:
@@ -86,7 +87,7 @@ class Solution:
 # x = l1 - l2
 # Note that x is index. To get the full range from 0 to x, we use range(x + 1), which is range(l1 - l2 + 1)
 
-txt = 'aa'
-pat = 'a'
+txt = 'BBC_ABCDAB_ABCDABCDABDE'
+pat = 'ABCDABD'
 obj = Solution()
 print(obj.strStr(txt, pat))
