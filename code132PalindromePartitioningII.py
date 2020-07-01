@@ -11,6 +11,7 @@ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 
 class Solution:
     
     # The best solution is not using DP to get the palindrome matrix, but iterate all centers of substrings then check if the substring is palindrome
+    # https://leetcode.com/problems/palindrome-partitioning-ii/discuss/42198/my-solution-does-not-need-a-table-for-palindrome-is-it-right-it-uses-only-on-space
     # time O(n^2), space O(n)
     def minCut(self, s):
         """

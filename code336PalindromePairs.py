@@ -26,12 +26,12 @@ class Solution:
         for i, word in enumerate(words):
             for j in range(len(word) + 1):
                 left, right = word[:j], word[j:]
-                if self.isPalindrome(left):
+                if left == left[::-1]:
                     rev_right = right[::-1]
                     if rev_right in index and index[rev_right] != i:
                         res.append([index[rev_right], i])
                 
-                if len(right) != 0 and self.isPalindrome(right):  # pitfall here: check right != '' to avoid duplicates
+                if right != '' and right == right[::-1]:  # pitfall here: check right != '' to avoid duplicates
                     rev_left = left[::-1]
                     if rev_left in index and index[rev_left] != i:
                         res.append([i, index[rev_left]])
@@ -39,14 +39,7 @@ class Solution:
         return res
 
     def isPalindrome(self, s):
-        i, j = 0, len(s)-1
-        while i < j:
-            if s[i] != s[j]:
-                return False
-            i += 1
-            j -= 1
-
-        return True
+        return s == s[::-1]
 
     # naive solution, TLE
     def palindromePairs2(self, words):

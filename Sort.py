@@ -2,7 +2,8 @@ class Sort:
     def quicksort(self, nums):
         def partition(nums, start, end):
             """
-            partition the list nums with the last element nums[end] as the pivot, and return the position p for the pivot after partition, 
+            partition the list nums with the last element nums[end] as the pivot, 
+            and return the position p for the pivot after partition, 
             so elements at start to p-1 are all smaller than nums[p], 
             and elements at p + 1 to end are all not smaller than nums[p]
             """
