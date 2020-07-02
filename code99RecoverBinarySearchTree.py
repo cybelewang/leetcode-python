@@ -57,8 +57,26 @@ class Solution:
         # swap two nodes. Why first and second are not None? Because there are at least two TreeNodes.
         first.val, second.val = second.val, first.val
 
+    # Recursive solution, O(h) space where h is the height of the tree
+    def recoverTree2(self, root):
+        self.first = None   # 1st wrong node
+        self.second = None  # 2nd wrong node
+        self.pre = TreeNode(-2**31) # previous node before this inorder traversal
+        def inorder(root):
+            if root:
+                inorder(root.left)
+                if root.val < self.pre.val:
+                    if not self.first:
+                        self.first = self.pre
+                    self.second = root
+                self.pre = root
+                inorder(root.right)
+        # main
+        inorder(root)
+        self.first.val, self.second.val = self.second.val, self.first.val  
+
 test_case = [0, 1]
 test_tree = ListToTree(test_case)
 obj = Solution()
-obj.recoverTree(test_tree)
+obj.recoverTree2(test_tree)
 PrintTree(test_tree)

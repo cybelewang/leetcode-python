@@ -30,7 +30,6 @@ class Solution:
         for num in nums:
             i = bisect_left(dp, num, 0, maxLen)
             dp[i] = num
-            #print(dp)
             if i == maxLen:
                 maxLen += 1
         
@@ -50,11 +49,9 @@ class Solution:
 
         dp = [1]*n
         for i in range(1, n):
-            maxLen = 0
             for j in range(i):
                 if nums[i] > nums[j]:
-                    maxLen = max(maxLen, dp[j])
-            dp[i] = maxLen + 1
+                    dp[i] = max(dp[i], 1 + dp[j])
         
         return max(dp)
 

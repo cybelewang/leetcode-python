@@ -37,9 +37,10 @@ class Solution(object):
         stack = [root]
         while stack:
             node = stack.pop()
-            if node is not None:
-                result.append(node.val)
+            result.append(node.val)
+            if node.right:
                 stack.append(node.right)
+            if node.left:
                 stack.append(node.left)
         return result
     # Accepted, 31% 

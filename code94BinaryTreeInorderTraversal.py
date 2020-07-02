@@ -68,14 +68,14 @@ class Solution:
         res = []
 
         while root: # Loop until the current TreeNode is empty
-            if root.left is None:   # case 1: the left child is empty, just append current node value and then proceed to the right child
+            if not root.left:   # case 1: the left child is empty, just append current node value and then proceed to the right child
                 res.append(root.val)
                 root = root.right
             else:   # case 2: if the left child is not empty, go and find the previous node that just before the current node "in order"
                 pre = root.left
-                while pre.right is not None and pre.right != root:  # This is to find the previous node just before the current node
+                while pre.right and pre.right != root:  # This is to find the previous node just before the current node
                     pre = pre.right
-                if pre.right is None:   # If this previous node's right child is not linked to current node, this means the left branch of current node has not been traversed
+                if not pre.right:   # If this previous node's right child is not linked to current node, this means the left branch of current node has not been traversed
                     pre.right = root
                     root = root.left
                 if pre.right == root:   # If this previous node's right child is linked to current node, this means the left branch of current node has been traversed, we just need to resume the left branch, print current node and then go to the right branch
@@ -109,19 +109,18 @@ class Solution:
         :type root: TreeNode
         :rtype: No
         """
-        build, res = [], []
-        while root is not None:
-            build.append(root)
+        stack, res = [], []
+        while root:
+            stack.append(root)
             root = root.left
 
-        while len(build) > 0:
-            node = build.pop()
+        while stack:
+            node = stack.pop()
             res.append(node.val)
-            if node.right is not None:
-                node = node.right
-                while node is not None:
-                    build.append(node)
-                    node = node.left
+            node = node.right
+            while node:
+                stack.append(node)
+                node = node.left
             
         return res
         

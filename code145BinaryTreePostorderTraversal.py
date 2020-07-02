@@ -35,9 +35,10 @@ class Solution(object):
         res, stack = [], [root]
         while stack:
             node = stack.pop()
-            if node is not None:
-                res.append(node.val)
+            res.append(node.val)
+            if node.left:
                 stack.append(node.left)
+            if node.right:
                 stack.append(node.right)
         
         res.reverse()

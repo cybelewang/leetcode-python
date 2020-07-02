@@ -15,7 +15,7 @@ Note:
 The number of given pairs will be in the range [1, 1000].
 """
 class Solution:
-    # my own solution
+    # my own solution, sort pairs naturally, then use greedy to extend or shrink the end
     def findLongestChain(self, pairs):
         """
         :type pairs: List[List[int]]
@@ -35,5 +35,19 @@ class Solution:
 
         return res
 
+    # 2nd round solution on 7/1/2020
+    # sort pairs based on the second number, this guarantees pair will be selected with small end first, 
+    # then we can use greedy to count the max chains.
+    # https://www.cnblogs.com/grandyang/p/7381633.html
+    def findLongestChain2(self, pairs):
+        pairs.sort(key=lambda p: (p[1], p[0]))
+        end, res = pairs[0][1], 1
+        for s, e in pairs:
+            if s > end:
+                res += 1
+                end = e
+        
+        return res
+
 pairs = [[1,2], [2,4], [3,4]]
-print(Solution().findLongestChain(pairs))
+print(Solution().findLongestChain2(pairs))
