@@ -40,6 +40,24 @@ class Solution:
         
         return profit
 
+    # 2nd round solution on 7/2/2020
+    # https://www.youtube.com/watch?v=ZRK5t8svQ9o
+    def maxProfit2(self, k, prices):
+        if not prices or k < 1:
+            return 0
+
+        n = len(prices)
+        if k >= n//2:
+            return self.quickSolve(prices)        
+
+        buy = [-2**31]*k    # buy[i] is the max profit after buying on transaction i
+        sell = [0]*k    # sell[i] is the max profit after selling on transaction i
+        for price in prices:
+            for j in range(k):
+                buy[j] = max(buy[j], -price if j == 0 else sell[j-1] - price) # option 1: no buy action, option 2: after buying with current price. Buying action is a start of a new transaction, so it must be based on previous transaction.
+                sell[j] = max(sell[j], buy[j] + price) # option 1: no sell action, option 2: after selling with current price
+        return sell[-1]
+
 test_price = [7, 1, 5, 3, 6, 4, 9, 1]
 obj = Solution()
-print(obj.maxProfit(3,test_price))
+print(obj.maxProfit2(3,test_price))

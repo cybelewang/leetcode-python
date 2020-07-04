@@ -31,40 +31,29 @@ class Solution(object):
     # https://www.cnblogs.com/grandyang/p/4548184.html
     # https://leetcode.com/problems/word-ladder-ii/discuss/40434/C%2B%2B-solution-using-standard-BFS-method-no-DFS-or-backtracking
     def findLadders(self, beginWord, endWord, wordList):
-        MAX_INT = 2**31 - 1
-        alphabet = list(map(chr, range(ord('a'), ord('z')+1)))    # a to z
+        res, wordDict= [], set(wordList)
+        paths = deque([[beginWord]])    # outside square brackets are for deque initialization
 
-        # generator for next word
-        def G(word):
-            for i in range(len(word)):
-                for letter in alphabet:
-                    array = list(word)
-                    array[i] = letter
-                    yield ''.join(array)   # generate the new word by replacing one letter of the word each time
-
-        res, wordDict, p = [], set(wordList), [beginWord]
-        paths = deque([p])
-
-        level, minLevel = 1, MAX_INT
-        words = set()
+        level, minLevel = 1, 2**31-1 # current level and min level which has reached endWord
+        usedWords = set() # record used words in a single level. One word can be used by different paths as long as these paths have the same length (level here)
 
         # BFS, but queue paths instead of words
         while paths:
             t = paths.popleft()
 
             if len(t) > level:
-                for w in words:
+                for w in usedWords:
                     wordDict.remove(w)
-                words.clear()
+                usedWords.clear()
                 level = len(t)
                 if level > minLevel:
                     break
             
             last = t[-1]
-            for newLast in G(last):
+            for newLast in self.G(last, wordDict):
                 if newLast not in wordDict:
                     continue
-                words.add(newLast)
+                usedWords.add(newLast)
                 nextPath = t[:]
                 nextPath.append(newLast)
 
@@ -75,6 +64,55 @@ class Solution(object):
                     paths.append(nextPath)
 
         return res
+
+    # BFS processes one level in each while loop, a "standard" way of BFS
+    def findLadders2(self, beginWord, endWord, wordList):
+        wordSet = set(wordList)
+        if endWord not in wordSet:	return []
+        
+        q, res = deque([[beginWord]]), []
+        usedWords = set()   # record all used words in a level
+        level, minLevel = 0, 2**31-1
+        while q:
+            level += 1
+            # if minLevel was set to a number other than 2**31-1, that means min length has been found, so length > minLevel can be ignored
+            if level > minLevel:
+                break
+            
+            # usedWords must be excluded from wordSet so they cannot be reused by further levels
+            for word in usedWords:
+                wordSet.remove(word)
+            usedWords.clear()
+
+            n = len(q)
+            for _ in range(n):
+                path = q.popleft()                               
+                last = path[-1]
+
+                for newWord in self.G(last, wordSet):
+                    if newWord not in wordSet:
+                        continue
+                    usedWords.add(newWord)
+                    newPath = path[:]
+                    newPath.append(newWord)
+                    if newWord == endWord:
+                        res.append(newPath)
+                        minLevel = level
+                    else:
+                        q.append(newPath)
+
+        return res
+
+    # generate the new word by replacing one letter of the word each time
+    def G(self, word, wordSet):
+        array = list(word)
+        for i, letter in enumerate(array):
+            for c in 'abcdefghijklmnopqrstuvwxyz':
+                array[i] = c
+                t = ''.join(array)
+                array[i] = letter
+                if t != word and t in wordSet:
+                    yield t
 
     def findLadders_WRONG(self, beginWord, endWord, wordList):
         """
@@ -151,4 +189,4 @@ beginWord, endWord, wordList = "hit", "cog", ["hot","dot","dog","lot","log","cog
 #endWord = "pen"
 #wordList = ["rat","pen","pan","pet","pat","ran"]
 #beginWord, endWord, wordList = "red", "tax", ["ted","tex","red","tax","tad","den","rex","pee"]
-print(obj.findLadders(beginWord,endWord, wordList))
+print(obj.findLadders2(beginWord,endWord, wordList))

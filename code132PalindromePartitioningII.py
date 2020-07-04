@@ -64,7 +64,7 @@ class Solution:
         return minCuts[0]
         
     # 1st try, DP + BFS, got TLE
-    def minCut3(self, s):
+    def minCut4(self, s):
         """
         :type s: str
         :rtype: int
@@ -102,4 +102,4 @@ obj = Solution()
 test_cases = ['','a','ab','aaaa','aba','abda']
 for case in test_cases:
     print(case + ' -> ', end='')
-    print(obj.minCut(case))
+    print(obj.minCut2(case))

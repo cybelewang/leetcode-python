@@ -13,6 +13,9 @@ import unittest
 import itertools
 from collections import Counter
 class Solution:
+    # 1st round solution on 6/30/2020 
+    # create the first half of palindrome, then concatenate with middle letter ('' for even length palindrome), then with reverse of first half
+    # Use problem 47 (permutation with repeat numbers) to generate the first half
     def generatePalindromes(self, s: str):
         count = Counter(s)
         mid, t = '', [] # t will contain all letters in half of the palindrome permutation

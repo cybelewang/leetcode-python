@@ -15,25 +15,21 @@ from collections import deque
 from bisect import *
 class Solution:
     # binary search solution, time O(nlogn)
-    # https://leetcode.com/problems/longest-increasing-subsequence/solution/
+    # https://www.cnblogs.com/grandyang/p/4938187.html
     def lengthOfLIS(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        n = len(nums)
-        if n < 1:
-            return 0
-
-        dp = [0]*n
-        maxLen = 0
+        a, cnt = [], 0
         for num in nums:
-            i = bisect_left(dp, num, 0, maxLen)
-            dp[i] = num
-            if i == maxLen:
-                maxLen += 1
-        
-        return maxLen
+            p = bisect_left(a, num)
+            if p == len(a):
+                a.append(num)
+            else:
+                a[p] = num
+
+        return len(a)
 
     # dp solution, time O(n^2)
     # for current index i, we iterate j from 0 to i-1 (included)

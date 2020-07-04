@@ -21,7 +21,7 @@ One possible longest palindromic subsequence is "bb".
 # TODO: try 1-D DP
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/6493182.html
-    # DP
+    # 2-D DP
     # For palindrome, use sequence recurrsion relation, but i should scan from end to beginning, and j should be from i to end
     def longestPalindromeSubseq(self, s):
         """
@@ -43,5 +43,24 @@ class Solution:
 
         return dp[0][n-1]
 
+    # two 1-D array DP, pre represents dp[i+1][...], and cur represents dp[i][...]
+    def longestPalindromeSubseq2(self, s):
+        if not s:
+            return 0
+
+        n = len(s)
+        pre = [0]*n
+        for i in range(n-1, -1, -1):
+            cur = [0]*n
+            cur[i] = 1
+            for j in range(i+1, n):
+                if s[i] == s[j]:
+                    cur[j] = pre[j-1] + 2
+                else:
+                    cur[j] = max(pre[j], cur[j-1])
+            pre = cur
+        
+        return pre[-1]
+
 obj = Solution()
-print(obj.longestPalindromeSubseq('bbaa'))
+print(obj.longestPalindromeSubseq3('bbaa'))

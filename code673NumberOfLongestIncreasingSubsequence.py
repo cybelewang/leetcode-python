@@ -24,23 +24,28 @@ class Solution:
         :rtype: int
         """
         n = len(nums)
-        dp = [[1, 1] for _ in range(n)] # dp[i] contains the length and count of LIS ending with nums[i]
+        length, cnt = [1]*n, [1]*n # length and count of LIS ending with nums[i]
 
         max_len = 1
         for i in range(n):
             for j in range(i):
                 if nums[i] > nums[j]:
-                    if dp[j][0] + 1 > dp[i][0]: # update max length and count
-                        dp[i][0] = dp[j][0] + 1
-                        dp[i][1] = dp[j][1]
-                    elif dp[j][0] + 1 == dp[i][0]:  # update count
-                        dp[i][1] += dp[j][1]
+                    if length[j] + 1 == length[i]:
+                        # same length scenario, 
+                        # previously there exists index p and from p to i we also get length[i], 
+                        # therefore accumulates count from p, j...
+                        cnt[i] += cnt[j]
+                    elif length[j] + 1 > length[i]:
+                        # find a bigger length, abandon previous length and use this one
+                        length[i] = length[j] + 1
+                        cnt[i] = cnt[j]
 
-            max_len = max(max_len, dp[i][0])
+            max_len = max(max_len, length[i])
 
-        print(dp)
+        print(length)
+        print(cnt)
         count = 0
-        for len_, cnt in dp:
+        for len_, cnt in zip(length, cnt):
             if len_ == max_len:
                 count += cnt
 

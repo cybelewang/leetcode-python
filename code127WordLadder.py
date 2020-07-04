@@ -107,8 +107,39 @@ class Solution2:
         return 0
 
 
+    def ladderLength2(self, beginWord, endWord, wordList):
+        # generator for the next mutating word
+        def G(s, wordSet):
+            letters = list(s)
+            for i, letter in enumerate(letters):
+                for c in 'abcdefghijklmnopqrstuvwxyz':
+                    letters[i] = c
+                    t = ''.join(letters)
+                    letters[i] = letter
+                    if t != s and t in wordSet:
+                        wordSet.remove(t)
+                        yield t
+                    
+        m = set(wordList)
+        if endWord not in m:
+            return 0
+        q = deque([beginWord])
+        level = 0
+        while q:
+            print(q)
+            level += 1
+            n = len(q)
+            for _ in range(n):
+                source = q.popleft()
+                for dst in G(source, m):
+                    if dst == endWord:
+                        return level + 1
+                    q.append(dst)
+        
+        return 0
+
 obj = Solution2()
 beginWord = "hit"
 endWord = "cog"
 wordList = ["hot","dot","dog","lot","log","cog"]
-print(obj.ladderLength(beginWord,endWord, wordList))
+print(obj.ladderLength2(beginWord,endWord, wordList))
