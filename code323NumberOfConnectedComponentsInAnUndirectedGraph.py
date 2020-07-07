@@ -27,7 +27,20 @@ Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [3, 4]], return 1.
 
 You can assume that no duplicate edges will appear in edges. Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
 """
-# union find
+# union find, same as 547 friend circles
 class Solution:
     def countComponents(n, edges):
-        pass
+          def find(root, i):
+               while i != root[i]:
+                    i = root[i]
+               return i
+
+          root = list(range(n))
+          cnt = n
+          for a, b in edges:
+               p, q = find(root, a), find(root, b)
+               if p != q:
+                    root[p] = q
+                    cnt -= 1
+          
+          return cnt

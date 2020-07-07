@@ -30,7 +30,9 @@ The length of accounts[i][j] will be in the range [1, 30].
 # For easier interoperability between our DSU template, we will map each email to some integer index by using emailToID. 
 # Then, dsu.find(email) will tell us a unique id representing what component that email is in.
 
-# For more information on DSU, please look at Approach #2 in the article here. For brevity, the solutions showcased below do not use union-by-rank.
+# For more information on DSU, please look at Approach #2 in the article here. 
+# https://leetcode.com/articles/redundant-connection/
+# For brevity, the solutions showcased below do not use union-by-rank.
 class DSU:
     def __init__(self):
         self.p = list(range(10001))
@@ -164,8 +166,44 @@ class Solution2:
 
         return res
 
-accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
+# try on 7/5/2020. General union find solution
+# Since email is the only credential to differentiate accounts, so we need two dict: email_to_name and email_to_id
+# id is used as the node in graph and union/find operations
+# when we iterate all emails in a given account record, we need to union all emails to the first email
+# finally we need to group emails based on their root value
+# Don't put a pair of id and name into a email-to-person dict entry, instead use two dict: email_to_name and email_to_id
+
+class Solution3:
+    def accountsMerge(self, accounts):
+        def find(root, i):
+            while i != root[i]:
+                i = root[i]
+            return i
+
+        em_to_name = {}
+        em_to_id = {}
+        root = []	# each record's root node
+        i = 0
+
+        for account in accounts:
+            name = account[0]
+            for email in account[1:]:
+                em_to_name[email] = name
+                if email not in em_to_id:
+                    em_to_id[email] = i
+                    root.append(i)
+                    i += 1
+                p, q = find(root, em_to_id[account[1]]), find(root, em_to_id[email])
+                root[q] = p        
+
+        persons = defaultdict(list)
+        for email in em_to_id:
+            persons[find(root, em_to_id[email])].append(email)
+
+        return [[em_to_name[v[0]]] + sorted(v) for v in persons.values()]
+
+#accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnybravo@mail.com"], ["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["Mary", "mary@mail.com"]]
 # error: duplicated johnsmith@mail.com
 #accounts = [["Alex","Alex5@m.co","Alex4@m.co","Alex0@m.co"],["Ethan","Ethan3@m.co","Ethan3@m.co","Ethan0@m.co"],["Kevin","Kevin4@m.co","Kevin2@m.co","Kevin2@m.co"],["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe2@m.co"],["Gabe","Gabe3@m.co","Gabe4@m.co","Gabe2@m.co"]]
-#accounts = [["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
-print(Solution2().accountsMerge2(accounts))
+accounts = [["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
+print(Solution3().accountsMerge(accounts))

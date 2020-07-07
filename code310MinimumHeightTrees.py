@@ -67,7 +67,7 @@ class Solution:
             n -= len(leaves)
             newLeaves = []
             for first in leaves:
-                second = adj[first].pop()
+                second = adj[first].pop()   # tricky - first will have only 1 connection so we don't need a for loop here
                 adj[second].remove(first)
                 if len(adj[second]) == 1:   # this is very import! must check at this point, otherwise it won't work. see below comment.
                     newLeaves.append(second)

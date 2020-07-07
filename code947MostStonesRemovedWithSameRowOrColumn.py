@@ -27,6 +27,30 @@ Note:
 0 <= stones[i][j] < 10000
 """
 class Solution:
+    # Union find solution, better to understand
+    def removeStones(self, stones):
+        def find(root, i):
+            while i != root[i]:
+                i = root[i]
+            return i
+        
+        n = len(stones)
+        root = list(range(n))
+
+        res = 0
+        # union current stone with previous stones if they share row or column
+        # note that we must check if i and j belongs to the same group before counting the removal
+        # similar counting strategy is also used in 305 Number of Islands II
+        for i in range(n):
+            for j in range(i+1, n):
+                if stones[i][0] == stones[j][0] or stones[i][1] == stones[j][1]:
+                    p, q = find(root, i), find(root, j)
+                    if p != q:
+                        root[p] = q
+                        res += 1
+
+        return res
+
     # https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/discuss/197668/Count-the-Number-of-Islands-O(N)
     # tricks: inverse bits of y, then put x and y into root map
     # problem becomes union find coordinates
@@ -45,7 +69,7 @@ class Solution:
     The number of islands of points,
     is the same as the number of islands of indexes.
     """
-    def removeStones(self, points):
+    def removeStones2(self, points):
         UF = {}
         def find(x):
             if x != UF[x]:
