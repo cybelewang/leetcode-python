@@ -79,6 +79,22 @@ class Solution:
         res = max(dist)
         return -1 if res == INT_MAX else res
 
+    # Bellman-Ford algorithm
+    # https://www.cnblogs.com/grandyang/p/8278115.html
+    def networkDelayTime_BF(self, times, N, K):
+        INT_MAX = 2**31 - 1
+        dist = [INT_MAX]*(N+1) # dist[0] is dummy
+        dist[0] = 0 # dist[0] is dummy
+        dist[K] = 0
+
+        for _ in range(N-1):
+            for u, v, w in times:
+                if dist[u] != INT_MAX:
+                    dist[v] = min(dist[v], dist[u] + w)
+        
+        d = max(dist)
+        return d if d != INT_MAX else -1
+        
 #times = [[1, 2, 1], [1, 3, 5], [2, 3, 1]]
 #times = [[1,2,1],[2,3,1],[3,1,1]]
 #times = [[1, 2, 1]]

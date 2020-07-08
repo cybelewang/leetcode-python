@@ -37,7 +37,7 @@ There will not be any duplicated flights or self cycles.
 """
 from collections import defaultdict, deque
 class Solution:
-    # fixed BFS solution
+    # fixed BFS solution by putting accumulated distance with node, so accumulated distance won't be affected by other operations
     def findCheapestPrice_BFS(self, n, flights, src, dst, K):
         edges = defaultdict(dict)
         for u, v, p in flights:
@@ -47,15 +47,40 @@ class Solution:
         prices = [INT_MAX]*n
 
         q = deque([(src, 0)])
-        while q and K > -2:
+        while q and K > -1:
             m = len(q)
             for _ in range(m):
                 i, p = q.popleft()
-                if p >= prices[i]:
-                    continue
-                prices[i] = p
-                for j in edges[i]:
-                    q.append((j, p+edges[i][j]))
+                if p < prices[i]:
+                    prices[i] = p
+                    for j in edges[i]:
+                        q.append((j, p+edges[i][j]))
+            
+            K -= 1
+        
+        return -1 if prices[dst] == INT_MAX else prices[dst]
+
+    # Another BFS solution that copies the previous dist array and then do BFS level scan
+    def findCheapestPrice_BFS2(self, n, flights, src, dst, K):
+        edges = defaultdict(dict)
+        for u, v, p in flights:
+            edges[u][v] = p
+        
+        INT_MAX = 2**31 - 1
+        prices = [INT_MAX]*n
+        prices[src] = 0
+
+        q = deque([src])
+        while q and K > -1:
+            m = len(q)
+            t = prices[:]   # make a copy of previous price array
+            for _ in range(m):
+                u = q.popleft()
+                for v in edges[u]:
+                    new_price = t[u] + edges[u][v]
+                    if new_price < prices[v]:
+                        prices[v] = new_price
+                        q.append(v)
             
             K -= 1
         
@@ -77,7 +102,7 @@ class Solution:
             for _ in range(m):
                 i = q.popleft()
                 for j in edges[i]:
-                    if prices[i] + edges[i][j] < prices[j]: # this is the issue. prices[i] may have been updated by other routes, see above test case. We need to save the prices of i in queue so it won't be updated by following other routes
+                    if prices[i] + edges[i][j] < prices[j]: # this is the issue. prices[i] may have been updated by other routes in this level of BFS scan, see above test case. We need to save the prices of i in queue so it won't be updated by following other routes
                         prices[j] = prices[i] + edges[i][j]
                         q.append(j)
             

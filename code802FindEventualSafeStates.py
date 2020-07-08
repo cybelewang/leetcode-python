@@ -22,7 +22,7 @@ graph will have length at most 10000.
 The number of edges in the graph will not exceed 32000.
 Each graph[i] will be a sorted list of different integers, chosen within the range [0, graph.length - 1].
 """
-from collections import deque
+from collections import deque, defaultdict
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/9319966.html
     # BFS starting from the terminal nodes (nodes whose out-degree are 0), expanding to their source nodes
@@ -53,6 +53,26 @@ class Solution:
         
         return [i for i in range(n) if safe[i]]
 
+    # Similar to 207 Course Schedule, but use out degrees instead of in degrees
+    def eventualSafeNodes2(self, graph):
+        n = len(graph)
+        revG = defaultdict(set) # reverse graph with reversed edges, for easy to get src from dst
+        outdegrees = [0]*n
+        for src in range(n):
+            outdegrees[src] = len(graph[src])
+            for dst in graph[src]:
+                revG[dst].add(src)
+
+        q = deque([i for i in range(n) if outdegrees[i] == 0])
+        while q:
+            dst = q.popleft()
+            for src in revG[dst]:
+                outdegrees[src] -= 1
+                if outdegrees[src] == 0:
+                    q.append(src)
+
+        return [i for i in range(n) if outdegrees[i] == 0]
+
     def eventualSafeNodes_DFS(self, graph):
         def dfs(graph, i, color):
             """
@@ -77,5 +97,27 @@ class Solution:
 
         return [i for i in range(n) if dfs(graph, i, color)]
 
+    # WRONG solution, this problem tests out degrees, not in degrees
+    # IN degrees + BFS to detect cycles, the nodes not in a cycle (indegree of 0) are the required nodes
+    # The mistake is that nodes with non-zero indegrees are not necessarily in cycle. See test case.
+    def eventualSafeNodes_Cycles(self, graph):
+        N = len(graph)
+        indegrees = [0]*N
+        for a, dsts in enumerate(graph):
+            for b in dsts:
+                indegrees[b] += 1
+        
+        q = deque([i for i in range(N) if indegrees[i] == 0])
+        print(q)
+        while q:
+            a = q.popleft()
+            for b in graph[a]:
+                indegrees[b] -= 1
+                if indegrees[b] == 0:
+                    q.append(b)
+        
+        print(indegrees)
+        return [i for i in range(N) if indegrees[i] == 0]
+
 graph = [[1,2],[2,3],[5],[0],[5],[],[]]
-print(Solution().eventualSafeNodes_DFS(graph))
+print(Solution().eventualSafeNodes2(graph))

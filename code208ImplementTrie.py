@@ -8,8 +8,7 @@ You may assume that all inputs are consist of lowercase letters a-z.
 """
 class TrieNode:
     
-    def __init__(self, c):
-        self.c = c
+    def __init__(self):
         self.children = {}  # key= child character, value=child TrieNode's pointer
         self.isLeaf = False # mark the end of word
 
@@ -19,7 +18,7 @@ class Trie:
         """
         Initialize your data structure here.
         """
-        self.root = TrieNode('')
+        self.root = TrieNode()
    
 
     def insert(self, word):
@@ -30,9 +29,7 @@ class Trie:
         """
         node = self.root
         for c in word:
-            if c not in node.children:
-                new_node = TrieNode(c)
-                node.children[c] = new_node
+            node.children.setdefault(c, TrieNode())
             node = node.children[c]
 
         node.isLeaf = True  # mark the end of word

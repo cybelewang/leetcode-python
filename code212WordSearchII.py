@@ -26,26 +26,19 @@ If the current candidate does not exist in all words' prefix, you could stop bac
 """
 class TrieNode:
     
-    def __init__(self, c):
-        self.c = c
+    def __init__(self):
         self.children = {}
         self.isLeaf = False
-
-    def exists(self, c):
-        return c in self.children
 
 class Trie:
     
     def __init__(self):
-        self.root = TrieNode('')
+        self.root = TrieNode()
 
     def insert(self, word):
         node = self.root
         for c in word:
-            if c not in node.children:
-                node.children[c] = TrieNode(c)
-            node = node.children[c]
-        
+            node = node.children.setdefault(c, TrieNode())
         node.isLeaf = True
 
 class Solution:
@@ -55,37 +48,39 @@ class Solution:
         :type words: List[str]
         :rtype: List[str]
         """
-        m = len(board)
-        if m < 1:
-            return []
-        n = len(board[0])
+        # the DFS will try to include board[i][j] and see if it forms a valid word
+        # then it will recursively search neighboring letters
+        # a trick to mark [i][j] has been visited is to change its value to '', because '' is not in any TrieNode's children so '' in node.children will always be False
+        def dfs(board, i, j, node, build, res):
+            # node: board[i][j]'s parent trie node
+            # build: array includes previous letters
+            # res: final result set
+            if -1<i<self.m and -1<j<self.n:
+                c = board[i][j]
+                if c in node.children:
+                    node = node.children[c]
+                    build.append(c)
+                    board[i][j] = ''    # change [i][j] to mark 'visited'
+                    if node.isLeaf:
+                        res.add(''.join(build))
+                    
+                    # dfs in neighboring characters
+                    dfs(board, i-1, j, node, build, res)
+                    dfs(board, i+1, j, node, build, res)
+                    dfs(board, i, j-1, node, build, res)
+                    dfs(board, i, j+1, node, build, res)
+
+                    board[i][j] = build.pop()     # restore [i][j]
 
         trie = Trie()
         for word in words:
             trie.insert(word)
 
-        def _dfs(board, m, n, i, j, node, build, res):
-            if -1<i<m and -1<j<n:
-                c = board[i][j]
-                if c in node.children:
-                    build.append(c)
-                    board[i][j] = ''    # change [i][j] to mark 'visited'
-                    if node.children[c].isLeaf: # bug fixed: change from node.isLeaf to node.children[c].isLeaf because node is upper level TrieNode
-                        res.add(''.join(build))
-                    
-                    # dfs in neighboring characters
-                    _dfs(board, m, n, i-1, j, node.children[c], build, res)
-                    _dfs(board, m, n, i+1, j, node.children[c], build, res)
-                    _dfs(board, m, n, i, j-1, node.children[c], build, res)
-                    _dfs(board, m, n, i, j+1, node.children[c], build, res)
-
-                    board[i][j] = c     # restore [i][j]
-                    build.pop()
-            
+        self.m, self.n = len(board), len(board[0])    
         build, res = [], set()  # bug fixed: use set to hold result strings. consider board = [['a'],['a']] and words = ['a'], the result should be ['a']
-        for i in range(m):
-            for j in range(n):
-                _dfs(board, m, n, i, j, trie.root, build, res)
+        for i in range(self.m):
+            for j in range(self.n):
+                dfs(board, i, j, trie.root, build, res)
 
         return list(res)
 
