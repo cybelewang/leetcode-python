@@ -67,17 +67,17 @@ class Solution:
         maxSize = 0
         dp = [0]*n
         for i in range(m):
-            pre = dp[0] # pre is like dp[i-1][j-1]
-            dp[0] = 1 if matrix[i][0] == '1' else 0
-            maxSize = max(maxSize, dp[0])
+            pre = 0 # temporarily save dp[0] as pre for dp[1] use, pre is like dp[i-1][j-1]
+            dp[0] = 1 if matrix[i][0] == '1' else 0 # handle dp[0] specially
+            maxSize = max(maxSize, dp[0]) # update result
             for j in range(1, n):
-                temp = dp[j]    # temporarily save the value before update
+                temp = dp[j]    # temporarily save dp[j] before it gets updated
                 if matrix[i][j] == '1':
                     dp[j] = min(pre, dp[j-1], dp[j]) + 1
-                    maxSize = max(maxSize, dp[j])
+                    maxSize = max(maxSize, dp[j]) # update result
                 else:
                     dp[j] = 0
-                pre = temp  # assign temp to pre
+                pre = temp  # assign temp to pre for next j loop use
         
         return maxSize*maxSize
 

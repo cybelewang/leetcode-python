@@ -13,6 +13,7 @@ For example,
 Given heights = [2,1,5,6,2,3],
 return 10.
 """
+import unittest
 # similar problems: 42 Trapping Rain Water
 class Solution(object):
     def largestRectangleArea(self, heights):
@@ -49,9 +50,33 @@ class Solution(object):
         
         return maxArea
 
-# 2nd visit on 9/20/2018, cannot work it out
 
-test_case = [2, 1, 5, 6, 2, 3]
-#test_case = [1,0, 1,0,1]
-obj = Solution()
-print(obj.largestRectangleArea(test_case))
+    # 2nd visit on 9/20/2018, cannot work it out
+
+    # 3rd visit on 7/9/2020, need help from onenote
+    def largestRectangleArea2(self, heights):
+        heights.append(0)   # trick to pop all elements from stack at the end of array
+        stack, res = [], 0
+        for i, h in enumerate(heights):
+            while stack and heights[stack[-1]] >= h:
+                minH = heights[stack.pop()]
+                left = stack[-1] if stack else -1
+                width = i - left - 1
+                res = max(res, minH*width)
+            stack.append(i)
+        
+        return res
+
+class Test(unittest.TestCase):
+    def test_1(self):
+        obj = Solution()
+        test_case = [2, 1, 5, 6, 2, 3]
+        self.assertEqual(obj.largestRectangleArea2(test_case), 10)
+
+    def test_2(self):
+        obj = Solution()
+        test_case = [1,0, 1,0,1]
+        self.assertEqual(obj.largestRectangleArea2(test_case), 1)
+
+if __name__ == "__main__":
+    unittest.main(exit=False)

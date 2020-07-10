@@ -52,7 +52,6 @@ class Solution(object):
 class Solution2:    
     def subsets(self, nums):
         res = []
-
         def dfs(nums, start, build, res):
             res.append(build[:])
             for i in range(start, len(nums)):                
@@ -63,9 +62,25 @@ class Solution2:
         dfs(nums, 0, [], res)
         return res
 
+    # another DFS writing without for-loop, but writes the case that drops the current number
+    def subsets2(self, nums):
+        res = [[]]  # Don't forget the empty subset, because res will only be updated after appending a number in build
+        def dfs(nums, i, build, res):
+            if i == len(nums): return
+            # use this number
+            build.append(nums[i])
+            res.append(build[:])
+            dfs(nums, i+1, build, res)
+            build.pop()
+            # drop this number
+            dfs(nums, i+1, build, res)
+
+        dfs(nums, 0, [], res)
+        return res
+
 test_case = [2,1,3]
 obj = Solution2()
-print(obj.subsets(test_case))    
+print(obj.subsets2(test_case))    
             
 
         

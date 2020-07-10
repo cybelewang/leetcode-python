@@ -18,7 +18,6 @@ Output:
 2
 One possible longest palindromic subsequence is "bb".
 """
-# TODO: try 1-D DP
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/6493182.html
     # 2-D DP
@@ -61,6 +60,24 @@ class Solution:
             pre = cur
         
         return pre[-1]
+
+    # one 1-D array DP, pre represents dp[i+1][j-1] and dp represents dp[i][...]
+    def longestPalindromeSubseq3(self, s):
+        if not s: return 0
+        n = len(s)
+        dp = [1]*n
+        for i in range(n-1, -1, -1):
+            pre = 0 # pre represents dp[i+1][j-1], when j is i+1, dp[i+1][i] is invalid (or empty string) so it must be 0
+            dp[i] = 1
+            for j in range(i + 1, n):
+                temp = dp[j]
+                if s[i] == s[j]:
+                    dp[j] = pre + 2
+                else:
+                    dp[j] = max(dp[j], dp[j-1])
+                pre = temp
+        
+        return dp[-1]
 
 obj = Solution()
 print(obj.longestPalindromeSubseq3('bbaa'))

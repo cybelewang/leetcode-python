@@ -84,26 +84,69 @@ class Solution:
         
         return level
 
+    # Follow-up: output all longest LISs
+    # Use DFS
+    def getLIS(self, nums):
+        self.maxLen = 0
+        def dfs(nums, start, build, res):
+            if start == len(nums):
+                # update res if necessary
+                if len(build) > self.maxLen:
+                    self.maxLen = len(build)
+                    res.clear()
+                    res.append(build[:])
+                elif len(build) == self.maxLen:
+                    res.append(build[:])
+                return
 
-    # brutal force, will cause TLE
-    def lengthOfLIS4(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        def _numOfLarge(nums, start):
-            count = 1
-            for i in range(start + 1, len(nums)):
-                if nums[i] > nums[start]:
-                    count = max(count, 1 + _numOfLarge(nums, i))
-            return count
+            # trim some invalid cases
+            if len(build) + len(nums) - start < self.maxLen:
+                return
 
-        res = 0
-        for i in range(len(nums)):
-            res = max(res, _numOfLarge(nums, i))
+            # two cases: use nums[i] or do not use nums[i]
+            i = start
+            # append this number and continue dfs
+            if not build or nums[i] > build[-1]:
+                build.append(nums[i])
+                dfs(nums, i+1, build, res)
+                build.pop()
+            # abandon this number and continue dfs, this replaces for loop in typical DFS
+            dfs(nums, i+1, build, res)        
 
+        res = []
+        dfs(nums, 0, [], res)
+        return res
+
+    def getLIS2(self, nums):
+        self.maxLen = 0
+        def dfs(nums, start, build, res):
+            if start == len(nums): return
+
+            # trim some invalid cases
+            if len(build) + len(nums) - start < self.maxLen:
+                return
+
+            for i in range(start, len(nums)):
+                # try to append this number and continue dfs
+                if not build or nums[i] > build[-1]:
+                    build.append(nums[i])
+                    # update res if necessary
+                    if len(build) > self.maxLen:
+                        self.maxLen = len(build)
+                        res.clear()
+                        res.append(build[:])
+                    elif len(build) == self.maxLen:
+                        res.append(build[:])
+                    # continue dfs
+                    dfs(nums, i+1, build, res)
+                    build.pop()
+
+        res = []
+        dfs(nums, 0, [], res)
         return res
 
 test_case = [10, 9, 2, 5, 3, 7, 101, 18]
+#test_case = [1, 3, 2]
 obj = Solution()
 print(obj.lengthOfLIS3(test_case))
+print(obj.getLIS2(test_case))

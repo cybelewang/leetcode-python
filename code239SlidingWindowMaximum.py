@@ -48,8 +48,38 @@ class Solution:
 
         return res
 
-    # Segment Tree solution
+    # Two direction solution in https://leetcode.com/problems/sliding-window-maximum/solution/
+    # Divide the array into different buckets, and each bucket has size k (last bucket may have smaller size).
+    # Then we generate two arrays: left[i] is the max from bucket_left to [i], and right[i] is the max from bucket_right to [i]
+    # Then for each window start with i and end with j, the max will be max(right[i], left[j])
     def maxSlidingWindow2(self, nums, k):
+        INT_MIN = -2**31
+        n = len(nums)
+        left, right = [INT_MIN]*n, [INT_MIN]*n
+        # generate the bucket max list that represents the max from bucket_left to this index (inclusive)
+        pre = INT_MIN
+        for i, num in enumerate(nums):
+            pre = max(pre, num)
+            left[i] = pre
+            if (i+1)%k == 0:
+                pre = INT_MIN
+        # generate the bucket max list that represents the max from bucket_right to this index (inclusive)
+        pre = INT_MIN
+        for j in range(n-1, -1, -1):
+            if (j+1)%k == 0:
+                pre = INT_MIN
+            pre = max(pre, nums[j])
+            right[j] = pre
+        # combine the left and right list to get the result
+        # for a window with start index i and end index j, the result will be max(right[i], left[j])
+        res = []
+        for j in range(k-1, n):
+            i = j-k+1
+            res.append(max(right[i], left[j]))
+        return res
+
+    # Segment Tree solution
+    def maxSlidingWindow3(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
@@ -116,4 +146,4 @@ class Solution:
 
 obj = Solution()
 nums = [1,3,-1,-3,5,3,6,7]
-print(obj.maxSlidingWindow(nums, 3))
+print(obj.maxSlidingWindow2(nums, 3))
