@@ -23,6 +23,7 @@ class Solution:
         :type s: str
         :rtype: int
         """
+        s += '+'
         stack = []
         res, num, sign = 0, 0, 1
         for c in s:
@@ -43,8 +44,6 @@ class Solution:
                 num = 0 # reset num                
                 res *= stack.pop()
                 res += stack.pop()
-
-        res += sign*num
 
         return res
 

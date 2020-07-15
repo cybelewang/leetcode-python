@@ -22,9 +22,31 @@ Note:
 The string size will be in the range [1, 100].
 """
 class Solution:
+    # Better to understand solution
+    # (1) treat all *s as '(', and iterate s from left to right. Now count difference between ( and ), if diff < 0 return False, if diff == 0, return True, if diff > 0, continue to (2).
+    # (2) treat all *s as ')', and iterate s from right to left. Now count difference between ) and (, if diff < 0 return False, else return True.
+    def checkValidString(self, s):
+        left = 0
+        for c in s:
+            if c == '(' or c == '*':
+                left += 1
+            else:
+                left -= 1
+            if left < 0: return False
+        if left == 0: return True
+
+        right = 0
+        for c in s[::-1]:
+            if c == ')' or c == '*':
+                right += 1
+            else:
+                right -= 1
+            if right < 0: return False
+        return True
+
     # https://leetcode.com/problems/valid-parenthesis-string/discuss/107577/Short-Java-O(n)-time-O(1)-space-one-pass
     # another solution is using two stacks to hold positions of '(' and '*'
-    def checkValidString(self, s):
+    def checkValidString3(self, s):
         """
         :type s: str
         :rtype: bool
@@ -49,7 +71,7 @@ class Solution:
         return low == 0
 
     # my own DFS solution, TLE
-    def checkValidString2(self, s):
+    def checkValidString4(self, s):
         """
         :type s: str
         :rtype: bool
@@ -83,7 +105,7 @@ class Solution:
     # use two stacks: "left" holds the index of '(', and "star" holds the index of '*'
     # two pass, first pass treat '*' as '(', but we try to use existing '(' first, then '*'
     # second pass we try to use '*' as ')' to pair remaining '(', the goal is to eliminate all remaining '('
-    def checkValidString3(self, s):
+    def checkValidString5(self, s):
         left, star = [], []
         for i, c in enumerate(s):
             if c == '(':
@@ -112,4 +134,4 @@ class Solution:
 test_cases = ['', '(', ')', '*', '()', '(*)', '(*()', '((*)', ')*)', '*)*)']
 for s in test_cases:
     print(s, end = ' -> ')
-    print(Solution().checkValidString3(s))
+    print(Solution().checkValidString(s))

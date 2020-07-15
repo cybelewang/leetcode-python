@@ -26,7 +26,24 @@ class Solution:
             else:
                 nums1[k] = nums2[j]
                 j -= 1
+    
+    # 2nd round visit on 7/11/2020
+    # Bugs fixed. The mistake was using j < 0 as indicator of completition and if j > -1, we will continuously decrease i or j. Think about test case nums1=[2,0] and nums2=[1]. i actually goes to -1.
+    def merge2(self, nums1, m, nums2, n):
+        if n < 1: return
+        i, j = m-1, n-1
+        INT_MIN = -2**31
+        for k in range(m+n-1, -1, -1):
+            a = nums1[i] if i > -1 else INT_MIN
+            b = nums2[j] if j > -1 else INT_MIN
+            if a > b:
+                nums1[k] = a
+                i -= 1
+            else:
+                nums1[k] = b
+                j -= 1   
         
+
 nums1 = [5,7,8,9,0,2,3]
 nums2 = [11,12,15]
 

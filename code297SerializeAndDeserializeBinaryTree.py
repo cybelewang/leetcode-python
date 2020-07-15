@@ -37,7 +37,8 @@ class Codec:
         :rtype: str
         """
         queue = deque()
-        queue.append(root)
+        if root:
+            queue.append(root)
         s = []
         while len(queue) > 0:
             node = queue.popleft()
@@ -56,41 +57,65 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        def _getNextData(s, start):
-            end = start
-            while end < len(s) and s[end] != ',':
-                end += 1            
-            return s[start:end], end + 1
-
-        root_data, start = _getNextData(data, 0)
-        if root_data == 'null':
+        ss = data.split(',')
+        if not ss:
             return None
+        root = TreeNode(int(ss[0]))
+        i, q = 1, deque([root])
+
+        while i < len(ss):
+            node = q.popleft()
+            left = ss[i]
+            i += 1
+            if left != 'null':
+                node.left = TreeNode(int(left))
+                q.append(node.left)
+            if i < len(ss):
+                right = ss[i]
+                i += 1
+                if right != 'null':
+                    node.right = TreeNode(int(right))
+                    q.append(node.right)
         
-        root = TreeNode(int(root_data))
-        queue = deque()
-        queue.append(root)
-
-        while start < len(data):
-            # get parent node
-            node = queue.popleft()
-            # link left child
-            str_data, start = _getNextData(data, start)
-            if str_data != 'null':
-                left_child = TreeNode(int(str_data))
-                node.left = left_child
-                queue.append(left_child)
-            # link right child
-            str_data, start = _getNextData(data, start)
-            if str_data != 'null':
-                right_child = TreeNode(int(str_data))
-                node.right = right_child
-                queue.append(right_child)
-
         return root
 
 
+        # def _getNextData(s, start):
+        #     end = start
+        #     while end < len(s) and s[end] != ',':
+        #         end += 1            
+        #     return s[start:end], end + 1
+
+        # root_data, start = _getNextData(data, 0)
+        # if root_data == 'null':
+        #     return None
+        
+        # root = TreeNode(int(root_data))
+        # queue = deque()
+        # queue.append(root)
+
+        # while start < len(data):
+        #     # get parent node
+        #     node = queue.popleft()
+        #     # link left child
+        #     str_data, start = _getNextData(data, start)
+        #     if str_data != 'null':
+        #         left_child = TreeNode(int(str_data))
+        #         node.left = left_child
+        #         queue.append(left_child)
+        #     # link right child
+        #     str_data, start = _getNextData(data, start)
+        #     if str_data != 'null':
+        #         right_child = TreeNode(int(str_data))
+        #         node.right = right_child
+        #         queue.append(right_child)
+
+        # return root
+
+
 # Your Codec object will be instantiated and called as such:
-root = ListToTree([1, 2, 3, None, None, 4, 5])
+#root = ListToTree([1, 2, 3, None, None, 4, 5])
+root = ListToTree([1,2,None,3])
 codec = Codec()
 str_codec = codec.serialize(root)
 print(str_codec)

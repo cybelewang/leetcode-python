@@ -107,10 +107,12 @@ class SummaryRanges2:
         i, j = 0, len(self.data)        
         while i < j:
             mid = (i + j)//2
-            if self.data[mid].start <= val:
+            if self.data[mid].end < val:
                 i = mid + 1
-            else:
+            elif self.data[mid].start > val:
                 j = mid
+            else:
+                return
 
         # insert new interval at position j
         self.data.insert(j, Interval(val, val))
