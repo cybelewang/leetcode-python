@@ -68,3 +68,5 @@ class Solution(object):
             return root
         else:
             return left or right
+
+    # see C++ solution, easy to understand

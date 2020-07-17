@@ -34,11 +34,10 @@ class Solution:
         for i in range(len(s)):            
             if t[i] in t_s and s[i] != t_s[t[i]]:
                 return False
-            elif s[i] in s_t and t[i] != s_t[s[i]]:
+            if s[i] in s_t and t[i] != s_t[s[i]]:
                 return False
-            else:
-                t_s[t[i]] = s[i]
-                s_t[s[i]] = t[i]
+            t_s[t[i]] = s[i]
+            s_t[s[i]] = t[i]
         
         return True
 

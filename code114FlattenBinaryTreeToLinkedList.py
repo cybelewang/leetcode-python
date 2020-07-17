@@ -90,11 +90,32 @@ class Solution:
         
         # main
         helper(root)
+    
+    # 3rd round solution on 7/15/2020
+    # recursive solution
+    def flatten3(self, root):
+        def helper(root):
+            if not root: return None
+            left, right = root.left, root.right
+            tail = root
+            if left:
+                tail.left = None
+                tail.right = left
+                tail = helper(left)
+            if right:
+                tail.left = None
+                tail.right = right
+                tail = helper(right)
+
+            return tail
+        # main
+        helper(root)
+
 
 obj = Solution()
 null = None
 test_case = [1, 2, 5, null, 3, null, null, 4]
 test_tree = ListToTree(test_case)
 PrintTree(test_tree)
-obj.flatten2(test_tree)
+obj.flatten3(test_tree)
 PrintTree(test_tree)          

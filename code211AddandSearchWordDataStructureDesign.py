@@ -26,8 +26,7 @@ from collections import deque
 
 class TrieNode:
     
-    def __init__(self, c):
-        self.c = c
+    def __init__(self):
         self.children = {}
         self.isLeaf = False
 
@@ -38,7 +37,7 @@ class WordDictionary:
         """
         Initialize your data structure here.
         """
-        self.root = TrieNode('')
+        self.root = TrieNode()
         
 
     # assumes word is not empty
@@ -50,9 +49,7 @@ class WordDictionary:
         """
         node = self.root
         for c in word:
-            if c not in node.children:
-                node.children[c] = TrieNode(c)
-            node = node.children[c]
+            node = node.children.setdefault(c, TrieNode())
         
         node.isLeaf = True
 
@@ -65,6 +62,7 @@ class WordDictionary:
         queue = deque()
         queue.append(self.root)
         for c in word:
+            if not queue: return False
             n = len(queue)
             if c != '.':
                 for i in range(n):
@@ -76,11 +74,7 @@ class WordDictionary:
                     node = queue.popleft()
                     queue.extend(node.children.values())
         
-        for node in queue:
-            if node.isLeaf:
-                return True
-        
-        return False
+        return any(node for node in queue if node.isLeaf)
 
 
 # Your WordDictionary object will be instantiated and called as such:

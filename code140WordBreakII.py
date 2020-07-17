@@ -24,8 +24,9 @@ class Solution:
         :type wordDict: List[str]
         :rtype: List[str]
         """
+        wordDict = set(wd)
         memo = {len(s): ['']}
-        # sentences(i) returns a list of all sentences that can be built from the suffix s[i:].
+        # sentences(i) returns a list of all sentences that can be built from s[i:].
         def sentences(i):
             if i not in memo:
                 memo[i] = [s[i:j] + (tail and ' ' + tail)

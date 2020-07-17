@@ -12,7 +12,7 @@ Here is an example of version numbers ordering:
 
 0.1 < 1.1 < 1.2 < 13.37
 """
-
+from itertools import zip_longest
 # What about '1.', '..'?
 # pitfalls: '1' and '1.0', '01' and '1', '1.0.0.0' and '1.000.00'
 class Solution:
@@ -48,7 +48,17 @@ class Solution:
         else:
             return 0
 
+    # 2nd visit on 7/16/2020
+    def compareVersion2(self, version1, version2):
+        nums1 = list(map(int, version1.split('.')))
+        nums2 = list(map(int, version2.split('.')))
+        for a, b in zip_longest(nums1, nums2, fillvalue=0):
+            if a < b: return -1
+            elif a > b: return 1
+        
+        return 0
+
 test_cases = [('0','1'), ('1.0', '1'), ('0.0', '1.0'), ('0.1','0.1'), ('0.0.9', '0.1'), ('1.5.91', '1.4.100')]
 obj = Solution()
 for case in test_cases:
-    print(obj.compareVersion(case[0], case[1]))
+    print(obj.compareVersion2(case[0], case[1]))

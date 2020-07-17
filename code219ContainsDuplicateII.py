@@ -42,11 +42,11 @@ class Solution:
         index = {}
         for i, num in enumerate(nums):
             if num in index:
-                if i - index[num] > k:
-                    return False
+                if i - index[num] <= k:
+                    return True
             index[num] = i
         
-        return True
+        return False
 
 test_case = [1, 2, 1]
 obj = Solution()

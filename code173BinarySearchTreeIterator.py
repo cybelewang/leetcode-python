@@ -44,6 +44,33 @@ class BSTIterator(object):
         
         return cur.val
 
+# 2nd visit on 7/16/2020       
+class BSTIterator2:
+
+    def __init__(self, root: TreeNode):
+        def G(root):
+            if root:
+                yield from G(root.left)
+                yield root
+                yield from G(root.right)
+        
+        self.g = G(root)
+        self.next = next(self.g)
+
+    def next(self) -> int:
+        """
+        @return the next smallest number
+        """
+        t = self.next.val
+        self.next = next(self.g)
+        return t
+
+    def hasNext(self) -> bool:
+        """
+        @return whether we have a next smallest number
+        """
+        return self.next != None
+
 # Your BSTIterator will be called like this:
 # i, v = BSTIterator(root), []
 # while i.hasNext(): v.append(i.next())

@@ -102,5 +102,29 @@ class Solution:
 
         return G[n]
 
+    # 7/15/2020
+    # 2D DP solution, dp[i][j] represents the number of unique BSTs in range i to j inclusive, see OneNote
+    def numTrees4(self, n):
+        dp = [[0]*(n+1) for _ in range(n+1)]
+        for i in range(n, 0, -1):
+            dp[i][i] = 1
+            for j in range(i+1, n+1):
+                for k in range(i, j+1):
+                    left = 1 if k==i else dp[i][k-1]
+                    right = 1 if k==j else dp[k+1][j]
+                    dp[i][j] += left * right
+        return dp[1][n]
+
+    # 7/15/2020
+    # 1D DP solution, dp[i] represents the number of unique BSTs with length i because we don't care the start number.
+    # See OneNote
+    def numTrees5(self, n):
+        dp = [0]*(n+1)
+        dp[0] = 1 # empty subtree also counts as 1
+        for i in range(1, n+1):
+            for j in range(i):
+                dp[i] += dp[j]*dp[i-1-j]
+        return dp[n]
+
 obj = Solution()
-print(obj.numTrees(4))
+print(obj.numTrees5(4))

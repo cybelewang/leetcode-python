@@ -8,6 +8,7 @@ After robbing those houses on that street, the thief has found himself a new pla
 Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
 """
 class Solution:
+    # consider nums[0:n-1] and nums[1:n] separately because we can't rob nums[0] and nums[n-1] at the same night
     def rob(self, nums):
         """
         :type nums: List[int]

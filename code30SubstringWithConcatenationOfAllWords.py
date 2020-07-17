@@ -110,7 +110,7 @@ def findSubstring2(s, words):
         for j in range(i, i + n, m):
             ss = s[j:j+m]
             subCnt[ss] += 1
-            if subCnt[ss] > count[ss]:
+            if subCnt[ss] > count[ss]: # handle two cases: (1) ss exist in words but subCnt[ss] > count[ss] (2) ss doesn't exist, so 1 > (count[ss] = 0)
                 break
         else:
             res.append(i)
