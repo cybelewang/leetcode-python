@@ -10,7 +10,18 @@ Given word = "word", return the following list (order does not matter):
 ["word", "1ord", "w1rd", "wo1d", "wor1", "2rd", "w2d", "wo2", "1o1d", "1or1", "w1r1", "1o2", "2r1", "3d", "w3", "4"]
 """
 class Solution:
+    # https://www.cnblogs.com/grandyang/p/5261569.html
     def generateAbbreviations(self, word):
+        n = len(word)
+        res = [str(n) if n > 0 else ""]
+        for i in range(n):
+            for a in self.generateAbbreviations(word[i+1:]):
+                left = str(i) if i > 0 else ""
+                res.append(left + word[i] + a)
+        
+        return res
+     
+    def generateAbbreviations2(self, word):
         """
         :type word: str
         :rtype: list[str]

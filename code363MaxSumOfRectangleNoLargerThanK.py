@@ -31,7 +31,7 @@ class Solution:
             sum = [0]*m
             for j in range(i, n):
                 for p in range(m):
-                    sum[p] += matrix[p][j]
+                    sum[p] += matrix[p][j] # sum[p] is the sum between column i and column j on row p
                 
                 curSum, curMax = 0, -2**31
                 s = [0]

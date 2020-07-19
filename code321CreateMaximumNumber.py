@@ -24,6 +24,8 @@ return [9, 8, 9]
 # OJ best solution
 class BestSolution:
     def maxNumber(self, nums1, nums2, k):
+        # extract k big numbers from nums, preserve their original order
+        # use mono-decreasing stack
         def prep(nums, k):
             drop = len(nums) - k
             out = []
@@ -34,6 +36,7 @@ class BestSolution:
                 out.append(num)
             return out[:k]
 
+        # merge and sort a, b to a single list in reversed order
         def merge(a, b):
             return [max(a, b).pop(0) for _ in a + b]
 

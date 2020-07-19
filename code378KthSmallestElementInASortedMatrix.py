@@ -27,7 +27,7 @@ class Solution:
         :type k: int
         :rtype: int
         """
-        def search(matrix, target):
+        def count(matrix, target):
             """
             count elements <= target in matrix
             """
@@ -47,13 +47,13 @@ class Solution:
         left, right = matrix[0][0], matrix[-1][-1]
         while left < right:
             mid = (left + right)//2
-            cnt = search(matrix, mid)
+            cnt = count(matrix, mid)
             if cnt < k:
                 left = mid + 1
             else:
                 right = mid
         
-        return left
+        return right
 
     # binary search solution
     # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173/Share-my-thoughts-and-Clean-Java-Code
@@ -118,4 +118,4 @@ class Solution:
 matrix = [[ 1,  5,  9], [10, 11, 13], [12, 13, 15]]
 k = 8
 obj = Solution()
-print(obj.kthSmallest(matrix, k))
+print(obj.kthSmallest3(matrix, k))

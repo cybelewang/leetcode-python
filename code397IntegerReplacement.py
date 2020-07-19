@@ -62,7 +62,7 @@ class Solution:
         if n & 1 == 0: return self.integerReplacement2(n//2) + 1
         return min(self.integerReplacement2(n+1), self.integerReplacement2(n-1)) + 1
 
-    # my own DP solution, overflow error for very large n, such as 2**31-1
+    # my own DP solution, memory overflow error for very large n, such as 2**31-1
     def integerReplacement3(self, n):
         """
         :type n: int

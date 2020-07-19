@@ -23,7 +23,7 @@ class Solution:
         :type nums: List[int]
         :rtype: List[int]
         """
-        s = {1:[]}   # key: number, value: a list of disisible subset <= x
+        s = {1:[]}   # key: number, value: a list of divisible subset <= x
         for x in sorted(nums):
             s[x] = max((s[d] for d in s if x % d == 0), key=len) + [x]
         return list(max(s.values(), key=len))

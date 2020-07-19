@@ -29,6 +29,7 @@ class Solution:
                 A.append(c)
         return ''.join(A)        
 
+    # Wrong solution. Didn't think about duplicate. See "dcba", the expected result is "dcba"?
     # my own solution, construct result in alphabet order, check if current letter's min allowed position <= all remaining letters' most right positions, if yes, append this letter
     def removeDuplicateLetters2(self, s):
         """
@@ -62,4 +63,4 @@ test_cases = ['', 'a', 'aa', 'dcba', 'bcabc', 'cbacdcbc', 'zzddez']
 obj = Solution()
 for case in test_cases:
     print(case, end = ' -> ')
-    print(obj.removeDuplicateLetters2(case))
+    print(obj.removeDuplicateLetters(case))

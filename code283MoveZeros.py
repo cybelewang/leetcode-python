@@ -21,7 +21,14 @@ class Solution:
                 nums[i], nums[left] = nums[left], nums[i]
                 left += 1
 
-
+    # 2nd round visit on 7/17/2020, bubble sort, O(N^2)
+    def moveZeros(self, nums):
+        i, j = 0, len(nums)
+        for j in range(len(nums), 0, -1):
+            for i in range(j-1):
+                if nums[i] == 0:
+                    nums[i], nums[i+1] = nums[i+1], nums[i]
+                
 
 test_case = [0, 1, 0, 3, 12]
 obj = Solution()

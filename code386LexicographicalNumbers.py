@@ -26,7 +26,7 @@ class Solution:
         :type n: int
         :rtype: List[int]
         """
-        stack = deque(range(min(9, n), 0, -1))   # initialize queue with 9 to 0
+        stack = deque(range(min(9, n), 0, -1))   # initialize queue with 9 to 1
         res = []
         while len(stack) > 0:
             num = stack.pop()
