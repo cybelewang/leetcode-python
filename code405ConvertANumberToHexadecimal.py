@@ -25,6 +25,7 @@ Output:
 "ffffffff"
 """
 class Solution:
+    # 7/18/2020 - shift >> 4 will be simplier
     def toHex(self, num):
         """
         :type num: int

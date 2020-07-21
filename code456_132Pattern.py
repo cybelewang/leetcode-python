@@ -27,6 +27,7 @@ Output: True
 Explanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0] and [-1, 2, 0].
 """
 class Solution:
+    # maybe we can try mono-increase stack?
     # http://www.cnblogs.com/grandyang/p/6081984.html
     # https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C++-O(n)-space-and-time-solution-(8-lines)-with-detailed-explanation.
     def find132pattern(self, nums):

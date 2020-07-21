@@ -28,6 +28,8 @@ Note:
 order.length == 26
 All characters in words[i] and order are english lowercase letters.
 """
+import unittest
+from itertools import zip_longest
 class Solution:
     # my own solution, decode the alien word to normal alphabet word
     def isAlienSorted(self, words, order):
@@ -51,7 +53,38 @@ class Solution:
                     return False
         
         return True
+    
+    # 2nd visit on 7/20/2020, using zip_longest to align two words
+    def isAlienSorted2(self, words, order):
+        length = len(words)
+        if length < 2: return True
+        pos = {char:i for i, char in enumerate(order)}
+        pos[''] = -1 # '' is always smaller than others
+        for i in range(length-1):
+            word1, word2 = words[i], words[i+1]
+            for c1, c2 in zip_longest(word1, word2, fillvalue=''):
+                if c1 == c2:
+                    continue
+                elif pos[c1] < pos[c2]:
+                    break
+                else:
+                    return False
+                
+        return True
 
-words = ["apple","app"]
-order = "abcdefghijklmnopqrstuvwxyz"
-print(Solution().isAlienSorted(words, order))
+class Test(unittest.TestCase):
+    def test_empty(self):
+        test = Solution()
+        self.assertTrue(test.isAlienSorted2([], "a"))
+
+    def test_1(self):
+        test = Solution()
+        self.assertFalse(test.isAlienSorted2(["apple","app"], "abcdefghijklmnopqrstuvwxyz"))
+
+    def test_2(self):
+        test = Solution()
+        self.assertFalse(test.isAlienSorted2(["word","world","row"], "worldabcefghijkmnpqstuvxyz"))
+
+if __name__ == "__main__":
+    unittest.main(exit = False)
+

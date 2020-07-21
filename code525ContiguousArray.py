@@ -38,5 +38,8 @@ class Solution:
         
         return res
 
+    # another O(N^2) method: count 1s ending with nums[i], name it ones[i]. Then we put ones[i] and i into hashmap. 
+    # Then we iterate to index j and find count[j] - count[i] = (j-i)//2, we find a pair (i, j)
+
 nums = [0,0]
 print(Solution().findMaxLength(nums))

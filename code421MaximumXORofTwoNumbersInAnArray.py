@@ -26,7 +26,9 @@ class Solution:
     # Let's figure out how to get the high nth bit in result
     # for each number, keep only the highest n bits, set (32-n) lowest bits to 0, and put the result into a set
     # create a number tmp equal to result, then set the nth bit of tmp to be 1
-    # try to find two pre-n-bit numbers in the set that their XOR result is tmp. This can be done through checking if tmp ^ pre in set, because if pre1 ^ pre2 = tmp, then pre1 ^ tmp = pre2. This is similar to "Two Sum", using space to exchange with time
+    # try to find two pre-n-bit numbers in the set that their XOR result is tmp. 
+    # This can be done through checking if tmp ^ pre in set, because if pre1 ^ pre2 = tmp, then pre1 ^ tmp = pre2. 
+    # This is similar to "Two Sum", using space to exchange with time
     # If we cannot find the above two pre-n-bit numbers in the set, that means nth bit should be 0 in result
     def findMaximumXOR(self, nums):
         """
@@ -37,14 +39,15 @@ class Solution:
         # https://kingsfish.github.io/2017/12/15/Leetcode-421-Maximum-XOR-of-Two-Numbers-in-an-Array/
         res, mask = 0, 0
         for i in range(31, -1, -1):
-            mask = mask | (1 << i)  # n = 32-i, all n high bits are '1'
+            mask = mask | (1 << i)  # n = 32-i, all n high bits are '1', for example, if i=30, n=2, then mask = 1100000000000000000000...
             myset = set()
             for num in nums:
                 myset.add(mask & num) # put the prefix n high bits of each number into myset
             
             tmp = res | (1 << i)    # assume nth bit in result is '1', this makes sure the result is the largest
             for pre in myset:
-                if (tmp ^ pre) in myset: # test if pre ^ (another pre in mytest) == tmp
+                # if a ^ b = x, then a ^ x = b, a = b ^ x
+                if (tmp ^ pre) in myset: # check if two pres in mytest with their xor result equal to tmp. The two pres must not equal, otherwise their xor result will be 0.
                     res = tmp   # there are two pre in mytest and their XOR is tmp, so update res to tmp
                     break
             

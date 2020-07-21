@@ -32,7 +32,7 @@ class Solution:
                     continue
                 else:
                     d2 = (points[j][1] - points[i][1])**2 + (points[j][0]-points[i][0])**2
-                    res += 2*count[d2]
+                    res += 2*count[d2] # count[d2] means [points[i], previous points with d2 from points[i], points[j]], another count[d2] is [points[i], points[j], previous points with d2 from points[i]]
                     count[d2] += 1
         
         return res

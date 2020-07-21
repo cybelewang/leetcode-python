@@ -34,7 +34,7 @@ class Solution:
         while i > -1 and count[i] == mx:
             i -= 1
         
-        # (mx-1)*(n+1) is the total length of repeating pattern, for example, A - - A - -, here dash means idle
+        # (mx-1)*(n+1) is the total length of repeating pattern without last repeating letter, for example, mx=3, n=2 will be A - - A - - [A], here [A] means omitting last letter
         # 25 - i is the length of most frequent task, for example, AB
         # Then we will fill other tasks into empty dashes, - , if overfilled, then no idles left and we take len(tasks)
         return max(len(tasks), (mx-1)*(n+1) + 25 - i)

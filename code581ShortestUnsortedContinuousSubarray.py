@@ -22,12 +22,12 @@ class Solution:
         """
         n = len(nums)
 
-        left = -1
+        left = -1   # a virtual position with smallest integer
         for i in range(n):
             while left > -1 and nums[i] < nums[left]:
                 left -= 1
             
-            if left + 1 == i:
+            if left + 1 == i:   # handles duplicate
                 left = i
             
         right = n
@@ -35,7 +35,7 @@ class Solution:
             while right < n and nums[j] > nums[right]:
                 right += 1
             
-            if j + 1 == right:
+            if j + 1 == right: # handles duplicate
                 right = j
 
         return max(0, right - left - 1) # think about [1, 1, 1], after two passes, left = 2, right = 0

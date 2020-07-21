@@ -1,5 +1,5 @@
 """
-632 Smallest Range
+632 Smallest Range Covering Elements from K Lists
 
 You have k lists of sorted integers in ascending order. Find the smallest range that includes at least one number from each of the k lists.
 

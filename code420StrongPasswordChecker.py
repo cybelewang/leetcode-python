@@ -6,7 +6,8 @@ A password is considered strong if below conditions are all met:
 It has at least 6 characters and at most 20 characters.
 It must contain at least one lowercase letter, at least one uppercase letter, and at least one digit.
 It must NOT contain three repeating characters in a row ("...aaa..." is weak, but "...aa...a..." is strong, assuming other conditions are met).
-Write a function strongPasswordChecker(s), that takes a string s as input, and return the MINIMUM change required to make s a strong password. If s is already strong, return 0.
+Write a function strongPasswordChecker(s), that takes a string s as input, and return the MINIMUM change required to make s a strong password. 
+If s is already strong, return 0.
 
 Insertion, deletion or replace of any one character are all considered as one change.
 """
@@ -24,9 +25,13 @@ I've separated the problem into three cases:
 (2) 6 <= s.length() <= 20
 (3) s.length() > 20
 
-Let's look at case (1) first. If s.length() < 6, we know we have room to insert some more letters into s. Question is how to use the insertions effectively to reduce the number of potential replacements. I'm using a greedy approach for this one: I'm inserting one char between the second and third chars whenever I see a repetition of 3 letters as substring.
+Let's look at case (1) first. If s.length() < 6, we know we have room to insert some more letters into s. 
+Question is how to use the insertions effectively to reduce the number of potential replacements. 
+I'm using a greedy approach for this one: I'm inserting one char between the second and third chars whenever I see a repetition of 3 letters as substring.
 
-e.g. Say we have room to insert some chars in string and we see a substring of "aaaa". I'll insert a 'B' to make it "aaBaa" to break the 3-char repetition, thus reducing potential replacement by 1. And we'll do this until we can't insert any more chars into s. When we reach this point, we'll start dealing with case (2)
+e.g. Say we have room to insert some chars in string and we see a substring of "aaaa". I'll insert a 'B' to make it "aaBaa" to break the 3-char repetition, 
+thus reducing potential replacement by 1. And we'll do this until we can't insert any more chars into s. 
+When we reach this point, we'll start dealing with case (2)
 
 For case (2), I still follow a greedy approach. I'm simply searching for 3-char repetitions, and replacing one of the chars to break the repetition.
 e.g. If we see a substring of "aaaa", we'll make it "aaBa".
@@ -34,7 +39,8 @@ e.g. If we see a substring of "aaaa", we'll make it "aaBa".
 My code deals with (1) and (2) together as s.length() <= 20.
 
 Case (3) is a little bit tricky because simple greedy doesn't work any more.
-When s.length() > 20, we want to delete some chars instead of inserting chars to reduce potential replacements. Question is the same: how to do it effectively? Let's do some observations here:
+When s.length() > 20, we want to delete some chars instead of inserting chars to reduce potential replacements. Question is the same: how to do it effectively? 
+Let's do some observations here:
 
 Say len is the length of each repetition.
 (a) len % 3 only has three possible values, namely 0, 1 and 2.

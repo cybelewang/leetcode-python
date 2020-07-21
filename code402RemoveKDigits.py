@@ -74,4 +74,4 @@ class Solution:
 test_cases = [('1', 1), ('78912', 3), ('1432219', 3), ('100200', 1), ('100',1)]
 obj = Solution()
 for num, k in test_cases:
-    print(obj.removeKdigits(num, k))
+    print(obj.removeKdigits2(num, k))

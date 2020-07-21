@@ -40,10 +40,10 @@ class Solution:
         current = []
         while k > 0:
             while future and future[-1][0] <= W:
-                heapq.heappush(current, -future.pop()[1])
+                heappush(current, -future.pop()[1])
             if not current:
                 break
-            W -= heapq.heappop(current)
+            W -= heappop(current)
             k -= 1
         return W
     # my own solution: sort the tuple (capital, profit), then add all tuple (profit, capital) into MaxHeap if capital <= current

@@ -19,19 +19,19 @@ Note:
 The n will be in the range [1, 1000].
 """
 class Solution:
-"""
-    #https://leetcode.com/problems/2-keys-keyboard/discuss/105897/Loop-best-case-log(n)-no-DP-no-extra-space-no-recursion-with-explanation
-    public int minSteps(int n) {
-        int s = 0;
-        for (int d = 2; d <= n; d++) {
-            while (n % d == 0) {
-                s += d;
-                n /= d;
-            }
-        }
-        return s;
-    } 
-    """   
+# """
+# #https://leetcode.com/problems/2-keys-keyboard/discuss/105897/Loop-best-case-log(n)-no-DP-no-extra-space-no-recursion-with-explanation
+# public int minSteps(int n) {
+#     int s = 0;
+#     for (int d = 2; d <= n; d++) {
+#         while (n % d == 0) {
+#             s += d;
+#             n /= d;
+#         }
+#     }
+#     return s;
+# } 
+# """   
     # my own solution
     def minSteps(self, n):
         """
