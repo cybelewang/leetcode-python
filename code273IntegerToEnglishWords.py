@@ -11,7 +11,8 @@ For example,
 class Solution:
     dict = {1:'One', 2:'Two', 3:'Three', 4:'Four', 5:'Five', 6:'Six', 7:'Seven', 8:'Eight', 9:'Nine', 10:'Ten', 
     11:'Eleven', 12:'Twelve', 13:'Thirteen', 14:'Fourteen', 15:'Fifteen', 16:'Sixteen', 17:'Seventeen', 18:'Eighteen', 19:'Ninteen', 
-    20:'Twenty', 30:'Thirty', 40:'Forty', 50:'Fifty', 60:'Sixty', 70:'Seventy', 80:'Eighty', 90:'Ninty'}
+    20:'Twenty', 30:'Thirty', 40:'Forty', 50:'Fifty', 60:'Sixty', 70:'Seventy', 80:'Eighty', 90:'Ninty', 
+    1000:'Thousand', 10**6:'Million', 10**9:'Billion'}
     
     def _convensionWithinThousand(self, num):
         """
@@ -43,22 +44,16 @@ class Solution:
         if num == 0:
             return 'Zero'
 
-        words = []
-        if num // 10**9 != 0:
-            words.extend(self._convensionWithinThousand(num//10**9))
-            words.append('Billion')
-            num %= 10**9
+        # process billion, million, thousand
+        words, factor = [], 10**9
+        while factor > 1:
+            if num // factor != 0:
+                words.extend(self._convensionWithinThousand(num//factor))
+                words.append(self.dict[factor])
+                num %= factor
+            factor //= 1000
 
-        if num // 10**6 != 0:
-            words.extend(self._convensionWithinThousand(num//10**6))
-            words.append('Million')
-            num %= 10**6
-
-        if num // 10**3 != 0:
-            words.extend(self._convensionWithinThousand(num//10**3))
-            words.append('Thousand')
-            num %= 10**3
-
+        # process smaller than 1000
         words.extend(self._convensionWithinThousand(num))
 
         return ' '.join(words)

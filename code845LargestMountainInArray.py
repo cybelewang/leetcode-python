@@ -58,6 +58,7 @@ class Solution:
                 left = right = 0
         
         return res
+    # can we use two directions?
 
 #A = [2,1,4,7,3,2,5]
 #A = [5, 4, 3, 2, 1]

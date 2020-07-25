@@ -57,7 +57,8 @@ class Solution:
         return res
 
 obj = Solution()
-n = 3
+#n = 3
 #logs = ["0:start:0", "1:start:2", "2:start:3", "2:end:3", "1:end:5", "0:end:6"]
-logs = ["0:start:0", "0:end:1", "1:start:3", "1:end:4", "2:start:6", "2:end:7"]
+# logs = ["0:start:0", "0:end:1", "1:start:3", "1:end:4", "2:start:6", "2:end:7"]
+n, logs = 2, ["0:start:0","1:start:2","1:end:5","0:end:6"]
 print(obj.exclusiveTime(n, logs))

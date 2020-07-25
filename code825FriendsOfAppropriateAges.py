@@ -36,7 +36,7 @@ Notes:
 1 <= ages.length <= 20000.
 1 <= ages[i] <= 120.
 """
-from bisect import bisect_left
+from bisect import bisect_left, bisect_right
 from collections import defaultdict
 class Solution:
     # my own solution with bug fixed
@@ -63,10 +63,28 @@ class Solution:
                 res += (count[age] - 1)*(count[age])//2
 
         return res
-        
 
-#ages = [16, 16]    # expected 2
+    # 7/23/2020
+    # pitfall: don't forget that repeating ages can make friends from left to right
+    def numFriendRequests2(self, ages):
+        # ageA > 14 and ageB > 14 and ageA >= ageB and ageB > 0.5*ageA + 7
+        a = sorted(list(filter(lambda x: x>14, ages)))
+        res, repeat = 0, 0 # repeat is the repeat ages before current age
+        for i in range(len(a)):
+            if i > 0 and a[i] == a[i-1]:
+                # all repeat left ages can make friend request to a[i], so we add repeat
+                repeat += 1
+                res += repeat
+            else:
+                repeat = 0
+            # friend request from right to left
+            limit = 0.5*a[i] + 7.0
+            j = bisect_right(a, limit) # the first index with value > limit
+            res += i - j
+        return res        
+
+ages = [16, 16]    # expected 2
 #ages = [16, 17, 18]    # expected 2
-ages = [20,30,100,110,120]  # expected 3
+#ages = [20,30,100,110,120]  # expected 3
 #ages = [108,115,5,24,82]    # expected 3
-print(Solution().numFriendRequests(ages))
+print(Solution().numFriendRequests2(ages))

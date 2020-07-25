@@ -111,6 +111,36 @@ class Solution:
         
         return path
 
+    # 7/21/2020
+    # DFS + Cache
+    def longestIncreasingPath3(self, matrix):
+        # DFS helper function which returns the longest path distance
+        def helper(i, j, matrix, dirs, mem):
+            if (i, j) in mem: return mem[(i, j)]
+            m, n = len(matrix), len(matrix[0])
+            cur, dist = matrix[i][j], 1
+            #matrix[i][j] = -1 # mark (i, j) has been visited, no need for this problem because there will be no loop (mono increasing can't form a loop)
+            for dx, dy in dirs:
+                x, y = i+dx, j+dy
+                if -1<x<m and -1<y<n and matrix[x][y] > cur:
+                    dist = max(dist, 1 + helper(x, y, matrix, dirs, mem))
+            #matrix[i][j] = cur
+            mem[(i, j)] = dist
+            return dist
+
+        dirs = [[0, -1], [-1, 0], [0, 1], [1, 0]]
+
+        m = len(matrix)
+        if m < 1: return 0
+        n = len(matrix[0])
+
+        mem, res = {}, 0
+        for i in range(m):
+            for j in range(n):
+                res = max(res, helper(i, j, matrix, dirs, mem))
+        
+        return res
+
 nums = [[1]]
 obj = Solution()
-print(obj.longestIncreasingPath(nums))
+print(obj.longestIncreasingPath3(nums))

@@ -1,5 +1,5 @@
 """
-269 Alien Dictionary    -   not submitted
+269 Alien Dictionary
 
 There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
 
@@ -47,7 +47,7 @@ import unittest
 from collections import defaultdict, deque
 class Solution:
     # my own solution using lexicorgraphical comparison and topological order
-    def alienOrder(self, words):
+    def alienOrder_BFS(self, words):
         """
         :type words: list[str]
         :rtype: str
@@ -67,6 +67,8 @@ class Solution:
                     graph[pre[j]].append(post[j])   # create an edge in graph
                     indegrees[post[j]] += 1 # increase the in-degree of post[j]
                     break   # no need to check remaining characters in pre and post
+            else:
+                if len(pre) > len(post): return '' # invalid because first is larger than second
         
         # step 2: topological sort using BFS and in-degree method
         order = []
@@ -84,17 +86,63 @@ class Solution:
         else:
             return ''.join(order)
 
+    def alienOrder_DFS(self, words):
+        # Recursive helper function to create the topological sorted letters
+        def helper(src, graph, colors, res):
+            # return False if there is a cycle
+            if colors[src] == 2: return True
+            if colors[src] == 1: return False
+            colors[src] = 1 # visiting src now
+            for dst in graph[src]:
+                if not helper(dst, graph, colors, res):
+                    return False
+            colors[src] = 2 # completed visiting
+            res.append(src)
+            return True
+
+        # create graph
+        colors, graph = {}, defaultdict(set)
+        for i in range(1, len(words)):
+            first, second = words[i-1], words[i]
+            for j in range(min(len(first), len(second))):
+                a, b = first[j], second[j]
+                if a != b:
+                    graph[a].add(b) # create an edge in graph a -> b
+                    break
+            else:
+                if len(first) > len(second): return '' # invalid because first is longer than second
+
+        # initialize colors of all letters
+        for word in words:
+            for a in word:
+                colors[a] = 0
+        
+        res = []
+        for node in colors:
+            if not helper(node, graph, colors, res):
+                return ''
+        
+        return ''.join(res[::-1])
+
 obj = Solution()
 class Test(unittest.TestCase):
     def test_empty(self):
-        self.assertEqual(obj.alienOrder([]), '')
+        self.assertEqual(obj.alienOrder_BFS([]), '')
+        self.assertEqual(obj.alienOrder_DFS([]), '')
     
     def test_invalid(self):
-        self.assertEqual(obj.alienOrder(['z', 'x', 'z']), '')
+        self.assertEqual(obj.alienOrder_BFS(['z', 'x', 'z']), '')
+        self.assertEqual(obj.alienOrder_DFS(['z', 'x', 'z']), '')
 
     def test_smallsets(self):
-        self.assertEqual(sorted(obj.alienOrder(['a', 'ac', 'acb'])), sorted('acb')) # expect any order of "abc"
-        self.assertEqual(obj.alienOrder(["wrt", "wrf", "er", "ett", "rftt"]), 'wertf')
+        self.assertEqual(sorted(obj.alienOrder_BFS(['a', 'ac', 'acb'])), sorted('acb')) # expect any order of "abc"
+        self.assertEqual(obj.alienOrder_BFS(["wrt", "wrf", "er", "ett", "rftt"]), 'wertf')
+        self.assertEqual(sorted(obj.alienOrder_DFS(['a', 'ac', 'acb'])), sorted('acb')) # expect any order of "abc"
+        self.assertEqual(obj.alienOrder_DFS(["wrt", "wrf", "er", "ett", "rftt"]), 'wertf')
+
+    def test_invalidWords(self):
+        self.assertEqual(obj.alienOrder_BFS(["abc", "ab"]), "")
+        self.assertEqual(obj.alienOrder_DFS(["abc", "ab"]), "")
 
 if __name__ == '__main__':
     unittest.main(exit = False)

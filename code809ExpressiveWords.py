@@ -67,7 +67,46 @@ class Solution:
                 res += 1
         
         return res
+    
+    # 2nd visit on 7/23/2020
+    # First build letters and count lists for S, with abbrevation letters and corresponding counts
+    # Then for each word, count consecutive letters and compare with S
+    # corner cases: (1) S is empty; (2) abbrev letters of S is shorter than word; (3) abbrev letters of S is longer than word
+    def expressiveWords2(self, S, words):
+        if not S: return 0
 
-S = "heeellooo"
-words = ["hello", "hi", "helo"]
-print(Solution().expressiveWords(S, words))
+        letters, count = [], [] # a list of letters and corresponding consecutive count
+        for i, c in enumerate(S):
+            if i > 0 and S[i] == S[i-1]:
+                count[-1] += 1
+            else:
+                letters.append(S[i])
+                count.append(1)
+        
+        res = 0
+        for word in words:
+            i = 0 # index of letters and count
+            cnt = 0 # count of current consecutive letters in word
+            word += '#' # force to check last consecutive letter in word because '#' is different from any previous letters
+            for j, c in enumerate(word):
+                if j == 0:
+                    cnt = 1
+                elif word[j] == word[j-1]:
+                    cnt += 1
+                else: # word[j] != word[j-1], compare with S letters & counts
+                    # word has more abbrev letters than S, or word's current abbrev letter is different from S's corresponding abbrev letter
+                    if i >= len(letters) or word[j-1] != letters[i]:
+                        break
+                    if (count[i] < 3 and cnt == count[i]) or (count[i] >=3 and cnt <= count[i]):
+                        cnt = 1
+                        i += 1
+                    else:
+                        break
+            else:
+                res += i == len(letters) # bug fixed: should not increment res directly because we need to make sure i is at the end of letter
+        
+        return res                       
+
+S = "abcd"
+words = ["abc"]
+print(Solution().expressiveWords2(S, words))

@@ -50,4 +50,32 @@ class Solution:
 
         return search(0, N, K)
 
+    # 2nd visit on 7/22/2020
+    # Observations:
+    # row 1:          0
+    # row 2:        0 | 1
+    # row 3:       01 | 10
+    # row 4:     0110 | 1001
+    # row 5: 01101001 | 10010110
+    # We can see that the left half of row N is the whole row N-1
+    # We can also see that left half is symmetric to right half, but in even row, the symmetric bits are flipped, while in odd row, the symmetric bits are not flipped
+    # In row N, the number of bits are 2**(N-1), if K is in right half, we can find symmetric bit in left half and then recursively find bit in row N-1
+    # When N reaches 2, we can just use K to get the bit (0 for K==1 and 1 for K==2).
+    # We need a variable flip to record the flip times so eventually we can use it to get the final bit.
+    def kthGrammar2(self, N: int, K: int) -> int:
+        if N == 1: return 0
+        flip = 0
+        while N > 2:
+            M = 2**(N-1) # total count of bits in this row
+            if K > M//2: # K is in right half, find the symmetric left position
+                if N & 1 == 0:
+                    flip += 1 # flip bit in even row
+                K = M + 1 - K # find symmetric left position
+            N -= 1 # go to row N-1
+        res = 0 if K == 1 else 1
+        if flip & 1:
+            res ^= 1
+        return res
+
 print(Solution().kthGrammar(30, 2**29))
+print(Solution().kthGrammar2(30, 2**29))

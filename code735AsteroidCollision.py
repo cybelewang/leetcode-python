@@ -39,7 +39,7 @@ Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 """
 # similar problems: 605 Can Place Flowers
 class Solution:
-    # solution 2 from http://www.cnblogs.com/grandyang/p/8035551.html
+    # solution 2 from http://www.cnblogs.com/grandyang/p/8035551.html, O(N)
     # we use a list "res" to save the result, and iterate all elements in asteroids
     # the "front line" is the end of "res"
     def asteroidCollision(self, asteroids):
@@ -61,6 +61,32 @@ class Solution:
             i += 1
 
         return res
+
+    # O(N^2) solution on 7/22/2020
+    # iterate all positive numbers from right to left, for each positive number a[i], we check others in a[i+1:] and compare it with a[i]
+    # if a[j] > 0, no need to continue because a[j] is the front line
+    # if a[j] < 0, we further check a[i] + a[j], if 0, set both to 0, otherwise set one of them to 0
+    # Finally copy those non-zero elements from a
+    def asteroidCollision3(self, asteroids: List[int]) -> List[int]:
+        a = asteroids
+        n = len(a)
+        for i in range(n-2, -1, -1):
+            if a[i] > 0:
+                for j in range(i+1, n):
+                    if a[j] > 0: break
+                    if a[j] < 0:
+                        if a[i] + a[j] == 0:
+                            a[i] = 0
+                            a[j] = 0
+                            break
+                        elif a[i] + a[j] > 0:
+                            a[j] = 0
+                        else:
+                            a[i] = 0
+                            break
+        
+        return [x for x in a if x != 0]   
+
 
     # my own solution, TLE
     # divide asteroids into two same-size list: pos and neg. 

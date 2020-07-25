@@ -54,6 +54,8 @@ class StockSpanner:
 
         return span
 
+# 7/24/2020, use mono-decrease stack?
+
 A = list(range(1,10000))
 obj = StockSpanner()
 for i, p in enumerate(A):

@@ -56,12 +56,12 @@ class Solution:
         top = 0 
         front = [0]*n
         for i in range(m):
-            side = 0
+            side = 0 # max area along the x axis
             for j in range(n):
                 if grid[i][j] > 0:
                     top += 1
                 side = max(side, grid[i][j])
-                front[j] = max(front[j], grid[i][j])
+                front[j] = max(front[j], grid[i][j]) # max area along the y axis
             top += side
         
         return top + sum(front)

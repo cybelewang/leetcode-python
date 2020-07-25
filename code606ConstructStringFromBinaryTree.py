@@ -36,6 +36,18 @@ except we can't omit the first parenthesis pair to break the one-to-one mapping 
 import unittest
 from TreeNode import *
 class Solution:
+    # 3rd visit on 7/21/2020
+    # recursive solution
+    def tree2str3(self, t):
+        if not t: return ''
+        left, right = self.tree2str(t.left), self.tree2str(t.right)
+        if not left and not right:
+            return "{}".format(t.val) # omit both left and right
+        elif not right:
+            return "{0}({1})".format(t.val, left) # omit right
+        else:
+            return "{0}({1})({2})".format(t.val, left, right) # no omit       
+            
     # my 2nd trial
     def tree2str(self, t):
         """
@@ -133,24 +145,24 @@ class Solution2:
 
         return res
 
-obj = Solution2()
+obj = Solution()
 class Test(unittest.TestCase):
 
     def test_empty(self):
         root = ListToTree([])
-        self.assertEqual(obj.tree2str(root), '')
+        self.assertEqual(obj.tree2str3(root), '')
 
     def test_single(self):
         root = ListToTree([1])
-        self.assertEqual(obj.tree2str(root), '1')
+        self.assertEqual(obj.tree2str3(root), '1')
 
     def test_small(self):
         root = ListToTree([1, 2])
-        self.assertEqual(obj.tree2str(root), "1(2)")
+        self.assertEqual(obj.tree2str3(root), "1(2)")
         root = ListToTree([1, 2, 3, None, 4])
-        self.assertEqual(obj.tree2str(root), "1(2()(4))(3)")      
+        self.assertEqual(obj.tree2str3(root), "1(2()(4))(3)")      
         root = ListToTree([1,None,2,None, 3,None,4])
-        self.assertEqual(obj.tree2str(root), "1()(2()(3()(4)))")
+        self.assertEqual(obj.tree2str3(root), "1()(2()(3()(4)))")
 
 if __name__ == '__main__':
     unittest.main(exit=False)

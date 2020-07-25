@@ -97,6 +97,39 @@ class Solution:
 
         return res
 
+    # 7/24/2020 recursive solution, TLE
+    def calculate3(self, s):
+        s += '+'
+        sign, res, num = 1, 0, 0
+        i = 0
+        while i < len(s):
+            c = s[i]
+            if c.isdigit():
+                num = num*10 + int(c)
+            elif c == '+':
+                res += sign*num
+                num, sign = 0, 1
+            elif c == '-':
+                res += sign*num
+                num, sign = 0, -1
+            elif c == '(':
+                # find the corresponding ')'
+                cnt = 1
+                for j in range(i+1, len(s)):
+                    if s[j] == '(':
+                        cnt += 1
+                    elif s[j] == ')':
+                        cnt -= 1
+                        if cnt == 0:
+                            break
+                            
+                num = self.calculate(s[i+1:j])
+                i = j + 1
+                continue
+            i += 1
+        
+        return res        
+
 test_case = '100-(-(2-34)+6 -(9))'
 obj = Solution()
 print(obj.calculate(test_case))
