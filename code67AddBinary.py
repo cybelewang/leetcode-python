@@ -9,6 +9,7 @@ b = "1"
 Return "100".
 
 """
+import unittest
 class Solution(object):
     decode = {'1':1, '0':0}
     def addBinary(self, a, b):
@@ -47,8 +48,25 @@ class Solution(object):
 
         return res
 
-test_cases = [('',''), ('','1'), ('0','0'), ('1','1'), ('1','0'), ('111111','1')]
-obj = Solution()
-for case in test_cases:
-    print(case, end = ' -> ')
-    print(obj.addBinary(case[0],case[1]))
+    # FB question: add two binary strings without using +, -, *, /
+    # use bit operation, see https://leetcode.com/problems/add-binary/solution/
+    def addBinary2(self, a, b):
+        if not a or not b: return a or b
+        x, y = int(a, 2), int(b, 2)
+        while y:
+            xor = x ^ y
+            carry = (x&y) << 1
+            x, y = xor, carry
+        
+        return bin(x)[2:]
+
+class Test(unittest.TestCase):
+    def test_1(self):
+        test_cases = [('',''), ('','1'), ('0','0'), ('1','1'), ('1','0'), ('111111','1')]
+        expected = ['', '1', '0', '10', '1', '1000000']
+        obj = Solution()
+        for i, case in enumerate(test_cases):
+            self.assertEqual(obj.addBinary(*case), expected[i])
+
+if __name__ == "__main__":
+    unittest.main(exit=False)

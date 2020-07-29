@@ -37,9 +37,9 @@ class Solution:
         for i in range(n):
             sums[i+1] = sums[i] + A[i]
         
-        dp = [[0.0]*n for _ in range(n)]    # dp[i][k] is the max average sum in range [i, n-1], up to k groups
+        dp = [[0.0]*K for _ in range(n)]    # dp[i][k] is the max average sum in range [i, n-1], up to k groups
         for i in range(n):
-            dp[i][0] = (sums[n] - sums[i])/(n-i)    # no group, just calculate the average of the whole array
+            dp[i][0] = (sums[n] - sums[i])/(n-i)    # 1 group, just calculate the average of the whole array
 
         for k in range(1, K):
             for i in range(n-1):

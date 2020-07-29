@@ -39,7 +39,7 @@ class Solution:
             carry, A[i] = divmod(A[i], 10)
             if i: A[i-1] += carry
         if carry:
-            A = map(int, str(carry)) + A
+            A = list(map(int, str(carry))) + A
         return A
         
     def addToArrayForm(self, A, K):
@@ -62,4 +62,4 @@ class Solution:
 
 A = [9,9,9,9,9,9,9,9,9,9]
 K = 1
-print(Solution().addToArrayForm(A, K))
+print(Solution().addToArrayForm_OJ(A, K))

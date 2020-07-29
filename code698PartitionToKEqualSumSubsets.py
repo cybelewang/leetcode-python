@@ -20,13 +20,13 @@ class Solution:
         :type k: int
         :rtype: bool
         """
+        # corner case check
         if len(nums) < k:   return False
         if k == 1:  return True
         s = sum(nums)
         if s%k != 0:    return False
         target = s//k
-        nums.sort()
-        nums = nums[::-1]
+        nums.sort(reverse=True)
         used = [False]*len(nums)
         start = 0
         for i in range(k-1):
@@ -77,8 +77,10 @@ class Solution:
         if sums % k: return False
             
         return solve(sorted(nums), sums // k, k)
+    
+    # typical DFS solution, easier to understand
+    # trick to sort nums in reversed order, so we can quickly get current sum > target
     # from http://www.cnblogs.com/grandyang/p/7733098.html
-    # but still TLE
     def canPartitionKSubsets2(self, nums, k):
         """
         :type nums: List[int]
@@ -86,34 +88,23 @@ class Solution:
         :rtype: bool
         """
         sum_ = sum(nums)
-        if sum_ % k:
-            return False
+        if sum_ % k: return False
         
         target = sum_ // k
-        nums.sort()
-
-        n = len(nums)
-        used = [False]*n
+        nums.sort(reverse=True)
+        used = [False]*len(nums)
 
         def dfs(nums, used, target, cursum, k, start):
-            if k == 1:
-                return True
-            
-            if cursum == target:
-                return dfs(nums, used, target, 0, k-1, 0)
-
-            if cursum > target or start == len(nums):
-                return False
+            if k == 1: return True
+            if cursum > target: return False
+            if cursum == target: return dfs(nums, used, target, 0, k-1, 0)             
 
             for i in range(start, len(nums)):
-                if used[i]:
-                    continue
-
+                if used[i]: continue
                 used[i] = True
                 if dfs(nums, used, target, cursum + nums[i], k, i+1):
                     return True
-                used[i] = False
-                
+                used[i] = False                
             return False
         
         return dfs(nums, used, target, 0, k, 0)
@@ -157,4 +148,5 @@ class Solution:
         return dfs(nums, used, target, 0, k)
 
 nums, k = [4,5,3,2,1,3,5,2, 5, 5, 5, 5, 5, 5, 5, 5], 13
-print(Solution().canPartitionKSubsets_OJBest(nums, k))
+#nums, k = [4, 3, 2, 3, 5, 2, 1], 4
+print(Solution().canPartitionKSubsets2(nums, k))

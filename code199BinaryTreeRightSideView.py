@@ -44,6 +44,21 @@ class Solution:
                     queue.appendleft(node.left)
         
         return res
+
+    def rightSideView_DFS(self, root):
+        if not root: return []
+        res = []
+        def dfs(node, level):
+            if level == len(res):
+                res.append(node.val)
+            if node.right:
+                dfs(node.right, level+1)
+            if node.left:
+                dfs(node.left, level+1)
+        
+        dfs(root, 0)
+        return res
+
     # has a bug. Consider a tree with only one right leaf and many left subnodes.
     def rightSideView2(self, root):
         """
@@ -63,3 +78,4 @@ class Solution:
 obj = Solution()
 test_case = [1, 2, None, 3, 4]
 print(obj.rightSideView(ListToTree(test_case)))
+print(obj.rightSideView_DFS(ListToTree(test_case)))

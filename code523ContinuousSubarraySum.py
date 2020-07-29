@@ -42,6 +42,24 @@ class Solution:
         
         return False
 
+    # 7/25/2020 
+    # O(n) space, no need of accumulation list
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        k = abs(k)
+        sums = 0
+        mem = {0:-1}
+        for i, num in enumerate(nums):
+            sums += num
+            if k == 0:
+                if sums in mem and i - mem[sums] >= 2:
+                    return True
+                mem.setdefault(sums, i)
+            if k > 0:
+                if sums%k in mem and i - mem[sums%k] >= 2:
+                    return True
+                mem.setdefault(sums%k, i)
+        return False            
+
 nums = [0,0]
 k=0
 print(Solution().checkSubarraySum(nums, k))

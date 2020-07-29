@@ -59,7 +59,7 @@ class Solution:
         expected = (1<<26) - 1  # this is expected encode int, with all 26 bits set to 1
         encode = expected
         # count each letter in p
-        # reset the bit with corresponding letter's count > 0
+        # reset the bit to 0 for p lettes with count > 0
         # the bit of the letters not in p will remain 1
         for c in p:
             index = ord(c) - base
@@ -80,6 +80,45 @@ class Solution:
                 i += 1
                 
         return res
+
+# 7/25/2020
+# Use 26 bits to represent the match condition, but we use compare like "match & base == base" to filter out those letters not in p. Bit 1 in base represents that letter is in p.
+# We only need to compare s letters which are also in p, and ignore other letters, because the length of substring is fixed. If there are other s letters not in p, then some letters in p must not match the count.
+class Solution2:
+    def findAnagrams(self, s, p):
+        self.sCnt = defaultdict(int)
+        self.pCnt = Counter(p) # bug fixed: forgot to declare members
+        self.match = 0
+        base = 0 # bit mask of p anagrams
+        res = []
+        for letter in self.pCnt:
+            base |= 1 << (ord(letter) - ord('a'))
+        for i in range(len(s)):
+            self.addLetter(s[i])
+            if i < len(p)-1: continue # bug fixed: must consider i == len(p) - 1 and i == len(p) differently
+            # need to evaluate self.match when i >= len(p) -1, not i >= len(p)
+            if i >= len(p):
+                self.removeLetter(s[i-len(p)])
+            if self.match & base == base:
+                res.append(i-len(p)+1)
+        return res
+    
+    # add a character to a window and update match bits
+    def addLetter(self, letter):
+        self.sCnt[letter] += 1
+        self.updateMatch(letter)
+    
+    # remove a character to a window and update match bits
+    def removeLetter(self, letter):
+        self.sCnt[letter] -= 1
+        self.updateMatch(letter)
+    
+    # helper function to update match bits
+    def updateMatch(self, letter):
+        if self.sCnt[letter] == self.pCnt[letter]:
+            self.match |= 1 << (ord(letter) - ord('a'))
+        else:
+            self.match &= ~(1 << (ord(letter) - ord('a')))
 
 s= "cbaebabacd"
 p= "abc"

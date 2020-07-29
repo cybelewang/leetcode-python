@@ -71,6 +71,45 @@ class BSTIterator2:
         """
         return self.next != None
 
+class BSTIterator_MORRIS:
+    def __init__(self, root: TreeNode):
+        # Morris inorder generator
+        def G(root):
+            while root:                
+                if not root.left:
+                    yield root
+                    root = root.right
+                else:
+                    pre = root.left
+                    while pre.right != None and pre.right != root:
+                        pre = pre.right
+                    if pre.right == None:
+                        pre.right = root
+                        root = root.left
+                    if pre.right == root:
+                        yield root
+                        pre.right = None
+                        root = root.right
+        
+        self.G = G(root)
+        self.cur = next(self.G, None)
+        
+
+    def next(self) -> int:
+        """
+        @return the next smallest number
+        """
+        value = self.cur.val
+        self.cur = next(self.G, None)
+        return value
+        
+
+    def hasNext(self) -> bool:
+        """
+        @return whether we have a next smallest number
+        """
+        return self.cur is not None
+
 # Your BSTIterator will be called like this:
 # i, v = BSTIterator(root), []
 # while i.hasNext(): v.append(i.next())
