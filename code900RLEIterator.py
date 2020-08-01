@@ -62,6 +62,25 @@ class RLEIterator:
             self.used = target - count
             return self.A[self.index + 1]
 
+# 7/28/2020
+# greedy method, consume self.offset until it is <= current capacity
+class RLEIterator2:
+
+    def __init__(self, A: List[int]):
+        self.A = A
+        self.index = 0
+        self.offset = 0
+
+    def next(self, n: int) -> int:
+        self.offset += n
+        while self.index < len(self.A) and self.offset > self.A[self.index]:
+            self.offset -= self.A[self.index]
+            self.index += 2
+        if self.index >= len(self.A):
+            return -1
+        return self.A[self.index+1]
+
+
 A, B = [3,8,0,9,2,5], [2, 1, 1, 2, 1e9]
 obj = RLEIterator(A)
 for n in B:

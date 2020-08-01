@@ -26,29 +26,47 @@ Note:
 Number of operations won't exceed 10000.
 The last four operations won't be called when stack is empty.
 """
+# different from 155 min stack because this problem requires popMax()
+# two stacks to store elements and max elements separately
 class MaxStack:
 
     def __init__(self):
         """
         initialize your data structure here.
         """
+        self.s1, self.s2 = [], []
+
+    def push(self, x: int) -> None:
+        self.s1.append(x)
+        if not self.s2:
+            self.s2.append(x)
+        else:
+            self.s2.append(max(self.s2[-1], x))
+
+    def pop(self) -> int:
+        self.s2.pop()
+        return self.s1.pop()        
+
+    def top(self) -> int:
+        return self.s1[-1]
+
+    def peekMax(self) -> int:
+        return self.s2[-1]
         
-
-    def push(self, x):
-        pass
-
-    def pop(self):
-        pass
-
-    def top(self):
-        pass
-
-    def peekMax(self):
-        pass
-
-    def popMax(self):
-        pass
-
+    def popMax(self) -> int:
+        mx = self.s2[-1]
+        s3 = []
+        # keep popping s1 until seeing mx
+        while self.s1[-1] != mx:
+            s3.append(self.s1.pop())
+            self.s2.pop()
+        # pop mx from s1 and s2
+        self.s1.pop()
+        self.s2.pop()
+        # push s3 elements back to s1 and s2 using push function
+        while s3: self.push(s3.pop())
+            
+        return mx
 
 # Your MaxStack object will be instantiated and called as such:
 # obj = MaxStack()

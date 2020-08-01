@@ -18,7 +18,7 @@ minStack.pop();
 minStack.top();      --> Returns 0.
 minStack.getMin();   --> Returns -2.
 """
-# Solution 1: use minEle to save the current minimum, if the new element x < minEle, push (2*x - minEle) and update minEle to x. When poping top element, check if top < min, if so, recalculate x as (minEle + top)//2, and update minEle as x. if top >= min, just pop x as is.
+# Solution 1: use minEle to save the current minimum, if the new element x < minEle, push (2*x - minEle) and update minEle to x. When poping top element, check if top < min, if so, minEle as (2*minEle - top). if top >= minEle, just pop x as is.
 # Solution 2: use two stacks, the extra stack saves the corresponding min element. Time O(1), Space O(n)
 class MinStack:
     
@@ -26,7 +26,7 @@ class MinStack:
         """
         initialize your data structure here.
         """
-        self.stack = deque()
+        self.stack = []
         self.minEle = 2**31 - 1
 
     def push(self, x):
@@ -34,14 +34,14 @@ class MinStack:
         :type x: int
         :rtype: void
         """
-        if len(self.stack) == 0:
+        if not self.stack:
             self.stack.append(x)
             self.minEle = x
-        elif x < self.minEle:
-            self.stack.append(2*x - self.minEle)    # the result is always smaller than the new minEle, so when popping out the value in stack, we know we need to update the minEle
-            self.minEle = x
-        else:
+        elif x >= self.minEle:
             self.stack.append(x)
+        else: # x < self.minEle
+            self.stack.append(2*x-self.minEle)
+            self.minEle = x  
 
     def pop(self):
         """

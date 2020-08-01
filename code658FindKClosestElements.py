@@ -83,7 +83,7 @@ class Solution:
             else:
                 right = mid
         
-        return arr[right:right+k]
+        return arr[left:left+k]
 
 arr = [0,0,0,1,3,5,6,7,8,8]
 k = 2

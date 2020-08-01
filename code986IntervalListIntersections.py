@@ -63,6 +63,25 @@ class Solution:
         
         return res
 
+    # 7/30/2020
+    # put all cases into a single while loop
+    def intervalIntersection3(self, A, B):
+        i, j = 0, 0
+        res = []
+        while i < len(A) and j < len(B):
+            if A[i][0] > B[j][1]: # B[j] on left of A[i]
+                j += 1
+            elif A[i][1] < B[j][0]: # B[j] on right of A[i]
+                i += 1
+            else: # A[i] and B[j] has intersection
+                s, e = max(A[i][0], B[j][0]), min(A[i][1], B[j][1])
+                res.append([s, e])
+                if A[i][1] > B[j][1]: # advance pointer for interval with smaller end
+                    j += 1
+                else:
+                    i += 1
+        return res
+
 #A, B = [], []   # expect []
 #A, B = [], [Interval(1, 1)] # expect []
 #A, B = [Interval(1, 1)], [] # expect []

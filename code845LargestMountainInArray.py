@@ -42,20 +42,20 @@ class Solution:
         if n < 3:
             return 0
 
-        left, right, res = 0, 0, 0
+        up, down, res = 0, 0, 0
         for i in range(1, n):
             if A[i] > A[i-1]:
-                if right > 0:   # bug fixed: we must reset left if the increase trend just follows a decline, like "V"
-                    left = 1
+                if down > 0:   # bug fixed: we must reset left if the increase trend just follows a decline, like "V"
+                    up = 1
                 else:
-                    left += 1
-                right = 0
+                    up += 1
+                down = 0
             elif A[i] < A[i-1]:
-                right += 1
-                if left > 0:
-                    res = max(res, left + right + 1)
+                down += 1
+                if up > 0:
+                    res = max(res, up + down + 1)
             else:
-                left = right = 0
+                up = down = 0
         
         return res
     # can we use two directions?

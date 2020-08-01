@@ -63,3 +63,68 @@ class Solution:
             queue = next_queue
         
         return res
+
+# Follow-up: clone directed graph, may have duplicate node values, may have cycles
+# 0 -> 0 -> 2
+#     /\    |
+#      |    \/
+#      9 <- 3
+#     /\
+#      |
+# 5 -> 7 -> 8
+# given heads which is a list contains starting nodes (0 and 5), clone this graph.
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.children = []
+
+class CloneDG:
+    def clone(self, heads):
+        """
+        clone a directed graph, may contain duplicate values, may contain cycles
+        """
+        def helper(src_parent, src_node, src_dst, res):
+            if not src_node: return
+            dst_node = None
+            if src_node in src_dst:
+                # src_node has been cloned before, so we only need to clone the edges
+                dst_node = src_dst[src_node]
+                dst_parent = src_dst[src_parent]
+                dst_parent.children.append(dst_node)
+            else:
+                # src_node has not been cloned, we need to clone nodes and edges and also DFS to src_node's children
+                dst_node = Node(src_node.val)
+                src_dst[src_node] = dst_node
+                if not src_parent:
+                    res.append(dst_node)
+                else:
+                    dst_parent = src_dst[src_parent]
+                    dst_parent.children.append(dst_node)
+                for child in src_node.children:
+                    helper(src_node, child, src_dst, res)
+            
+        src_dst, res = {}, []
+        for head in heads:
+            helper(None, head, src_dst, res)
+        return res
+
+# construct the test DG
+heads = [Node(0), Node(5)]
+
+node01 = Node(0)
+heads[0].children.append(node01)
+node02 = Node(2)
+node01.children.append(node02)
+node12 = Node(3)
+node02.children.append(node12)
+node11 = Node(9)
+node12.children.append(node11)
+node11.children.append(node01)
+
+node21 = Node(7)
+heads[1].children.append(node21)
+node21.children.append(node11)
+node22 = Node(8)
+node21.children.append(node22)
+
+clones = CloneDG().clone(heads)

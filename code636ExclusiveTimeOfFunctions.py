@@ -39,21 +39,20 @@ class Solution:
         :type logs: List[str]
         :rtype: List[int]
         """
-        res = [0]*n
-        stack, t = [], 0
-        for s in logs:
-            a = s.split(':')
-            id, time = int(a[0]), int(a[2])
+        stack, res = [], [0]*n
+        t = 0
+        for log in logs:
+            a = log.split(':')
             if a[1] == 'start':
-                if stack:                    
-                    res[stack[-1]] += time - t
-                t = time    # bug fixed: t should be updated regardless stack is empty or not
-                stack.append(id)
-            else:
+                if stack:
+                    res[stack[-1]] += int(a[2]) - t
+                t = int(a[2])
+                stack.append(int(a[0]))
+            else: # 'end'
+                res[stack[-1]] += int(a[2]) - t + 1
+                t = int(a[2]) + 1
                 stack.pop()
-                res[id] += time - t + 1
-                t = time + 1
-
+        
         return res
 
 obj = Solution()

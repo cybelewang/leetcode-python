@@ -59,6 +59,31 @@ class Solution:
 
         return res
 
+    def maxTurbulenceSize2(self, A):
+        # relation: 1 for A[i-1] < A[i], -1 for A[i-1] > A[i], 0 for A[i-1] == A[i]
+        # edges represent numbers of continuous turblent edges
+        relation, edges, res = 0, 0, 1 
+
+        for i in range(1, len(A)):
+            if A[i] > A[i-1]:
+                if i == 1 or relation == -1:
+                    edges += 1
+                    res = max(res, edges+1)
+                else:
+                    edges = 1
+                relation = 1
+            elif A[i] < A[i-1]:
+                if i == 1 or relation == 1:
+                    edges += 1
+                    res = max(res, edges+1)
+                else:
+                    edges = 1
+                relation = -1
+            else:
+                relation, edges = 0, 0
+                
+        return res       
+
 A = [1, 2, 1, 2, 1, 2]  # expect 6
 #A = [0, 0, 0]   # expect 1
 #A = [9,4,2,10,7,8,8,1,9]    # expect 5

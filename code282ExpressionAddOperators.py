@@ -54,24 +54,22 @@ class Solution:
             for i in range(pos, len(num)):
                 if num[pos] == '0' and i > pos:
                     break
-                S = num[pos:i+1]
-                a = int(S)
+                s = num[pos:i+1]
+                a = int(s)
                 if pos == 0:
-                    helper(res, S, i+1, num, a, target, a)
+                    helper(res, s, i+1, num, a, target, a)
                 else:
-                    helper(res, path+'+'+S, i+1, num, value+a, target, a)
-                    helper(res, path+'-'+S, i+1, num, value-a, target, -a)
-                    helper(res, path+'*'+S, i+1, num, value-multivalue+multivalue*a, target, multivalue*a)
+                    helper(res, path+'+'+s, i+1, num, value+a, target, a)
+                    helper(res, path+'-'+s, i+1, num, value-a, target, -a)
+                    helper(res, path+'*'+s, i+1, num, value-multivalue+multivalue*a, target, multivalue*a)
 
         # main
         res = []
-        if len(num) < 2:
-            return res
         helper(res, '', 0, num, 0, target, 0)
         return res
 
 obj = Solution()
-print(obj.addOperators2('105', 5))
+print(obj.addOperators2('123', 6))
 
 """
 This problem has a lot of edge cases to be considered:

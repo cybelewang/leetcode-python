@@ -30,23 +30,19 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
-        self.res = 0
-        def longest_path(root):
-            """
-            find the longest path of the subtree with root
-            """
+        def dfs(root):
+            # return the max length starting from root
+            # update the result
             if not root:
-                return -1
-            
-            left = 1 + longest_path(root.left)
-            right = 1 + longest_path(root.right)
-
+                return -1 # edges = nodes - 1
+            left = 1 + dfs(root.left)
+            right = 1 + dfs(root.right)
             self.res = max(self.res, left + right)
             return max(left, right)
-
+        
         # main
-        longest_path(root)
-
+        self.res = 0
+        dfs(root)
         return self.res
 
 root = ListToTree([1, 2, None, 3, 4, 5, None, 6])

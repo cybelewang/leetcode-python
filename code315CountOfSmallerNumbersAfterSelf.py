@@ -71,16 +71,12 @@ class Solution:
         :type nums: List[int]
         :rtype: List[int]
         """
-        n = len(nums)
-        count = [0]*n
-        helper = []
-
-        for i in range(n-1, -1, -1):
-            insort_left(helper, nums[i])
-            j = bisect_left(helper, nums[i])
-            count[i] = j
+        a, res = [], []
+        for num in reversed(nums):
+            res.append(bisect_left(a, num))
+            insort_left(a, num)
         
-        return count
+        return res[::-1]
     
 obj = Solution()
 test_cases = [[], [1], [1, 2], [7, 0, 5, 2, 3, 1]]

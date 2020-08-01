@@ -19,47 +19,43 @@ k will be between 1 and floor(nums.length / 3).
 """
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/8453386.html
-    # wrote in my own way
+    # left[i] is the smallest start index of size-k subarray with max sum in nums[:i+1]
+    # right[i] is the smallest start index of size-k subarray with max sum in nums[i:]
+    # good problem to practice index calculation
     def maxSumOfThreeSubarrays(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
         :rtype: List[int]
         """
-        n = len(nums)
-        sum_ = [0]*(n+1)    # k sum for k numbers starting from i is sum_[i+k] - sum_[i]
-        for i in range(1, n+1):
-            sum_[i] = sum_[i-1] + nums[i-1]
-
-        left = [0]*(n+1)  # left[i] is the starting index of k numbers with largest k-sum in nums[:i] (excludes i)
-        max_left = 0
-        for i in range(k, n+1):
-            if sum_[i] - sum_[i-k] > max_left:
-                max_left = sum_[i] - sum_[i-k]
-                left[i] = i - k
+        n, sums = len(nums), [0]
+        for num in nums: sums.append(sums[-1] + num)
+        
+        maxSum, left = 0, [0]*n
+        for i in range(k-1, n):
+            total = sums[i+1] - sums[i-k+1]
+            if total > maxSum:
+                maxSum = total
+                left[i] = i-k+1
             else:
                 left[i] = left[i-1]
-
-        right = [n-k]*(n+1) # right[i] is the starting index of k numbers with largest k-sum in nums[i:] (includes i)
-        max_right = 0
-        for i in range(n-k, -1, -1):
-            if sum_[i+k] - sum_[i] > max_right:
-                max_right = sum_[i+k] - sum_[i]
-                right[i] = i
+        
+        maxSum, right = 0, [n-k]*n
+        for j in range(n-k, -1, -1):
+            total = sums[j+k] - sums[j]
+            if total >= maxSum: # bug fixed: we must use >= to ensure the index is smallest, not >
+                maxSum = total
+                right[j] = j
             else:
-                right[i] = right[i+1]
-
-        max_k_sum = 0
-        res = []
-        for m in range(k, n-2*k+1): # note middle k-number's start index range
-            l = left[m] # left index
-            r = right[m+k]  # right index
-            cur_sum = sum_[l+k] - sum_[l] + sum_[m+k] - sum_[m] + sum_[r+k] - sum_[r]
-            if cur_sum > max_k_sum:
-                max_k_sum = cur_sum
-                res = [l, m, r]
-            elif cur_sum == max_k_sum:
-                res = min(res, [l, m, r])
+                right[j] = right[j+1]
+        
+        maxSum, res = 0, []
+        for i in range(k, n-2*k+1):
+            l, r = left[i-1], right[i+k]
+            total = sums[l+k] - sums[l] + sums[i+k] - sums[i] + sums[r+k] - sums[r]
+            if total > maxSum:
+                maxSum = total
+                res = [l, i, r]
         
         return res
         
@@ -98,7 +94,40 @@ class Solution:
         
         return res
 
+    # 7/31/2020, brutal force solution
+    # get 3 non-overlapping subarrays and use a getMax function to find their max sum
+    # O(N^3), TLE
+    def maxSumOfThreeSubarrays3(self, nums, k):
+        def getMax(sums, s, e):
+            maxSum, idx = 0, e-k
+            for i in range(s, e-k+1):
+                rangeSum = sums[i+k] - sums[i]
+                if rangeSum > maxSum:
+                    maxSum = rangeSum
+                    idx = i
+            return (maxSum, idx)
+        
+        sums = [0]
+        for num in nums:
+            sums.append(sums[-1] + num)
+        
+        maxTotal = 0
+        n = len(nums)
+        res = []
+        # we will split nums to 3 subarrays: [:i], [i:j], [j:]
+        for i in range(k, n-2*k+1):
+            for j in range(i+k, n-k+1):
+                left, mid, right = getMax(sums, 0, i), getMax(sums, i, j), getMax(sums, j, n)
+                total = left[0]+mid[0]+right[0]
+                if total > maxTotal:
+                    #print(total)
+                    maxTotal = total
+                    res = [left[1], mid[1], right[1]]
+                    #print(res)
+        
+        return res
+
 #nums = list(range(20000))
-nums = [1,2,1,2,6,7,5,1]
-k = 2
-print(Solution().maxSumOfThreeSubarrays(nums, k))
+#nums, k = [7,13,20,19,19,2,10,1,1,19], 3 # expect [1,4,7]
+nums, k = [1,2,1,2,1,2,1,2,1],2 # expect [0,2,4]
+print(Solution().maxSumOfThreeSubarrays4(nums, k))
