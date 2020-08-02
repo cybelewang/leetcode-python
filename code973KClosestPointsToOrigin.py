@@ -30,6 +30,7 @@ Note:
 """
 from heapq import heappop, heappush
 class Solution:
+    # time O(NlogK), space O(K)
     def kClosest(self, points, K):
         """
         :type points: List[List[int]]
@@ -48,6 +49,32 @@ class Solution:
         
         return res
 
+    # use quick sort's partition method to get partially sorted result
+    # average time O(N), worset O(N^2), space O(K) for result list
+    def kClosest2(self, points, K):
+        dist = lambda i: points[i][0]**2 + points[i][1]**2
+        def partition(s, e):
+            # partition array to two parts, separated by pivot
+            pivot = dist(e)
+            i = s
+            for j in range(s, e):
+                if dist(j) < pivot:
+                    points[i], points[j] = points[j], points[i]
+                    i += 1
+            points[i], points[e] = points[e], points[i]
+            return i
+        
+        n = len(points)
+        left, right = 0, n - 1
+        while left <= right:
+            i = partition(left, right)
+            if i+1 == K: return points[:i+1] # bug fixed: i < n, but K could be n, so we must include [i] in the final result
+            elif i < K:
+                left = i + 1
+            else:
+                right = i - 1        
+
 points = [[3,3],[5,-1],[-2,4]]
 K = 2
 print(Solution().kClosest(points, K))
+print(Solution().kClosest2(points, K))

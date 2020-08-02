@@ -41,21 +41,27 @@ class Solution(object):
                     return False
                 dot = True
             elif s[i] == 'e':
-                if exp or not num: # 'e' cannot appear more than once, cannot appear before digits
+                if exp or not num: # 'e' cannot appear more than once, cannot solely appear before digits, like 'e9'
                     return False
                 exp = True
                 numAfterE = False
             else:
                 return False
 
-        # digit must appear, and cannot end with 'e'
+        # digit must appear, and cannot end with 'e', like '9e'
         return num and numAfterE
 
 class Test(unittest.TestCase):
     def test_1(self):
         obj = Solution()
         self.assertFalse(obj.isNumber('9e'))
-        self.assertTrue(obj.isNumber('e9'))
+        self.assertFalse(obj.isNumber('e9'))
+        self.assertTrue(obj.isNumber(" 005047e+6"))
+        self.assertFalse(obj.isNumber(".e1"))
+        self.assertFalse(obj.isNumber("4e+"))
+        self.assertTrue(obj.isNumber("+3.e-1"))
+        self.assertTrue(obj.isNumber('1.'))
+        self.assertTrue(obj.isNumber('.1'))
 
 if __name__ == "__main__":
     unittest.main(exit=False)

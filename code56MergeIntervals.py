@@ -41,6 +41,21 @@ class Solution(object):
         
         return res
 
+    # 7/31/2020
+    # interval is represented by list [s, e]
+    def merge(self, intervals):
+        if not intervals: return []
+        intervals.sort()
+        i = 1
+        while i < len(intervals):
+            if intervals[i-1][1] >= intervals[i][0]:
+                intervals[i-1][1] = max(intervals[i-1][1], intervals[i][1])
+                intervals.pop(i)
+            else:
+                i += 1
+        
+        return intervals
+
 obj = Solution()
 test_cases = [[], [[1, 2], [1, 3]], [[1, 10],[1,2]], [[1,3],[2,6],[8,10],[15,18]]]
 for case in test_cases:

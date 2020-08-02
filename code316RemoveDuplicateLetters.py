@@ -14,7 +14,7 @@ Return "acdb"
 from bisect import bisect_left
 from collections import defaultdict
 class Solution:
-    # OJ best solution
+    # OJ best solution, using stack
     def removeDuplicateLetters(self, s):
         """
         :type s: str
@@ -28,6 +28,10 @@ class Solution:
                     A.pop()    # remove last letter in A because it will appear in later position
                 A.append(c)
         return ''.join(A)        
+
+    # recursive solution builds the final result one by one
+    # 
+    def removeDuplicateLetters2(self, s):
 
     # Wrong solution. Didn't think about duplicate. See "dcba", the expected result is "dcba"?
     # my own solution, construct result in alphabet order, check if current letter's min allowed position <= all remaining letters' most right positions, if yes, append this letter

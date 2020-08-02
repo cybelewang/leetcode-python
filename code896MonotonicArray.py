@@ -50,5 +50,16 @@ class Solution:
         
         return pos*neg == 0 # at least one of them must be 0
 
+    # https://leetcode.com/problems/monotonic-array/solution/
+    def isMonotonic2(self, A):
+        increase = decrease = True
+        for i in range(len(A)-1):
+            if A[i] > A[i+1]:
+                increase = False
+            if A[i] < A[i+1]:
+                decrease = False
+        
+        return increase or decrease
+
 A = [1, 1, 1]
 print(Solution().isMonotonic(A))
