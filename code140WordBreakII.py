@@ -35,6 +35,29 @@ class Solution:
                            for tail in sentences(j)]
             return memo[i]
         return sentences(0)
+    
+    # 8/4/2020
+    # DFS + MAP
+    def wordBreak_DFSMAP(self, s: str, wordDict: List[str]) -> List[str]:
+        wordSet = set(wordDict)
+        mem = {len(s):[[]]}
+        def helper(start, mem):
+            if start in mem:
+                return mem[start]
+            res = []
+            for end in range(start+1, len(s)+1):
+                word = s[start:end]
+                if word in wordSet:
+                    for wl in helper(end, mem):
+                        res.append([word] + wl)
+            mem[start] = res
+            return res
+        
+        res = []
+        for wl in helper(0, mem):
+            res.append(' '.join(wl))
+        return res    
+    
     # use DFS directly will cause TLE
     def wordBreak2(self, s, wordDict):
         """

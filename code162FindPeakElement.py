@@ -55,6 +55,25 @@ class Solution:
 
         return -1
 
+    # 8/4/2020
+    # binary search solution
+    # follow-up: find the dip element
+    def findPeakElement_BinarySearch(self, nums: List[int]) -> int:
+        INT_MIN = -2**31
+        left, right = 0, len(nums)
+        while left < right:
+            mid = (left+right)//2
+            lVal = nums[mid-1] if mid > 0 else INT_MIN
+            rVal = nums[mid+1] if mid < len(nums)-1 else INT_MIN # mid < N but mid+1 can be == N, for example, [0,1], mid will be 1, and mid+1 will be 2
+            if lVal < nums[mid] and nums[mid] > rVal:
+                return mid
+            elif nums[mid] < rVal:
+                left = mid + 1
+            else:
+                right = mid
+                
+        return right
+
 obj = Solution()
 test_cases = [[], [1], [1, 2], [1, 2, 3, 1]]
 for case in test_cases:

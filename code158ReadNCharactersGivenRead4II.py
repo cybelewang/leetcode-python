@@ -54,6 +54,7 @@ It is guaranteed that in a given test case the same buffer buf is called by read
 # (1) buf4 must be initialized correctly, we can't pass an empty buf4 to read4 because read4 won't fill buf4 for us, instead read4 will copy element one by one to buf4.
 # (2) read4 will return actual size it reads, assume the size is cnt, then buf4[:cnt] is the actual range we can use.
 # (3) After buf extending buf4, if the size is bigger than n, the overflow elements should be picked up by next read call, so we should store the overflow elements.
+# (4) input buf has already been initialized to a list which can hold n or more characters
 
 # The read4 API is already defined for you.
 # def read4(buf4: List[str]) -> int:
@@ -77,3 +78,23 @@ class Solution:
         buf = buf[:n]
         
         return len(buf)
+
+# 8/2/2020 solution without clearing input buf, this is more similar to C
+# instead of extending read chars to buf, we copy chars to buf
+class Solution:
+    def __init__(self):
+        self.overflow = []
+        
+    def read(self, buf: List[str], n: int) -> int:        
+        buf[:len(self.overflow)] = self.overflow
+        i = len(self.overflow)
+        while i < n:
+            buf4 = ['']*4
+            k = read4(buf4)
+            if k == 0:
+                break
+            buf[i:i+k] = buf4[:k]
+            i += k
+        
+        self.overflow = buf[n:i]
+        return min(i, n)

@@ -55,10 +55,31 @@ def nextPermutation(nums):
     # Swap the sub array [i+1 : ]
     swap(nums, i+1, n)
 
+# 8/2/2020
+def nextPermutation2(nums):
+        n = len(nums)
+        if n < 1: return
+        # find first i with nums[i] < nums[i+1]
+        i = n - 2
+        while i > -1 and nums[i] >= nums[i+1]:
+            i -= 1
+        # all nums is in descending order
+        if i == -1:
+            nums = nums[::-1]
+            return
+        # from right to left, find first j with nums[j] > nums[i]
+        j = n-1
+        while j > i and nums[j] <= nums[i]:
+            j -= 1
+        # swap nums[j] with nums[i]
+        nums[i], nums[j] = nums[j], nums[i]
+        # reverse the rest of the array
+        nums[i+1:] = nums[i+1:][::-1]
+
 test_cases = [[], [0], [0, 1], [1, 2, 3], [3, 2, 1], [1, 1, 5], [1, 3, 4, 2], [1, 4, 3, 2], [4, 1, 3, 5, 2]]
 for case in test_cases:
     print(case, end = '')
     print(" -> ", end = '')
-    nextPermutation(case)
+    nextPermutation2(case)
     print(case, end='\n')
 

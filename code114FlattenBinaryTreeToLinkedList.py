@@ -111,6 +111,31 @@ class Solution:
         # main
         helper(root)
 
+    # helper that returns new head and new tail
+    def flatten4(self, root):
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if not root: return None
+        def helper(root):
+            res = [root, root]
+            temp = root.right
+            if root.left:
+                lhead, ltail = helper(root.left)
+                root.left = None
+                root.right = lhead
+                res[1] = ltail
+            if temp:
+                rhead, rtail = helper(temp)
+                node = res[1]
+                node.left = None
+                node.right = rhead
+                res[1] = rtail
+            
+            return res
+        
+        helper(root)[0]
+
 
 obj = Solution()
 null = None

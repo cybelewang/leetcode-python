@@ -70,3 +70,27 @@ class Solution(object):
             return left or right
 
     # see C++ solution, easy to understand
+
+    # follow-up: what if every node has link to parent? (FB interview question)
+    # bottom-up traversal, and put all visited nodes (including p, q) into a hash set, so when a node is already visited before, that node is the LCA
+    # we can also not use hash set, but use method 160 Intersection of Two Linked Lists, O(1) space
+    def lowestCommonAncestor2(self, root, p, q):
+        # recursively link node to parent node
+        def find(root, target, parent=None):
+            if not root: return False
+            root.parent = parent
+            if root == target: return True
+            return find(root.left, target, root) or find(root.right, target, root)       
+        
+        # build parent link
+        pExists = find(root, p)
+        qExists = find(root, q)        
+        # find common parent, use method in 160 Intersection of Two Linked Lists
+        if pExists and qExists:
+            pHead, qHead = p, q
+            while p != q:
+                p = p.parent if p else qHead
+                q = q.parent if q else pHead
+            return p
+        
+        return None

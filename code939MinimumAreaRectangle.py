@@ -33,7 +33,7 @@ class Solution:
         for x, y in points:
             columns[x].append(y)
         
-        lastx = {}
+        lastx = {} # trick is to save the previous (y1, y2)
         ans = float('inf')
         for x in sorted(columns):
             column = sorted(columns[x]) # must sort each column too

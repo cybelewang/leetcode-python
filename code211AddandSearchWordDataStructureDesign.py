@@ -23,7 +23,7 @@ You may assume that all words are consist of lowercase letters a-z.
 # Finally we check if there is a TrieNode in queue and its isLeaf is True
 
 from collections import deque
-
+import unittest
 class TrieNode:
     
     def __init__(self):
@@ -53,6 +53,7 @@ class WordDictionary:
         
         node.isLeaf = True
 
+    # BFS
     def search(self, word):
         """
         Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
@@ -76,15 +77,35 @@ class WordDictionary:
         
         return any(node for node in queue if node.isLeaf)
 
+    # DFS
+    def search2(self, word):
+        def helper(word, start, node):
+            if start == len(word):
+                return node.isLeaf
+            c = word[start]
+            if c != '.':
+                if c in node.children:
+                    return helper(word, start+1, node.children[c])
+                else:
+                    return False
+            else: # c == '.'
+                return any(helper(word, start + 1, child) for child in node.children.values()) # bug fixed: use node.children.values(), not node.children
+        # main
+        return helper(word, 0, self.root)
 
 # Your WordDictionary object will be instantiated and called as such:
-obj = WordDictionary()
-obj.addWord("bad")
-obj.addWord("dad")
-obj.addWord("mad")
-print(obj.search("pad"))# -> false
-print(obj.search("bad"))# -> true
-print(obj.search("ba"))# -> false
-print(obj.search(".ad"))# -> true
-print(obj.search("b.."))# -> true
+class Test(unittest.TestCase):
+    def test_1(self):
+        obj = WordDictionary()
+        obj.addWord("bad")
+        obj.addWord("dad")
+        obj.addWord("mad")
+        self.assertEqual(obj.search2("pad"), False) # -> false
+        self.assertEqual(obj.search2("bad"), True)# -> true
+        self.assertEqual(obj.search2("ba"), False)# -> false
+        self.assertEqual(obj.search2(".ad"), True)# -> true
+        self.assertEqual(obj.search2("b.."), True)# -> true
 # param_2 = obj.search(word)
+
+if __name__ == "__main__":
+    unittest.main(exit = False)

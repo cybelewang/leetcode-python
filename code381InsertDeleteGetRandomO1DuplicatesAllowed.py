@@ -68,7 +68,6 @@ class RandomizedCollection:
             # assign pos with last_data
             last_data = self.data[-1]
             self.data[pos] = last_data
-            # 7/18/2020 - why not swap first, then pop?
             if pos != len(self.data) - 1:   # trap here! if pos is len(data) - 1, then we removed len(data) - 1 twice! So we need to exclude this condition
                 # first remove the original index (len(self.data)-1) for last_data
                 self.map[last_data].remove(len(self.data)-1)

@@ -99,6 +99,46 @@ class Solution:
         
         return res if res != INT_MAX else -1
 
+    # 8/4/2020
+    # BFS to build dist matrix
+    def shortestDistance3(self, grid):
+        m, n = len(grid), len(grid[0])
+        count = [[0]*n for _ in range(m)]
+        dist = [[0]*n for _ in range(m)]
+        cntBuildings = 0
+        dirs = [[0, -1], [-1, 0], [0, 1], [1, 0]]
+        def bfs(i, j):
+            q = deque([(i, j)])
+            level = 0
+            visited = set()
+            while q:
+                length = len(q)
+                for _ in range(length):
+                    i, j = q.popleft()
+                    count[i][j] += 1
+                    dist[i][j] += level
+                    for dx, dy in dirs:
+                        x, y = i + dx, j + dy
+                        if -1 < x < m and -1 <y < n and grid[x][y] == 0 and (x, y) not in visited: # bug fixed: forgot to use visited set
+                            q.append((x, y))
+                            visited.add((x, y))
+                level += 1
+        
+        # main
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    cntBuildings += 1
+                    bfs(i, j)
+        # get result
+        res = 2**31-1
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0 and count[i][j] == cntBuildings:
+                    res = min(res, dist[i][j])
+                    
+        return res if res < 2**31-1 else -1
+
 class Test(unittest.TestCase):
     def test_1(self):
         obj = Solution()

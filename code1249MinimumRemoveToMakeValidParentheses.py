@@ -45,3 +45,30 @@ class Solution:
             a[i] = ''
         
         return ''.join(a)
+
+    # non-stack solution
+    # approach 3 in https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/solution/
+    def minRemoveToMakeValid(self, s: str) -> str:
+        # 1st pass to remove invalid ')'
+        ans, open_parenthesis, balance = [], 0, 0
+        for c in s:
+            if c == '(':
+                open_parenthesis += 1
+                balance += 1
+            elif c == ')':
+                if balance == 0:
+                    continue
+                balance -= 1
+            ans.append(c)
+        
+        # 2nd pass to remove most right '('
+        open_to_keep = open_parenthesis - balance
+        for i, c in enumerate(ans):
+            if c == '(':
+                if open_to_keep == 0:
+                    ans[i] = ''
+                    continue
+                open_to_keep -= 1
+        
+        return ''.join(ans)
+                

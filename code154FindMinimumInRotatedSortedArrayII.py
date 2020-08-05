@@ -20,15 +20,15 @@ class Solution:
     # OJ solution
     def findMin(self, nums):
         l = 0
-        h = len(nums)-1
-        while l<h:
-            mid = int((l+h)//2)
-            if nums[mid] > nums[h]:
+        r = len(nums)-1
+        while l<r:
+            mid = int((l+r)//2)
+            if nums[mid] > nums[r]:
                 l = mid+1
-            elif nums[mid] < nums[h]:
-                h = mid
+            elif nums[mid] < nums[r]:
+                r = mid
             else:
-                h -= 1
+                r -= 1
         return nums[l]
     
     # O(n) solution

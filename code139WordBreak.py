@@ -14,27 +14,40 @@ The wordDict parameter had been changed to a list of strings (instead of a set o
 """
 # ask corner case of empty string
 class Solution:
+    # DP solution
     def wordBreak(self, s, wordDict):
         """
         :type s: str
         :type wordDict: List[str]
         :rtype: bool
         """
-        n = len(s)
-        if n < 1:
-            return False
-
         wordSet = set(wordDict)
-        dp = [False]*(n + 1)
+        n = len(s)
+        dp = [False]*(n+1)
         dp[0] = True
-
         for j in range(1, n+1):
-            for i in range(0, j):
-                if dp[i] and s[i:j] in wordSet:
-                    dp[j] = True
-                    break
+            for i in range(j):
+                if s[i:j] in wordSet:
+                    dp[j] |= dp[i]
+        #print(dp)
+        return dp[-1]
+
+    # DFS solution with map
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        def helper(s, wordSet, start, mem):
+            if start in mem:
+                return mem[start]
+            for end in range(start+1, len(s)+1):
+                if s[start:end] in wordSet and helper(s, wordSet, end, mem):
+                    mem[start] = True
+                    return True
+            mem[start] = False
+            return False
         
-        return dp[n]
+        # main
+        wordSet = set(wordDict)
+        mem = {len(s): True}
+        return helper(s, wordSet, 0, mem)
 
 obj = Solution()
 s = 'leetcode'

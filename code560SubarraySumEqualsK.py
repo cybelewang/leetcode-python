@@ -61,23 +61,9 @@ class Solution:
 
         return res
 
-    # FB interview question, follow-up: if all integers are non-negative, use sliding windows
-    # must handle k == 0 specially because sliding window will advance left pointer in one direction
-    # cannot pass test case ([0,1,0],1) == 4
+    # FB interview question, follow-up: if all integers are positive, use O(1) space solution
+    # sliding windows
     def subarraySum_NonNegative(self, nums, k):
-        def countZeros(nums):
-            zeros, cnt = 0, 0
-            for num in nums:
-                if num == 0:
-                    zeros += 1
-                    cnt += zeros
-                else:
-                    zeros = 0
-            return cnt
-        
-        # handle k == 0 specially
-        if k == 0: return countZeros(nums)
-        # k != 0
         i, res = 0, 0
         su = 0
         for j in range(len(nums)):
@@ -89,6 +75,7 @@ class Solution:
         
         return res
 
+    # if the numbers are non-negative, then the above solution won't work.
     # see https://www.1point3acres.com/bbs/thread-651563-5-1.html
     # cannot pass test case ([0,1,0],1)=4
     def subarraySum3(self, nums, k):

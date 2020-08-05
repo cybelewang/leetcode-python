@@ -12,7 +12,7 @@ Your algorithm's time complexity must be better than O(n log n), where n is the 
 """
 from heapq import *
 class Solution:
-    # hashmap + maxHeap
+    # hashmap + maxHeap, O(N + KlogN)
     def topKFrequent(self, nums, k):
         """
         :type nums: List[int]
@@ -33,6 +33,32 @@ class Solution:
             res.append(heappop(freq_num)[1])
 
         return res
+
+    # Quick sort's partition method, average O(N), worst O(N^2)
+    # similar to C++'s nth_element    
+    def topKFrequent2(self, nums, k):
+        count = Counter(nums)
+        def partition(arr, s, e):
+            i = s
+            for j in range(s, e):
+                if count[arr[j]] < count[arr[e]]:
+                    arr[i], arr[j] = arr[j], arr[i]
+                    i += 1
+            arr[i], arr[e] = arr[e], arr[i]
+            return i
+        
+        arr = list(count.keys())
+        n = len(arr)
+        left, right = 0, len(arr)-1
+        while left <= right:
+            i = partition(arr, left, right)
+            if n-i == k:
+                return arr[i:]
+            elif n-i < k:
+                right = i - 1
+            else:
+                left = i + 1
+             
 
 test_case = [1, 1, 1, 2, 2, 3]
 obj = Solution()

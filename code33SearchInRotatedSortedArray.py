@@ -45,7 +45,7 @@ def search(nums, target):
     return -1
 
 # 2nd round solution on 6/16/2019
-# 
+# see OneNote
 def search2(nums, target):
     l, r = 0, len(nums)-1
     while l <= r:

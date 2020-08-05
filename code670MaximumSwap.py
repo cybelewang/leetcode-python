@@ -15,7 +15,23 @@ Note:
 The given number is in the range [0, 10^8]
 """
 class Solution:
-    def maximumSwap(self, num):
+    # for each digit, we need to find the max digit from its right that is (1) bigger than current digit, (2) most right comparing to other equal digits
+    # therefore, we should scan from right to left when looking for this most-right max bigger digit
+    # consider 1993 -> 9913, 98368 -> 98863
+    def maximumSwap(self, num: int) -> int:
+        a = list(str(num))
+        for i in range(len(a)):
+            idx = i
+            for j in range(len(a)-1, i, -1):                
+                if a[j] > a[idx]:
+                    idx = j
+            if idx > i:
+                a[i], a[idx] = a[idx], a[i]
+                return int(''.join(a))
+        return num
+
+    # if we scan from left to right to look for the most-right max bigger digit, we should consider the equal case
+    def maximumSwap2(self, num):
         """
         :type num: int
         :rtype: int

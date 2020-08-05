@@ -28,9 +28,7 @@ class Solution(object):
 
         s = s.strip()
         for i in range(len(s)):
-            if s[i] == ' ': # any whitespace in s is valid
-                return False
-            elif s[i] in ('+', '-'): # sign can only appear in s[0], or after e
+            if s[i] in ('+', '-'): # sign can only appear in s[0], or after e
                 if i > 0 and s[i-1] != 'e':
                     return False
             elif s[i].isdigit():

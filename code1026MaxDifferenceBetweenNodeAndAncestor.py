@@ -41,23 +41,18 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
-        self.res = 0
-        def getBounds(node):
-            lower, upper = node.val, node.val
-            if node.left:
-                lower1, upper1 = getBounds(node.left)
-                self.res = max(self.res, abs(node.val - lower1), abs(node.val - upper1))
-                lower, upper = min(lower, lower1), max(upper, upper1)
-            if node.right:
-                lower2, upper2 = getBounds(node.right)
-                self.res = max(self.res, abs(node.val - lower2), abs(node.val - upper2))
-                lower, upper = min(lower, lower2), max(upper, upper2)
-
-            return (lower, upper)
-        
-        # main
-        getBounds(root)
-        return self.res
+        self.V = 0
+        def helper(root, minVal, maxVal):
+            if not root:
+                return
+            self.V = max(self.V, abs(root.val-minVal), abs(maxVal-root.val))
+            minVal = min(root.val, minVal)
+            maxVal = max(root.val, maxVal)
+            helper(root.left, minVal, maxVal)
+            helper(root.right, minVal, maxVal)
+            
+        helper(root, root.val, root.val)
+        return self.V
 
 null = None
 root = ListToTree([8,3,10,1,6,null,14,null,null,4,7,13])

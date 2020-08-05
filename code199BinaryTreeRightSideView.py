@@ -44,7 +44,8 @@ class Solution:
                     queue.appendleft(node.left)
         
         return res
-
+    # DFS solution, use level to track the depth and if current depth == len(res), we append the value to result
+    # use root, right, left order
     def rightSideView_DFS(self, root):
         if not root: return []
         res = []

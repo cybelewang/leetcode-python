@@ -63,7 +63,37 @@ class Solution(object):
                 yield from G(node.right)
                 yield node.val
 
-        return list(G(root))      
+        return list(G(root))
+
+    # use PostOrderIterator
+    def postorderTraversal2(self, root):
+        it = PostOrderIterator(root)
+        res = []
+        while it.hasNext():
+            res.append(it.next())
+        return res
+
+class PostOrderIterator:
+    def __init__(self, root):
+        self.stack = []
+        self.findNextLeaf(root)
+    
+    def findNextLeaf(self, cur):
+        while cur:
+            self.stack.append(cur)
+            if cur.left:
+                cur = cur.left
+            else:
+                cur = cur.right
+
+    def hasNext(self):
+        return len(self.stack) > 0
+
+    def next(self):
+        node = self.stack.pop()
+        if self.stack and self.stack[-1].left == node:
+            self.findNextLeaf(self.stack[-1].right)        
+        return node.val
 
 null = None
 test_case =  [1,null,2,3]
@@ -71,5 +101,5 @@ root = ListToTree(test_case)
 PrintTree(root)
 
 obj = Solution()
-res = obj._generator(root)
+res = obj.postorderTraversal2(root)
 print(res)

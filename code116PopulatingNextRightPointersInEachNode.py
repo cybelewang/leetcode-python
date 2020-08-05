@@ -61,4 +61,21 @@ class Solution:
                 p = p.next  # advance parent level iterator
             
             parent = child  # assign new parent head
-            
+    
+    # 8/4/2020
+    # only need a sentinel node in child level because parent nodes have been connected
+    # on each level, reset child to sentinel node
+    def connect(self, root):
+        parent = root
+        sentinel = Node(0)
+        while parent and parent.left:
+            p = parent
+            c = sentinel
+            while p:
+                c.next = p.left
+                p.left.next = p.right
+                c = p.right
+                p = p.next
+            parent = parent.left
+        
+        return root

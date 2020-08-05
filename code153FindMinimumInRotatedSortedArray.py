@@ -47,18 +47,17 @@ class Solution(object):
         
         return -1
 
-    # 3rd solution on 1/25/2019
+    # 8/2/2020
     def findMin3(self, nums):
-        i, j = 0, len(nums) - 1
-        while i <= j:
-            if nums[i] <= nums[j]:
-                return nums[i]
+        l, r = 0, len(nums)-1
+        while l < r:
+            m = (l + r)//2
+            if nums[m] < nums[r]:
+                r = m
             else:
-                m = (i + j)//2
-                if nums[m] > nums[j]:   # the minimum must be in right side and should not be [m], so we excludes m, example: [2, 3, 4, 1]
-                    i = m + 1
-                else:   # the minimum must be in left but could be [m] itself, so we need to include m, example: [2, 0, 1]
-                    j = m
+                l = m + 1
+        return nums[l]
+
 
 test_case = [ 3, 4, 0, 1, 2]
 #test_case = [2, 0, 1]

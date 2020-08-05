@@ -45,6 +45,27 @@ Explanation: The number "-91283472332" is out of the range of a 32-bit signed in
 """
 import unittest
 def myAtoi(str):
+    s = str.lstrip()
+    sign, num = 1, 0
+    for i, c in enumerate(s):
+        if c in ('+', '-'):
+            if i != 0: # "-5-", the second '-' will force to return current number
+                break
+            sign = 1 if c == '+' else -1
+        elif c.isdigit():
+            num = num*10 + (ord(c) - ord('0'))
+        else: # whitespaces, non digits will force to return current result
+            break
+    
+    # bound the result range
+    num *= sign
+    if num > 2**31-1:
+        return 2**31-1
+    if num < -2**31:
+        return -2**31
+    return num
+
+def myAtoi2(str):
     """
     :type str: str
     :rtype: int
@@ -100,10 +121,13 @@ class Test(unittest.TestCase):
         self.assertEqual(myAtoi('-0'), 0)
         self.assertEqual(myAtoi('-12 34'), -12)
         self.assertEqual(myAtoi('-0012'), -12)
-        self.assertEqual(myAtoi('123'), 123)
+        self.assertEqual(myAtoi('-5-'), -5)
+        self.assertEqual(myAtoi('-0012'), -12)
+        self.assertEqual(myAtoi('-2-3'), -2)
         self.assertEqual(myAtoi('2147483648'), 2147483647)
         self.assertEqual(myAtoi('2147483647'), 2147483647)
         self.assertEqual(myAtoi('-2147483648'), -2147483648)
+        self.assertEqual(myAtoi('-21474836489-3'), -2147483648)
         self.assertEqual(myAtoi( "-91283472332"), -2147483648)
         self.assertEqual(myAtoi('+-2'), 0)
         self.assertEqual(myAtoi('  2  '), 2)

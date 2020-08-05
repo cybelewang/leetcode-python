@@ -29,6 +29,36 @@ class Solution:
         
         return res
 
+    # follow-up: print the result in terminal, no need to use an array (FB interview question)
+    # First analyze the input array: if there are two zeros, all output will be zero
+    # if there is only one 0, then all other places are 0 except the place with zero
+    # if there is no 0, we calculate all product and divide it by the number
+    def productExceptSelf_divide(self, nums):
+        zeroCnt = nums.count(0)
+        # more than 1 zero, all result must be 0
+        if zeroCnt > 1:
+            for num in nums: print(0)
+            return
+        # only one 0 exists
+        if zeroCnt == 1:
+            for i in len(nums):
+                if nums[i] != 0: print(0)
+                else:
+                    p = 1
+                    for j in range(len(nums)):
+                        if nums[j] != 0:
+                            p *= nums[j]
+                    print(p)
+            return
+        # no zero exists
+        p = 1
+        for num in nums:
+            p *= num
+        
+        for num in nums:
+            print(p//num)
+
 obj = Solution()
 test_case = [6, 8]
 print(obj.productExceptSelf(test_case))
+obj.productExceptSelf_divide(test_case)
