@@ -33,24 +33,20 @@ class Solution:
         :type k: int
         :rtype: list[int]
         """
-        def inorder(root):
-            """
-            Inorder generator 
-            """
+        def G(root):
             if root:
-                yield from inorder(root.left)
-                yield root
-                yield from inorder(root.right)
+                yield from G(root.left)
+                yield root.val
+                yield from G(root.right)
         
-        # fixed-size sliding window
         q = deque()
-        for node in inorder(root):
+        for num in G(root):
             if len(q) < k:
-                q.append(node.val)
+                q.append(num)
             else:
-                if q and abs(q[0]-target) > abs(node.val - target): # greedy method
+                if q and target - q[0] > num - target:
                     q.popleft()
-                    q.append(node.val)
+                    q.append(num)
                 else:
                     break
         

@@ -64,5 +64,26 @@ class Solution:
 
         return res
 
+    # 8/6/2020
+    def findDiagonalOrder2(self, matrix: List[List[int]]) -> List[int]:
+        M = len(matrix)
+        if M < 1: return []
+        N = len(matrix[0])
+        res = []
+        for su in range(M+N-1):
+            lower, upper = max(0, su-N+1), min(su, M-1)
+            if su & 1:
+                # su is odd
+                for r in range(lower, upper+1):
+                    c = su - r
+                    res.append(matrix[r][c])
+            else:
+                # su is even
+                for r in range(upper, lower-1, -1):
+                    c = su - r
+                    res.append(matrix[r][c])
+        
+        return res
+
 matrix = [ [ 1, 2, 3, 0 ], [ 4, 5, 6, 0 ], [ 7, 8, 9, 0 ]]
 print(Solution().findDiagonalOrder(matrix))

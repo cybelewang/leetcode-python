@@ -21,11 +21,15 @@ class Solution:
         i, j = 0, 0
         res, sum = 0, 0
         for j in range(len(nums)):
+            # add nums[j] to window
             sum += nums[j]
+            # only update result when condition is met
             if sum >= s:
+                # shrink window until condition is not met
                 while sum >= s:
                     sum -= nums[i]
                     i += 1
+                # update result accordingly
                 if res == 0:
                     res = j - i + 2
                 else:
@@ -36,3 +40,5 @@ class Solution:
 test_case = [1, 1,1, 1,1, 1,1, 4]
 obj = Solution()
 print(obj.minSubArrayLen(7, test_case))
+test_case = [1,2,3,4,5]
+print(obj.minSubArrayLen(11, test_case))

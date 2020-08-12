@@ -14,7 +14,40 @@ If there is no such window in S that covers all characters in T, return the empt
 If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
 """
 # similar problems: 632 Smallest Range
+# 8/10/2020
+# typical counter-based sliding window problem
+from collections import Counter
 class Solution(object):
+    def minWindow(self, s, t):
+        m, n = len(t), len(s)
+        diff = Counter(t)
+        start, end = 0, 0 # default values if no window exists
+        i, req = 0, m
+        for j in range(n):
+            # add s[j] to window
+            if s[j] in diff:
+                diff[s[j]] -= 1
+                if diff[s[j]] >= 0:
+                    req -= 1
+            # only update result when req is 0
+            if req == 0:
+                # shrink window until req == 1
+                while i <= j and req == 0:
+                    if s[i] in diff:
+                        diff[s[i]] += 1
+                        if diff[s[i]] > 0:
+                            req += 1
+                    i += 1
+                # update result accordingly
+                if end == start:
+                    start, end = i-1, j+1
+                elif end - start > j-i + 2:
+                    start, end = i-1, j+1
+        
+        return s[start:end]
+
+# previous more verbose solution
+class Solution2(object):
     required = {} # count of each unique required character
     requires = 0 # count of all required characters
     def add(self, s, i):

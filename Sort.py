@@ -1,3 +1,5 @@
+import unittest
+from random import randrange
 class Sort:
     def quicksort(self, nums):
         def partition(nums, start, end):
@@ -26,42 +28,63 @@ class Sort:
         _quicksort(nums, 0, len(nums)-1)
 
     def mergesort(self, nums):
-        def merge(nums, helper, low, middle, high):
-            """
-            merge two sorted subarrays, with middle as the dividing point
-            """
-            helper[low:high+1] = nums[low:high+1]   # copy nums[low:high+1] to helper list
-            left, right = low, middle+1 # initialize left and right iterator
-            # merge two halves, always take the smaller one
-            for i in range(low, high+1):
-                if left > middle:
-                    nums[i] = helper[right]
-                    right += 1
-                elif right > high:
-                    nums[i] = helper[left]
-                    left += 1
-                else:
-                    if helper[left] < helper[right]:
-                        nums[i] = helper[left]
-                        left += 1
-                    else:
-                        nums[i] = helper[right]
-                        right += 1
+        def helper(nums, s, e):
+            # merge and sort nums[s:e+1]
+            if s >= e: return
+            m = (s + e)//2
+            # sort left half and right half
+            helper(nums, s, m)
+            helper(nums, m+1, e)
+            # merge left half and right half
+            temp = nums[s:e+1]
+            j, k = m+1, 0
+            for i in range(s, m+1):
+                # put right half elements to sorted array as much as possible
+                while j <= e and nums[i] >= nums[j]:
+                    temp[k] = nums[j]
+                    k += 1
+                    j += 1
+                temp[k] = nums[i]
+                k += 1
+            nums[s:e+1] = temp
+ 
+        helper(nums, 0, len(nums)-1)
 
-        def _mergesort(nums, helper, low, high):
-            if low < high:
-                middle = (low + high)//2    # dividing point
-                _mergesort(nums, helper, low, middle)   # recursively process left half
-                _mergesort(nums, helper, middle + 1, high)  # recursively process right half
-                merge(nums, helper, low, middle, high)  # merge left and right half
-        
-        # main
-        helper = nums[:]
-        _mergesort(nums, helper, 0, len(nums)-1)
+class Test(unittest.TestCase):
+    def test_1(self):
+        obj = Sort()
+        input = []
+        obj.mergesort(input)
+        self.assertEqual(input, [])
+        obj.quicksort(input)
+        self.assertEqual(input, [])
+
+    def test_2(self):
+        obj = Sort()
+        input = [1, 2, 1, 2, 1]
+        obj.mergesort(input)
+        self.assertEqual(input, [1, 1, 1, 2, 2])
+        input = [1, 2, 1, 2, 1]
+        obj.quicksort(input)
+        self.assertEqual(input, [1, 1, 1, 2, 2])
+
+    def test_3(self):
+        obj = Sort()
+        input = []
+        for _ in range(100):
+            input.append(randrange(100))
+        sort = sorted(input)
+        obj.mergesort(input)
+        self.assertEqual(input, sort)
+    
+    def test_4(self):
+        obj = Sort()
+        input = []
+        for _ in range(100):
+            input.append(randrange(100))
+        sort = sorted(input)
+        obj.quicksort(input)
+        self.assertEqual(input, sort)
 
 if __name__ == "__main__":
-    obj = Sort()
-    test_input = [[], [1, 2, 1, 2, 1], [3, 0, 8, 2], [5, 4, 3, 6, 1]]
-    for nums in test_input:
-        obj.mergesort(nums)
-        print(nums)
+    unittest.main(exit = False)

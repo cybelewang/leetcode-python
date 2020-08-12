@@ -76,6 +76,8 @@ def nextPermutation2(nums):
         # reverse the rest of the array
         nums[i+1:] = nums[i+1:][::-1]
 
+# follow-up: previous permutation
+
 test_cases = [[], [0], [0, 1], [1, 2, 3], [3, 2, 1], [1, 1, 5], [1, 3, 4, 2], [1, 4, 3, 2], [4, 1, 3, 5, 2]]
 for case in test_cases:
     print(case, end = '')

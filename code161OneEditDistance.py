@@ -31,3 +31,5 @@ class Solution:
                 elif m == n + 1: return s[i+1:] == t[i:]
 
         return m == n + 1
+
+print(Solution().isOneEditDistance("", ""))

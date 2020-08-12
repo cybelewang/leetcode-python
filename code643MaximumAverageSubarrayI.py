@@ -12,23 +12,22 @@ Note:
 Elements of the given array will be in the range [-10,000, 10,000].
 """
 class Solution:
-    # my own solution using sliding window
+    # use sliding-window coding style
     def findMaxAverage(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
         :rtype: float
         """
-        maxsum = -2**31
-        i, sum_ = 0, 0
-        for j in range(len(nums)):
-            sum_ += nums[j]
-            if j - i + 1 == k:
-                maxsum = max(maxsum, sum_)
-                sum_ -= nums[i] # bug fixed: forgot to minus nums[i] before advancing i
-                i += 1
-
-        return maxsum/k
+        su, res = 0, -float('INF')
+        for i in range(len(nums)):
+            su += nums[i]
+            if i >= k:
+                su -= nums[i-k]
+            if i >= k-1:
+                res = max(res, su/k)
+        
+        return res
 
 nums = [1,12,-5,-6,50,3]
 print(Solution().findMaxAverage(nums, 4))

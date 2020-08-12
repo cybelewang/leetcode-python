@@ -13,7 +13,28 @@ Output: "bb"
 
 """
 class Solution(object):
-    def longestPalindrome(self, s):
+    # Expand from center, O(N^2) time, O(1) space
+    def longestPalindrome(self, s: str) -> str:
+        def expand(s, left, right):
+            # return longest palindromic length
+            while left > -1 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+            return right - left - 1 # bug fixed: not (right - left + 1)
+        
+        start, end = 0, 0
+        for i in range(len(s)):
+            odd = expand(s, i, i)
+            even = expand(s, i, i+1)
+            length = max(odd, even)
+            if end - start < length:
+                start = i - (length-1)//2
+                end = i + length//2 + 1
+            
+        return s[start:end]
+
+    # DP method, O(N^2) time, O(N^2) space
+    def longestPalindrome2(self, s):
         """
         :type s: str
         :rtype: str
@@ -36,7 +57,7 @@ class Solution(object):
 
     # Manacher Algorithm, https://www.cnblogs.com/grandyang/p/4475985.html
     # 6/24/2019
-    def longestPalindrome2(self, s):
+    def longestPalindrome3(self, s):
         # insert '$' and '#' to change from "abc" to "$#a#b#c"
         t = '$#' + '#'.join(s) + '#'
         N = len(t)

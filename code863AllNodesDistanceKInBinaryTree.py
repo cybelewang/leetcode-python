@@ -103,6 +103,50 @@ class Solution:
         
         return res
 
+    # 8/5/2020
+    # 
+    def distanceK2(self, root, target, K):
+        self.res = []
+        def getSubTreeNodes(root, k):
+            # get nodes in this subtree with distance k
+            if not root or k < 0: return
+            if k == 0:
+                self.res.append(root.val)
+                return
+            if root.left:
+                getSubTreeNodes(root.left, k-1)
+            if root.right:
+                getSubTreeNodes(root.right, k-1)
+        
+        # search and return distance from target
+        # if target not in subtree, return -1
+        def search(root, target):
+            if not root: return -1
+            if root == target:
+                getSubTreeNodes(root, K)
+                return 0
+            left = search(root.left, target)
+            right = search(root.right, target)
+            if left == -1 and right == -1:
+                return -1
+            
+            if left != -1:
+                if 1+left == K:
+                    self.res.append(root.val)
+                elif 2 + left <= K:
+                    getSubTreeNodes(root.right, K-left-2)
+            
+            if right != -1:
+                if 1 + right == K:
+                    self.res.append(root.val)
+                elif 2 + right <= K:
+                    getSubTreeNodes(root.left, K-right-2)
+                
+            return max(left, right) + 1
+        
+        search(root, target)
+        return self.res
+
 null = None
 root = ListToTree([1])
 target = root

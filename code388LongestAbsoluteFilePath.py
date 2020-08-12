@@ -54,6 +54,22 @@ class Solution:
             else:
                 dict[depth+1]=dict[depth]+len(name)+1
         return maxlen
+
+    # 8/5/2020
+    # stack solution, not so good as above dict solution
+    def lengthLongestPath2(self, input: str) -> int:
+        stack, res = [], 0
+        for entry in input.split('\n'):
+            clean = entry.lstrip('\t')
+            level = len(entry) - len(clean)
+            while stack and len(stack) > level:
+                stack.pop()
+            if clean.count('.'):
+                res = max(res, sum(stack) + len(clean))
+            else:
+                stack.append(len(clean)+1)
+        
+        return res
     # my solution
     def lengthLongestPath2(self, input):
         """
@@ -107,4 +123,4 @@ input = "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext\n\tsubdir3\n\tveryveryveryveryv
 #"dir\ndir1\nabc.txt"
 #"dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext\n\tsubdir3\n\tveryveryveryveryveryveryveryveryveryverylong.txt"
 obj = Solution()
-print(obj.lengthLongestPath(input))
+print(obj.lengthLongestPath2(input))

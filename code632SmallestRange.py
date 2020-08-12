@@ -66,6 +66,39 @@ class Solution:
 
         return res
 
+    # 8/10/2020
+    # rewrite code according to count-based sliding window style, see OneNote
+    def smallestRange(self, nums: List[List[int]]) -> List[int]:       
+        for i, num in enumerate(nums):
+            nums[i] = list(zip(num, [i]*len(num)))
+        arr = sorted(sum(nums, []))
+        req = len(nums)
+        diff = [1]*len(nums)
+        i = 0
+        s, e = 0, -1
+        for j in range(len(arr)):
+            # add arr[j] to window
+            right, k = arr[j]
+            diff[k] -= 1
+            if diff[k] >= 0:
+                req -= 1
+            # only update result when condition is met
+            if req == 0:
+                # shrink window until condition is not met
+                while i <=j and req == 0:
+                    left, p = arr[i]
+                    diff[p] += 1
+                    if diff[p] > 0:
+                        req += 1
+                    i += 1
+                # update result accordingly
+                if s > e:
+                    s, e = arr[i-1][0], arr[j][0]                    
+                elif e - s > arr[j][0] - arr[i-1][0] or (e-s == arr[j][0] - arr[i-1][0] and arr[i-1][0] < s):
+                    s, e = arr[i-1][0], arr[j][0]
+                    
+        return [s, e]
+
 nums = [[1]]
 #nums = [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
 print(Solution().smallestRange(nums))

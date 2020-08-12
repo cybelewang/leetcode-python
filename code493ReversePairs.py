@@ -75,21 +75,45 @@ class Solution:
         return res
 
 
-    # TLE
-    # my own solution, for each num, find the insertion position of 2*num, and calculate how many numbers in the sorted list are larger than 2*num
-    def reversePairs3(self, nums):
+    # MergeSort solution
+    def reversePairs2(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        res, sort = 0, []
-        for num in nums:
-            index = bisect_right(sort, 2*num)
-            res += len(sort) - index
-            insort_right(sort, num)
-        
-        return res
+        def mergesort(nums, s, e):
+            # modified merge sort function which
+            # counts reverse pairs using two pointers in linear time
+            # in the merging process
+            if s >= e:
+                return 0
+            mid = (s + e)//2            
+            res = mergesort(nums, s, mid)
+            res += mergesort(nums, mid+1, e)
+
+            j, k, p = mid+1, 0, mid+1
+            temp = nums[s:e+1]
+            for i in range(s, mid+1):
+                # count the number of reverse pairs
+                while p <= e and nums[i] > 2*nums[p]:
+                    p += 1
+                res += p - (mid+1)
+
+                # merge two sorted arrays
+                while j <= e and nums[i] >= nums[j]:
+                    temp[k] = nums[j] # temp[k++] = nums[j++];
+                    k += 1
+                    j += 1
+                temp[k] = nums[i] # temp[k++] = nums[i++];
+                k += 1
+
+            nums[s:e+1] = temp[:]
+            return res
+                    
+        # main
+        return mergesort(nums, 0, len(nums)-1)
+                    
 
 nums = [1,3,2,3,1]
 obj = Solution()
-print(obj.reversePairs(nums))
+print(obj.reversePairs2(nums))

@@ -33,7 +33,7 @@ class Solution:
                 return True
             src = res[-1]
             size = len(graph[src])  # because we modify the list, so we need to pre-calculate the number of loops
-            for dst in range(size):
+            for _ in range(size):
                 dst = graph[src].pop(0)
                 res.append(dst)
                 if dfs(graph, need-1, res):

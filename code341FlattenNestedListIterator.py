@@ -73,6 +73,23 @@ class NestedIterator(object):
         
         return False
 
+# stack solution
+class NestedIterator_Stack:
+    def __init__(self, nestedList: [NestedInteger]):
+        self.stack = nestedList[::-1]
+    
+    def next(self) -> int:
+        return self.stack.pop().getInteger()
+    
+    def hasNext(self) -> bool:
+        while self.stack:
+            if self.stack[-1].isInteger():
+                return True
+            else:
+                nl = self.stack.pop()
+                self.stack.extend(reversed(nl.getList()))
+        return False
+
 # recursive solution
 class NestedIterator2(object):
 
@@ -114,7 +131,26 @@ class NestedIterator2(object):
         :rtype: bool
         """
         return self.index < len(self.data)
-        
+
+# Generator solution
+class NestedIterator_Generator:
+    def __init__(self, nestedList: [NestedInteger]):
+        def G(list):
+            for nl in list:
+                if nl.isInteger():
+                    yield nl.getInteger()
+                else:
+                    yield from G(nl.getList())
+        self.g = G(nestedList)
+        self.cur = next(self.g, None)
+    
+    def next(self) -> int:
+        val = self.cur
+        self.cur = next(self.g, None)
+        return val
+    
+    def hasNext(self) -> bool:
+        return self.cur != None        
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []

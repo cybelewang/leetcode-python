@@ -46,6 +46,7 @@ class Solution:
                 res += stack.pop()
 
         return res
+    # follow-up: stack only saves sign? https://www.1point3acres.com/bbs/thread-654010-1-1.html
 
     # recursive solution, add a number after parsing a number, or after evaluating a (...) part
     def calculate2(self, s):

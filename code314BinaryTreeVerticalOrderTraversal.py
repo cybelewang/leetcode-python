@@ -37,6 +37,7 @@ return its vertical order traversal as:
 from TreeNode import *
 from collections import defaultdict, deque
 class Solution:
+    # similar to 987 Vertical Order Traversal of a Binary Tree
     # use a dict to save the elements in the same x coordinate
     # pitfall: the DFS cannot guarantee the correct order (top to down, left to right), so we must use BFS
     def verticalOrder(self, root):

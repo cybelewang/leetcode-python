@@ -57,6 +57,6 @@ class Solution:
 
         return t or f
 
-input = [2,2, 3 ,1]
+input = [3, 2, 2]
 obj = Solution()
-print(obj.thirdMax(input))
+print(obj.thirdMax2(input))
