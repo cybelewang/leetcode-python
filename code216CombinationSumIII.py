@@ -20,39 +20,36 @@ Output:
 
 [[1,2,6], [1,3,5], [2,3,4]]
 """
+from itertools import combinations
 class Solution:
+    # use 
+    def combinationSum(self, k: int, n: int) -> List[List[int]]:
+        return [c for c in combinations(range(1,10), k) if sum(c) == n]
+
     def combinationSum3(self, k, n):
         """
         :type k: int
         :type n: int
         :rtype: List[List[int]]
         """
-        # quickly resolve corner cases
-        if k > n or k > 9 or n > 45:
-            return []
-
-        def combination(res, build, s, k, n):
-            """
-            s: start number
-            k: remaining numbers
-            n: remaing sum
-            """
-            if k == 0:
-                if n == 0:
+        def helper(build, start, target, res):
+            # corner cases
+            curSum = sum(build)
+            if curSum > target:
+                return
+            if len(build) == k:
+                if curSum == target:
                     res.append(build[:])
                 return
-            elif n <= 0:
-                return
-            else:                
-                for i in range(s, min(10, n+1)):
-                    build.append(i)
-                    combination(res, build, i+1, k-1, n-i)
-                    build.pop()
-
-        res, build = [], []
-        combination(res, build, 1, k, n)
-
+            
+            for i in range(start, 10):
+                build.append(i)
+                helper(build, i+1, target, res)
+                build.pop()
+            
+        res = []
+        helper([], 1, n, res)
         return res
 
 obj = Solution()
-print(obj.combinationSum3(9, 45))    
+print(obj.combinationSum3(3, 7))    

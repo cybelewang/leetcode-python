@@ -36,50 +36,45 @@ class Solution:
         :type matrix: List[List[int]]
         :rtype: List[List[int]]
         """
-        if not matrix:
-            return []
-
-        neighbors = [(0, -1), (-1, 0), (0, 1), (1, 0)]
-        m, n = len(matrix), len(matrix[0])
-        mark = [[0]*n for _ in range(m)]    # explanation of value: 0 means never visited, 1 means flows to pacitic, 2 means flow to atlantic, 3 means flows to both
-        q = deque()
-
-        # push board cells contacting pacific into queue
+        m = len(matrix)
+        if m < 1: return []
+        n = len(matrix[0])
+        if n < 1: return []
+        
+        dirs = [[0, -1], [-1, 0], [0, 1], [1, 0]]
+        mark = [[0]*n for _ in range(m)] # explanation of value: 0 means never visited, 1 means flows to pacitic, 2 means flow to atlantic, 3 means flows to both
+        
+        def bfs(q, mark, mask):
+            while q:
+                x, y = q.popleft()
+                for dx, dy in dirs:
+                    i, j = x + dx, y + dy
+                    if -1 < i < m and -1 < j < n and matrix[i][j] >= matrix[x][y] and mark[i][j] & mask == 0:
+                        mark[i][j] |= mask
+                        q.append((i, j))
+        
+        q1, q2 = deque(), deque()
         for i in range(m):
-            q.append((i, 0))
-            mark[i][0] |= 0x01; # 1 means touching pacific
-
+            # left board elements to q1
+            q1.append((i, 0))
+            mark[i][0] |= 1
         for j in range(1, n):
-            q.append((0, j))
-            mark[0][j] |= 0x01; # 1 means touching pacific
+            # top board elements [0][1:] to q1
+            q1.append((0, j))
+            mark[0][j] |= 1
 
-        # BFS on atlantic
-        self.bfs(matrix, m, n, q, neighbors, mark, 0x01)
-
-        q.clear()
-        # push board cells contacting atlantic into queue
         for i in range(m):
-            q.append((i, n-1))
-            mark[i][n-1] |= 0x02; # 2 means touching atlantic
-
+            q2.append((i, n-1))
+            mark[i][n-1] |= 2
         for j in range(n-1):
-            q.append((m-1, j))
-            mark[m-1][j] |= 0x02; # 1 means touching atlantic
+            # bottom board elements [m-1][0:n-1] to q2
+            q2.append((m-1, j))
+            mark[m-1][j] |= 2        
 
-        # BFS on atlantic
-        self.bfs(matrix, m, n, q, neighbors, mark, 0x02)
-
-        return [[i, j] for i in range(m) for j in range(n) if mark[i][j]==3]
-
-    
-    def bfs(self, matrix, m, n, queue, neighbors, mark, mask):
-        while queue:
-            x, y = queue.popleft()
-            for dx, dy in neighbors:
-                i, j = x + dx, y + dy
-                if -1 < i < m and -1 < j < n and (mark[i][j] & mask == 0) and matrix[i][j] >= matrix[x][y]:
-                    mark[i][j] |= mask
-                    queue.append((i, j))  
+        bfs(q1, mark, 1)
+        bfs(q2, mark, 2)
+        
+        return [[x, y] for x in range(m) for y in range(n) if mark[x][y] == 3]
 
     # Solution 2
     # DFS
@@ -190,7 +185,48 @@ class Solution:
                     if h <= matrix[i][j]:
                         heappush(queue, (matrix[i][j], i, j))
                         ocean.add((i, j))
+
+    # 8/13/2020
+    # priority queue solution, TLE
+    def pacificAtlantic4(self, matrix):
+        m = len(matrix)
+        if m < 1: return []
+        n = len(matrix[0])
+        if n < 1: return []
+        dirs = [[0, -1], [-1, 0], [0, 1], [1, 0]]
+        pacific, atlantic = set(), set()
+        q1, q2 = [], [] # priority queue containing height and coordinates
+        for i in range(m):
+            # left board elements to q1
+            q1.append((matrix[i][0], i, 0))
+            # right board elements to q2
+            q2.append((matrix[i][n-1], i, n-1))
+        for j in range(1, n):
+            # top board elements [0][1:] to q1
+            q1.append((matrix[0][j], 0, j))
+            # bottom board elements [m-1][0:n-1] to q2
+            q2.append((matrix[m-1][n-1-j], m-1, n-1-j))
         
-matrix = [[1, 2, 2, 3, 5], [3, 2, 3, 4, 4], [2, 4, 5, 3, 1], [6, 7, 1, 4, 5], [5, 1,1, 2, 4]]
+        heapify(q1)
+        heapify(q2)
+        
+        def bfs(q, visited):
+            while q:
+                h, x, y = heappop(q)
+                visited.add((x, y))
+                for dx, dy in dirs:
+                    i, j = x + dx, y + dy
+                    if -1 < i < m and -1 < j < n and matrix[i][j] >= h and (i, j) not in visited:
+                        heappush(q, (matrix[i][j], i, j))
+        
+        # BFS for pacific
+        bfs(q1, pacific)
+        # BFS for atlantic
+        bfs(q2, atlantic)
+        
+        return list(pacific & atlantic)
+
+#matrix = [[1, 2, 2, 3, 5], [3, 2, 3, 4, 4], [2, 4, 5, 3, 1], [6, 7, 1, 4, 5], [5, 1,1, 2, 4]]
+matrix = [[3,3,3],[3,1,3],[0,2,4]]
 obj = Solution()
-print(obj.pacificAtlantic2(matrix))
+print(obj.pacificAtlantic(matrix))

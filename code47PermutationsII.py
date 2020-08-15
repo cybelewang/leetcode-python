@@ -51,7 +51,7 @@ class Solution2:
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        def dfs(nums, start, build, used, res):
+        def dfs(nums, build, used, res):
             if len(build) == len(nums):
                 res.append(build[:])
                 return
@@ -62,13 +62,13 @@ class Solution2:
                 
                 build.append(nums[i])
                 used[i] = True
-                dfs(nums, i+1, build, used, res)
+                dfs(nums, build, used, res)
                 used[i] = False
                 build.pop()
 
         nums.sort()
         used, res = [False]*len(nums), []
-        dfs(nums, 0, [], used, res)
+        dfs(nums, [], used, res)
 
         return res
 

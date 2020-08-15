@@ -34,42 +34,34 @@ Given m = 1, n = 1, return 9.
 class Solution:
     def numberOfPatterns(self, m, n):
         res, visited = 0, [False]*10
-        jumps = [[0]*10 for _ in range(10)] # 10x10 matrix with jumps[i][j] is the number between i and j, if there is no number between i and j, the value will be 0
+        jumps = [[0]*10 for _ in range(10)]
 
         # initialize jumps
         jumps[1][3] = jumps[3][1] = 2
         jumps[4][6] = jumps[6][4] = 5
-        jumps[7][9] = jumps[9][7] = 5
+        jumps[7][9] = jumps[9][7] = 8
         jumps[1][7] = jumps[7][1] = 4
         jumps[2][8] = jumps[8][2] = 5
         jumps[3][9] = jumps[9][3] = 6
         jumps[1][9] = jumps[9][1] = jumps[3][7] = jumps[7][3] = 5
-
-        res += self.helper(1, 1, 0, m, n, jumps, visited) * 4   # 1, 3, 7, 9 are symmetric
-        res += self.helper(2, 1, 0, m, n, jumps, visited) * 4   # 2, 4, 6, 8 are symmetric
-        res += self.helper(5, 1, 0, m, n, jumps, visited)
-
-        return res
-    
-    def helper(self, num, length, count, m, n, jumps, visited):
-        '''
-        num: current start number
-        length: current length of keys in pattern
-        count: current count of valid path
-        '''
-        if length >= m:
-            count += 1
-        length += 1
-        if length > n:
+        
+        def helper(num, length, count, visited): 
+            if length >= m: count += 1  # count existing length if valid
+            if length >= n: return count # no more dfs search because length will exceed n
+            visited[num] = True
+            for i in range(1, 10):
+                jump = jumps[num][i]
+                if not visited[i] and (jump == 0 or visited[jump]):
+                    # count passed in, added, then returned
+                    count = helper(i, length+1, count, visited)
+            visited[num] = False
             return count
         
-        visited[num] = True
-        for next in range(1, 10):
-            jump = jumps[num][next]
-            if not visited[next] and (jump == 0 or visited[jump]):
-                self.helper(next, length, count, m, n, jumps, visited)
-        
-        visited[num] = False
-        return count
+        # main
+        res = 0
+        res += 4*helper(1, 1, 0, visited)        
+        res += 4*helper(2, 1, 0, visited)        
+        res += helper(5, 1, 0, visited)
+        return res
 
-print(Solution().numberOfPatterns(1, 1))
+print(Solution().numberOfPatterns(3, 5))

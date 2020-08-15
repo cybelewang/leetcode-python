@@ -38,46 +38,43 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
-        def _rob(root):
+        def helper(root):
             res = [0, 0]    # res[0] means root not robbed, res[1] means root robbed
             if not root:
                 return res
 
-            left, right = _rob(root.left), _rob(root.right)
+            left, right = helper(root.left), helper(root.right)
             res[0] = max(left) + max(right) # root not robbed, so add left child's max and right child's max, pitfall: should not be res[0] = left[1] + right[1]
             res[1] = root.val + left[0] + right[0]  # root is robbed, so must add left child's not robbed result and right child's not robbed result
 
             return res
 
-        return max(_rob(root))
+        return max(helper(root))
 
-    # Use a map to cache the overlapping subproblems, not the best
+    # Use a map to cache the overlapping subproblems
     def rob2(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
-        def _rob(root, rob, cache):
-            res = 0
-            if not root:
-                return res
-            
-            if rob:
-                if root in cache:
-                    return cache[root]
-                else:
-                    res += root.val
-                    res += _rob(root.left, False, cache)
-                    res += _rob(root.right, False, cache)
-                    cache[root] = res
-            else:
-                res += max(_rob(root.left, True, cache), _rob(root.left, False, cache))
-                res += max(_rob(root.right, True, cache), _rob(root.right, False, cache))
-
-            return res
-
-        cache = {}
-        return max(_rob(root, True, cache), _rob(root, False, cache))
+        def helper(root, mem):
+            if not root: return 0
+            if root in mem:
+                return mem[root]
+            # don't rob root, root children and get a value
+            children = helper(root.left, mem) + helper(root.right, mem)
+            # rob root and grandchildren and get a value
+            grand = root.val
+            if root.left:
+                grand += helper(root.left.left, mem) + helper(root.left.right, mem)
+            if root.right:
+                grand += helper(root.right.left, mem) + helper(root.right.right, mem)
+            # take the max one
+            mem[root] = max(children, grand)
+            return mem[root]
+        
+        mem = {}        
+        return helper(root, mem)
 
     # recursive solution, TLE
     def rob3(self, root):
@@ -85,23 +82,19 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
-        def _rob(root, rob):
-            res = 0
-            if not root:
-                return res
-
-            if rob:
-                res += root.val
-                res += _rob(root.left, False) 
-                res += _rob(root.right, False)
+        def helper(root, canRob):
+            if not root: return 0
+            robSubtree = helper(root.left, True) + helper(root.right, True)
+            notRobSubtree = helper(root.left, False) + helper(root.right, False)
+            if canRob:
+                # can rob root, two cases: rob root, or not rob root
+                return max(root.val + notRobSubtree, robSubtree)
             else:
-                res += max(_rob(root.left, True), _rob(root.left, False))
-                res += max(_rob(root.right, True), _rob(root.right, False))
-            
-            return res
+                # cannot rob root
+                return robSubtree
+        
+        return helper(root, True)
 
-        return max(_rob(root, True), _rob(root, False))
-
-test_case = [2, None, 3, None, 1]
+test_case = [3, 2, 3, None, 3, None, 1]
 obj = Solution()
-print(obj.rob(ListToTree(test_case)))
+print(obj.rob2(ListToTree(test_case)))

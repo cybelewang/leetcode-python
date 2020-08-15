@@ -37,6 +37,7 @@ Note:
 #         self.left = None
 #         self.right = None
 from TreeNode import *
+import unittest
 class Solution:
     def distributeCoins(self, root):
         """
@@ -60,10 +61,55 @@ class Solution:
         # main
         dfs(root)
         return self.moves
+    # follow-up 1: how many moves to move all coins to root?
+    # DFS to count all coins from the subtree
 
-#tree = [3, 0, 0]    # expect 2
-#tree = [1]  # expect 0
-#tree= [0, 3, 0] # expect 3
-tree = [1, 0, 2] # expect 2
-root = ListToTree(tree)
-print(Solution().distributeCoins(root))
+    # follow-up 2: put 1 coin in all nodes except root, and put all the rest coins to root, how many moves?
+    # Some nodes may have 0 coins, and therefore requires coins from other nodes
+    def distributeCoins2(self, root: TreeNode) -> int:
+        def helper(root):            
+            if not root: return 0
+            left = helper(root.left)
+            right = helper(root.right)
+            self.res += abs(left) + abs(right)
+            # positive: net provider
+            # negative: net consumer
+            return left + right + root.val - 1
+        # main
+        self.res = 0
+        helper(root)
+        return self.res    
+
+class Test(unittest.TestCase):
+    def test_1(self):
+        obj = Solution()
+        tree = [3, 0, 0]    # expect 2
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins(root), 2)
+        tree = [1]  # expect 0
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins(root), 0)
+        tree= [0, 3, 0] # expect 3
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins(root), 3)
+        tree = [1, 0, 2] # expect 2
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins(root), 2)
+
+    # test follow-up 2
+    def test_2(self):
+        obj = Solution()
+        tree = [3, 0, 1] # expect 1, only one move to left subtree
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins2(root), 1)
+        tree = [9]  # expect 0
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins2(root), 0)
+        tree= [0, 3, 0] # expect 3
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins2(root), 3)
+        tree = [0, 1, 1] # expect 0
+        root = ListToTree(tree)
+        self.assertEqual(obj.distributeCoins2(root), 0)
+
+unittest.main(exit = False)

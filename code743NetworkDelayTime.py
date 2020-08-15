@@ -26,27 +26,24 @@ class Solution:
         :type K: int
         :rtype: int
         """
-        # convert times to a graph (type dict, key is the source node, value is a list of tuple (dst node, time))
-        graph = defaultdict(list)
+        graph = defaultdict(lambda: defaultdict(int))
         for u, v, w in times:
-            graph[u].append((v, w))
+            graph[u][v] = w
         
-        visited = [False]*(1+N)
-        q = [(0, K)]    # priority queue implemented by heapq
-        remains, t = N, 0
-        while q and remains:
+        q = [(0, K)]
+        dist = [2**31-1]*(N + 1)
+        dist[0] = 0
+        dist[K] = 0
+        while q:
             t, src = heappop(q)
-            if visited[src]:    # bug 1 fixed: we should check visited[src] because it may have been visited before, see times=[[1,2,1],[2,3,7],[1,3,4],[2,1,2]], N=4, K=1
-                continue
-            visited[src] = True
-            remains -= 1
-            for dst, time in graph[src]:
-                if not visited[dst]:
-                    heappush(q, (t+time, dst))
-                    # bug 2 fixed: below commented codes should not be here
-                    # visited[src] = True
-                    # remains -= 1
-        return -1 if remains else t
+            for dst in graph[src]:
+                new_t = t + graph[src][dst]
+                if dist[dst] > new_t:
+                    dist[dst] = new_t
+                    heappush(q, (new_t, dst))
+
+        t = max(dist)
+        return t if t < 2**31-1 else -1
 
     # Dijkstra solution with O(V^2) time complexity, V is the number of nodes
     # This will produce a shortest path tree (dist in this program) and each one represents the shortest path from the source

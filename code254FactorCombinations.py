@@ -36,20 +36,16 @@ Output:
 """
 class Solution:
     def getFactors(self, n):
-        def dfs(start, n): # bug 2: recursively call the getFactors itself is wrong, this may cause duplicate results. We need to define a dfs with restrictions of start number.
-            i = start
-            res = []
-            while i*i <= n: # bug 1: i*i<=n, not i*i<n, think the case 2*2=4
+        def helper(n, start):
+            ans = []
+            for i in range(start, int(n**0.5)+1):
                 if n%i == 0:
-                    res.append([i, n//i])
-                    for f in dfs(i, n//i):
-                        res.append([i] + f)
-                i += 1
-            return res
+                    ans.append([i, n//i])
+                    for right in helper(n//i, i):
+                        ans.append([i] + right)
+            return ans
         
-        # main
-        if n < 2: return []
-        return dfs(2, n)
+        return helper(n, 2)
 
 
 print(Solution().getFactors(32))

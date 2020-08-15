@@ -20,6 +20,26 @@ class Solution:
                 res.append(left + word[i] + a)
         
         return res
+    
+    # sequential recurrence by left appending the first letter of word to the result of word[1:]
+    # be cautious when the result of word[1:] starts with digits, need to add that number by 1
+    def generateAbbreviations3(self, word):
+        if not word: return [""]
+        # return a list of abbreviations
+        if len(word) == 1: return [word, '1']
+        l, res = word[0], []
+        for r in self.generateAbbreviations(word[1:]):
+            res.append(l + r)
+            if r[0].isdigit():
+                # find the starting number
+                k = 0
+                while k < len(r) and r[k].isdigit():
+                    k += 1
+                num, remain = int(r[:k]), r[k:]
+                res.append(str(1+num)+remain)
+            else:
+                res.append('1' + r)
+        return res    
      
     def generateAbbreviations2(self, word):
         """
@@ -46,4 +66,4 @@ class Solution:
 
         return res
 
-print(Solution().generateAbbreviations("word"))
+print(Solution().generateAbbreviations3("word"))

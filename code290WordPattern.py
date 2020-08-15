@@ -67,6 +67,31 @@ class Solution2:
         
         return True
     
+    # single map solution, O(N^2) because we need to iterate map values
+    def wordPattern3(self, pattern, str):
+        def count(mem, s):
+            cnt = 0
+            for val in mem.values():
+                if s == val:
+                    cnt += 1
+            return cnt
+
+        mem = {}
+        a = str.split()
+        i, j = 0, 0
+        while i < len(pattern):
+            p = pattern[i]
+            if j >= len(a): break
+            s = a[j]
+            if p in mem:
+                if s != mem[p]: return False
+            else:
+                mem[p] = s
+                if count(mem, s) > 1: return False # for a single map, we need to make sure all values in the map are unique too
+            i += 1
+            j += 1
+        return i == len(pattern) and j == len(a)  
+    
     # best solution
     # https://leetcode.com/problems/word-pattern/discuss/73433/Short-in-Python
     def wordPattern2(self, pattern, str):
@@ -77,4 +102,4 @@ obj = Solution2()
 p, s = "abba", "dog cat cat dog"    # expected True
 #p, s = "abba", "dog dog dog dog"    # expected False
 #p, s = 'ab', 'dog dog'  # expected False
-print(obj.wordPattern2(p, s))
+print(obj.wordPattern3(p, s))
