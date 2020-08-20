@@ -33,20 +33,13 @@ class Solution:
         :type target: int
         :rtype: int
         """
-        nums = sorted(filter(lambda x: x <= target, nums))  # filter only those <= target, and sort them
-        dp = [0]*(target+1) # dp[i] represents number of combinations for i
-
-        for num in nums:
-            dp[num] = 1
-
-        for i in range(1, target+1):
+        dp = [0]*(1+target)
+        dp[0] = 1
+        for t in range(1, 1+target):
             for num in nums:
-                if num < i:
-                    dp[i] += dp[i-num]
-                else:
-                    break
-        
-        return dp[target]
+                if t >= num:
+                    dp[t] += dp[t-num]
+        return dp[t]
 
     # recursive + memo
     def combinationSum5(self, nums, target):

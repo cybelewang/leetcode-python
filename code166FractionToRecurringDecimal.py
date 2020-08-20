@@ -11,10 +11,34 @@ Given numerator = 1, denominator = 2, return "0.5".
 Given numerator = 2, denominator = 1, return "2".
 Given numerator = 2, denominator = 3, return "0.(6)".
 """
-
-# bug fixed: the repeating may not begin from the digit just after '.', for example, 1/6=0.1(6)
+# pitfalls: 
+# (1) num and den have different signs, python will floor down for negative result 
+# (2) num and den have different signs, and int result is 0, the sign could be omitted in result if we multiply sign with the int result
+# (3) the repeating may not begin from the digit just after '.', for example, 1/6=0.1(6)
+import unittest
 class Solution:
     def fractionToDecimal(self, numerator, denominator):
+        if numerator == 0: return '0'
+        sign, n, d = 1, abs(numerator), abs(denominator)
+        if numerator*denominator < 0: sign = -1
+        
+        _int = ('' if sign ==1 else '-') + str(n // d)
+        remain = n % d
+        if remain == 0: return _int
+        
+        f, mem = [], {}
+        while remain != 0:
+            if remain in mem:
+                start = mem[remain]
+                return _int+'.'+''.join(map(str, f[:start]))+'('+''.join(map(str, f[start:]))+')'
+            mem[remain] = len(f)
+            remain *= 10
+            f.append(remain//d)
+            remain %= d
+        return _int+'.'+''.join(map(str, f))
+
+    # bug fixed: the repeating may not begin from the digit just after '.', for example, 1/6=0.1(6)
+    def fractionToDecimal2(self, numerator, denominator):
         """
         :type numerator: int
         :type denominator: int
@@ -65,7 +89,20 @@ class Solution:
 
         return res + ''.join(map(str, div_list))
 
-test_cases = [(0, 1), (50, 13), (1, 3), (1, 2), (1, 6), (2, -3), (-1, 2), (1, -3), (0, -2)]
-obj = Solution()
-for case in test_cases:
-    print(obj.fractionToDecimal(case[0], case[1]))
+class Test(unittest.TestCase):
+    def test_1(self):
+        test_cases = [(0, 1), (50, 13), (1, 3), (1, 2), (1, 6), (2, -3), (-1, 2), (1, -3), (0, -2)]
+        expected = ['0', '3.(846153)', '0.(3)', '0.5', '0.1(6)', '-0.(6)', '-0.5', '-0.(3)', '0']
+        obj = Solution()
+        for i, case in enumerate(test_cases):
+            self.assertEqual((obj.fractionToDecimal(*case)), expected[i])
+
+    def test_2(self):
+        test_cases = [(0, 1), (50, 13), (1, 3), (1, 2), (1, 6), (2, -3), (-1, 2), (1, -3), (0, -2)]
+        expected = ['0', '3.(846153)', '0.(3)', '0.5', '0.1(6)', '-0.(6)', '-0.5', '-0.(3)', '0']
+        obj = Solution()
+        for i, case in enumerate(test_cases):
+            self.assertEqual((obj.fractionToDecimal2(*case)), expected[i])
+
+if __name__ == '__main__':
+    unittest.main(exit = False)

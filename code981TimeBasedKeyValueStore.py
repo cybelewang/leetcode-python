@@ -41,13 +41,15 @@ The timestamps for all TimeMap.set operations are strictly increasing.
 TimeMap.set and TimeMap.get functions will be called a total of 120000 times (combined) per test case.
 """
 # see C++ solution
+from collections import defaultdict
+from bisect import bisect_right
 class TimeMap:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        
+        self.m = defaultdict(list)
 
     def set(self, key, value, timestamp):
         """
@@ -56,7 +58,7 @@ class TimeMap:
         :type timestamp: int
         :rtype: void
         """
-        
+        self.m[key].append((timestamp, value))
 
     def get(self, key, timestamp):
         """
@@ -64,8 +66,16 @@ class TimeMap:
         :type timestamp: int
         :rtype: str
         """
+        A = self.m[key]
+        idx = bisect_right(A, (timestamp, 'a'))
+        if idx == 0: return ""
+        else: return self.m[key][idx-1][1]
         
-
+obj = TimeMap()
+obj.set("love","high",10)
+obj.set("love","low",20)
+print(obj.get("love", 5))
+print(obj.get("love", 10))
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()

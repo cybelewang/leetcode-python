@@ -27,6 +27,7 @@ class Sort:
         # main
         _quicksort(nums, 0, len(nums)-1)
 
+    # merge from small to large
     def mergesort(self, nums):
         def helper(nums, s, e):
             # merge and sort nums[s:e+1]
@@ -49,6 +50,21 @@ class Sort:
             nums[s:e+1] = temp
  
         helper(nums, 0, len(nums)-1)
+    
+    # merge from large to small
+    def mergesort2(self, nums):
+        def sort(arr):
+            n = len(arr)
+            if n < 2: return arr
+            left, right = sort(arr[:n//2]), sort(arr[n//2:])
+            for i in range(n-1, -1, -1):
+                if not right or left and left[-1] > right[-1]:
+                    arr[i] = left.pop()
+                else:
+                    arr[i] = right.pop()
+            return arr
+        
+        sort(nums)
 
 class Test(unittest.TestCase):
     def test_1(self):
@@ -84,6 +100,15 @@ class Test(unittest.TestCase):
             input.append(randrange(100))
         sort = sorted(input)
         obj.quicksort(input)
+        self.assertEqual(input, sort)
+
+    def test_5(self):
+        obj = Sort()
+        input = []
+        for _ in range(100):
+            input.append(randrange(100))
+        sort = sorted(input)
+        obj.mergesort2(input)
         self.assertEqual(input, sort)
 
 if __name__ == "__main__":

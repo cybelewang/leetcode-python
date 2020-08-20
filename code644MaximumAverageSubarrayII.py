@@ -18,7 +18,7 @@ The answer with the calculation error less than 10-5 will be accepted.
 class Solution:
     # binary search method
     # https://www.cnblogs.com/grandyang/p/8021421.html
-    def findMaxAverage(self, nums: List[int], k: int) -> float:
+    def findMaxAverage(self, nums, k):
         left, right = min(nums), max(nums)
         while right - left > 1e-5:
             mid = (left + right)/2.0
@@ -40,3 +40,5 @@ class Solution:
                 right = mid
         
         return left
+
+print(Solution().findMaxAverage([1,12,-5,-6,50,3], 4)) # expect 12.75

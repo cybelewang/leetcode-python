@@ -29,45 +29,28 @@ Notes:
 S and all words in words consist only of lowercase letters
 """
 class Solution:
-    def expressiveWords(self, S, words):
-        """
-        :type S: str
-        :type words: List[str]
-        :rtype: int
-        """
-        if not S:
-            return 0
-
-        def group(s):
-            """
-            group the same characters togeter, and return a list of tuples (letter, count)
-            """
-            res, cnt = [], 1
-            for i in range(1, len(s)):
-                if s[i] == s[i-1]:
-                    cnt += 1
+    def expressiveWords(self, S: str, words: List[str]) -> int:
+        # helper function returns a list of letters and a list of corresponding counts
+        # perhaps using itertools.groupby(word)?
+        def count(s):
+            letters, cnt = [], []
+            for c in s:
+                if letters and letters[-1] == c:
+                    cnt[-1] += 1
                 else:
-                    res.append((s[i-1], cnt))
-                    cnt = 1
-            res.append((s[-1], cnt))
-
-            return res
-
-        gs, res = group(S), 0
+                    letters.append(c)
+                    cnt.append(1)
+            return letters, cnt
+        
+        baseLetters, baseCnt = count(S)
+        res = 0
         for word in words:
-            gw = group(word)
-            if len(gs) != len(gw):
-                continue
-            for i in range(len(gs)):
-                s_letter, s_count = gs[i]
-                w_letter, w_count = gw[i]
-                if s_letter != w_letter or s_count < w_count or (s_count < 3 and s_count != w_count):
-                    break
-            else:
+            letters, cnt = count(word)
+            # all([]) is True, any([]) is False
+            if letters == baseLetters and all(i == j or (i >= 3 and i > j) for i, j in zip(baseCnt, cnt)):
                 res += 1
         
         return res
-    
     # 2nd visit on 7/23/2020
     # First build letters and count lists for S, with abbrevation letters and corresponding counts
     # Then for each word, count consecutive letters and compare with S

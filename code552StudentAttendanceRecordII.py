@@ -47,6 +47,7 @@ class Solution:
         
         return res
 
+    # better to understand solution
     # solution 2 from http://www.cnblogs.com/grandyang/p/6866756.html
     # P[i], L[i], A[i] represents number of rewardable strings 0:i (inclusive), ending with 'P', 'L', 'A' respectively
     def checkRecord2(self, n):

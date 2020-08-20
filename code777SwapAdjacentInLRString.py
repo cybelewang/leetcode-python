@@ -53,7 +53,25 @@ class Solution:
 
         return True
 
-    # my own solution
+    # easier to understand two pointer solution
+    def canTransform3(self, start, end):
+        # generate the indices with letter != 'X'
+        def G(s):
+            for i, c in enumerate(s):
+                if c != 'X':
+                    yield i
+        
+        f, g = G(start), G(end)
+        i, j = next(f, -1), next(g, -1) # if no value generated, use default value -1
+        while i != -1 and j != -1:
+            if start[i] != end[j] or (start[i] == 'R' and i > j) or (start[i] == 'L' and i < j):
+                return False
+            i, j = next(f, -1), next(g, -1)
+
+        # check if any remaining 'L' or 'R'
+        return i == -1 and j == -1
+
+    # my own solution, WRONG
     # remove all X's and compare if the remaining strings are equal - this is wrong, for example, we cannot transform "XR" to "RX" because 'R' in start cannot move to right
     # R can move to right along X, until stopped by a L
     # L can move to left along X, until stopped by a R

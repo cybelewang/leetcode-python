@@ -81,31 +81,21 @@ class Node:
 class CloneDG:
     def clone(self, heads):
         """
-        clone a directed graph, may contain duplicate values, may contain cycles
+        clone a directed graph with multiple given input nodes, may contain duplicate values, may contain cycles
         """
-        def helper(src_parent, src_node, src_dst, res):
-            if not src_node: return
-            dst_node = None
-            if src_node in src_dst:
-                # src_node has been cloned before, so we only need to clone the edges
-                dst_node = src_dst[src_node]
-                dst_parent = src_dst[src_parent]
-                dst_parent.children.append(dst_node)
-            else:
-                # src_node has not been cloned, we need to clone nodes and edges and also DFS to src_node's children
-                dst_node = Node(src_node.val)
-                src_dst[src_node] = dst_node
-                if not src_parent:
-                    res.append(dst_node)
-                else:
-                    dst_parent = src_dst[src_parent]
-                    dst_parent.children.append(dst_node)
-                for child in src_node.children:
-                    helper(src_node, child, src_dst, res)
+        # DFS function used in this problem 133 Clone Graph
+        def helper(src, mem):
+            if not src: return None
+            if src in mem:
+                return mem[src]
+            dst = mem.setdefault(src, Node(src.val))
+            for nei in src.children:
+                dst.children.append(helper(nei, mem))
+            return dst
             
-        src_dst, res = {}, []
+        mem, res = {}, []
         for head in heads:
-            helper(None, head, src_dst, res)
+            res.append(helper(head, mem))
         return res
 
 # construct the test DG
@@ -128,3 +118,5 @@ node22 = Node(8)
 node21.children.append(node22)
 
 clones = CloneDG().clone(heads)
+print(clones[0].val == heads[0].val)
+print(clones[1].val == heads[1].val)

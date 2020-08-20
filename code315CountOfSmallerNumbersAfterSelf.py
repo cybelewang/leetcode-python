@@ -64,6 +64,27 @@ class Solution:
 
         return count
 
+    # merge sort solution
+    # merge from large to small
+    # https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76584/Mergesort-solution
+    def countSmaller3(self, nums):
+        res = [0]*len(nums)
+        def sort(arr):
+            n = len(arr)
+            if n < 2:
+                return arr
+            left, right = sort(arr[:n//2]), sort(arr[n//2:])
+            for i in range(n-1, -1, -1):
+                if not right or left and left[-1][1] > right[-1][1]:
+                    res[left[-1][0]] += len(right)
+                    arr[i] = left.pop()
+                else:
+                    arr[i] = right.pop()
+            return arr
+        
+        sort(list(enumerate(nums)))
+        return res
+
     # use an extra list to save each number in order. The insertion position tells how many numbers are smaller than the inserted number.
     # worst case O(n^2), a little better than brutal force solution 
     def countSmaller2(self, nums):

@@ -34,6 +34,9 @@ The first 3 bits are all one's and the 4th bit is 0 means it is a 3-bytes charac
 The next byte is a continuation byte which starts with 10 and that's correct.
 But the second continuation byte does not start with 10, so it is invalid.
 """
+# pitfalls
+# (1) understand problem correctly - there may exist multiple UTF-8 characters in data, so length > 4 is OK
+# (2) there may be not enough bytes followed by the head byte
 class Solution:
     # OJ's best solution, but OJ test cases don't check data range
     def validUtf8(self, data):

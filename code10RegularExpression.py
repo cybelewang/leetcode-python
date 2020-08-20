@@ -48,6 +48,7 @@ Output: false
 
 """
 # similar problems: 44 Wildcard Matching
+import unittest
 def isMatch(s, p):
     """
     :type s: str
@@ -80,8 +81,48 @@ def isMatch(s, p):
                 # normal character
                 match[i][j] = match[i-1][j-1] and (s[i-1] == p[j-1])
 
-    return match[m][n]  
-            
-test_case = [("",""),("","a*"),("",".*"),("",".*.*"),("a",""),("abcd","abc*d"),("abcc","abc*"),("ab","abc*"),("abc",".*cd"),("aa","a"),("aaa","aa"),("aa",".*"),("ab",".*"),("aab","c*a*b")]
-for (s, p) in test_case:
-    print(s + " matches "+ p + ": ", isMatch(s,p))                
+    return match[m][n] 
+
+def isMatch2(s, p):
+    m, n = len(s), len(p)
+    match = [[False]*(1+n) for _ in range(1+m)]
+    match[0][0] = True
+    
+    for j in range(1, n+1):
+        if p[j-1] == '*':
+            match[0][j] = match[0][j-2]
+    
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            if p[j-1] == '.':
+                match[i][j] = match[i-1][j-1]
+            elif p[j-1] == '*':
+                match0 = match[i][j-2]
+                if p[j-2] == '.':
+                    match1 = match[i-1][j-2]
+                    matchN = match[i-1][j]
+                else:
+                    match1 = match[i-1][j-2] and (s[i-1] == p[j-2])
+                    matchN = match[i-1][j] and (s[i-1] == p[j-2])
+                match[i][j] = match0 or match1 or matchN
+            else:
+                match[i][j] = match[i-1][j-1] and (s[i-1] == p[j-1])
+    
+    return match[m][n] 
+
+class Test(unittest.TestCase):
+    def test1(self):            
+        test_case = [("","", True),("","a*", True),("",".*", True),("",".*.*", True),("a","", False),("abcd","abc*d", True),("abcc","abc*", True),("ab","abc*", True),("abc",".*cd", False),("aa","a", False),("aaa","aa", False),("aa",".*", True),("ab",".*", True),("aab","c*a*b", True)]
+        for (s, p, expected) in test_case:
+            if isMatch(s, p) != expected:
+                print("s: {}, p: {}, expected: {}".format(s, p, expected))
+            self.assertEqual(isMatch(s, p), expected)
+
+    def test2(self):            
+        test_case = [("","", True),("","a*", True),("",".*", True),("",".*.*", True),("a","", False),("abcd","abc*d", True),("abcc","abc*", True),("ab","abc*", True),("abc",".*cd", False),("aa","a", False),("aaa","aa", False),("aa",".*", True),("ab",".*", True),("aab","c*a*b", True)]
+        for (s, p, expected) in test_case:
+            if isMatch2(s, p) != expected:
+                print("s: {}, p: {}, expected: {}".format(s, p, expected))
+            self.assertEqual(isMatch2(s, p), expected)
+
+unittest.main(exit = False)

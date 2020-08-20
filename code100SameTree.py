@@ -30,6 +30,17 @@ class Solution:
         else:
             return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 
+    # preorder traversal (including null nodes) is the unique identifier of a binary tree
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        def G(root):
+            if not root:
+                yield '#'
+            else:
+                yield str(root.val)
+                yield from G(root.left)
+                yield from G(root.right)
+            
+        return all(a==b for a, b in zip_longest(G(p), G(q)))
 
 test_cases = [([1,2,3],[1,2,3]), ([1,2],[1,None,2])]
 obj = Solution()
