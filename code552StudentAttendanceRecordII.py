@@ -74,9 +74,30 @@ class Solution:
         
         return ((A[n - 1] + P[n - 1]) % M + L[n - 1]) % M
 
+    # two step DP (1) in step 1, we consider records with 'L' and 'P' only, 
+    # (2) in second step, consider replacing one of the letter in record with 'A'.
+    def checkRecord3(self, n: int) -> int:
+        if n < 2: return 3
+        M = 10**9 + 7
+        P, L = [0]*n, [0]*n
+        P[0] = L[0] = 1
+        P[1] = L[1] = 2
+        for i in range(2, n):
+            P[i] = (P[i-1] + L[i-1]) % M
+            L[i] = (P[i-1] + P[i-2]) % M
+        res = (P[n-1] + L[n-1]) % M
+        
+        # replace each letter with A
+        for i in range(n):
+            left = 1 if i == 0 else (P[i-1] + L[i-1]) % M
+            right = 1 if i == n-1 else (P[n-i-2] + L[n-i-2]) % M
+            res = (res + left*right) % M
+        
+        return res    
+
     # don't understand solution 1 from http://www.cnblogs.com/grandyang/p/6866756.html
     # Python TLE
-    def checkRecord3(self, n):
+    def checkRecord4(self, n):
         """
         :type n: int
         :rtype: int

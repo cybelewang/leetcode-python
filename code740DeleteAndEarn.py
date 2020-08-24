@@ -28,9 +28,22 @@ Each element nums[i] is an integer in the range [1, 10000].
 # similar problems: 198 House Robber
 from collections import Counter
 class Solution:
+    # DP solution using continuous range
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        freq = [0]*10001
+        for num in nums:
+            freq[num] += 1
+        
+        dp = [0]*(10001)
+        dp[1] = freq[1]
+        for i in range(2, 10001):
+            dp[i] = max(dp[i-1], dp[i-2] + i*freq[i])
+            
+        return dp[-1]
+
     # https://leetcode.com/problems/delete-and-earn/solution/
     # DP solution: avoid is the max points if not deleting the current number, using is the max points if deleting the current number
-    def deleteAndEarn(self, nums):
+    def deleteAndEarn2(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -51,7 +64,7 @@ class Solution:
     # dp[i] is the points earned when using nums[i] as the last delete number
     # if nums[i-1] < nums[i] - 1, we can add dp[i-1]
     # if nums[i-1] == nums[i] - 1, we should skip dp[i-1] and use dp[i-2]
-    def deleteAndEarn2(self, nums):
+    def deleteAndEarn3(self, nums):
         """
         :type nums: List[int]
         :rtype: int

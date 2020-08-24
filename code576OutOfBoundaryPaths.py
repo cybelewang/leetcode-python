@@ -33,10 +33,10 @@ class Solution:
         for k in range(1, N+1):
             for x in range(m):
                 for y in range(n):
-                    v1 = 1 if y == 0 else dp[k-1][x][y-1]  # from left
-                    v2 = 1 if x == 0 else dp[k-1][x-1][y]  # from above
-                    v3 = 1 if y == n-1 else dp[k-1][x][y+1]    # from right
-                    v4 = 1 if x == m-1 else dp[k-1][x+1][y]    # from below
+                    v1 = 1 if y == 0 else dp[k-1][x][y-1]  # to left
+                    v2 = 1 if x == 0 else dp[k-1][x-1][y]  # to above
+                    v3 = 1 if y == n-1 else dp[k-1][x][y+1]    # to right
+                    v4 = 1 if x == m-1 else dp[k-1][x+1][y]    # to below
                     dp[k][x][y] = (v1 + v2 + v3 + v4) % M
         
         return dp[N][i][j]

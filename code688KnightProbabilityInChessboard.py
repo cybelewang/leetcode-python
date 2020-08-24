@@ -25,8 +25,24 @@ The knight always initially starts on the board.
 """
 # similar problems: 576 Out of Boundary Paths
 class Solution:
+    # DP solution
+    def knightProbability(self, N: int, K: int, r: int, c: int) -> float:
+        dirs = [[-1, -2], [-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2]]
+        # dp[k][i][j] is the prob of staying in board after at most k moves, starting from position (i, j)
+        dp = [[[1.0]*N for _ in range(N)] for _ in range(K+1)]
+        for k in range(1, K+1):
+            for i in range(N):
+                for j in range(N):
+                    count = 0
+                    for dx, dy in dirs:
+                        x, y = i + dx, j + dy
+                        if N > x >= 0 <= y < N:
+                            count += dp[k-1][x][y]
+                    dp[k][i][j] = count/8
+        return dp[K][r][c]
+
     # improved solution
-    def knightProbability(self, N, K, r, c):
+    def knightProbability2(self, N, K, r, c):
         """
         :type N: int
         :type K: int
@@ -69,7 +85,7 @@ class Solution:
         return onboard/(8**K)
 
     # my own DFS + Map solution
-    def knightProbability2(self, N, K, r, c):
+    def knightProbability3(self, N, K, r, c):
         """
         :type N: int
         :type K: int

@@ -111,36 +111,54 @@ class Solution:
         
         return path
 
-    # 7/21/2020
+    # 8/20/2020
     # DFS + Cache
     def longestIncreasingPath3(self, matrix):
-        # DFS helper function which returns the longest path distance
-        def helper(i, j, matrix, dirs, mem):
-            if (i, j) in mem: return mem[(i, j)]
-            m, n = len(matrix), len(matrix[0])
-            cur, dist = matrix[i][j], 1
-            #matrix[i][j] = -1 # mark (i, j) has been visited, no need for this problem because there will be no loop (mono increasing can't form a loop)
-            for dx, dy in dirs:
-                x, y = i+dx, j+dy
-                if -1<x<m and -1<y<n and matrix[x][y] > cur:
-                    dist = max(dist, 1 + helper(x, y, matrix, dirs, mem))
-            #matrix[i][j] = cur
-            mem[(i, j)] = dist
-            return dist
-
-        dirs = [[0, -1], [-1, 0], [0, 1], [1, 0]]
-
         m = len(matrix)
         if m < 1: return 0
         n = len(matrix[0])
+        def helper(i, j, mem):
+            # longest increasing path starting from (i, j)
+            if (i, j) in mem: return mem[(i, j)]
+            count = 0
+            for x, y in (i, j-1), (i-1, j), (i, j+1), (i+1, j):
+                if m > x >= 0 <= y < n and matrix[x][y] > matrix[i][j]:
+                    count = max(count, helper(x, y, mem))
+            count += 1
+            mem[(i, j)] = count
+            return count
+        
+        mem = {}
+        return max(helper(i, j, mem) for i in range(m) for j in range(n))
 
-        mem, res = {}, 0
+    # follow-up: output any longest path with their coordinates
+    # change to cache the longest path starting from (i, j)
+    def longestIncreasingPath4(self, matrix):
+        m = len(matrix)
+        if m < 1: return []
+        n = len(matrix[0])
+        def helper(i, j, mem):
+            # longest increasing path starting from (i, j)
+            if (i, j) in mem:
+                return mem[(i, j)]
+            res = []
+            for x, y in (i, j-1), (i-1, j), (i, j+1), (i+1, j):
+                if m > x >= 0 <= y < n and matrix[x][y] > matrix[i][j]:
+                    t = helper(x, y, mem)
+                    if len(t) > len(res): res = t
+            res = [(i, j)] + res
+            mem[(i, j)] = res
+            return res
+        
+        ans, mem = [], {}
         for i in range(m):
             for j in range(n):
-                res = max(res, helper(i, j, matrix, dirs, mem))
-        
-        return res
+                t = helper(i, j, mem)
+                if len(t) > len(ans):
+                    ans = t
 
-nums = [[1]]
+        return ans
+
+nums = [[9, 9, 4], [6, 6, 8], [2, 1, 1]]
 obj = Solution()
-print(obj.longestIncreasingPath3(nums))
+print(obj.longestIncreasingPath4(nums))

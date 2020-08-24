@@ -1,7 +1,6 @@
 """
 583 Delete Operation for Two Strings
 
-
 Given two words word1 and word2, find the minimum number of steps required to make word1 and word2 the same, where in each step you can delete one character in either string.
 
 Example 1:
@@ -14,6 +13,23 @@ Characters in given words can only be lower-case letters.
 """
 # similar problems: 712 Maximum ASCII Delete Sum for Two Strings
 class Solution:
+    # 1D DP solution
+    def minDistance(self, word1, word2):
+        M, N = len(word1), len(word2)
+        dp = list(range(N+1))
+        for i in range(1, M+1):
+            pre = dp[0] # this is dp[i-1][0] in 2D DP array
+            dp[0] = i
+            for j in range(1, N+1):
+                temp = dp[j]
+                if word1[i-1] == word2[j-1]:
+                    dp[j] = min(1 + dp[j-1], 1 + dp[j], pre)
+                else:
+                    dp[j] = min(1 + dp[j], 1 + dp[j-1])
+                pre = temp
+            #print(dp)
+        return dp[N]
+    
     # my own solution, use DP to find out the length of the longest common subsequence between word1 and word2, this longest common subsequence will be the final string that make word1 == word2
     def minDistance(self, word1, word2):
         """

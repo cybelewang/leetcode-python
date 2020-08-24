@@ -28,6 +28,7 @@ Explanation:
 The shortest instruction sequence is "AAARA".
 Your position goes from 0->1->3->7->7->6.
 """
+from collections import deque
 class Solution:
     # DP solution
     # dp[t] represents the min instructions to achieve t

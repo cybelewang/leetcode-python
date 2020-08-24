@@ -23,8 +23,47 @@ All elements of each string will have an ASCII value in [97, 122].
 """
 # similar problems: 583 Delete Operation for Two Strings
 class Solution:
-    # my own solution, similar way to find the longest common subsequence
+    # 1D DP solution
     def minimumDeleteSum(self, s1, s2):
+        M, N = len(s1), len(s2)
+        dp = [0]*(N+1)
+        for j in range(1, N+1):
+            dp[j] = dp[j-1] + ord(s2[j-1])
+        
+        for i in range(1, M+1):
+            pre = dp[0] # dp[i-1][0]
+            dp[0] += ord(s1[i-1]) # dp[i][0]
+            for j in range(1, N+1):
+                temp = dp[j]
+                if s1[i-1] == s2[j-1]:
+                    dp[j] = min(pre, ord(s1[i-1]) + dp[j], ord(s2[j-1]) + dp[j-1])
+                else:
+                    dp[j] = min(ord(s1[i-1]) + dp[j], ord(s2[j-1]) + dp[j-1])
+                pre = temp
+               
+        return dp[N]
+
+    # direct 2D DP solution
+    def minimumDeleteSum2(self, s1: str, s2: str) -> int:
+        M, N, INT_MAX = len(s1), len(s2), 2**31 - 1
+        dp = [[INT_MAX]*(N+1) for _ in range(M+1)]
+        dp[0][0] = 0
+        for i in range(1, M+1):
+            dp[i][0] = dp[i-1][0] + ord(s1[i-1])
+        for j in range(1, N+1):
+            dp[0][j] = dp[0][j-1] + ord(s2[j-1])
+        
+        for i in range(1, M+1):
+            for j in range(1, N+1):
+                if s1[i-1] == s2[j-1]:
+                    dp[i][j] = min(dp[i-1][j-1], ord(s1[i-1]) + dp[i-1][j], ord(s2[j-1]) + dp[i][j-1])
+                else:
+                    dp[i][j] = min(ord(s1[i-1]) + dp[i-1][j], ord(s2[j-1]) + dp[i][j-1])
+        
+        return dp[M][N]
+
+    # my own solution, similar way to find the longest common subsequence
+    def minimumDeleteSum3(self, s1, s2):
         """
         :type s1: str
         :type s2: str

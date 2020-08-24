@@ -32,10 +32,25 @@ It is guaranteed that grid[0][0] and grid[N-1][N-1] are not -1.
 # similar problems: 64 Minimum Path Sum, 174 Dungeon Game
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/8215787.html
-    # see C++ solution
+    # https://leetcode.com/problems/cherry-pickup/solution/
     def cherryPickup(self, grid):
         """
         :type grid: List[List[int]]
         :rtype: int
         """
+        N = len(grid)
+        dp = [[float('-inf')]*N for _ in range(N)]
+        dp[0][0] = grid[0][0] # dp for t = 0
+        for t in range(1, 2*N-1):
+            dp2 = [[float('-inf')]*N for _ in range(N)]
+            for i in range(N):
+                for j in range(N):
+                    p, q = t - i, t - j
+                    if p < 0 or p >= N or q < 0 or q >= N or grid[i][p] < 0 or grid[j][q] < 0:
+                        continue
+                    val = grid[i][p]
+                    if i != j: val += grid[j][q]
+                    dp2[i][j] = max(dp[pi][pj] + val for pi in (i-1, i) for pj in (j-1, j) if pi >= 0 and pj >= 0)
+            dp = dp2
         
+        return max(0, dp[N-1][N-1])
