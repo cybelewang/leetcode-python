@@ -41,4 +41,36 @@ class Solution:
         
         return left
 
+    # 8/24/2020
+    # The trick is how to write the check function in O(N) time complexity
+    def findMaxAverage2(self, nums: List[int], k: int) -> float:
+        n = len(nums)
+
+        # O(N) sliding window check
+        # su is the diff sum of (nums[:i+1] - avg)
+        # preSum is the diff sum of (nums[:i-k+1] - avg)
+        # minPreSum is the min of all preSum
+        # if su > minPresum, this means we find a subarray with length >= k, and average > avg
+        def check(avg):
+            su, preSum, minPreSum = 0, 0, 0
+            for i in range(n):
+                su += nums[i] - avg
+                if i >= k:
+                    preSum += nums[i-k] - avg
+                    minPreSum = min(minPreSum, preSum)
+                if i >= k-1:
+                    if su > minPreSum:
+                        return False
+            return True
+        
+        left, right = min(nums), max(nums)
+        while right - left > 1e-5:
+            mid = (left + right) / 2.0
+            if check(mid):
+                right = mid
+            else:
+                left = mid
+                
+        return left       
+
 print(Solution().findMaxAverage([1,12,-5,-6,50,3], 4)) # expect 12.75

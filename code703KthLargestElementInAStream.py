@@ -20,34 +20,22 @@ Note:
 You may assume that nums' length ≥ k-1 and k ≥ 1.
 
 """
-from heapq import heapify, heappushpop, heappush
-# my own solution, not accepted for 3 times
+from heapq import heappop, heappush
 class KthLargest:
 
-    def __init__(self, k, nums):
-        """
-        :type k: int
-        :type nums: List[int]
-        """
-        nums.sort()
-        self.heap = nums[-k:]
+    def __init__(self, k: int, nums: List[int]):
+        self.data = []
         self.k = k
-        heapify(self.heap)
+        for num in nums:
+            heappush(self.data, num)
+            if len(self.data) > k:
+                heappop(self.data)        
 
-    def add(self, val):
-        """
-        :type val: int
-        :rtype: int
-        """
-        if len(self.heap) < self.k:
-            heappush(self.heap, val)
-            return self.heap[0]
-        else:            
-            top = self.heap[0]
-            if top < val:
-                heappushpop(self.heap, val)
-            
-        return self.heap[0]
+    def add(self, val: int) -> int:
+        heappush(self.data, val)
+        if len(self.data) > self.k:
+            heappop(self.data)
+        return self.data[0]
 
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)

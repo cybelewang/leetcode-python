@@ -32,19 +32,17 @@ class Solution(object):
 
 # 2nd round solution on 7/3/2019
 class Solution2(object):
+    # binary search to find the upper_bound
+    # the right boundary is x + 1
     def mySqrt(self, x):
-        if x < 0:
-            return x
-        
-        left, right = 0, x+1
+        left, right = 0, x + 1 
         while left < right:
             mid = (left + right)//2
-            if mid*mid < x:
+            if mid*mid <= x:
                 left = mid + 1
             else:
                 right = mid
-        
-        return right if right*right == x else right-1
+        return right - 1
 
 obj = Solution2()
 class Test(unittest.TestCase):

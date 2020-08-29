@@ -28,6 +28,16 @@ The tree will have between 1 and 100 nodes.
 from TreeNode import *
 from collections import deque
 class Solution:
+    def isCompleteTree_2020(self, root: TreeNode) -> bool:
+        q = deque([root])
+        while q:
+            node = q.popleft()
+            if not node:
+                break
+            q.append(node.left)
+            q.append(node.right)
+        
+        return not any(q)
     # https://leetcode.com/problems/check-completeness-of-a-binary-tree/solution/
     # O(N) space
     def isCompleteTree_OJ(self, root):

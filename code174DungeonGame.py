@@ -30,21 +30,18 @@ class Solution:
         :type dungeon: List[List[int]]
         :rtype: int
         """
-        M, N = len(dungeon), len(dungeon[0])
-        dungeon[M-1][N-1] = 1 - dungeon[M-1][N-1] if dungeon[M-1][N-1] < 1 else 1
-
-        for i in range(M-2, -1, -1):
-            dungeon[i][N-1] = dungeon[i+1][N-1] - dungeon[i][N-1] if dungeon[i+1][N-1] > dungeon[i][N-1] else 1
+        M, INT_MAX, d = len(dungeon), 2**31 - 1, dungeon
+        if M < 1: return 1
+        N = len(d[0])
+        d[M-1][N-1] = 1 if d[M-1][N-1] >= 0 else 1 - d[M-1][N-1]
+        for i in range(M-1, -1, -1):
+            for j in range(N-1, -1, -1):
+                if i == M - 1 and j == N - 1: continue
+                right = max(1, d[i][j+1] - d[i][j]) if j + 1 < N else INT_MAX
+                below = max(1, d[i+1][j] - d[i][j]) if i + 1 < M else INT_MAX
+                d[i][j] = min(right, below)
         
-        for j in range(N-2, -1, -1):
-            dungeon[M-1][j] = dungeon[M-1][j+1] - dungeon[M-1][j] if dungeon[M-1][j+1] > dungeon[M-1][j] else 1
-        
-        for i in range(M-2, -1, -1):
-            for j in range(N-2, -1, -1):
-                minHP = min(dungeon[i+1][j], dungeon[i][j+1])
-                dungeon[i][j] = minHP - dungeon[i][j] if minHP > dungeon[i][j] else 1
-
-        return dungeon[0][0]
+        return d[0][0]
     
     # first try, from top left to right bottom, has bug
     def calculateMinimumHP2(self, dungeon):

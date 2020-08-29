@@ -39,6 +39,10 @@ class Solution:
         heapify(q)
 
         return [heappop(q)[1] for _ in range(k)] 
+
+    # follow-up: find top K frequent words in a large file
+    # use Trie to save the counts instead of hashmap (or Counter), then heappushpop the size-k minHeap
+    
     # Wrong Solution, test ['a', 'aa', 'aaa']
     # the mistake is the mirror function, which cannot guarantee mirror('a') > mirror('aa')
     # my own solution by searching how to get a fixed-size heapq: check length every time when adding a new element

@@ -118,9 +118,10 @@ class Solution:
                 return mem[used]
             for i in range(maxChoosableInteger):
                 mask = 1 << i
-                if (used & mask) == 0 and (remain <= i + 1 or not canWin(remain - i-1, used | mask, mem)):   # don't forget remain <= i+1 condition
-                    mem[used] = True
-                    return True
+                if (used & mask) == 0:
+                    if remain <= i + 1 or not canWin(remain - i-1, used | mask, mem):   # don't forget remain <= i+1 condition
+                        mem[used] = True
+                        return True
             
             mem[used] = False
             return False

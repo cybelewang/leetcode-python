@@ -33,32 +33,31 @@ class Solution:
         :type m: int
         :rtype: int
         """
-        if not nums: return 0
-        l, r = 0, 0
+        left, right = 0, 0
         for num in nums:
-            l = max(l, num)
-            r += num
-
-        while l <= r:
-            mid = (l + r)//2
-            if self.valid(mid, nums, m):
-                r = mid - 1
+            left = max(left, num)
+            right += num
+        
+        # returns if array can be splited to <= m subarrays with each subarray's sum <= _sum
+        def canSplit(nums, m, _sum):
+            cnt, curSum = 1, 0
+            for num in nums:
+                curSum += num
+                if curSum > _sum:
+                    cnt += 1
+                    curSum = num
+                    if cnt > m:
+                        return False
+            return True
+        
+        while left < right:
+            mid = (left + right)//2
+            if canSplit(nums, m, mid):
+                right = mid
             else:
-                l = mid + 1
+                left = mid + 1
         
-        return l
-
-    def valid(self, target, nums, m):
-        count, total = 1, 0
-        for num in nums:
-            total += num
-            if total > target:
-                count += 1
-                total = num
-                if count > m:
-                    return False
-        
-        return True
+        return right
 
     # TLE
     # similar to Reverse Pairs
@@ -69,21 +68,17 @@ class Solution:
         :type m: int
         :rtype: int
         """
-        n = len(nums)
-        dp = [[2**31-1]*(n+1) for _ in range(m+1)] # dp[i][j] means the minimum largest sum among i subarrays for j integers
-        dp[0][0] = 0
-
-        # build the sums list to quickly get a range sum
-        sums = [0]*(n+1)
-        for i in range(1, n+1):
-            sums[i] = sums[i-1] + nums[i-1]
-
-        for i in range(1, m+1):
-            for j in range(i, n+1):
+        n, INT_MAX = len(nums), 2**31 - 1
+        sums = [0]
+        for a in nums: sums.append(sums[-1] + a)
+        # dp[i][j]: min largest sum of first j numbers in i groups
+        dp = [[INT_MAX]*(n+1) for _ in range(m+1)]
+        for i in range(m+1): dp[i][0] = 0
+        #dp[0][0] = 0
+        for i in range(1, m+1):            
+            for j in range(1, n+1):
                 for k in range(i-1, j):
-                    val = max(dp[i-1][k], sums[j]-sums[k])
-                    dp[i][j] = min(dp[i][j], val)
-        
+                    dp[i][j] = min(dp[i][j], max(dp[i-1][k], sums[j] - sums[k]))
         return dp[m][n]
 nums = [7, 2, 5, 10, 8]
 m = 2

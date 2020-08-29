@@ -20,38 +20,53 @@ Given a singly linked list where elements are sorted in ascending order, convert
 #         self.right = None
 
 class Solution:
-    def sortedListToBST(self, head):
+    # trick solution by simulating inorder traversal
+    # time O(n), space O(logn)
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+        def convert(l, r):
+            nonlocal head
+            if l > r:
+                return None
+            mid = (l + r) // 2
+            left = convert(l, mid-1)            
+            root = TreeNode(head.val)
+            root.left = left
+            head = head.next            
+            root.right = convert(mid+1, r)
+            return root
+            
+        n, node = 0, head
+        while node:
+            n += 1
+            node = node.next       
+        
+        return convert(0, n - 1)
+    # O(nlogn) time, O(logn) space solution
+    def sortedListToBST2(self, head):
         """
         :type head: ListNode
         :rtype: TreeNode
         """
         if not head:
             return None
-        
         n, node = 0, head
-        while node is not None:
+        while node:
             n += 1
             node = node.next
         
-        return self._recursive(head, n)
-
-    def _recursive(self, head, n):
-        """
-        :type head: ListNode
-        n is the length of the list
-        :rtype: TreeNode
-        """
-        if n < 1:
-            return None
-        half = (n + 1)//2   # half length of the list
-        node = head
-        for i in range(half-1):
+        sentinel = ListNode(0)
+        sentinel.next = head
+        node = sentinel
+        for _ in range(n//2):
             node = node.next
         
-        root = TreeNode(node.val)
-        root.left = self._recursive(head, half - 1)
-        root.right = self._recursive(node.next, n - half)
-
+        temp = node.next
+        node.next = None
+        
+        root = TreeNode(temp.val)
+        root.left = self.sortedListToBST(sentinel.next)
+        root.right = self.sortedListToBST(temp.next)
+        
         return root
 
 test_case = [1]

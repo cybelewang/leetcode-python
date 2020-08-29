@@ -27,6 +27,12 @@ p and q are different and both values will exist in the binary tree.
 #         self.right = None
 from TreeNode import *
 class Solution(object):
+    # https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/discuss/65225/4-lines-C%2B%2BJavaPythonRuby
+    def lowestCommonAncestor(self, root, p, q):
+        if root in (None, p, q): return root
+        left, right = (self.lowestCommonAncestor(kid, p, q)
+                    for kid in (root.left, root.right))
+        return root if left and right else left or right
     # recursive solution
     # https://www.cnblogs.com/grandyang/p/4641968.html
     def lowestCommonAncestor(self, root, p, q):

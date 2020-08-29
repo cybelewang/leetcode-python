@@ -79,47 +79,21 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
-        # why this is the wrong recursive function? [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], should be true
-        def CanWin(nums, i, j, score1, score2, player):
-            if i == j:
+        def win(player, diff, start, end):
+            # player: 1 (player 1) and -1 (player2)
+            # diff: player 1's score - player 2's score
+            if start == end:
+                diff += player * nums[start]
                 if player == 1:
-                    return score1 + nums[i] >= score2
+                    return diff >= 0
                 else:
-                    return score2 + nums[i] > score1    # bug fixed: cannot use >=, should be > because the description says "equal" also means player 1 wins
-            else:
-                if player == 1:
-                    return (not CanWin(nums, i+1, j, score1 + nums[i], score2, 2)) or (not CanWin(nums, i, j-1, score1 + nums[j], score2, 2))
-                else:
-                    return (not CanWin(nums, i+1, j, score1, score2 + nums[i], 1)) or (not CanWin(nums, i, j-1, score1, score2 + nums[j], 1))
-
-        # this is a wrong recursive function, consider case [2,4,55,6,8], should be false
-        def CanWin_Wrong(nums, i, j, score1, score2, player):
-            if i == j:  # just one number left
-                if player == 1:
-                    score1 += nums[i]
-                else:
-                    score2 += nums[i]
-
-                return score1 >= score2
-            elif j - i == 1:    # two numbers left
-                if player == 1:
-                    score1 += max(nums)
-                    score2 += min(nums)
-                else:
-                    score1 += min(nums)
-                    score2 += max(nums)
-
-                return score1 >= score2
-            else:   # three or more numbers, need recursive calls
-                if player == 1:
-                    return CanWin_Wrong(nums, i + 1, j, score1 + nums[i], score2, 2) or CanWin_Wrong(nums, i, j-1, score1 + nums[j], score2, 2)
-                else:
-                    return CanWin_Wrong(nums, i+1, j, score1, score2 + nums[i], 1) or CanWin_Wrong(nums, i, j-1, score1, score2 + nums[j], 1)
-
-        if len(nums) < 3:
-            return True
-        else:
-            return CanWin(nums, 0, len(nums)-1, 0, 0, 1)
+                    return diff < 0
+            if not win(-player, diff + player*nums[start], start+1, end) or\
+            not win(-player, diff + player*nums[end], start, end-1):
+                return True
+            return False
+        
+        return win(1, 0, 0, len(nums)-1)
 
     # 2nd round recursive solution on 4/30/2019
     # TLE

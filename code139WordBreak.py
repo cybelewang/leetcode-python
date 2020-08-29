@@ -14,7 +14,7 @@ The wordDict parameter had been changed to a list of strings (instead of a set o
 """
 # ask corner case of empty string
 class Solution:
-    # DP solution
+    # DP solution, time O(N^3), space O(N)
     def wordBreak(self, s, wordDict):
         """
         :type s: str

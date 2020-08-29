@@ -27,10 +27,56 @@ A[i][j] == 0 or A[i][j] == 1
 """
 from collections import deque
 class Solution:
+    # improved solution
+    # (1) color the first island to 2
+    # (2) for the other island (color == 1), extract the boundaries to BFS queue
+    # (3) BFS the other island's boundary until it touches island 2
+    def shortestBridge(self, A):
+        m, n, q = len(A), len(A[0]), deque()
+        
+        # dfs to color one of the island
+        def markIsland(x, y, color):
+            A[x][y] = color
+            for x, y in (x, y-1), (x-1, y), (x, y+1), (x+1, y):
+                if m > x >= 0 <= y < n and A[x][y] == 1:
+                    markIsland(x, y, color)
+        
+        # iterate the matrix and color the first island, and push 2nd island's boarder coordinates to queue
+        found = False # colored first island?
+        for i in range(m):
+            for j in range(n):
+                if A[i][j] == 1:
+                    if not found:
+                        markIsland(i, j, 2)
+                        found = True
+                    else:
+                        touchWater = False # does this cell touch water?
+                        for x, y in (i, j-1), (i-1, j), (i, j+1), (i+1, j):
+                            if m > x >= 0 <= y < n and A[x][y] == 0:
+                                touchWater = True
+                                break
+                        if touchWater:
+                            q.append((i, j))
+                    
+        # BFS to touch the other island
+        dist = 0
+        while q:
+            size = len(q)
+            for _ in range(size):
+                i, j = q.popleft()
+                for x, y in (i, j-1), (i-1, j), (i, j+1), (i+1, j):
+                    if m > x >= 0 <= y < n:
+                        if A[x][y] == 2:
+                            return dist
+                        elif A[x][y] == 0:
+                            q.append((x, y))
+                            A[x][y] = 1
+            dist += 1
+                    
     # my own solution
     # use BFS to mark the first encountered island to 2, then put all the board cells (contact 0) of the island to a queue
     # next we will use another BFS to expand the island (marked as 2) outside, until it hits another island (marked as 1)
-    def shortestBridge(self, A):
+    def shortestBridge2(self, A):
         """
         :type A: List[List[int]]
         :rtype: int
