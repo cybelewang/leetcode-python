@@ -65,7 +65,7 @@ def nextPermutation2(nums):
             i -= 1
         # all nums is in descending order
         if i == -1:
-            nums = nums[::-1]
+            nums.reverse()
             return
         # from right to left, find first j with nums[j] > nums[i]
         j = n-1

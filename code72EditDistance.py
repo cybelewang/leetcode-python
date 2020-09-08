@@ -59,10 +59,28 @@ class Solution2:
                 else:
                     dp[i][j] = dp[i-1][j-1] + 1
 
-                dp[i][j] = min(dp[i][j], dp[i-1][j] + 1)    # insert a character on word1
-                dp[i][j] = min(dp[i][j], dp[i][j-1] + 1)    # delete a character on word1
+                dp[i][j] = min(dp[i][j], dp[i-1][j] + 1)    # insert a character to word1's end
+                dp[i][j] = min(dp[i][j], dp[i][j-1] + 1)    # delete a character from word2's end
         
         return dp[m][n]
+
+    # 1D DP solution
+    def minDistance(self, word1: str, word2: str) -> int:
+        m, n = len(word1), len(word2)
+        dp = list(range(n+1))        
+        for i in range(1, m+1):
+            pre = dp[0]
+            dp[0] = i
+            for j in range(1, n+1):
+                temp = dp[j]
+                dp[j] = min(dp[j] + 1, dp[j-1] + 1)
+                if word1[i-1] == word2[j-1]:
+                    dp[j] = min(dp[j], pre)
+                else:
+                    dp[j] = min(dp[j], pre+1)
+                pre = temp
+                    
+        return dp[n]
 
 test_cases = [('',''), ('', 'a'), ('a','a'), ('abcd', 'abd'), ('cd','abcd'), ('a', 'bac')]
 obj = Solution()

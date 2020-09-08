@@ -76,6 +76,26 @@ class Solution:
         
         return helper(s, 0, len(s)-1, False)
 
+    # O(1) space, using two pointers
+    def validPalindrome(self, s: str) -> bool:
+        def isPalindrome(s, left, right):
+            while left < right and s[left] == s[right]:
+                left += 1
+                right -= 1
+            
+            return left >= right
+        
+        left, right = 0, len(s) - 1
+        while left < right and s[left] == s[right]:
+            left += 1
+            right -= 1
+        # case 1: left >= right
+        if left >= right:
+            return True
+        # case 2: left < right and s[left] != s[right]
+        else:
+            return isPalindrome(s, left+1, right) or isPalindrome(s, left, right-1)
+
 test_cases = ['', 'a', 'ac', 'aa', 'aba', 'caba', 'abbca', 'abc']
 obj = Solution()
 for s in test_cases:

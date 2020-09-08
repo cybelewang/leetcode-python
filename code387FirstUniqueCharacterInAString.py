@@ -14,6 +14,29 @@ Note: You may assume the string contain only lowercase letters.
 
 """
 class Solution:
+    # bit solution, use 2 bits for each character
+    # 0b00 - not present
+    # 0b01 - present once
+    # 0b11 - present more than once
+    def firstUniqChar(self, s: str) -> int:
+        encode = 0
+        for c in s:
+            mask = 0b11 << 2*(ord(c) - ord('a'))
+            if (encode & mask):
+                # c already exists
+                encode |= mask # set the two bits to 0b11
+            else:
+                # c doesn't exist, set the two bits to 0b01
+                encode |= 0b01 << 2*(ord(c) - ord('a'))
+        #print(bin(encode))
+        for i, c in enumerate(s):
+            shift = 2*(ord(c) - ord('a'))
+            mask = 0b11 << shift
+            unique = 0b01 << shift
+            if (encode & mask) == unique:
+                return i
+        return -1
+        
     def firstUniqChar(self, s):
         """
         :type s: str

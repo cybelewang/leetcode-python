@@ -20,6 +20,8 @@ All the strings in the input will only contain lowercase letters.
 The length of S will be in the range [1, 20000].
 The length of T will be in the range [1, 100].
 """
+from collections import defaultdict
+from bisect import bisect_right
 class Solution:
     # Try to build the substring with the indices map
     def minWindow(self, S: str, T: str) -> str:

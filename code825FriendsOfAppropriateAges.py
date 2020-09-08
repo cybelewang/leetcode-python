@@ -39,6 +39,38 @@ Notes:
 from bisect import bisect_left, bisect_right
 from collections import defaultdict
 class Solution:
+    # 9/7/2020
+    # time O(N + A), space O(A)
+    def numFriendRequests(self, ages: List[int]) -> int:
+        count = [0]*121 # count[a] is the number of persons in the age of a
+        for a in ages:
+            count[a] += 1
+
+        sums = [0]
+        for a in range(1, 121):
+            sums.append(sums[-1] + count[a])
+        
+        res = 0
+        for a in ages:
+            if a <= 14: continue
+            lower = a//2 + 7
+            upper = a
+            res += sums[upper] - sums[lower] - 1
+        
+        return res
+
+    # 9/7/2020
+    # Two binary search to find the two boundaries
+    # time O(NlogN)
+    def numFriendRequests(self, ages: List[int]) -> int:
+        ages = sorted(filter(lambda x: x > 14, ages))
+        res = 0
+        for a in ages:
+            i = bisect_right(ages, 0.5*a + 7) # first index whose age > 0.5*a + 7            
+            j = bisect_right(ages, a) # second index whose age > a
+            res += j - i - 1 # need to exclude the person himself/herself
+        return res    
+
     # my own solution with bug fixed
     def numFriendRequests(self, ages):
         """
@@ -81,7 +113,7 @@ class Solution:
             limit = 0.5*a[i] + 7.0
             j = bisect_right(a, limit) # the first index with value > limit
             res += i - j
-        return res        
+        return res     
 
 ages = [16, 16]    # expected 2
 #ages = [16, 17, 18]    # expected 2

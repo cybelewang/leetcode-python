@@ -41,6 +41,18 @@ trust[i][0] != trust[i][1]
 1 <= trust[i][0], trust[i][1] <= N
 """
 class Solution:
+    # one array
+    def findJudge(self, N: int, trust: List[List[int]]) -> int:
+        diff = [0]*(N+1)
+        for a, b in trust:
+            diff[a] -= 1
+            diff[b] += 1
+        
+        for i in range(1, N+1):
+            if diff[i] == N - 1:
+                return i
+        return -1
+
     def findJudge(self, N, trust):
         """
         :type N: int

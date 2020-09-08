@@ -23,7 +23,7 @@ class Solution(object):
             return right - left - 1 # bug fixed: not (right - left + 1)
         
         start, end = 0, 0
-        for i in range(len(s)):
+        for i in range(len(s)): # bug fixed: need to iterate to n, not n-1, think about test case "a"
             odd = expand(s, i, i)
             even = expand(s, i, i+1)
             length = max(odd, even)

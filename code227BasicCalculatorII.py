@@ -45,6 +45,31 @@ class Solution:
                 prev_op = n
         return sum(stack)
 
+    # generic solution
+    def calculate_generic(self, s):
+        l1, o1, l2, o2 = 0, 1, 1, 1
+        i, n = 0, len(s)
+        while i < n:
+            if s[i].isdigit():
+                j = i + 1
+                while j < n and s[j].isdigit():
+                    j += 1
+                num = int(s[i:j])
+                l2 = l2 * num if o2 == 1 else l2 // num
+                i = j - 1
+            elif s[i] in ('+', '-'):
+                # level 1 operator
+                l1 = l1 + o1 * l2
+                o1 = 1 if s[i] == '+' else -1
+                o2, l2 = 1, 1
+            elif s[i] in ('*', '/'):
+                # level 2 operator
+                o2 = 1 if s[i] == '*' else -1
+            
+            i += 1
+        
+        return l1 + o1 * l2
+
     def calculate2(self, s):
         """
         :type s: str

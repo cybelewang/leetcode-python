@@ -34,32 +34,23 @@ class Solution:
         :type grid: List[List[int]]
         :rtype: int
         """
-        m = len(grid)
-        if m < 1:
-            return 0
-        self.res, n = 0, len(grid[0])
-        dirs = [(0, -1), (-1, 0), (0, 1), (1, 0)]
+        m, n = len(grid), len(grid[0])
+        def area(i, j, color):
+            ans = 1
+            for i, j in (i, j-1), (i-1, j), (i, j+1), (i+1, j):
+                if m > i >= 0 <= j < n and grid[i][j] == 1:
+                    grid[i][j] = color
+                    ans += area(i, j, color)
+            return ans
         
-        def dfs(x, y, color):
-            grid[x][y] = color            
-            count = 1
-            for dx, dy in dirs:
-                i, j = x + dx, y + dy
-                if -1 < i < m and -1 < j < n and grid[i][j] == 1:
-                    count += dfs(i, j, color)
-            self.res = max(self.res, count)
-
-            return count
-        
-        color = 1
+        color, res = 2, 0
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 1:
+                    grid[i][j] = color
+                    res = max(res, area(i, j, color))
                     color += 1
-                    dfs(i, j, color)
-        
-        #print(grid)
-        return self.res
+        return res
 
 
 grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0], [0,0,0,0,0,0,0,1,1,1,0,0,0], [0,1,1,0,1,0,0,0,0,0,0,0,0], [0,1,0,0,1,1,0,0,1,0,1,0,0], [0,1,0,0,1,1,0,0,1,1,1,0,0], [0,0,0,0,0,0,0,0,0,0,1,0,0], [0,0,0,0,0,0,0,1,1,1,0,0,0], [0,0,0,0,0,0,0,1,1,0,0,0,0]]

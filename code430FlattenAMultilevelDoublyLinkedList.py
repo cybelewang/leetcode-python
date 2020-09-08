@@ -65,7 +65,7 @@ Constraints:
 Number of Nodes will not exceed 1000.
 1 <= Node.val <= 10^5
 """
-"""
+
 # Definition for a Node.
 class Node:
     def __init__(self, val, prev, next, child):
@@ -73,9 +73,35 @@ class Node:
         self.prev = prev
         self.next = next
         self.child = child
-"""
+
 class Solution:
-    def flatten(self, head: 'Node') -> 'Node':
+    # stack solution 1: push current node's next node to stack if not None, then push current's node's child node to stack if it is not None too.
+    def flatten(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        if not head: return None
+        sentinel = Node(0)
+        pre = sentinel
+        pre.next = head
+        head.prev = pre
+        stack = [head]
+        while stack:
+            cur = stack.pop()
+            pre.next = cur
+            cur.prev = pre
+            if cur.next:
+                stack.append(cur.next)
+            if cur.child:
+                stack.append(cur.child)
+                cur.child = None
+            pre = cur
+        head.prev = None
+        return sentinel.next
+    # stack solution 2: push next node to stack if current node has child, then iterate to its child
+    # when current node's next is None, and stack has nodes, pop node from stack and iterate to it.
+    def flatten2(self, head: 'Node') -> 'Node':
         stack, node = [], head
         while node:
             if node.child:

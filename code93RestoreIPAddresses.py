@@ -38,6 +38,30 @@ class Solution:
 
         return res
 
+    # Backtracking + stack
+    def restoreIpAddresses2(self, s: str) -> List[str]:
+        n = len(s)
+        if n < 4 or n > 12: return []
+        def helper(s, start, build, res):
+            n = len(s)
+            if len(build) >= 4:
+                if start == n:
+                    res.append('.'.join(build))
+                return
+            for j in range(start, min(start+3, n)): # bug fixed on determining end range
+                end = j + 1
+                sub = s[start:end]
+                value = int(sub)
+                if value > 255 or str(value) != sub:
+                    continue
+                build.append(sub)
+                helper(s, end, build, res)
+                build.pop()
+        
+        res = []
+        helper(s, 0, [], res)
+        return res
+
 obj = Solution()
 test_cases = ['','0000','00000','010010', '25525511135']
 for case in test_cases:

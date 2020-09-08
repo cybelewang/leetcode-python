@@ -27,6 +27,7 @@ The wordList parameter had been changed to a list of strings (instead of a set o
 """
 # shortest parth problem of a graph
 from collections import deque, defaultdict
+import copy
 class Solution(object):
     # https://www.cnblogs.com/grandyang/p/4548184.html
     # https://leetcode.com/problems/word-ladder-ii/discuss/40434/C%2B%2B-solution-using-standard-BFS-method-no-DFS-or-backtracking
@@ -113,6 +114,47 @@ class Solution(object):
                 array[i] = letter
                 if t != word and t in wordSet:
                     yield t
+
+    # More concise BFS solution with queue storing the word path
+    # Typical solution to output all shortest paths
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        wordSet = set(wordList)
+        if endWord not in wordSet: return []
+        # generator to generate next word in wordSet
+        def G(srcWord, wordSet):
+            s = list(srcWord)
+            for i in range(len(s)):
+                temp = s[i]
+                for t in 'abcdefghijklmnopqrstuvwxyz':
+                    if t != temp:
+                        s[i] = t
+                        dst = ''.join(s)
+                        if dst in wordSet:
+                            yield dst
+                s[i] = temp
+        
+        # BFS
+        q = deque()
+        q.append([beginWord])
+        res = []
+        while q:
+            if len(res) > 0: return res
+            size = len(q) # BFS level scan
+            used = set() # words used in this BFS step
+            for _ in range(size):
+                path = q.popleft()
+                src = path[-1]
+                for dst in G(src, wordSet):
+                    new_path = copy.deepcopy(path)
+                    new_path.append(dst)
+                    if dst == endWord:
+                        res.append(new_path)
+                    q.append(new_path)
+                    used.add(dst)
+            for w in used: # the words used in this level cannot be reused by further levels
+                wordSet.discard(w)
+        
+        return res
 
     def findLadders_WRONG(self, beginWord, endWord, wordList):
         """

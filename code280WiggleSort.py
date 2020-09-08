@@ -16,6 +16,33 @@ class Solution:
             if (i&1 and nums[i] < nums[i-1]) or (i&1==0 and nums[i] > nums[i-1]):
                 nums[i], nums[i-1] = nums[i-1], nums[i]
 
+    # Quick select + list assignment
+    def wiggleSort(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        if n < 2: return
+        def partition(nums, s, e):
+            i = s
+            for j in range(s, e):
+                if nums[j] < nums[e]:
+                    nums[i], nums[j] = nums[j], nums[i]
+                    i += 1
+            nums[i], nums[e] = nums[e], nums[i]
+            return i    
+
+        left, right = 0, n - 1
+        while left < right:
+            i = partition(nums, left, right)
+            if i + 1 == (n + 1) // 2: break
+            elif i + 1 < (n + 1) // 2:
+                left = i + 1
+            else:
+                right = i - 1
+        
+        nums[0:n:2], nums[1:n:2] = nums[:(n+1)//2], nums[(n+1)//2:]
+
     # O(NlogN) solution
     def wiggleSort2(self, nums):
         """

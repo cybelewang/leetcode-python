@@ -6,7 +6,33 @@ Divide two integers without using multiplication, division and mod operator.
 If it is overflow, return MAX_INT.
 """
 from math import *
-def divide(dividend, divisor):
+def divide(self, dividend, divisor):
+    # handle sign
+    sign = 1
+    if dividend == 0: return 0
+    if dividend > 0 and divisor < 0:
+        divisor, sign = -divisor, -1
+    elif dividend < 0 and divisor > 0:
+        dividend, sign = -dividend, -1
+    elif dividend < 0 and divisor < 0:
+        dividend, divisor = -dividend, -divisor        
+    
+    def helper(num, div):
+        if num < div: return 0
+        res = 1
+        d = div
+        while d + d <= num:
+            d = d + d
+            res = res + res
+        return res + helper(num - d, div)
+    
+    ans = helper(dividend, divisor)
+    if sign > 0:
+        return min(ans, 2**31 - 1)
+    else:
+        return -2**31 if ans > 2**31 else -ans
+
+def divide2(dividend, divisor):
     """
     :type dividend: int
     :type divisor: int

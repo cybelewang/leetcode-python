@@ -66,7 +66,8 @@ class Solution:
         
         return res
 
-test_case = [1, 3, 4, 2, 1]
-test_case = [1,1,2,3,4,5,6]
+#test_case = [1, 3, 4, 2, 1]
+#test_case = [1,1,2,3,4,5,6]
+test_case = [1,3, 4, 2, 2]
 obj = Solution()
-print(obj.findDuplicate3(test_case))
+print(obj.findDuplicate(test_case))

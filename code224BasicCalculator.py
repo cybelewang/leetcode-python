@@ -48,6 +48,30 @@ class Solution:
         return res
     # follow-up: stack only saves sign? https://www.1point3acres.com/bbs/thread-654010-1-1.html
 
+    # generic solution, see OneNote
+    def calculate_generic(self, s):
+        l1, o1 = 0, 1
+        stack, i = [], 0
+        while i < len(s):
+            if s[i].isdigit():
+                j = i + 1
+                while j < len(s) and s[j].isdigit():
+                    j += 1
+                num = int(s[i:j])
+                i = j - 1
+            elif s[i] in ('+', '-'):
+                l1 = l1 + o1 * num
+                o1 = 1 if s[i] == '+' else -1
+            elif s[i] == '(':
+                stack.append((l1, o1))
+                l1, o1 = 0, 1
+            elif s[i] == ')':
+                num = l1 + o1 * num
+                l1, o1 = stack.pop()
+                
+            i += 1
+        return l1 + o1 * num
+
     # recursive solution, add a number after parsing a number, or after evaluating a (...) part
     def calculate2(self, s):
         """

@@ -54,6 +54,22 @@ class Solution2:
         
         return res
 
+    # 9/3/2020
+    def getPermutation2(self, n: int, k: int) -> str:
+        nums = list(range(1, n+1)) # numbers to be fetched
+        f = [1]*(n+1) # factorial list
+        for i in range(2, n+1):
+            f[i] = f[i-1]*i
+        res = []
+        k -= 1
+        for i in range(1, n+1):
+            idx = k // f[n-i]
+            res.append(nums[idx])
+            nums.pop(idx)
+            k = k % f[n-i]
+
+        return ''.join(map(str, res))
+
 obj = Solution2()
 n = 3
 for i in range(obj.fact[n]):

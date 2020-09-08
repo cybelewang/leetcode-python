@@ -1,4 +1,5 @@
 """
+# LC 402 Remove K Digits
 Given a number and k, find the min number after removing k digits
 Example: input num = 4132219, k = 3, output: 1219
 follow-up: what if asking for max number?

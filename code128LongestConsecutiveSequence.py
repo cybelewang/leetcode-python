@@ -34,6 +34,23 @@ class Solution(object):
         
         return res
 
+    # more straightforward solution
+    def longestConsecutive(self, nums: List[int]) -> int:
+        num_set = set(nums)
+        res = 0
+        while len(num_set) > 0:
+            left = next(iter(num_set))
+            right = left + 1
+            while left in num_set:
+                num_set.discard(left)
+                left -= 1
+            while right in num_set:
+                num_set.discard(right)
+                right += 1
+            res = max(res, right - left - 1)
+        
+        return res
+
     # 2nd round solution on 12/17/2018
     # first put all numbers into a set
     # then for each number in nums, search for all consecutive numbers in left and right directions, if exists, remove it from set

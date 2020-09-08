@@ -56,6 +56,56 @@ class Solution:
 
         return res
 
+    # backtracking + greedy
+    # time O(E^d), where E is the number of edges, d is the max number of flights from an airport
+    def findItinerary2(self, tickets):
+        # build DG
+        # should not use set because there may contain duplicate tickets
+        graph = defaultdict(list)
+        for src, dst in tickets:
+            graph[src].append(dst)
+        
+        # sort the dst list to approach lexicographical result first
+        for src in graph:
+            graph[src].sort()
+        
+        N = len(tickets) # number of edges
+        # DFS
+        def helper(graph, N, path, ans):
+            if len(ans) > 0: return # already got a result, return early
+            if len(path) == N + 1 and not ans:
+                ans[:] = path
+                return
+            src = path[-1]
+            size = len(graph[src])
+            for i in range(size): # need to pre-calculate the number of loops
+                path.append(graph[src].pop(0))
+                helper(graph, N, path, ans)
+                graph[src].append(path.pop())
+        
+        path, ans = ['JFK'], []
+        helper(graph, N, path, ans)
+        return ans
+
+    # Best solution, time O(Elog(E/V))
+    # similar to topological sort DFS method, we iterate all possible destinations before appending current airport
+    # this guarantees that the destinations have been exhausted before putting the airport into path
+    def findItinerary3(self, tickets):
+        graph = defaultdict(list)
+        for src, dst in tickets:
+            graph[src].append(dst)
+        
+        for src in graph: graph[src].sort(reverse = True)
+        res = []
+        def dfs(airport):
+            while graph[airport]:
+                dfs(graph[airport].pop())
+            res.append(airport)
+        
+        dfs('JFK')
+        return res[::-1]
+
 tickets = [["JFK","KUL"],["JFK","NRT"],["NRT","JFK"]]
+#tickets = [["EZE","AXA"],["TIA","ANU"],["ANU","JFK"],["JFK","ANU"],["ANU","EZE"],["TIA","ANU"],["AXA","TIA"],["TIA","JFK"],["ANU","TIA"],["JFK","TIA"]]
 obj = Solution()
-print(obj.findItinerary(tickets))           
+print(obj.findItinerary3(tickets))           

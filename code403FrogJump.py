@@ -32,8 +32,45 @@ Example 2:
 Return false. There is no way to jump to the last stone as 
 the gap between the 5th and 6th stone is too large.
 """
-# DFS + HashMap
+
 class Solution:
+    # DP solution
+    def canCross(self, stones: List[int]) -> bool:
+        dp = {} # dp[pos] contains a set of last jump size
+        for pos in stones:
+            dp[pos] = set()
+        dp[0].add(0)
+        
+        for pos in stones:
+            for k in dp[pos]:
+                for nxt in range(pos+k-1, pos+k+2):
+                    if nxt > pos and nxt in dp:
+                        dp[nxt].add(nxt - pos)
+        
+        return len(dp[stones[-1]]) > 0
+
+    # 9/5/2020
+    # DFS + HashMap
+    def canCross(self, stones: List[int]) -> bool:
+        n = len(stones)
+        pos = {num: i for i, num in enumerate(stones)}
+        def helper(stones, start, k, memo):
+            if start == len(stones) - 1:
+                return True
+            if (start, k) in memo:
+                return memo[(start, k)]
+            cur = stones[start]
+            res = False
+            for nxt in range(cur + k - 1, cur + k + 2):
+                if nxt > cur and nxt in pos:
+                    res |= helper(stones, pos[nxt], nxt - cur, memo)
+            memo[(start, k)] = res
+            return res
+        
+        memo = {}
+        return helper(stones, 0, 0, memo)
+
+    # DFS + HashMap
     def canCross(self, stones):
         """
         :type stones: List[int]

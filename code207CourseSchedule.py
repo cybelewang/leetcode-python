@@ -19,7 +19,7 @@ Note:
 The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about how a graph is represented.
 You may assume that there are no duplicate edges in the input prerequisites.
 """
-from collections import deque
+from collections import deque, defaultdict
 class Solution:
     def canFinish(self, numCourses, prerequisites):
         """
@@ -46,6 +46,32 @@ class Solution:
         
         print(indegrees)
         return not any(indegrees)
+
+    # DFS solution
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        N, graph = numCourses, defaultdict(set)
+        for cur, pre in prerequisites:
+            graph[pre].add(cur)
+        
+        def dfs(node):
+            # color 0: not visited
+            # color 1: visiting
+            # color 2: complete visiting
+            if colors[node] == 2: return True
+            if colors[node] == 1: return False
+            colors[node] = 1
+            for dst in graph[node]:
+                if not dfs(dst):
+                    return False
+            colors[node] = 2
+            return True
+        
+        colors = [0]*N
+        for node in range(N):
+            if not dfs(node):
+                return False
+            
+        return True
 
 prerequisites = [[1, 0], [2, 1], [3, 2], [4, 3], [1, 4]]
 obj = Solution()

@@ -57,6 +57,9 @@ class Solution:
         # set of all nodes
         Q = set(range(1, N+1))
 
+        # prev list for path reconstruction between src and target
+        prev = [None]*(N + 1)
+
         # create an adjacency matrix to represent the graph, to save space, we use nested dict
         edges = defaultdict(dict)
         for u, v, w in times:
@@ -71,10 +74,28 @@ class Solution:
             
             Q.remove(u) # remove u from Q
             for v in edges[u]:
-                dist[v] = min(dist[v], dist[u] + edges[u][v])   # update the shortest path from source to v
-      
+                if dist[v] > dist[u] + edges[u][v]:
+                    dist[v] = dist[u] + edges[u][v]   # update the shortest path from source to v
+                    prev[v] = u
+
+        # reconstruct the shortest path from src to target
+        print(prev)
+        print(self.path(prev, 1, 2))
         res = max(dist)
         return -1 if res == INT_MAX else res
+
+    # output the shortest path from start to end, if shortest path doesn't exist, return empty list
+    def path(self, prev, start, end):
+        res, u = [], end
+        while u is not None:
+            res.append(u)
+            if u == start:
+                break
+            u = prev[u]
+        if res and res[-1] != start:
+            res.clear()
+        
+        return res[::-1]
 
     # Bellman-Ford algorithm
     # https://www.cnblogs.com/grandyang/p/8278115.html

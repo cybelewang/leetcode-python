@@ -51,17 +51,20 @@ class Solution:
 
         vertical = defaultdict(list)
         q = deque([(0, root)])
+        min_x, max_x = 0, 0
         while q:
             length = len(q)
             for _ in range(length):
                 x, node = q.popleft()
                 vertical[x].append(node.val)
+                min_x = min(min_x, x)
+                max_x = max(max_x, x)
                 if node.left:
                     q.append((x-1, node.left))
                 if node.right:
                     q.append((x+1, node.right))
 
-        for x in sorted(vertical):
+        for x in range(min_x, max_x + 1): # trick to use min_x and max_x because all x between them are filled
             res.append(vertical[x])
         
         return res

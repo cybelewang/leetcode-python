@@ -27,8 +27,9 @@ class Solution:
         dp[0] = True
         for j in range(1, n+1):
             for i in range(j):
-                if s[i:j] in wordSet:
-                    dp[j] |= dp[i]
+                if s[i:j] in wordSet and dp[i]:
+                    dp[j] = True
+                    break
         #print(dp)
         return dp[-1]
 

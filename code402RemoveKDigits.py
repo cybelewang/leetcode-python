@@ -36,13 +36,14 @@ class Solution:
         :type k: int
         :rtype: str
         """
-        out=[]
+        out, n = [], len(num) - k # n is the final result's length
         for digit in num:
             while k and out and out[-1] > digit:
                 out.pop()
                 k-=1
             out.append(digit)
-        return ''.join(out[:-k or None]).lstrip('0') or "0"
+        #print(out)
+        return ''.join(out[:n]).lstrip('0') or "0"
         
     # my own solution
     def removeKdigits2(self, num, k):
@@ -71,7 +72,28 @@ class Solution:
         
         return ''.join(stack) if stack else '0'
 
+    def removeKdigits_DFS(self, num, k):
+        def helper(s, k):
+            res = ''
+            if len(s) <= k: return ''
+            i, minVal = 0, '99' # change minVal to '' for follow-up
+            for j in range(k+1):
+                if s[j] < minVal: # we can't use <= because this will remove too many small digits, example num = 112, k = 2
+                    i = j
+                    minVal = s[j]
+            if i == k:
+                res = s[i:]
+            else:
+                res = s[i] + helper(s[i+1:], k-i)
+
+            return res
+
+        if k >= len(num):
+            return '0'
+        return helper(num, k).lstrip('0') or '0'
+
+
 test_cases = [('1', 1), ('78912', 3), ('1432219', 3), ('100200', 1), ('100',1)]
 obj = Solution()
 for num, k in test_cases:
-    print(obj.removeKdigits2(num, k))
+    print(obj.removeKdigits(num, k))

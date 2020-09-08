@@ -51,6 +51,23 @@ class Solution:
                 return int(''.join(s))
 
         return num
+
+    # 9/3/2020
+    # check if there exists a right digit which is > digits[i]
+    def maximumSwap3(self, num):
+        digits = list(map(int, str(num)))
+        n = len(digits)
+        for i in range(n-1):
+            right = max(digits[i+1:])
+            if right > digits[i]:
+                j = n - 1
+                while j > i and digits[j] != right:
+                    j -= 1                
+                digits[i], digits[j] = digits[j], digits[i]
+                break
+        
+        return int(''.join(map(str, digits)))
+
     # WRONG SOLUTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # 1993, expected 9913
     def maximumSwap_WRONG(self, num):
@@ -93,8 +110,23 @@ class Solution:
         
         return num
 
+    # follow-up: minimum swap
+    def minimumSwap(self, num):
+        arr = list(map(int, str(num)))
+        n = len(arr)
+        for i in range(n-1):
+            right = min(arr[i+1:])
+            if right < arr[i]:
+                j = n - 1
+                while j > i and arr[j] != right:
+                    j -= 1
+                arr[i], arr[j] = arr[j], arr[i]
+                break
+        return int(''.join(map(str, arr)))
+
 test_cases = [0, 12, 2736, 9973, 1111, 9867, 98368, 1993]
 obj = Solution()
 for num in test_cases:
+    print(obj.minimumSwap(num), end = ' <- ')
     print(num, end = ' -> ')
-    print(obj.maximumSwap(num))
+    print(obj.maximumSwap3(num))

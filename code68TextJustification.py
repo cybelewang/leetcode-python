@@ -28,34 +28,43 @@ A line other than the last line might contain only one word. What should you do 
 In this case, that line should be left-justified.
 """
 class Solution(object):
-    def _tostr(self, words, start, count, width, maxWidth):
-        line = ''
-        if count == 1 or (start + count) == len(words):
-            for i in range(count - 1):
-                line += words[start + i]    # bug fixed: forget to add i
-                line += ' '
-            line += words[start + count - 1]
-
-            for i in range(maxWidth - width):
-                line += ' '
-        else:
-            extraWhiteSpaces = maxWidth - width # number of white spaces to distribute
-            extraWhiteSpacesPerSlot = extraWhiteSpaces//(count - 1) # average number of white spaces besides the normal 1 white space
-            largeSlots = extraWhiteSpaces - extraWhiteSpacesPerSlot * (count - 1)   # number of slots with 1 more extra white spaces than others
-            for i in range(count - 1):
-                line += words[start + i]
-                if i < largeSlots:
-                    for j in range(2 + extraWhiteSpacesPerSlot):
-                        line += ' '
-                else:
-                    for j in range(1 + extraWhiteSpacesPerSlot):
-                        line += ' '
-
-            line += words[start + count - 1]
-
-        return line               
-
+    # 8/30/2020
+    # greedy approach to append each word
+    # be careful when there is only 1 word in a line
     def fullJustify(self, words, maxWidth):
+        start, curLength = 0, len(words[0]) + 1
+        res = []
+        for end in range(1, len(words)):
+            if curLength + len(words[end]) > maxWidth:
+                # format the words[start:end]
+                spaces = maxWidth - curLength + (end - start) # number of spaces to allocate
+                slots = end - start - 1 # number of slots to fill spaces
+                s = '' # line string
+                for i in range(start, end - 1):
+                    used = spaces // slots + (1 if spaces % slots else 0)
+                    s += words[i] + ' '*used
+                    spaces -= used
+                    slots -= 1
+                s += words[end - 1]
+                # for a line with single word, add spaces after the word
+                if len(s) < maxWidth:
+                    s = s + ' '*(maxWidth - len(s))
+                res.append(s)
+                
+                # reset start and curLength
+                start = end
+                curLength = len(words[end]) + 1
+            else:
+                # increment curLength
+                curLength += len(words[end]) + 1
+        # handle last left-adjusted part
+        s = ' '.join(words[start:])
+        s = s + ' '*(maxWidth - len(s))
+        res.append(s)
+        return res
+
+    # original verbose solution
+    def fullJustify2(self, words, maxWidth):
         """
         :type words: List[str]
         :type maxWidth: int
@@ -86,6 +95,33 @@ class Solution(object):
         res.append(self._tostr(words, start, count, width, maxWidth))
 
         return res
+
+    def _tostr(self, words, start, count, width, maxWidth):
+        line = ''
+        if count == 1 or (start + count) == len(words):
+            for i in range(count - 1):
+                line += words[start + i]    # bug fixed: forget to add i
+                line += ' '
+            line += words[start + count - 1]
+
+            for i in range(maxWidth - width):
+                line += ' '
+        else:
+            extraWhiteSpaces = maxWidth - width # number of white spaces to distribute
+            extraWhiteSpacesPerSlot = extraWhiteSpaces//(count - 1) # average number of white spaces besides the normal 1 white space
+            largeSlots = extraWhiteSpaces - extraWhiteSpacesPerSlot * (count - 1)   # number of slots with 1 more extra white spaces than others
+            for i in range(count - 1):
+                line += words[start + i]
+                if i < largeSlots:
+                    for j in range(2 + extraWhiteSpacesPerSlot):
+                        line += ' '
+                else:
+                    for j in range(1 + extraWhiteSpacesPerSlot):
+                        line += ' '
+
+            line += words[start + count - 1]
+
+        return line  
 
 test_case = ["My","momma","always","said,","\"Life","was","like","a","box","of","chocolates.","You","never","know","what","you're","gonna","get."]
 obj = Solution()

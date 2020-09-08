@@ -56,3 +56,15 @@ class Solution:
         
         return True
 
+    # diagonal traversal
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        M, N = len(matrix), len(matrix[0])
+        for d in range(1 - N, M):
+            last = -1
+            for r in range(max(0, d), min(M-1, d + N - 1) + 1):
+                c = r - d
+                if last == -1:
+                    last = matrix[r][c]
+                elif matrix[r][c] != last:
+                    return False
+        return True

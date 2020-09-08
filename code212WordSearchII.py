@@ -84,6 +84,35 @@ class Solution:
 
         return list(res)
 
+# 9/3/2020
+class Solution2:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        m = len(board)
+        if m < 1: return []
+        n = len(board[0])
+        trie = Trie()
+        for word in words: trie.insert(word)
+        used = [[False]*n for _ in range(m)]
+        res = set()
+        def dfs(i, j, build, parent):
+            c = board[i][j]
+            if c not in parent.children: return
+            node = parent.children[c]
+            build.append(c)
+            used[i][j] = True
+            if node.isLeaf: res.add(''.join(build))
+            for x, y in (i, j-1), (i-1, j), (i, j+1), (i+1, j):                
+                if m > x >= 0 <= y < n and not used[x][y]:
+                    dfs(x, y, build, node)
+            used[i][j] = False
+            build.pop()
+        
+        for i in range(m):
+            for j in range(n):
+                dfs(i, j, [], trie.root)
+                
+        return list(res)
+
 board = [['o','a','a','n'],  ['e','t','a','e'],  ['i','h','k','r'],  ['i','f','l','v']]
 
 words = ["oath","pea","eat","rain"]

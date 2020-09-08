@@ -34,6 +34,8 @@ The mathematical answer is k = p / gcd(p, q).
 
 from fractions import gcd
 class Solution:
+    # https://leetcode.com/problems/mirror-reflection/discuss/146336/Java-solution-with-an-easy-to-understand-explanation
+    # https://www.cnblogs.com/grandyang/p/10646040.html
     def mirrorReflection(self, p, q):
         """
         :type p: int

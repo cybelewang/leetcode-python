@@ -39,6 +39,10 @@ Note that 'A' and 'a' are treated as two different characters.
 """
 from collections import Counter
 class Solution:
+    def frequencySort(self, s: str) -> str:
+        freq = Counter(s)
+        return ''.join(sorted(s, key = lambda c: (freq[c], c), reverse = True))
+        
     def frequencySort(self, s):
         """
         :type s: str

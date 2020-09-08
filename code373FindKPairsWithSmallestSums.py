@@ -31,6 +31,23 @@ All possible pairs are returned from the sequence:
 """
 from heapq import *
 class Solution:
+    # K*log(K) solution, easier to understand
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+        m, n = len(nums1), len(nums2)
+        if m < 1 or n < 1 or k < 1: return []
+        
+        # if k < m, then we don't need nums1[k] because nums1[0...k-1] with nums2[0] will form k smaller pairs than nums1[k] and nums2[0]
+        q = [(nums1[i] + nums2[0], i, 0) for i in range(min(m, k))]
+        heapify(q)
+        res = []
+        while k and q:
+            val, i, j = heappop(q)
+            res.append([nums1[i], nums2[j]])
+            if j + 1 < n:
+                heappush(q, (nums1[i] + nums2[j+1], i, j+1))
+            k -= 1
+        return res
+
     # https://www.cnblogs.com/grandyang/p/5653127.html
     def kSmallestPairs3(self, nums1, nums2, k):
         m, n = len(nums1), len(nums2)

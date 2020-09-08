@@ -45,5 +45,27 @@ class Solution:
         
         return nums[i]
 
+    # generic binary search solution
+    def singleNonDuplicate2(self, nums: List[int]) -> int:
+        left, right = 0, len(nums)
+        while left < right:
+            mid = (left + right) // 2
+            if mid & 1:
+                if nums[mid-1] == nums[mid]:
+                    # branch right
+                    left = mid + 1
+                else:
+                    # branch left
+                    right = mid
+            else:
+                # mid is even
+                if mid + 1 < len(nums) and nums[mid] == nums[mid+1]:
+                    # branch right
+                    left = mid + 1
+                else:
+                    right = mid
+        
+        return nums[right]
+
 nums = [1, 2, 2]
 print(Solution().singleNonDuplicate(nums))

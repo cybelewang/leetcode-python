@@ -14,6 +14,7 @@ Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 """
 from Interval import *
+from bisect import bisect_left
 class Solution(object):
     def insert(self, intervals, newInterval):
         """
@@ -80,6 +81,22 @@ class Solution(object):
             intervals.pop(j+1)
 
         return intervals
+
+    # 9/2/2020
+    # use bisect_left to find the insert position, then insert the interval
+    # Then start from i-1 element, we must check and merge these intervals
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        i = bisect_left(intervals, newInterval)      
+        intervals.insert(i, newInterval)
+        while i < len(intervals):
+            if i > 0 and intervals[i-1][1] >= intervals[i][0]:
+                intervals[i-1][1] = max(intervals[i-1][1], intervals[i][1])
+                intervals.pop(i)
+            else:
+                i += 1
+        
+        return intervals
+
 obj = Solution()
 case, new = [[1,2],[3,5],[6,7],[8,10],[12,16]], Interval(4,8)
 case, new = [[3, 5], [6,7], [8, 10], [12, 16]], Interval(1,6)
