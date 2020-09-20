@@ -38,3 +38,24 @@ class Solution:
         # 25 - i is the length of most frequent task, for example, AB
         # Then we will fill other tasks into empty dashes, - , if overfilled, then no idles left and we take len(tasks)
         return max(len(tasks), (mx-1)*(n+1) + 25 - i)
+
+    # follow-up: the output sequence must be the same as input sequence
+    # e.g. input [1,1,2,1], n = 2, output [1, -, -, 1,  2, -, 1]
+    # greedy approach, iterate all numbers, and every time before we adding a number/char, we check the last index of the number/char
+    # if the distance is < n + 1, we add idle ('-') to the result until it meets requirement
+    def leastIntervalWithSequence(self, tasks, n):
+        lastIndex = {}
+        res = []
+        for t in tasks:
+            if t in lastIndex:
+                i = len(res) # index to insert t
+                diff =  n - (i - lastIndex[t] - 1)
+                for _ in range(0, diff):
+                    res.append('-')
+            res.append(t)
+            lastIndex[t] = len(res) - 1
+        return res
+
+tasks = ['A', 'A', 'B', 'A']
+n = 2
+print(Solution().leastIntervalWithSequence(tasks, n))

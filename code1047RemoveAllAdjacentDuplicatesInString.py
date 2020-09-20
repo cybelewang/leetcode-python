@@ -26,6 +26,17 @@ class Solution:
                 stack.append(c)
         
         return ''.join(stack)
+
+    # two pointer solution
+    def removeDuplicates3(self, S: str) -> str:
+        s = list(S)
+        i = 0
+        for j in range(len(S)):
+            s[i] = s[j]
+            if i > 0 and s[i-1] == s[j]:
+                i -= 2
+            i += 1
+        return ''.join(s[:i])
         
     # follow-up: remove all adjacent repeating letters, for example "abbba" -> ""
     def removeDuplicates2(self, S: str) -> str:

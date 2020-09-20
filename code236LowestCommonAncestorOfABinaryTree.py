@@ -76,6 +76,30 @@ class Solution(object):
             return left or right
 
     # see C++ solution, easy to understand
+    # bit encoding, 0 means not found, 1 means found p, 2 means found q
+    # handles case when p or q doesn't exist in tree
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        res = None
+        def helper(root):
+            nonlocal res
+            if not root:
+                return 0
+            left = helper(root.left)
+            if left == 3:
+                return 3
+            right = helper(root.right)
+            if right == 3:
+                return 3
+            
+            encode = (root == p) | ((root == q) << 1)         
+            encode = encode | left | right
+            if encode == 3:
+                res = root
+            
+            return encode
+            
+        helper(root)
+        return res
 
     # follow-up: what if every node has link to parent? (FB interview question)
     # bottom-up traversal, and put all visited nodes (including p, q) into a hash set, so when a node is already visited before, that node is the LCA

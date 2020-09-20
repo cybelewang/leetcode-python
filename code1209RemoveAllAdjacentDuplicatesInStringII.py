@@ -35,41 +35,35 @@ s only contains lower case English letters.
 class Solution:
     # my own two stack solution O(N) time, O(N) space
     def removeDuplicates(self, s, k):
-        letters, cnt = [], []
-        i = 0
-        while i < len(s):
-            c = s[i]
-            if not letters:
+        letters = []
+        count = []
+        for c in s:
+            if not letters or letters[-1] != c:
                 letters.append(c)
-                cnt.append(1)
-                i += 1
-                continue
-            if c == letters[-1]:
-                cnt[-1] += 1
-                i += 1
-                continue
-            if cnt[-1] >= k:
-                # note there is no i += 1 here
-                cnt[-1] = cnt[-1] % k
-                if cnt[-1] == 0:
+                count.append(1)
+            else: # letters[-1] == c
+                count[-1] += 1
+                if count[-1] == k:
                     letters.pop()
-                    cnt.pop()
-            else:
-                letters.append(c)
-                cnt.append(1)
-                i += 1
-        # don't forget to process the last unique letters
-        if cnt and cnt[-1] >= k:
-            cnt[-1] %= k
-            if cnt[-1] == 0:
-                letters.pop()
-                cnt.pop()
-                
+                    count.pop()
         res = ''
-        for letter, count in zip(letters, cnt):
-            res += letter*count
-        
+        for c, k in zip(letters, count):
+            res += c*k
         return res
+
+    def removeDuplicates(self, s: str, k: int) -> str:
+        a, n = list(s), len(s)
+        i, count = 0, [0]*n
+        for j in range(len(s)):
+            a[i] = a[j]
+            if i > 0 and a[j] == a[i-1]:
+                count[i] = count[i-1] + 1
+                if count[i] == k:
+                    i -= k
+            else:
+                count[i] = 1
+            i += 1
+        return ''.join(a[:i])
 
     # follow-up: remove all >= k continuous repeating letters
     # instead of checking cnt[-1] == 0, we just pop two stacks if the count >= k, but this won't pass "aabbbaaabba", which expects ""

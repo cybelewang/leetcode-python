@@ -11,6 +11,13 @@ For example,
 Given [5, 7, 7, 8, 8, 10] and target value 8,
 return [3, 4].
 """
+from bisect import bisect_left, bisect_right
+def searchRange(self, nums: List[int], target: int) -> List[int]:
+    lower, upper = bisect_left(nums, target), bisect_right(nums, target)
+    if lower == upper:
+        return [-1, -1]
+    else:
+        return [lower, upper-1]
 
 def _search(nums, result, l, r, target):
     if l > r:

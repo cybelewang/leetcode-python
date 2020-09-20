@@ -32,4 +32,17 @@ class Solution:
 
         return m == n + 1
 
+    # https://leetcode.com/problems/one-edit-distance/discuss/50098/My-CLEAR-JAVA-solution-with-explanation
+    def isOneEditDistance(self, s: str, t: str) -> bool:
+        m, n = len(t), len(s)
+        for i in range(min(m, n)):
+            if s[i] != t[i]:
+                if m == n:
+                    return s[i+1:] == t[i+1:]
+                elif m < n:
+                    return s[i+1:] == t[i:]
+                else:
+                    return s[i:] == t[i+1:]
+        return abs(m - n) == 1
+
 print(Solution().isOneEditDistance("", ""))

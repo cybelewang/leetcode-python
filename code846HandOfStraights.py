@@ -29,7 +29,7 @@ Note:
 """
 from collections import Counter
 class Solution:
-    # my own solution
+    # my own solution, time O(N + MlogM + M*W), M is the length of unique numbers
     def isNStraightHand(self, hand, W):
         """
         :type hand: List[int]

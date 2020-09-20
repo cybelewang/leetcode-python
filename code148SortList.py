@@ -88,6 +88,38 @@ class Solution:
 
         return head
 
+    # recursive merge sort
+    def sortList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        
+        pseudoHead = ListNode(0)
+        pseudoHead.next = head
+        # find the mid node
+        fast, mid = pseudoHead, pseudoHead
+        while fast and fast.next:
+            fast = fast.next.next
+            mid = mid.next
+            
+        right, mid.next = mid.next, None
+        # recursively sort left and right part
+        left, right = self.sortList(head), self.sortList(right)
+        
+        pre = pseudoHead
+        # merge two lists
+        while left or right:
+            lVal = 2**31 if not left else left.val
+            rVal = 2**31 if not right else right.val
+            if lVal < rVal:
+                pre.next = left
+                left = left.next
+            else:
+                pre.next = right
+                right = right.next
+            pre = pre.next
+        
+        return pseudoHead.next
+
 obj = Solution()
 l1 = ListNode(0)
 l1.fromList([8,1,3])

@@ -19,6 +19,7 @@ Explanation: The perimeter is the 16 yellow stripes in the image below:
 """
 class Solution:
     # iterate all elements, if element is 1 and count 1 for each neighbor 0 
+    # space O(m*n)
     def islandPerimeter(self, grid):
         """
         :type grid: List[List[int]]
@@ -39,6 +40,25 @@ class Solution:
                         if x < 0 or x == m or y < 0 or y == n or grid[x][y]==0:
                             res += 1
         
+        return res
+
+    # O(m*n) time, O(1) space
+    # count each land cell's primeter as 4, then if current land cell has above land, subtract 2 for overlay edges
+    # similarily, if current land cell has left land, subtract 2 for overlay edges
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    res += 4
+                
+                    if i > 0 and grid[i-1][j] == 1:
+                        res -= 2
+
+                    if j > 0 and grid[i][j-1] == 1:
+                        res -= 2
+                    
         return res
 
 grid = [[0,1,0,0], [1,1,1,0], [0,1,0,0], [1,1,0,0]]

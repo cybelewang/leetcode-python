@@ -28,6 +28,7 @@ Note:
 1 <= A[i] <= 1e7
 1 <= K <= 1e8
 """
+# similar to 1539. Kth Missing Positive Number
 class Solution:
     # skip calculation: nums[i] - nums[0] - i
     def missingElement(self, nums: List[int], k: int) -> int:

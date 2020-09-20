@@ -82,6 +82,38 @@ class FractionAdder:
         integers = add(num1, num2, carry)
         return integers + '.' + fraction if fraction else integers
 
+    def addStrings2(self, num1, num2):
+        # find the dot position and generate strings aligned by the dot
+        idx1 = num1.rfind('.')
+        fraction_len1 = 0 if idx1 == -1 else len(num1) - idx1 - 1
+        idx2 = num2.rfind('.')
+        fraction_len2 = 0 if idx2 == -1 else len(num2) - idx2 - 1
+        fraction_len = max(fraction_len1, fraction_len2)
+        a1 = num1 if idx1 == -1 else num1[:idx1] + num1[idx1+1:]
+        a1 += '0'*(fraction_len - fraction_len1) # pad '0's to align the strings
+        a2 = num2 if idx2 == -1 else num2[:idx2] + num2[idx2+1:]
+        a2 += '0'*(fraction_len - fraction_len2)
+
+        # add the two aligned strings
+        ans, carry = [], 0
+        for s1, s2 in zip_longest(reversed(a1), reversed(a2), fillvalue='0'):
+            _sum = ord(s1) + ord(s2) - 2 * ord('0') + carry
+            ans.append(_sum % 10)
+            carry = _sum // 10
+        if carry > 0:
+            ans.append(carry)
+        
+        ans.reverse()
+        # remove the trailing zeros in fraction part
+        while ans and fraction_len and ans[-1] == 0:
+            fraction_len -= 1
+            ans.pop()
+        
+        if fraction_len == 0:
+            return ''.join(map(str, ans)) or '0'
+        else:
+            return (''.join(map(str, ans[:len(ans)-fraction_len])) or '0') + '.' + ''.join(map(str, ans[-fraction_len:]))
+
 class AddIntegerTest(unittest.TestCase):
     def test_1(self):
         obj = Solution()
@@ -90,12 +122,13 @@ class AddIntegerTest(unittest.TestCase):
 class AddFractionTest(unittest.TestCase):
     def test_1(self):
         obj = FractionAdder()
-        self.assertEqual(obj.addStrings('123', '4567'), '4690')
-        self.assertEqual(obj.addStrings('0.0', '1'), '1')
-        self.assertEqual(obj.addStrings('1.', '1'), '2')
-        self.assertEqual(obj.addStrings('0.90', '.1'), '1')
-        self.assertEqual(obj.addStrings('32.1', '.99'), '33.09')
-        self.assertEqual(obj.addStrings('32.111', '.889'), '33')
-        self.assertEqual(obj.addStrings('.1', '.2'), '0.3')
+        self.assertEqual(obj.addStrings2('123', '4567'), '4690')
+        self.assertEqual(obj.addStrings2('0.0', '1'), '1')
+        self.assertEqual(obj.addStrings2('1.', '1'), '2')
+        self.assertEqual(obj.addStrings2('0.90', '.1'), '1')
+        self.assertEqual(obj.addStrings2('32.1', '.99'), '33.09')
+        self.assertEqual(obj.addStrings2('32.111', '.889'), '33')
+        self.assertEqual(obj.addStrings2('.1', '.2'), '0.3')
+        self.assertEqual(obj.addStrings2('.1', '2.'), '2.1')
 
 unittest.main(exit=False)

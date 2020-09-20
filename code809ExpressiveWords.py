@@ -88,6 +88,27 @@ class Solution:
             else:
                 res += i == len(letters) # bug fixed: should not increment res directly because we need to make sure i is at the end of letter
         
+        return res
+
+    # use itertools.groupby(str) method which returns the unique keys and groups (iterators) of the keys
+    import itertools
+    def expressiveWords3(self, S: str, words: List[str]) -> int:
+        letters, cnt = [], []
+        for k, g in itertools.groupby(S):
+            letters.append(k)
+            cnt.append(len(list(g)))
+        
+        res = 0
+        for word in words:
+            char, count = [], []
+            for k, g in itertools.groupby(word):
+                char.append(k)
+                count.append(len(list(g)))
+            if len(char) != len(letters):
+                continue
+            if char == letters and all((s < 3 and s == t) or ( s >=3 and s >= t) for s, t in zip(cnt, count)):
+                res += 1
+        
         return res                       
 
 S = "abcd"

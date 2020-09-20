@@ -184,12 +184,33 @@ class LRUCache(object):
             self.cache[key] = node
             self.list.appendHead(node)
 
+# Use OrderedDict
+from collections import OrderedDict
+class LRUCache2(OrderedDict):
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key in self:
+            self.move_to_end(key)
+            return self[key]
+        else:
+            return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self:
+            self.move_to_end(key)
+        self[key] = value
+        if len(self) > self.capacity:
+            self.popitem(last = False)
+
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
 
-cache = LRUCache(3)
+cache = LRUCache2(3)
 
 cache.put(1, 1) # LRU: [1]
 cache.put(2, 2) # LRU: [2, 1]

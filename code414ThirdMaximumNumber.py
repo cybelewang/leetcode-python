@@ -39,23 +39,18 @@ class Solution:
         return f if t == -2**31-1 else t
 
     def thirdMax2(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
         f, s, t = None, None, None
-        for num in set(nums):
-            if f is None or num > f:
-                t = s
-                s = f
-                f = num
-            elif s is None or num > s:
-                t = s
-                s = num
-            elif t is None or num > t:
+        for num in nums:
+            if f is None or num >= f:
+                if f == num: continue # bug fixed: do not update s to f if num == f                
+                f, s, t = num, f, s
+            elif s is None or num >= s:
+                if num == s: continue # bug fixed: do not update t to s if num == s
+                s, t = num, s
+            elif t is None or num >= t:
                 t = num
-
-        return t or f
+                
+        return t if t is not None else f
 
 input = [3, 2, 2]
 obj = Solution()

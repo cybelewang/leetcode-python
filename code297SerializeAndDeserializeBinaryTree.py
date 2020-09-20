@@ -28,7 +28,48 @@ Note: Do not use class member/global/static variables to store states. Your seri
 # similar to problem 449 Serialize and Deserialize BST
 from TreeNode import *
 from collections import deque
-class Codec:
+
+class Codec_DFS:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        a = []
+        def helper(root):
+            if not root:
+                a.append('#')
+                return
+            a.append(str(root.val))
+            helper(root.left)
+            helper(root.right)
+        
+        helper(root)
+        return ' '.join(a)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        a = data.split()
+        self.i = 0
+        def helper():
+            if a[self.i] == '#':
+                self.i += 1
+                return None
+            root = TreeNode(int(a[self.i]))
+            self.i += 1
+            root.left = helper()
+            root.right = helper()
+            return root
+        
+        return helper()
+
+class Codec_BFS:
 
     def serialize(self, root):
         """Encodes a tree to a single string.
@@ -116,7 +157,7 @@ class Codec:
 # Your Codec object will be instantiated and called as such:
 #root = ListToTree([1, 2, 3, None, None, 4, 5])
 root = ListToTree([1,2,None,3])
-codec = Codec()
+codec = Codec_DFS()
 str_codec = codec.serialize(root)
 print(str_codec)
 recover = codec.deserialize(str_codec)

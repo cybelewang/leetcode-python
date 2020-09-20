@@ -81,6 +81,35 @@ def mergeKListsMinHeap(lists):
 
     return head.next
 
+# Use Python queue package's PriorityQueue, heapq cannot compare ListNode
+# PriorityQueue's useful methods: empty(), put(item), get(item)
+# Since we can't modify the given ListNode directly, we use a Wrapper
+class Wrapper():
+    def __init__(self, node):
+        self.node = node
+        
+    def __lt__(self, other):
+        return self.node.val < other.node.val
+from queue import PriorityQueue    
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        q = PriorityQueue()
+        for head in lists:
+            if head:
+                q.put(Wrapper(head))
+        
+        pseudoHead = ListNode(0)
+        pre = pseudoHead
+        
+        while not q.empty():
+            top = q.get().node
+            pre.next = top
+            pre = pre.next
+            if top.next:
+                q.put(Wrapper(top.next))
+                
+        return pseudoHead.next
+
 l1, l2, l3 = ListNode(0), ListNode(0), ListNode(0)
 l1.fromList([1, 3, 5, 7, 9])
 l2.fromList([2, 4, 6, 8])

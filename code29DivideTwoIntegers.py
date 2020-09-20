@@ -30,7 +30,7 @@ def divide(self, dividend, divisor):
     if sign > 0:
         return min(ans, 2**31 - 1)
     else:
-        return -2**31 if ans > 2**31 else -ans
+        return -min(ans, 2**31)
 
 def divide2(dividend, divisor):
     """

@@ -23,6 +23,36 @@ The length of T will be in the range [1, 100].
 from collections import defaultdict
 from bisect import bisect_right
 class Solution:
+
+    # Next array solution, time O(S*T)
+    def minWindow(self, S: str, T: str) -> str:
+        m, n = len(T), len(S)
+        # idx[i][x] is the next start searching index of letter x in S[i:]
+        idx = [[-1]*26 for _ in range(n)]
+        idx[n-1][ord(S[n-1]) - ord('a')] = n
+        for j in range(n-2, -1, -1):
+            for x in range(26):
+                idx[j][x] = idx[j+1][x]
+            c = S[j]
+            idx[j][ord(c) - ord('a')] = j + 1
+        
+        res, minLen = "", 2**31 - 1
+        for start in range(n):
+            if S[start] == T[0]:
+                # we found the start letter of T, next we search for a window which contains all T letters in sequence
+                i = start + 1
+                for c in T[1:]:
+                    if i == n: break
+                    i = idx[i][ord(c) - ord('a')]
+                    if i == -1: break
+                else:
+                    if i - start < minLen:
+                        minLen = i - start
+                        res = S[start:i]
+        
+        return res
+
+    # binary search solution, time O(S*T*log(S))
     # Try to build the substring with the indices map
     def minWindow(self, S: str, T: str) -> str:
         # pos[c] contains an ordered list of indices of character c in S

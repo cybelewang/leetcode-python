@@ -120,6 +120,27 @@ class Solution2:
         else:
             self.match &= ~(1 << (ord(letter) - ord('a')))
 
+    from collections import Counter
+    def findAnagrams2(self, s: str, p: str):
+        m, n = len(p), len(s)
+        count, req = Counter(p), m
+        res = []
+        for j, c in enumerate(s):
+            if c in count:
+                count[c] -= 1
+                if count[c] >= 0:
+                    req -= 1
+            if j + 1 > m:
+                i = j - m
+                if s[i] in count:
+                    count[s[i]] += 1
+                    if count[s[i]] > 0:
+                        req += 1
+            if j >= m - 1:
+                if req == 0:
+                    res.append(j - m + 1)
+        return res
+
 s= "cbaebabacd"
 p= "abc"
 obj = Solution()

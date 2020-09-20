@@ -71,4 +71,28 @@ class Solution:
                 open_to_keep -= 1
         
         return ''.join(ans)
+
+    def minRemoveToMakeValid(self, s: str) -> str:
+        s = list(s)
+        cnt = 0
+        for i, c in enumerate(s):
+            if c == '(':
+                cnt += 1
+            elif c == ')':
+                if cnt > 0:
+                    cnt -= 1
+                else:
+                    s[i] = ''
+        #print(s)
+        cnt = 0
+        for i in range(len(s)-1, -1, -1):
+            if s[i] == ')':
+                cnt += 1
+            elif s[i] == '(':
+                if cnt > 0:
+                    cnt -= 1
+                else:
+                    s[i] = ''
+        #print(s)
+        return ''.join(s)
                 

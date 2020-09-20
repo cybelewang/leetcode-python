@@ -20,7 +20,32 @@ The output list must be sorted by the x position.
 There must be no consecutive horizontal lines of equal height in the output skyline. For instance, [...[2 3], [4 5], [7 5], [11 5], [12 7]...] is not acceptable; the three lines of height 5 should be merged into one in the final output as such: [...[2 3], [4 5], [12 7], ...]
 """
 from functools import cmp_to_key
+from bisect import insort
 class Solution:
+    # line sweep method 
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        events = []
+        for L, R, H in buildings:
+            events.append((L, -H)) # use negative height to mark raising edge
+            events.append((R, H)) # use positive height to mark falling edge
+        
+        events.sort()
+        heights = [0]
+        res = []
+        cur_h = 0
+        for x, h in events:
+            if h < 0:
+                # raising edge
+                insort(heights, -h)
+            else:
+                # falling edge
+                heights.remove(h)
+            if heights[-1] != cur_h:
+                cur_h = heights[-1]
+                res.append([x, cur_h])
+        
+        return res
+
     def getSkyline(self, buildings):
         """
         :type buildings: List[List[int]]

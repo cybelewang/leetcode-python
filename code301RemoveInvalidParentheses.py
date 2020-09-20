@@ -103,7 +103,7 @@ class Solution:
 
         return res
 
-test_case = '()())()'
+test_case = ')('
 obj = Solution()
 print(obj.removeInvalidParentheses2(test_case))
 

@@ -58,7 +58,28 @@ informTime.length == n
 informTime[i] == 0 if employee i has no subordinates.
 It is guaranteed that all the employees can be informed.
 """
+from collections import defaultdict, deque
 class Solution:
+    # DFS solution
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        graph = defaultdict(list)
+        for i in range(n):
+            if i != headID:
+                graph[manager[i]].append(i)
+                
+        def helper(graph, i, memo):
+            if i in memo:
+                return memo[i]
+            t = 0
+            for j in graph[i]:
+                t = max(t, informTime[i] + helper(graph, j, memo))
+            memo[i] = t
+            return t
+        
+        memo = {}
+        return helper(graph, headID, memo)    
+
+    # BFS solution
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
         graph = defaultdict(lambda: defaultdict(int))
         for e in range(n):
