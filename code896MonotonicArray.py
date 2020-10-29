@@ -52,14 +52,14 @@ class Solution:
 
     # https://leetcode.com/problems/monotonic-array/solution/
     def isMonotonic2(self, A):
-        increase = decrease = True
-        for i in range(len(A)-1):
-            if A[i] > A[i+1]:
-                increase = False
-            if A[i] < A[i+1]:
-                decrease = False
+        increase = decrease = False
+        for i in range(1, len(A)):
+            if A[i] > A[i-1]:
+                increase = True
+            elif A[i] < A[i-1]:
+                decrease = True
         
-        return increase or decrease
+        return not (increase and decrease)
 
 A = [1, 1, 1]
 print(Solution().isMonotonic(A))

@@ -32,6 +32,9 @@ Constraints:
 2 <= k <= 10^4
 s only contains lower case English letters.
 """
+import unittest
+from itertools import groupby
+from functools import lru_cache
 class Solution:
     # my own two stack solution O(N) time, O(N) space
     def removeDuplicates(self, s, k):
@@ -65,7 +68,7 @@ class Solution:
             i += 1
         return ''.join(a[:i])
 
-    # follow-up: remove all >= k continuous repeating letters
+    # BLP follow-up: remove all >= k continuous repeating letters
     # instead of checking cnt[-1] == 0, we just pop two stacks if the count >= k, but this won't pass "aabbbaaabba", which expects ""
     def removeDuplicates2(self, s, k):
         letters, cnt = [], []
@@ -100,7 +103,8 @@ class Solution:
         
         return res
     
-    # two direction that fix the bug for cause "aabbbaaabba"
+    # BLP follow-up
+    # two direction that fix the bug for cause "aabbbaaabba", but still has bug on the very long input case
     def removeDuplicates3(self, s, k):
         s1 = self.removeDuplicates2(s, k)
         s2 = self.removeDuplicates2(s[::-1], k)
@@ -109,4 +113,22 @@ class Solution:
         else:
             return s2[::-1]
 
-print(Solution().removeDuplicates3("aabbbaaabba", 3))
+    # BLP follow-up
+    # use backtracking to iterate all combinations of 3 adjacent chars, checking every time if the result is an improvement
+    @lru_cache()
+    def bestCandyCrush(self, s):
+        l, segs = 0, []
+        for c, seq in groupby(s):
+            k = len(list(seq))
+            if k >= 3:
+                segs.append((l, l+k))
+            l += k
+        return min([self.bestCandyCrush(s[:l] + s[r:]) for l, r in segs], key = len, default = s)
+
+class Test(unittest.TestCase):
+    def test1(self):
+        self.assertEqual(Solution().removeDuplicates3("aabbbaaabba", 3), "")
+        self.assertEqual(Solution().bestCandyCrush("aaabbbacd"), "cd")
+        #self.assertEqual(Solution().bestCandyCrush("baaabbbabbccccdbaaabbbabbdccccdaaabbbbaaabbbabbccccdbaaadbbbabbccccdaaabbb"), "dabbd")
+
+unittest.main(exit = False)

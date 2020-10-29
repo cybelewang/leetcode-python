@@ -24,18 +24,13 @@ class Solution:
         :type amount: int
         :rtype: int
         """
-        if not coins or amount < 0:
-            return -1
-
-        dp = [1 + amount]*(1 + amount)
+        dp = [2**31-1]*(1+amount)
         dp[0] = 0
-
         for i in range(1, 1+amount):
             for coin in coins:
                 if i >= coin:
                     dp[i] = min(dp[i], 1 + dp[i-coin])
-
-        return -1 if dp[amount] == 1 + amount else dp[amount]
+        return dp[amount] if dp[amount] != 2**31-1 else -1
 
     # my own solution. wrong, see coins [186,419,83,408] and amount 6249
     def coinChange2(self, coins, amount):

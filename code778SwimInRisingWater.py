@@ -35,22 +35,24 @@ Note:
 2 <= N <= 50.
 grid[i][j] is a permutation of [0, ..., N*N - 1].
 """
+from heapq import heappop, heappush
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
         N = len(grid)
         dirs = [[0, -1], [-1, 0], [0, 1], [1, 0]]
         q, t = [(grid[0][0], 0, 0)], 0
         visited = set()
-        visited.add((0, 0))
+        #visited.add((0, 0))
         while q:
             h, x, y = heappop(q)
             t = max(t, h)
             if x == N-1 and y == N-1:
                 return t
+            if (x, y) in visited: continue
+            visited.add((x, y))
             for dx, dy in dirs:
                 i, j = x + dx, y + dy
-                if -1 < i < N and -1 < j < N and (i, j) not in visited:
+                if -1 < i < N and -1 < j < N:
                     heappush(q, (grid[i][j], i, j))
-                    visited.add((i, j))
             
         

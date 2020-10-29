@@ -66,4 +66,32 @@ class Solution:
 
         return res
 
+    # classic backtracking
+    def generateAbbreviations(self, word: str) -> List[str]:
+        # "w" -> ['1', 'w']
+        # "wo" -> ['2', 'w1', '1o', 'wo']
+        # "wor" -> ['3', 'w2', '1o1', 'wo1', '2r', 'w1r', '1or', 'wor']
+        def helper(start, build, res):
+            if start == len(word):
+                res[:] = build[:]
+                return
+            next_build = []
+            for pre in build:
+                if pre[-1].isdigit():
+                    i = len(pre) - 1
+                    while i > -1 and pre[i].isdigit():
+                        i -= 1
+                    i += 1
+                    next_build.append(pre[:i] + str(int(pre[i:]) + 1))
+                else:
+                    next_build.append(pre + '1')
+                next_build.append(pre + word[start])
+            helper(start+1, next_build, res)
+            
+        if word == '':
+            return ['']
+        res = []
+        helper(1, ['1', word[0]], res)
+        return res
+
 print(Solution().generateAbbreviations3("word"))

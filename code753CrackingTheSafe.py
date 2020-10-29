@@ -23,9 +23,25 @@ k will be in the range [1, 10].
 k^n will be at most 4096.
 """
 class Solution:
+    # https://www.cnblogs.com/grandyang/p/8452361.html
+    # we must iterate from k-1 to 0
     def crackSafe(self, n, k):
         """
         :type n: int
         :type k: int
         :rtype: str
         """
+        ans = ['0']*n
+        visited = set()
+        visited.add(''.join(ans))
+        for i in range(k**n):
+            for j in range(k-1, -1, -1):
+                ans.append(str(j))
+                s = ''.join(ans[-n:])
+                if s in visited:
+                    ans.pop()
+                else:
+                    visited.add(s)
+                    break
+        
+        return ''.join(ans)

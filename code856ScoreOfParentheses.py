@@ -32,6 +32,24 @@ S is a balanced parentheses string, containing only ( and ).
 2 <= S.length <= 50
 """
 class Solution:
+    # stack solution
+    def scoreOfParentheses(self, S: str) -> int:
+        stack = []
+        cur = 0
+        for i, c in enumerate(S):
+            if c == '(':
+                stack.append((cur, i))
+                cur = 0
+            else:
+                pre, last = stack.pop()
+                if i - last == 1:
+                    cur = pre + 1
+                else:
+                    cur = pre + 2*cur
+        
+        return cur
+        
+    # recursive solution
     def scoreOfParentheses(self, S):
         """
         :type S: str

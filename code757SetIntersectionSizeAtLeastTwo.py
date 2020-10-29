@@ -24,9 +24,36 @@ intervals[i] will have length 2, representing some integer interval.
 intervals[i][j] will be an integer in [0, 10^8].
 """
 class Solution:
+    # https://www.cnblogs.com/grandyang/p/8503476.html
     def intersectionSizeTwo(self, intervals):
         """
         :type intervals: List[List[int]]
         :rtype: int
         """
-        
+        # sort the intervals based on (end, -start)
+        # maintain a array to hold the numbers in set
+        # if a <= last second number, skip this interval
+        # if a == last number, append b to array (+1)
+        # if a > last number, append b-1, b to array for possible overlap (+2)
+        # if last second number < a < last number, append b to array (+1)
+        intervals.sort(key = lambda x : (x[1], -x[0]))
+        s = [-1, -1]
+        for a, b in intervals:
+            if a <= s[-2]: continue
+            if a > s[-1]:
+                s.append(b-1)
+            s.append(b)
+        return len(s) - 2     
+    # O(1) space because we only use last and last_second
+    def intersectionSizeTwo(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key = lambda x : (x[1], -x[0]))
+        last, last_second = -1, -1
+        ans = 0
+        for a, b in intervals:
+            if a <= last_second: continue
+            if a > last:
+                ans += 1
+                last_second, last = last, b-1
+            last_second, last = last, b
+            ans += 1
+        return ans  

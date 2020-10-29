@@ -42,7 +42,20 @@ class Solution:
             nums2[i] = -1 if not stack else stack[-1]               
             stack.append(value)
 
-        return [nums2[mem[value]] for value in nums1]                
+        return [nums2[mem[value]] for value in nums1]   
+
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        a = {num:i for i, num in enumerate(nums1)}
+        stack = []
+        res = [-1]*len(nums1)
+        while nums2:
+            x = nums2.pop()
+            while stack and stack[-1] < x:
+                stack.pop()
+            if x in a:
+                res[a[x]] = stack[-1] if stack else -1
+            stack.append(x)
+        return res             
 
 obj = Solution()
 nums1 = [4,1,2]

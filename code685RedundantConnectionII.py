@@ -67,7 +67,8 @@ class Solution:
                 continue
 
             pu = find(parent, u)
-            if pu == v: # a cycle exists
+            pv = find(parent, v)
+            if pu == pv: # a cycle exists
                 # if A is not empty, this means there were two parents for A[1]: A[0], B[0]
                 # although we have made B invalid, there is still a cycle, so we need to remove A to solve two problems: 2 parent nodes and cycle
                 # if A is empty, this means there is only cycle, so we need to remove current edge

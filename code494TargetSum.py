@@ -50,20 +50,16 @@ class Solution:
         :type S: int
         :rtype: int
         """
-        sum_ = sum(nums)
-        if S > sum_ or S < -sum_:
-            return 0
-        
-        mem1 = defaultdict(int)
-        mem1[0] = 1 # bug fixed: '0' is the seed, so other numbers can be added to it, so its count should be initialize to 1, not 0
+        dp = defaultdict(int)
+        dp[0] = 1
         for num in nums:
-            mem2 = defaultdict(int)
-            for s in list(mem1):
-                mem2[s+num] += mem1[s]
-                mem2[s-num] += mem1[s]
-            mem1 = mem2
-            #print(mem1)
-        return mem1[S]
+            new_dp = defaultdict(int)
+            for a in dp:
+                new_dp[a + num] += dp[a]
+                new_dp[a - num] += dp[a]
+            dp = new_dp
+        
+        return dp[S]
 
 nums = [1, 1, 1, 1, 1]
 obj = Solution()

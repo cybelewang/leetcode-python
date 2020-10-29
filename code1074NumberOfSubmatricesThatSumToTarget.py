@@ -28,6 +28,7 @@ Note:
 -1000 <= matrix[i] <= 1000
 -10^8 <= target <= 10^8
 """
+from collections import defaultdict
 class Solution:
     # https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/
     # reduce to 1-D problem (560) by fixing column

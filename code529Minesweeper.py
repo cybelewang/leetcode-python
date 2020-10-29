@@ -55,6 +55,7 @@ The click position will only be an unrevealed square ('M' or 'E'), which also me
 The input board won't be a stage when game is over (some mines have been revealed).
 For simplicity, not mentioned rules should be ignored in this problem. For example, you don't need to reveal all the unrevealed mines when the game is over, consider any cases that you will win the game or flag any squares.
 """
+import copy
 class Solution:
     # my own dfs solution
     def updateBoard(self, board, click):
@@ -105,6 +106,30 @@ class Solution:
 
         return board
 
+    # another DFS solution by counting mines during DFS
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        m, n = len(board), len(board[0])
+        res = copy.deepcopy(board)
+        def reveal(i, j, board, res):
+            if m > i >= 0 <= j < n:
+                if res[i][j] == 'E': # bug fixed: should use res, not board
+                    count = 0
+                    for x, y in (i, j-1), (i-1, j-1), (i-1, j), (i-1, j+1), (i, j+1), (i+1, j+1), (i+1, j), (i+1, j-1):
+                        if m > x >= 0 <= y < n:
+                            if board[x][y] == 'M':
+                                count += 1
+                    if count > 0:
+                        res[i][j] = str(count)
+                    else:
+                        res[i][j] = 'B'
+                        for x, y in (i, j-1), (i-1, j-1), (i-1, j), (i-1, j+1), (i, j+1), (i+1, j+1), (i+1, j), (i+1, j-1):
+                            reveal(x, y, board, res)
+        x0, y0 = click
+        if board[x0][y0] == 'M':
+            res[x0][y0] = 'X'
+            return res
+        reveal(x0, y0, board, res)
+        return res
                             
 board = [['B', '1', 'E', '1', 'B'], ['B', '1', 'M', '1', 'B'], ['B', '1', '1', '1', 'B'], ['B', 'B', 'B', 'B', 'B']]
 print(Solution().updateBoard(board, (1, 2)))

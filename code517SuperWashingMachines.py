@@ -96,6 +96,18 @@ class Solution:
 
         return res
 
+    # wrong solution because of misunderstanding of problem: multiple machines can pass one dress at the same time
+    # [4, 0, 0, 4], the answer should be 2 because first step is [3, 1, 1, 3], and second step is [2, 2, 2, 2]
+    def findMinMoves(self, machines: List[int]) -> int:
+        su, n = sum(machines), len(machines)
+        if su % n != 0: return -1
+        k = su // n
+        res = 0
+        for num in machines:
+            if num > k:
+                res += num - k
+        return res
+
     # my own wrong solution, due to misunderstanding of the problem.
     # the basic idea is one dress can be passed from any index i to any index j
     def findMinMoves_Wrong(self, machines):

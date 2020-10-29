@@ -24,6 +24,39 @@ The length of the given matchstick array will not exceed 15.
 """
 # similar to 416 partition equal subset sum, this problem requires 4 subsets with equal length
 class Solution:
+    # my own backtracking solution
+    def makesquare(self, nums: List[int]) -> bool:
+        # backtracking, we already know the target square length
+        # The ith bit of "used" is to encode the "used" state of nums[i]
+        # "used" can uniquely represent the state, so we cache used
+        # time complexity O(N*2^N), used has 2^N different values, and for each used, we iterate all numbers in nums, 
+        # so overall time complexity is O(N*2^N)
+        # space complexity O(N + 2^N) where N is stack space and 2^N is the cache space
+        def helper(curLen, target, used, remain, memo) -> bool:
+            if remain == 0:
+                return True
+            if used in memo:
+                return memo[used]
+            if curLen == target:
+                return helper(0, target, used, remain-1, memo)
+            for i in range(len(nums)):
+                if (used & (1 << i) == 0) and curLen + nums[i] <= target:
+                    if helper(curLen + nums[i], target, used | (1 << i), remain, memo):
+                        memo[used] = True
+                        return True
+            memo[used] = False
+            return False
+        # corner cases of fast failure check
+        if len(nums) < 4:
+            return False
+        sums = sum(nums)
+        if sums % 4 != 0:
+            return False
+        target = sums//4
+        if target < max(nums):
+            return False
+        return helper(0, target, 0, 4, {})
+
     # OJ's better solution
     def makesquare(self, nums):
         """

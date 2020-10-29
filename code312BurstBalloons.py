@@ -21,6 +21,17 @@ Return 167
    coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
 """
 class Solution:
+    # iteration similar to palindrome check
+    def maxCoins(self, nums: List[int]) -> int:
+        if len(nums) < 1: return 0
+        nums = [1] + [num for num in nums if num > 0] + [1]
+        n = len(nums)
+        dp = [[0]*n for _ in range(n)]
+        for i in range(n-1, -1, -1):
+            for j in range(i+1, n):
+                for k in range(i+1, j):
+                    dp[i][j] = max(dp[i][j], nums[i]*nums[k]*nums[j] + dp[i][k] + dp[k][j])
+        return dp[0][n-1]
     # https://kennyzhuang.gitbooks.io/algorithms-collection/content/burst_balloons.html
     def maxCoins(self, nums):
         """

@@ -22,6 +22,7 @@ Explanation:
 Note: The number of boxes n would not exceed 100.
 
 """
+from functools import lru_cache
 # similar problems: Burst Ballons, Zuma Game, Strange Printer
 class Solution:
     # help from http://www.cnblogs.com/grandyang/p/6850657.html
@@ -34,31 +35,21 @@ class Solution:
         :type boxes: List[int]
         :rtype: int
         """
-        def helper(boxes, i, j, k, dp):
+        @lru_cache(None)
+        def helper(i, j, k):
             """
             return the max points in range i to j
             """
-            if i > j:
-                return 0
-
-            if dp[i][j][k] > 0:
-                return dp[i][j][k]
-
-            res = (1+k)**2 + helper(boxes, i+1, j, 0, dp)   # points by removing (1+k) boxes[i]
-
+            if i > j: return 0
+            res = (1+k)**2 + helper(i+1, j, 0)   # points by removing (1+k) boxes[i]
             for m in range(i+1, j+1):
                 if boxes[m] == boxes[i]:
-                    res = max(res, helper(boxes, i+1, m-1, 0, dp) + helper(boxes, m, j, k+1, dp))   # points by merge boxes[i] and boxes[m], note k plus 1 because i was connected to m
-            
-            dp[i][j][k] = res
-
+                    res = max(res, helper(i+1, m-1, 0) + helper(m, j, k+1))   # points by merge boxes[i] and boxes[m], note k plus 1 because i was connected to m
             return res
 
         # main
         n = len(boxes)
-        dp = [[[0]*n for _ in range(n)] for _ in range(n)]
-
-        return helper(boxes, 0, n-1, 0, dp)
+        return helper(0, n-1, 0)
 
     # my own solution 1, failed on scattered same values like test case [1, 1, 2, 1, 3, 1] where we need to remove 2 and 3 to make 1 continuous
     # 1. convert input to two lists, first list contains the numbers, and second list contains the continuous count of corresponding number. Now the example boxes become nums = [1, 3, 2, 3, 4, 3, 1] and c = [1, 1, 3, 1, 1, 1, 1]

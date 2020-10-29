@@ -24,17 +24,19 @@ from heapq import heappush, heappop
 from collections import deque
 class Solution:
     def shortestSubarray(self, A, K):
+        n, res = len(A), 50001
         sums = [0]
-        for num in A: sums.append(sums[-1] + num)
-        q = deque([(0, 0)])
-        res = 2**31-1
-        for i in range(1, len(sums)):
-            while q and sums[i] - q[0][0] >= K:
-                res = min(res, i-q.popleft()[1])
-            while q and q[-1][0] >= sums[i]:
+        for a in A: sums.append(sums[-1] + a)
+        q = deque([0])
+        for i in range(1, n+1):
+            while q and sums[i] - sums[q[0]] >= K:
+                res = min(res, i - q[0])
+                q.popleft()
+            while q and sums[q[-1]] >= sums[i]:
                 q.pop()
-            q.append((sums[i], i))
-        return res if res != 2**31-1 else -1
+            q.append(i)
+        
+        return res if res != 50001 else -1
 
     # Use a minHeap to save the accumulation sum, O(NlogN)
     # for each current accumulation sum, pop the min previous accumulation sum from minHeap and then update the result

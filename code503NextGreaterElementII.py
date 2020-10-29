@@ -16,6 +16,16 @@ Note: The length of given array won't exceed 10000.
 # similar problems: 496
 from collections import deque
 class Solution:
+    # https://leetcode.com/problems/next-greater-element-ii/discuss/98270/JavaC%2B%2BPython-Loop-Twice
+    # OJ best solution
+    def nextGreaterElements(self, A):
+        stack, res = [], [-1] * len(A)
+        for i in range(len(A)) * 2:
+            while stack and (A[stack[-1]] < A[i]):
+                res[stack.pop()] = A[i]
+            stack.append(i)
+        return res
+
     def nextGreaterElements(self, nums):
         """
         :type nums: List[int]
@@ -44,6 +54,29 @@ class Solution:
             q.append((value, i))
         
         return nums
+
+    # 9/26/2020 deque solution
+    # first round create a mono-queue
+    # second round update result and remove the out of range indices
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        q = deque()
+        # create the mono-increase queue
+        for i in range(n-1, -1, -1):
+            while q and nums[q[0]%n] <= nums[i]:
+                q.popleft()
+            q.appendleft(i+n)
+        
+        res = [-1]*n
+        for i in range(n-1, -1, -1):
+            # remove out of range index in queue
+            if q and q[-1] - i >= n:
+                q.pop()
+            while q and nums[q[0]%n] <= nums[i]:
+                q.popleft()
+            res[i] = nums[q[0]%n] if q else -1
+            q.appendleft(i)
+        return res
 
 nums = [1, 2, 1]
 print(Solution().nextGreaterElements(nums))

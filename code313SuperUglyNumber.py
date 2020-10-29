@@ -12,6 +12,7 @@ Note:
 (3) 0 < k ≤ 100, 0 < n ≤ 10^6, 0 < primes[i] < 1000.
 (4) The nth super ugly number is guaranteed to fit in a 32-bit signed integer.
 """
+from heapq import heappush, heappop
 # similar to 264
 class Solution:
     def nthSuperUglyNumber(self, n, primes):
@@ -41,6 +42,19 @@ class Solution:
                     index[j] += 1
 
         return uglyNums[-1]
+
+    # minHeap solution
+    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
+        q = [1]
+        res = 1
+        for _ in range(n):
+            res = heappop(q)
+            while q and q[0] == res:
+                heappop(q)
+            for p in primes:
+                heappush(q, res*p)
+        
+        return res
 
 obj = Solution()
 print(obj.nthSuperUglyNumber(12, [2, 7, 13, 19]))

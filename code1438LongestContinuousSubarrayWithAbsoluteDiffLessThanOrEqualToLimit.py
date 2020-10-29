@@ -38,6 +38,7 @@ Constraints:
 1 <= nums[i] <= 10^9
 0 <= limit <= 10^9
 """
+from collections import deque
 class Solution:
     def longestSubarray(self, nums: List[int], limit: int) -> int:
         # maintain a mono-decrease queue for max value of the window

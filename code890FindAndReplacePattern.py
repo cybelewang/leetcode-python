@@ -43,6 +43,9 @@ class Solution:
         
         return [word for word in words if match(word, pattern)]
 
+    def findAndReplacePattern(self, words: List[str], pattern: str) -> List[str]:
+        base = list(map(pattern.index, pattern))
+        return [word for word in words if list(map(word.index, word)) == base]
 
 words, pattern = ["abc","deq","mee","aqq","dkd","ccc"], "abb"
 print(Solution().findAndReplacePattern(words, pattern))

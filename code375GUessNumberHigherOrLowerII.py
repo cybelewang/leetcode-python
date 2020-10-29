@@ -52,18 +52,15 @@ class Solution:
         """
         def helper(start, end, memo):
             if start >= end: return 0
-            if (memo[start][end] > 0): return memo[start][end]
+            if (start, end) in memo: return memo[(start, end)]
             res = 2**31 - 1
             for k in range(start, end+1):
                 t = k + max(helper(start, k-1, memo), helper(k+1, end, memo))
                 res = min(res, t)
-            memo[start][end] = res
-
+            memo[(start, end)] = res
             return res
-
-        memo = [[0]*(n+1) for _ in range(n+1)]
-
-        return helper(1, n, memo)
+        
+        return helper(1, n, {})
 
 obj = Solution()
 print(obj.getMoneyAmount(2))    

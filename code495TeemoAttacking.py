@@ -32,22 +32,16 @@ class Solution:
         :type duration: int
         :rtype: int
         """
-        if not timeSeries:
-            return 0
-
-        s, e = timeSeries[0], timeSeries[0] + duration
+        # greedy approach, extend the end time of poison
+        start, end = 0, -1
         res = 0
-        for i in range(1, len(timeSeries)):
-            t = timeSeries[i]
-            if t <= e:
-                e = t + duration
+        for t in timeSeries:
+            if t > end:
+                res += end - start + 1
+                start, end = t, t + duration - 1
             else:
-                res += e - s
-                s = t
-                e = t + duration
-        # don't forget the last duration!
-        res += e - s
-
+                end = max(end, t + duration - 1)
+        res += end - start + 1
         return res
 
 timeSeries = [1, 2]

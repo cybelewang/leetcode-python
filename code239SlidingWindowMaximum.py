@@ -39,7 +39,7 @@ class Solution:
             while len(q) > 0 and q[0] < i - k + 1:  # remove out of range elements
                 q.popleft()
             
-            while len(q) > 0 and nums[q[-1]] < num: # remove elements which are smaller than current one
+            while len(q) > 0 and nums[q[-1]] <= num: # remove elements which are smaller than current one
                 q.pop()
 
             q.append(i)

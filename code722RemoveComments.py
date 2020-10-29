@@ -75,32 +75,27 @@ class Solution:
         line = ''   # intermediate result of each line in the final result
         for s in source:
             i, start = 0, 0 # i is the iterator of each line string s in source, start is the start index of string after removing comment
+            # we must have start to record each start index of a valid segment, think about the case "/* a */b/*c*/d", the result is "bd"
             while i < len(s)-1:
                 sub = s[i:i+2]
                 if sub == '/*':
                     if not blocked:
                         line += s[start:i]  # concatenate previous valid source code
                         blocked = True 
-                        i += 2
-                    else:
                         i += 1
-                elif sub == '*/':
+                if sub == '*/':
                     if blocked:
                         blocked = False
                         # bug fixed: previously this line was outside of if blocked block. start = i + 2   # reset start index to the position just after '*/'
                         start = i + 2   # reset start index to the position just after '*/', we do this only if blocked is true, otherwise this may cause bugs
-                        i += 2
-                    else:   # bug fixed: previously forgot the case when blocked == False and we see "*/", for example source = ["a//*b//*c","blank","d*//e*//f"]  # expected ["a","blank","d*"]
                         i += 1
-                elif sub == '//':
+                if sub == '//':
                     if not blocked:   # '//' will only be valid when left is 0
                         line += s[start:i]  # concatenate previous valid source code
                         start = len(s)  # set start to the end
                         i = len(s) - 1  # set iterator to the end of this line so it ignores the rest of the line
-                    else:   # '//' is inside '/* */' nest, not valid
-                        i += 1
-                else:
-                    i += 1
+                    #else:   # '//' is inside '/* */' nest, not valid
+                i += 1
 
             if not blocked:
                 line += s[start:]

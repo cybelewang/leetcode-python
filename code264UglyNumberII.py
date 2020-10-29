@@ -7,6 +7,7 @@ Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For 
 
 Note that 1 is typically treated as an ugly number, and n does not exceed 1690.
 """
+from heapq import heappush, heappop
 # a competition algorithm, the minimun of previous ugly number times with 2, 3, 5 will be the next number
 # every ugly number needs to time 2, 3, 5 and contributes to next ugly number
 # see excel for detailed explanation
@@ -31,6 +32,19 @@ class Solution:
                 t5 += 1
         
         return k[-1]
+
+    # minHeap solution
+    def nthUglyNumber(self, n: int) -> int:
+        q, res = [1], 1
+        for _ in range(n):
+            t = heappop(q)
+            res = t
+            while q and q[0] == t:
+                heappop(q)
+            heappush(q, t*2)
+            heappush(q, t*3)
+            heappush(q, t*5)
+        return res
 
 obj = Solution()
 print(obj.nthUglyNumber(10))

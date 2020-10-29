@@ -89,35 +89,40 @@ class Solution:
     
     # BFS version solution without constructing a graph
     def snakesAndLadders_BFS(self, board):
-        def index(n):
-            """
-            decode the index of square n to (i, j) in board
-            """
-            i = N - 1 - ((n-1)//N)
-            j = N-1-(n-1)%N if ((n-1)//N) & 1 else (n-1)%N
-
-            return (i, j)
-        
-        N, NS = len(board), len(board)**2
-        color, dist = [0]*(NS+1), [2**31]*(NS+1)
-        Q = deque([1])
-        color[1], dist[1] = 1, 0
-        while Q:
-            src = Q.popleft()
-            if src == NS:
-                break
-            for dst in range(src+1, min(src+7, NS+1)):
-                i, j = index(dst)
-                if board[i][j] != -1:   # bug fixed: must use ladder or snake here, instead of in the below "if color[dst] == 0" statements
-                    dst = board[i][j]                    
-                if color[dst] == 0:
-                    Q.append(dst)   # previous mistake: didn't use ladder or snake in above statement but use ladder or snake here
-                    dist[dst] = dist[src] + 1
-                    color[dst] = 1
+        # convert (i, j) to zigzag index
+        def convert(i, j, N):
+            row = N - 1 - i
+            res = row * N
+            if row & 1:
+                res += N - j
+            else:
+                res += j + 1
+            return res
             
-            color[src] = 2
-
-        return -1 if dist[NS] == 2**31 else dist[NS]
+        N = len(board)
+        jump = {} # record snake or ladder
+        for i in range(N):
+            for j in range(N):
+                if board[i][j] != -1:
+                    jump[convert(i, j, N)] = board[i][j]
+        
+        NS, steps = N*N, 0
+        q = deque([1])
+        visited = [False]*(1+NS)
+        visited[1] = True
+        while q:
+            size = len(q)
+            for _ in range(size):
+                src = q.popleft()
+                if src == NS: return steps
+                for dst in range(src+1, min(NS+1, src+7)): # bug fixed: should use min(NS+1, src+7) to limit dst not out of range
+                    t = jump.get(dst, dst)
+                    if not visited[t]:
+                        q.append(t)
+                        visited[t] = True
+            steps += 1
+        
+        return -1
 """
 board = [
 [-1,-1,-1,-1,-1,-1],

@@ -17,31 +17,22 @@ def multiply(num1, num2):
     :type num2: str
     :rtype: str
     """ 
-    if not num1 or not num2 or num1=='0' or num2 == '0': # bug fixed: forgot the case '0'
-        return '0'    
-    zero = ord('0')
     m, n = len(num1), len(num2)
-    result = [0]*(m + n) # key: must allocate the list to avoid check list length
-
+    res = [0]*(m+n)
     for i in range(m):
         for j in range(n):
-            product = (ord(num1[m - 1 - i]) - zero) * (ord(num2[n - 1 - j]) - zero)
-            k = i + j
-            s = product + result[k]
-            carry = s // 10
-            result[k] = s % 10
-            while carry > 0: # bug fixed: forgot to handle the situation that sum may > 9 after adding
-                k += 1
-                s = carry + result[k]
-                result[k] = s % 10
-                carry = s // 10            
-    
-    while result and result[-1] == 0:
-        result.pop()
-
-    result.reverse()
-
-    return ''.join(map(str, result))
+            d1, d2 = ord(num1[m-1-i])-ord('0'), ord(num2[n-1-j]) - ord('0')
+            res[i+j] += d1*d2
+            
+    carry = 0
+    for k in range(m+n):
+        res[k] += carry
+        res[k], carry = res[k]%10, res[k]//10
+        
+    while res and res[-1] == 0:
+        res.pop()
+        
+    return ''.join(map(str, reversed(res))) or '0'
 
 test_cases = [('',''), ('1',''), ('0','0'), ('1','2'), ('12345','6789'), ('9999','999999')]
 for case in test_cases:

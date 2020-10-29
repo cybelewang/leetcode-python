@@ -20,8 +20,22 @@ Friend's guess: "0111"
 In this case, the 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow, and your function should return "1A1B".
 You may assume that the secret number and your friend's guess only contain digits, and their lengths are always equal.
 """
-from collections import deque
+from collections import deque, Counter
 class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        bulls = 0    
+        sCnt, gCnt = Counter(), Counter()
+        for a, b in zip(secret, guess):
+            if a == b:
+                bulls += 1
+            else:
+                sCnt[a] += 1
+                gCnt[b] += 1
+        cows = 0
+        for d in sCnt:
+            cows += min(sCnt[d], gCnt[d])
+        return '{0}A{1}B'.format(bulls, cows)
+
     def getHint(self, secret, guess):
         """
         :type secret: str
